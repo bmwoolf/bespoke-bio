@@ -1,28 +1,28 @@
 # Bespoke Bio
 
-Bespoke Bio is the complete DNA/RNA-to-designed-protein system. The current implementation
-focuses on Step 2, the translation and folding module: it converts expressed, variant-bearing
-transcripts into amino-acid sequences and folded target structures for Step 3.
+Bespoke Bio is the complete DNA/RNA-to-designed-protein system. This repository currently
+implements Step 2: translate the resolved DNA/RNA findings from Step 1, resolve or predict
+one structure per unique protein, and package the results for Step 3.
 
-The first version is intentionally small:
+The implementation is intentionally small. It:
 
-1. Accept a versioned coding sequence, expression measurement, and normalized variants.
-2. Validate and apply the variants using 1-based CDS coordinates.
-3. Translate the personalized CDS and deduplicate identical protein sequences.
-4. Return stable sequence hashes and explicit translation warnings.
-5. Fold each unique personalized protein and preserve structure confidence and provenance.
+1. validates resolved coding sequences, expression measurements, and CDS-relative variants;
+2. generates possible proteins when heterozygous variants are unphased;
+3. translates, hashes, and deduplicates personalized amino-acid sequences;
+4. optionally retrieves exact structures from RCSB PDB or AlphaFold DB;
+5. optionally folds unresolved sequences with a local `colabfold_batch`; and
+6. writes `proteins.fasta`, `targets.jsonl`, structure files, and `provenance.json` for Step 3.
 
-Binding-surface selection and key generation belong to Bespoke Bio's Step 3 module. Folding
-belongs to Step 2 and its structures form part of the Step 2 response contract.
+Binding-surface selection and key generation belong to Step 3.
 
-## Run locally
+## Run the translation API
 
 ```bash
 uv sync --extra dev
 uv run uvicorn bespoke_bio.api:app --reload
 ```
 
-Open `http://127.0.0.1:8000/docs`, or submit the included example:
+Open `http://127.0.0.1:8000/docs`, or submit the example:
 
 ```bash
 curl -X POST http://127.0.0.1:8000/v1/translate \
@@ -30,27 +30,42 @@ curl -X POST http://127.0.0.1:8000/v1/translate \
   --data @examples/case.json
 ```
 
+## Build the Step 3 handoff
+
+The default command stays offline and marks structures as unresolved:
+
+```bash
+uv run python -m bespoke_bio.api examples/case.json outputs/demo
+```
+
+Add exact-sequence lookup or fold unresolved proteins with an installed ColabFold worker:
+
+```bash
+uv run python -m bespoke_bio.api examples/case.json outputs/demo --lookup
+uv run python -m bespoke_bio.api examples/case.json outputs/demo --lookup --fold-missing
+```
+
+`--lookup` sends amino-acid sequences to RCSB PDB. A default ColabFold installation may
+send sequences to its public MSA service. Do not enable either option for sensitive data
+unless the relevant data-handling policy permits it; use local databases instead.
+
 ## Input boundary
 
-Bespoke Bio's Step 1 module performs read alignment, variant calling, rarity filtering,
-and transcript quantification. It sends the Step 2 module:
+Step 1 is responsible for alignment, variant calling and filtering, transcript/CDS
+resolution, ORF selection, expression quantification, and phasing when available. It sends
+Step 2 one JSON document containing:
 
-- normalized rare variants in genomic coordinates;
-- transcript-level expression findings;
-- a genome build and annotation release;
+- the pinned genome build and annotation release;
+- the resolved coding sequence for each expressed transcript;
+- variants expressed in 1-based CDS coordinates;
+- transcript-level expression;
 - haplotype/phase information when available; and
-- assembled transcript sequences for novel isoforms, when available.
+- an optional UniProt accession for exact AlphaFold DB lookup.
 
-The Step 2 module performs transcript/CDS resolution, application of variants to the correct
-CDS, translation into protein sequences, and folding those proteins. The current `/v1/translate`
-endpoint is the tested translation kernel and accepts a resolved CDS; the Step 1 bundle
-adapter and folding worker will complete the Step 2 pipeline around it.
+Variants use replacement semantics: at `cds_position`, replace `ref` with `alt`. Coordinates
+refer to the original CDS even when an earlier indel changes the personalized sequence length.
 
-Inside the translation kernel, variants use VCF-style replacement semantics: at
-`cds_position`, replace `ref` with `alt`. Coordinates refer to the original reference CDS,
-even when earlier indels change the personalized sequence length.
-
-## Test
+## Verify
 
 ```bash
 uv run pytest
@@ -59,6 +74,4 @@ uv run ruff check .
 
 This software produces research predictions, not clinical results.
 
-See [docs/architecture.md](docs/architecture.md) for the end-to-end system,
-software choices, databases, and step boundaries.
-
+See [docs/architecture.md](docs/architecture.md) for the system contracts and step boundaries.
