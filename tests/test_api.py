@@ -53,10 +53,11 @@ def test_translate_endpoint_returns_targets_and_deduplication_count() -> None:
     body = response.json()
     assert body["target_count"] == 2
     assert body["unique_sequence_count"] == 1
+    assert body["reference"]["genome_build"] == "GRCh38"
     assert body["targets"][0]["amino_acid_sequence"] == "MQLK"
     assert body["targets"][0]["first_changed_residue"] == 2
-    assert body["targets"][0]["structure"]["status"] == "not_requested"
-    assert body["targets"][0]["keys"] == []
+    assert "structure" not in body["targets"][0]
+    assert "keys" not in body["targets"][0]
 
 
 def test_translate_endpoint_rejects_reference_mismatch() -> None:

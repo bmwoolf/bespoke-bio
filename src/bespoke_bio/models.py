@@ -76,22 +76,6 @@ class TranslationWarning(StrictModel):
     message: str
 
 
-class StructureResult(StrictModel):
-    status: Literal["not_requested", "pending", "complete", "failed"] = "not_requested"
-    source: str | None = None
-    artifact_url: str | None = None
-    mean_plddt: float | None = Field(default=None, ge=0, le=100)
-
-
-class KeyCandidate(StrictModel):
-    key_id: Identifier
-    amino_acid_sequence: str
-    rank: int = Field(ge=1)
-    interface_score: float | None = None
-    model_confidence: float | None = Field(default=None, ge=0, le=1)
-    structure: StructureResult = Field(default_factory=StructureResult)
-
-
 class TargetProtein(StrictModel):
     target_id: Identifier
     gene_id: Identifier
@@ -107,12 +91,11 @@ class TargetProtein(StrictModel):
     first_changed_residue: int | None = Field(default=None, ge=1)
     translation_status: Literal["complete", "complete_with_warnings"]
     warnings: list[TranslationWarning]
-    structure: StructureResult = Field(default_factory=StructureResult)
-    keys: list[KeyCandidate] = Field(default_factory=list)
 
 
 class TranslateResponse(StrictModel):
     case_id: Identifier
+    reference: ReferenceBuild
     targets: list[TargetProtein]
     target_count: int = Field(ge=0)
     unique_sequence_count: int = Field(ge=0)

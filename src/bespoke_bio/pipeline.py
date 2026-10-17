@@ -65,6 +65,7 @@ def translate_case(request: TranslateRequest) -> TranslateResponse:
 
     return TranslateResponse(
         case_id=request.case_id,
+        reference=request.reference,
         targets=targets,
         target_count=len(targets),
         unique_sequence_count=len({target.sequence_hash for target in targets}),
