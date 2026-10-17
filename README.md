@@ -7,10 +7,10 @@ one structure per unique protein, and package the results for Step 3.
 The implementation is intentionally small. It:
 
 1. validates resolved coding sequences, expression measurements, and CDS-relative variants;
-2. generates possible proteins when heterozygous variants are unphased;
+2. accepts only explicit haplotypes or phase scenarios supplied by Step 1;
 3. translates, hashes, and deduplicates personalized amino-acid sequences;
-4. optionally retrieves exact structures from RCSB PDB or AlphaFold DB;
-5. optionally folds unresolved sequences with a local `colabfold_batch`; and
+4. reuses exact structures from RCSB PDB or AlphaFold DB when available;
+5. folds every remaining sequence with `colabfold_batch`; and
 6. writes `proteins.fasta`, `targets.jsonl`, structure files, and `provenance.json` for Step 3.
 
 Binding-surface selection and key generation belong to Step 3.
@@ -32,34 +32,27 @@ curl -X POST http://127.0.0.1:8000/v1/translate \
 
 ## Build the Step 3 handoff
 
-The default command stays offline and marks structures as unresolved:
-
 ```bash
 uv run python -m bespoke_bio.api examples/case.json outputs/demo
 ```
 
-Add exact-sequence lookup or fold unresolved proteins with an installed ColabFold worker:
-
-```bash
-uv run python -m bespoke_bio.api examples/case.json outputs/demo --lookup
-uv run python -m bespoke_bio.api examples/case.json outputs/demo --lookup --fold-missing
-```
-
-`--lookup` sends amino-acid sequences to RCSB PDB. A default ColabFold installation may
-send sequences to its public MSA service. Do not enable either option for sensitive data
-unless the relevant data-handling policy permits it; use local databases instead.
+The command looks for exact existing structures first, then sends every unresolved unique
+sequence to `colabfold_batch`. The command fails if any target still lacks a structure.
+ColabFold controls its own CPU, GPU, or remote-MSA configuration; this program does not select
+hardware. A compatible `colabfold_batch` executable must be available on `PATH` whenever an
+exact existing structure cannot be reused.
 
 ## Input boundary
 
 Step 1 is responsible for alignment, variant calling and filtering, transcript/CDS
-resolution, ORF selection, expression quantification, and phasing when available. It sends
-Step 2 one JSON document containing:
+resolution, ORF selection, expression quantification, and haplotype/scenario grouping. It
+sends Step 2 one JSON document containing:
 
 - the pinned genome build and annotation release;
 - the resolved coding sequence for each expressed transcript;
 - variants expressed in 1-based CDS coordinates;
 - transcript-level expression;
-- haplotype/phase information when available; and
+- an explicit haplotype or phase scenario for every variant set; and
 - an optional UniProt accession for exact AlphaFold DB lookup.
 
 Variants use replacement semantics: at `cds_position`, replace `ref` with `alt`. Coordinates

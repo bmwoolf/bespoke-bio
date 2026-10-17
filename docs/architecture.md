@@ -20,7 +20,7 @@ those structures and generates candidate keys.
 ## Step 1 -> Step 2
 
 Step 1 performs alignment, variant calling and rarity filtering, transcript/CDS resolution,
-novel-transcript ORF selection, expression quantification, and phasing when available.
+novel-transcript ORF selection, expression quantification, and haplotype/scenario grouping.
 
 Suggested Step 1 references and software:
 
@@ -51,6 +51,7 @@ Step 1 emits one JSON document. `examples/case.json` is executable against the c
       "transcript_id": "ENST00000269305.9",
       "uniprot_id": "P04637",
       "haplotype": "unknown",
+      "phase_scenario": "candidate-1",
       "coding_sequence": "ATG...TAA",
       "expression": {
         "tpm": 42.7,
@@ -77,7 +78,8 @@ Contract requirements:
 - `coding_sequence` is the resolved CDS in coding orientation, including its start codon.
 - `cds_position` is one-based against the supplied reference CDS.
 - `ref` must match the reference CDS at that position.
-- One record is supplied per known haplotype. Use `unknown` only when phase is unresolved.
+- One record is supplied per known haplotype or explicit candidate phase scenario.
+- A variant-bearing record with `haplotype: unknown` must include `phase_scenario`.
 - Novel transcripts arrive with an already selected CDS; Step 2 does not predict their ORFs.
 - `uniprot_id` is optional and is used only for exact AlphaFold DB lookup.
 
@@ -91,7 +93,7 @@ Contract requirements:
 | Translation and packaging | `bespoke_bio.api` |
 | Experimental structure lookup | RCSB PDB Search and Data APIs |
 | Reference prediction lookup | AlphaFold DB API |
-| Missing-structure prediction | local `colabfold_batch` |
+| Missing-structure prediction | `colabfold_batch` |
 | Verification | pytest, Ruff |
 
 ### Processing flow
@@ -99,12 +101,11 @@ Contract requirements:
 ```text
 Step 1 JSON
     -> validate CDS, variants, expression, and reference versions
-    -> enumerate possible proteins when phase is unknown
-    -> apply each variant set to the reference CDS
+    -> apply each explicit haplotype/scenario to the reference CDS
     -> translate to amino-acid sequences
     -> deduplicate by SHA-256 sequence hash
-    -> optionally retrieve an exact existing structure
-    -> optionally fold each unresolved unique sequence with ColabFold
+    -> reuse an exact existing structure when available
+    -> fold every unresolved unique sequence with ColabFold
     -> write the Step 3 handoff package
 ```
 
@@ -113,14 +114,10 @@ ranking metadata, not a direct protein-abundance measurement.
 
 ### Translation and phasing
 
-The service rejects reference mismatches, overlapping variants, and variants beyond the CDS.
-It reports missing starts, partial or ambiguous codons, internal stops, and unresolved phase.
-
-Known-haplotype variants are applied together. For unknown phase, homozygous alternate
-variants are always applied and each heterozygous/unknown variant is treated as optional.
-Step 2 emits every possible per-haplotype protein sequence and labels each record with a
-`phase_scenario`. Enumeration is capped at eight uncertain variants per transcript to avoid
-unbounded `2^n` growth; larger cases must be phased or split by Step 1.
+The service rejects reference mismatches, overlapping variants, variants beyond the CDS, and
+variant sets without an explicit haplotype or phase scenario. It reports missing starts,
+partial or ambiguous codons, and internal stops. Step 2 does not infer phase or generate
+combinations; it translates each variant set supplied by Step 1 exactly once.
 
 ### Structures
 
@@ -129,15 +126,13 @@ Structure resolution runs once per unique amino-acid sequence:
 1. Search RCSB PDB at 100% identity and verify the complete polymer sequence exactly.
 2. If a UniProt accession was supplied, accept AlphaFold DB only when its complete sequence
    exactly matches the personalized protein.
-3. Run local `colabfold_batch` for unresolved sequences when folding is enabled.
+3. Run `colabfold_batch` for every unresolved sequence.
 
 RCSB and AlphaFold structures are stored as mmCIF. ColabFold structures are stored as PDB,
 with its score JSON retained when available. Every target records the source, source ID,
-file, confidence information, and sequence hash.
-
-Remote lookup and ColabFold are explicit opt-ins. RCSB sequence search transmits the amino-acid
-sequence, and default ColabFold installations may use a public MSA service. Sensitive data must
-use an approved environment and local databases.
+file, confidence information, and sequence hash. Step 2 fails if any sequence remains without
+a structure. ColabFold owns the CPU, GPU, or remote execution configuration; Step 2 only passes
+it a deduplicated FASTA batch and collects its results.
 
 ## Step 2 -> Step 3
 
@@ -154,7 +149,7 @@ targets/<sequence-hash>.*.json       # confidence data, when available
 
 Each `targets.jsonl` record contains the target identity, transcript and variant provenance,
 expression, reference and personalized amino-acid sequences, phase scenario, sequence hash,
-translation warnings, and structure result. An unresolved structure remains explicit:
+translation warnings, and the completed structure result:
 
 ```json
 {
@@ -167,7 +162,7 @@ translation warnings, and structure result. An unresolved structure remains expl
   "expression": {"tpm": 42.7, "raw_count": 1834},
   "amino_acid_sequence": "MEEPQ...",
   "sequence_hash": "sha256:...",
-  "warnings": ["unphased_variants"],
+  "warnings": [],
   "structure": {
     "status": "complete",
     "source": "ColabFold",
@@ -185,10 +180,9 @@ Step 3 outputs and are intentionally absent from the Step 2 package.
 
 The repository implements the complete Step 2 boundary described above:
 
-- `POST /v1/translate` performs validation, phase expansion, and translation.
-- `python -m bespoke_bio.api INPUT OUTPUT` writes the handoff package locally.
-- `--lookup` enables exact RCSB PDB and AlphaFold DB retrieval.
-- `--fold-missing` batches unresolved unique sequences through an installed ColabFold worker.
+- `POST /v1/translate` validates and translates explicit Step 1 scenarios.
+- `python -m bespoke_bio.api INPUT OUTPUT` resolves or folds every unique sequence and writes
+  the completed handoff package.
 
 ## Later pathogen mode
 

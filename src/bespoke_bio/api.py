@@ -16,7 +16,6 @@ from pydantic import BaseModel, ConfigDict, Field, field_validator
 # API schema
 
 Identifier = Annotated[str, Field(min_length=1, max_length=200)]
-MAX_UNPHASED_VARIANTS = 8
 
 
 def normalize_dna(value: str) -> str:
@@ -62,6 +61,7 @@ class Transcript(Model):
     transcript_id: Identifier
     uniprot_id: Identifier | None = None
     haplotype: Identifier = "unknown"
+    phase_scenario: Identifier | None = None
     coding_sequence: str = Field(min_length=3)
     expression: Expression
     variants: list[Variant] = Field(default_factory=list)
@@ -187,87 +187,57 @@ def first_change(reference: str, alternate: str) -> int | None:
     return min(len(reference), len(alternate)) + 1 if len(reference) != len(alternate) else None
 
 
-def genotype_state(genotype: str | None) -> Literal["reference", "alternate", "uncertain"]:
-    if not genotype:
-        return "uncertain"
-    alleles = genotype.replace("|", "/").split("/")
-    if any(allele in {"", "."} for allele in alleles):
-        return "uncertain"
-    if all(allele == "0" for allele in alleles):
-        return "reference"
-    if len(set(alleles)) == 1 and alleles[0] != "0":
-        return "alternate"
-    return "uncertain"
-
-
-def phase_scenarios(transcript: Transcript) -> list[tuple[str | None, list[Variant], bool]]:
-    """Enumerate possible per-haplotype variant sets when phase is unknown."""
-    ordered = sorted(transcript.variants, key=lambda item: (item.cds_position, item.variant_id))
-    if transcript.haplotype != "unknown":
-        return [(None, ordered, False)]
-
-    required = [variant for variant in ordered if genotype_state(variant.genotype) == "alternate"]
-    uncertain = [variant for variant in ordered if genotype_state(variant.genotype) == "uncertain"]
-    if len(uncertain) > MAX_UNPHASED_VARIANTS:
-        raise VariantError(
-            f"{transcript.transcript_id} has {len(uncertain)} unphased variants; "
-            f"the maximum is {MAX_UNPHASED_VARIANTS}"
-        )
-    if not uncertain:
-        return [(None, required, False)]
-
-    count = 1 << len(uncertain)
-    return [
-        (
-            f"possible_{mask + 1}_of_{count}",
-            required + [variant for index, variant in enumerate(uncertain) if mask & (1 << index)],
-            True,
-        )
-        for mask in range(count)
-    ]
-
-
 def translate_case(request: TranslateRequest) -> TranslateResponse:
     targets: list[Protein] = []
 
     for transcript in request.transcripts:
-        reference_protein, _ = translate_cds(transcript.coding_sequence)
-        for scenario, variants, is_uncertain in phase_scenarios(transcript):
-            protein, warnings = translate_cds(apply_variants(transcript.coding_sequence, variants))
-            if is_uncertain:
-                warnings.append("unphased_variants")
+        if (
+            transcript.haplotype == "unknown"
+            and transcript.variants
+            and not transcript.phase_scenario
+        ):
+            raise VariantError(
+                f"{transcript.transcript_id} has variants with unknown phase; "
+                "Step 1 must supply an explicit phase_scenario"
+            )
 
-            protein_hash = sequence_hash(protein)
-            variant_ids = [variant.variant_id for variant in variants]
-            identity = "|".join(
-                (
-                    request.case_id,
-                    transcript.transcript_id,
-                    scenario or transcript.haplotype,
-                    ",".join(variant_ids),
-                    protein_hash,
-                )
+        reference_protein, _ = translate_cds(transcript.coding_sequence)
+        variants = sorted(
+            transcript.variants,
+            key=lambda item: (item.cds_position, item.variant_id),
+        )
+        protein, warnings = translate_cds(apply_variants(transcript.coding_sequence, variants))
+        protein_hash = sequence_hash(protein)
+        variant_ids = [variant.variant_id for variant in variants]
+        identity = "|".join(
+            (
+                request.case_id,
+                transcript.transcript_id,
+                transcript.phase_scenario or transcript.haplotype,
+                ",".join(variant_ids),
+                protein_hash,
             )
-            targets.append(
-                Protein(
-                    target_id=f"target_{sha256(identity.encode()).hexdigest()[:12]}",
-                    gene_id=transcript.gene_id,
-                    gene_symbol=transcript.gene_symbol,
-                    transcript_id=transcript.transcript_id,
-                    uniprot_id=transcript.uniprot_id,
-                    haplotype=transcript.haplotype,
-                    phase_scenario=scenario,
-                    source_variant_ids=variant_ids,
-                    expression=transcript.expression,
-                    reference_amino_acid_sequence=reference_protein,
-                    amino_acid_sequence=protein,
-                    amino_acid_length=len(protein),
-                    sequence_hash=protein_hash,
-                    first_changed_residue=first_change(reference_protein, protein),
-                    translation_status="complete_with_warnings" if warnings else "complete",
-                    warnings=warnings,
-                )
+        )
+        targets.append(
+            Protein(
+                target_id=f"target_{sha256(identity.encode()).hexdigest()[:12]}",
+                gene_id=transcript.gene_id,
+                gene_symbol=transcript.gene_symbol,
+                transcript_id=transcript.transcript_id,
+                uniprot_id=transcript.uniprot_id,
+                haplotype=transcript.haplotype,
+                phase_scenario=transcript.phase_scenario,
+                source_variant_ids=variant_ids,
+                expression=transcript.expression,
+                reference_amino_acid_sequence=reference_protein,
+                amino_acid_sequence=protein,
+                amino_acid_length=len(protein),
+                sequence_hash=protein_hash,
+                first_changed_residue=first_change(reference_protein, protein),
+                translation_status="complete_with_warnings" if warnings else "complete",
+                warnings=warnings,
             )
+        )
 
     return TranslateResponse(
         case_id=request.case_id,
@@ -308,9 +278,6 @@ def structure_key(protein: Protein) -> str:
 
 
 def find_rcsb(protein: Protein, output_dir: Path) -> Structure | None:
-    if protein.amino_acid_length < 25:
-        return None
-
     query = {
         "query": {
             "type": "terminal",
@@ -395,7 +362,7 @@ def resolve_structure(protein: Protein, output_dir: Path) -> Structure:
 def run_colabfold(proteins: list[Protein], output_dir: Path) -> dict[str, Structure]:
     binary = shutil.which("colabfold_batch")
     if not binary:
-        raise RuntimeError("--fold-missing requires colabfold_batch on PATH")
+        raise RuntimeError("structure folding requires colabfold_batch on PATH")
 
     results: dict[str, Structure] = {}
     with tempfile.TemporaryDirectory(prefix="bespoke-colabfold-", dir=output_dir) as temporary:
@@ -448,9 +415,6 @@ def run_colabfold(proteins: list[Protein], output_dir: Path) -> dict[str, Struct
 def build_bundle(
     request: TranslateRequest,
     output_dir: Path,
-    *,
-    lookup: bool = False,
-    fold_missing: bool = False,
 ) -> TranslateResponse:
     output_dir.mkdir(parents=True, exist_ok=True)
     (output_dir / "targets").mkdir(exist_ok=True)
@@ -458,14 +422,15 @@ def build_bundle(
     unique = {target.sequence_hash: target for target in response.targets}
 
     structures = {
-        sequence_hash: (
-            resolve_structure(protein, output_dir) if lookup else Structure(status="unresolved")
-        )
+        sequence_hash: resolve_structure(protein, output_dir)
         for sequence_hash, protein in unique.items()
     }
     missing = [protein for key, protein in unique.items() if structures[key].status == "unresolved"]
-    if fold_missing and missing:
+    if missing:
         structures.update(run_colabfold(missing, output_dir))
+    unresolved = [key for key, structure in structures.items() if structure.status == "unresolved"]
+    if unresolved:
+        raise RuntimeError(f"folding failed for {len(unresolved)} unique sequence(s)")
 
     for target in response.targets:
         target.structure = structures[target.sequence_hash]
@@ -491,10 +456,8 @@ def build_bundle(
         "case_id": request.case_id,
         "reference": request.reference.model_dump(mode="json"),
         "generated_at": datetime.now(UTC).isoformat(),
-        "structure_lookup": lookup,
-        "fold_missing": fold_missing,
         "lookup_order": ["RCSB PDB", "AlphaFold DB"],
-        "folding_software": "colabfold_batch" if fold_missing else None,
+        "folding_software": "colabfold_batch",
     }
     (output_dir / "provenance.json").write_text(json.dumps(provenance, indent=2) + "\n")
     return response
@@ -525,24 +488,9 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Build a Bespoke Bio Step 3 handoff package")
     parser.add_argument("input", type=Path, help="Step 1 JSON input")
     parser.add_argument("output", type=Path, help="Output directory")
-    parser.add_argument(
-        "--lookup",
-        action="store_true",
-        help="send sequences to RCSB PDB and query AlphaFold DB",
-    )
-    parser.add_argument(
-        "--fold-missing",
-        action="store_true",
-        help="run colabfold_batch for unresolved sequences",
-    )
     arguments = parser.parse_args()
     request = TranslateRequest.model_validate_json(arguments.input.read_text())
-    response = build_bundle(
-        request,
-        arguments.output,
-        lookup=arguments.lookup,
-        fold_missing=arguments.fold_missing,
-    )
+    response = build_bundle(request, arguments.output)
     print(
         json.dumps(
             {

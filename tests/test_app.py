@@ -80,43 +80,48 @@ def test_translation_stops_at_internal_stop() -> None:
     assert warnings == ["internal_stop"]
 
 
-def test_unphased_variants_generate_possible_proteins() -> None:
-    assert service.genotype_state("./.") == "uncertain"
+def test_unknown_phase_must_be_explicit() -> None:
     request = payload()
     request["transcripts"] = [
         {
             **request["transcripts"][0],
             "haplotype": "unknown",
-            "variants": [
-                {"variant_id": "v1", "cds_position": 4, "ref": "G", "alt": "C", "genotype": "0/1"},
-                {"variant_id": "v2", "cds_position": 7, "ref": "C", "alt": "A", "genotype": "0/1"},
-            ],
         }
     ]
 
     response = client.post("/v1/translate", json=request)
 
-    assert response.status_code == 200
-    body = response.json()
-    assert body["target_count"] == 4
-    assert body["unique_sequence_count"] == 4
-    assert {target["amino_acid_sequence"] for target in body["targets"]} == {
-        "MELK",
-        "MEMK",
-        "MQLK",
-        "MQMK",
-    }
-    assert all("unphased_variants" in target["warnings"] for target in body["targets"])
+    assert response.status_code == 422
+    assert "Step 1 must supply an explicit phase_scenario" in response.json()["detail"]
 
 
-def test_bundle_contains_step_3_handoff_files(tmp_path) -> None:
+def test_bundle_folds_missing_structures(monkeypatch, tmp_path) -> None:
+    monkeypatch.setattr(
+        service,
+        "resolve_structure",
+        lambda protein, output: service.Structure(status="unresolved"),
+    )
+
+    def fake_fold(proteins, output):
+        structures = {}
+        for protein in proteins:
+            path = Path("targets") / f"{service.structure_key(protein)}.pdb"
+            (output / path).write_text("MODEL\nEND\n")
+            structures[protein.sequence_hash] = service.Structure(
+                status="complete",
+                source="test-folder",
+                file=path.as_posix(),
+            )
+        return structures
+
+    monkeypatch.setattr(service, "run_colabfold", fake_fold)
     response = build_bundle(TranslateRequest.model_validate(payload()), tmp_path)
 
     assert response.target_count == 2
     assert (tmp_path / "proteins.fasta").read_text().count(">") == 1
     assert len((tmp_path / "targets.jsonl").read_text().splitlines()) == 2
     assert (tmp_path / "provenance.json").is_file()
-    assert all(target.structure.status == "unresolved" for target in response.targets)
+    assert all(target.structure.status == "complete" for target in response.targets)
 
 
 def test_alphafold_match_is_downloaded(monkeypatch, tmp_path) -> None:
