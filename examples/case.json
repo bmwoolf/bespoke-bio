@@ -1,0 +1,32 @@
+{
+  "case_id": "demo-001",
+  "reference": {
+    "genome_build": "GRCh38",
+    "annotation": "GENCODE-demo"
+  },
+  "transcripts": [
+    {
+      "gene_id": "ENSG_DEMO",
+      "gene_symbol": "DEMO1",
+      "transcript_id": "ENST_DEMO.1",
+      "haplotype": "maternal",
+      "coding_sequence": "ATGGAACTGAAATAA",
+      "expression": {
+        "tpm": 42.7,
+        "raw_count": 1834
+      },
+      "variants": [
+        {
+          "variant_id": "demo:4:G:C",
+          "cds_position": 4,
+          "ref": "G",
+          "alt": "C",
+          "genotype": "0|1",
+          "phase_set": "PS1",
+          "quality": "PASS"
+        }
+      ]
+    }
+  ]
+}
+
