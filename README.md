@@ -10,37 +10,87 @@ The implementation is intentionally small. It:
 2. accepts only explicit haplotypes or phase scenarios supplied by Step 1;
 3. translates, hashes, and deduplicates personalized amino-acid sequences;
 4. reuses exact structures from RCSB PDB or AlphaFold DB when available;
-5. folds every remaining sequence with `colabfold_batch`; and
+5. folds every remaining sequence with a selected Boltz-2, ESMFold, or OpenFold backend; and
 6. writes `proteins.fasta`, `targets.jsonl`, structure files, and `provenance.json` for Step 3.
 
 Binding-surface selection and key generation belong to Step 3.
 
-## Run the translation API
+## Run the API
 
 ```bash
 uv sync --extra dev
+BESPOKE_BIO_OUTPUT_DIR=outputs \
 uv run uvicorn bespoke_bio.api:app --reload
 ```
 
-Open `http://127.0.0.1:8000/docs`, or submit the example:
+Open `http://127.0.0.1:8000/docs`, or run the complete Step 2 pipeline with ESMFold:
 
 ```bash
-curl -X POST http://127.0.0.1:8000/v1/translate \
+curl -X POST 'http://127.0.0.1:8000/v1/build?folding_backend=esmfold' \
   -H 'content-type: application/json' \
   --data @examples/case.json
 ```
 
+The response includes translated proteins, completed structures, and a `bundle_id`. Any package
+file can then be downloaded from
+`GET /v1/bundles/{bundle_id}/{file}`. The API and CLI both call the same `build_bundle()` core
+function.
+
+For API deployments, set model-specific arguments once in `BESPOKE_BIO_BACKEND_ARGS`. For
+example, a Boltz-2 server can use
+`--use_msa_server --msa_server_url https://msa.example.org`. The CLI accepts the same arguments
+explicitly with `--backend-arg`.
+
 ## Build the Step 3 handoff
 
 ```bash
-uv run python -m bespoke_bio.api examples/case.json outputs/demo
+uv run python -m bespoke_bio.api examples/case.json outputs/demo \
+  --folding-backend esmfold
 ```
 
 The command looks for exact existing structures first, then sends every unresolved unique
-sequence to `colabfold_batch`. The command fails if any target still lacks a structure.
-ColabFold controls its own CPU, GPU, or remote-MSA configuration; this program does not select
-hardware. A compatible `colabfold_batch` executable must be available on `PATH` whenever an
-exact existing structure cannot be reused.
+sequence to the selected model. It fails if any target still lacks a structure. Model-specific
+arguments can be repeated with `--backend-arg=VALUE`; hardware configuration remains outside
+the biological pipeline.
+
+Supported backends:
+
+| Backend | Required runtime | Input prepared by Bespoke Bio | Output collected |
+| --- | --- | --- | --- |
+| `boltz2` | `boltz` on `PATH` | one YAML file per sequence | mmCIF and confidence JSON |
+| `esmfold` | `esm-fold` on `PATH` | one deduplicated FASTA batch | PDB with mean pLDDT |
+| `openfold` | an OpenFold checkout and databases | one FASTA file per sequence | PDB with mean pLDDT |
+
+The Boltz-2 adapter requires an MSA service explicitly. The public service is suitable for a
+small demo; a 1,000-protein run should point at a separately operated service:
+
+```bash
+uv run python -m bespoke_bio.api examples/case.json outputs/demo \
+  --folding-backend boltz2 \
+  --backend-arg=--use_msa_server \
+  --backend-arg=--msa_server_url \
+  --backend-arg=https://msa.example.org
+```
+
+OpenFold's official inference script also requires its template and sequence databases. The
+adapter locates the script and template directory from the environment and forwards the
+remaining official OpenFold arguments:
+
+```bash
+export BESPOKE_BIO_OPENFOLD_SCRIPT=/opt/openfold/run_pretrained_openfold.py
+export BESPOKE_BIO_OPENFOLD_TEMPLATE_MMCIF_DIR=/data/pdb_mmcif/mmcif_files
+
+uv run python -m bespoke_bio.api examples/case.json outputs/demo \
+  --folding-backend openfold \
+  --backend-arg=--use_precomputed_alignments \
+  --backend-arg=/data/alignments \
+  --backend-arg=--model_device \
+  --backend-arg=cuda:0
+```
+
+The model packages and their large weights or databases are intentionally not Python
+dependencies of this small service. A local environment or GPU container supplies the selected
+runtime.
 
 ## Input boundary
 
@@ -68,3 +118,4 @@ uv run ruff check .
 This software produces research predictions, not clinical results.
 
 See [docs/architecture.md](docs/architecture.md) for the system contracts and step boundaries.
+Coding assistants should start with [AGENTS.md](AGENTS.md).

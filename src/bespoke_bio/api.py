@@ -1,16 +1,22 @@
 import argparse
 import json
+import os
+import shlex
 import shutil
 import subprocess
+import sys
 import tempfile
+from collections.abc import Callable
 from datetime import UTC, datetime
 from hashlib import sha256
 from pathlib import Path
 from typing import Annotated, Any, Literal
 from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
+from uuid import uuid4
 
 from fastapi import FastAPI, HTTPException
+from fastapi.responses import FileResponse
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 # API schema
@@ -115,6 +121,10 @@ class TranslateResponse(Model):
     targets: list[Protein]
     target_count: int
     unique_sequence_count: int
+
+
+class PipelineResponse(TranslateResponse):
+    bundle_id: Identifier
 
 
 # Translation
@@ -248,7 +258,7 @@ def translate_case(request: TranslateRequest) -> TranslateResponse:
     )
 
 
-# Structure resolution
+# Structure resolution and folding
 
 USER_AGENT = "bespoke-bio/0.1"
 RCSB_SEARCH_URL = "https://search.rcsb.org/rcsbsearch/v2/query"
@@ -359,54 +369,205 @@ def resolve_structure(protein: Protein, output_dir: Path) -> Structure:
     return Structure(status="unresolved", error="; ".join(errors) or None)
 
 
-def run_colabfold(proteins: list[Protein], output_dir: Path) -> dict[str, Structure]:
-    binary = shutil.which("colabfold_batch")
-    if not binary:
-        raise RuntimeError("structure folding requires colabfold_batch on PATH")
+FoldingBackend = Literal["boltz2", "esmfold", "openfold"]
+FoldingRunner = Callable[[list[Protein], Path, list[str]], dict[str, Structure]]
 
+
+def folding_jobs(proteins: list[Protein]) -> dict[str, Protein]:
+    return {f"seq_{structure_key(protein)}": protein for protein in proteins}
+
+
+def write_fasta(path: Path, jobs: dict[str, Protein]) -> None:
+    path.write_text(
+        "".join(f">{job}\n{protein.amino_acid_sequence}\n" for job, protein in jobs.items())
+    )
+
+
+def pdb_mean_plddt(path: Path) -> float | None:
+    values = []
+    for line in path.read_text().splitlines():
+        if line.startswith("ATOM") and line[12:16].strip() == "CA":
+            try:
+                values.append(float(line[60:66]))
+            except ValueError:
+                continue
+    return sum(values) / len(values) if values else None
+
+
+def run_esmfold(
+    proteins: list[Protein], output_dir: Path, options: list[str]
+) -> dict[str, Structure]:
+    binary = shutil.which("esm-fold")
+    if not binary:
+        raise RuntimeError("ESMFold requires esm-fold on PATH")
+
+    jobs = folding_jobs(proteins)
     results: dict[str, Structure] = {}
-    with tempfile.TemporaryDirectory(prefix="bespoke-colabfold-", dir=output_dir) as temporary:
+    with tempfile.TemporaryDirectory(prefix="bespoke-esmfold-", dir=output_dir) as temporary:
         work_dir = Path(temporary)
         fasta = work_dir / "input.fasta"
-        jobs = {f"seq_{structure_key(protein)[:16]}": protein for protein in proteins}
-        fasta.write_text(
-            "".join(f">{job}\n{protein.amino_acid_sequence}\n" for job, protein in jobs.items())
-        )
         predictions = work_dir / "predictions"
-        subprocess.run([binary, str(fasta), str(predictions)], check=True)
+        write_fasta(fasta, jobs)
+        subprocess.run([binary, "-i", str(fasta), "-o", str(predictions), *options], check=True)
 
         for job, protein in jobs.items():
-            pdb_files = sorted(predictions.glob(f"{job}*rank_001*.pdb"))
-            if not pdb_files:
-                pdb_files = sorted(predictions.glob(f"{job}*.pdb"))
-            if not pdb_files:
+            predicted = predictions / f"{job}.pdb"
+            if not predicted.is_file():
                 results[protein.sequence_hash] = Structure(
-                    status="unresolved", error="ColabFold produced no PDB file"
+                    status="unresolved", error="ESMFold produced no PDB file"
+                )
+                continue
+            relative_file = Path("targets") / f"{structure_key(protein)}.pdb"
+            shutil.copyfile(predicted, output_dir / relative_file)
+            results[protein.sequence_hash] = Structure(
+                status="complete",
+                source="ESMFold",
+                source_id=job,
+                file=relative_file.as_posix(),
+                mean_plddt=pdb_mean_plddt(predicted),
+            )
+    return results
+
+
+def run_boltz2(
+    proteins: list[Protein], output_dir: Path, options: list[str]
+) -> dict[str, Structure]:
+    binary = shutil.which("boltz")
+    if not binary:
+        raise RuntimeError("Boltz-2 requires boltz on PATH")
+    if "--use_msa_server" not in options:
+        raise RuntimeError(
+            "Boltz-2 requires an MSA; pass --backend-arg=--use_msa_server "
+            "and optionally configure --msa_server_url"
+        )
+
+    jobs = folding_jobs(proteins)
+    results: dict[str, Structure] = {}
+    with tempfile.TemporaryDirectory(prefix="bespoke-boltz2-", dir=output_dir) as temporary:
+        work_dir = Path(temporary)
+        inputs = work_dir / "inputs"
+        predictions = work_dir / "output"
+        inputs.mkdir()
+        for job, protein in jobs.items():
+            (inputs / f"{job}.yaml").write_text(
+                "version: 1\n"
+                "sequences:\n"
+                "  - protein:\n"
+                "      id: A\n"
+                f"      sequence: {protein.amino_acid_sequence}\n"
+            )
+        subprocess.run(
+            [binary, "predict", str(inputs), "--out_dir", str(predictions), *options],
+            check=True,
+        )
+
+        for job, protein in jobs.items():
+            model_files = sorted(predictions.glob(f"**/{job}_model_0.cif"))
+            if not model_files:
+                model_files = sorted(predictions.glob(f"**/{job}*.cif"))
+            if not model_files:
+                results[protein.sequence_hash] = Structure(
+                    status="unresolved", error="Boltz-2 produced no mmCIF file"
                 )
                 continue
 
-            relative_file = Path("targets") / f"{structure_key(protein)}.pdb"
-            shutil.copyfile(pdb_files[0], output_dir / relative_file)
-            score_files = sorted(predictions.glob(f"{job}*scores*rank_001*.json"))
+            relative_file = Path("targets") / f"{structure_key(protein)}.cif"
+            shutil.copyfile(model_files[0], output_dir / relative_file)
+            score_files = sorted(predictions.glob(f"**/confidence_{job}_model_0.json"))
             confidence_file = None
             mean_plddt = None
             if score_files:
                 scores = json.loads(score_files[0].read_text())
-                values = scores.get("plddt", [])
-                mean_plddt = sum(values) / len(values) if values else None
+                mean_plddt = scores.get("complex_plddt")
+                if mean_plddt is not None:
+                    mean_plddt *= 100
                 relative_confidence = Path("targets") / f"{structure_key(protein)}.scores.json"
                 shutil.copyfile(score_files[0], output_dir / relative_confidence)
                 confidence_file = relative_confidence.as_posix()
 
             results[protein.sequence_hash] = Structure(
                 status="complete",
-                source="ColabFold",
+                source="Boltz-2",
                 source_id=job,
                 file=relative_file.as_posix(),
                 mean_plddt=mean_plddt,
                 confidence_file=confidence_file,
+                model_version="2",
             )
     return results
+
+
+def run_openfold(
+    proteins: list[Protein], output_dir: Path, options: list[str]
+) -> dict[str, Structure]:
+    script_value = os.environ.get("BESPOKE_BIO_OPENFOLD_SCRIPT")
+    script = Path(script_value) if script_value else None
+    if not script or not script.is_file():
+        raise RuntimeError("OpenFold requires BESPOKE_BIO_OPENFOLD_SCRIPT")
+    templates_value = os.environ.get("BESPOKE_BIO_OPENFOLD_TEMPLATE_MMCIF_DIR")
+    templates = Path(templates_value) if templates_value else None
+    if not templates or not templates.is_dir():
+        raise RuntimeError("OpenFold requires BESPOKE_BIO_OPENFOLD_TEMPLATE_MMCIF_DIR")
+
+    jobs = folding_jobs(proteins)
+    results: dict[str, Structure] = {}
+    with tempfile.TemporaryDirectory(prefix="bespoke-openfold-", dir=output_dir) as temporary:
+        work_dir = Path(temporary)
+        inputs = work_dir / "inputs"
+        predictions = work_dir / "output"
+        inputs.mkdir()
+        for job, protein in jobs.items():
+            write_fasta(inputs / f"{job}.fasta", {job: protein})
+        subprocess.run(
+            [
+                sys.executable,
+                str(script),
+                str(inputs),
+                str(templates),
+                "--output_dir",
+                str(predictions),
+                *options,
+            ],
+            check=True,
+            cwd=script.parent,
+        )
+
+        for job, protein in jobs.items():
+            model_files = sorted(predictions.glob(f"**/{job}*.pdb"))
+            relaxed = [path for path in model_files if "_relaxed" in path.stem]
+            predicted = (relaxed or model_files or [None])[0]
+            if predicted is None:
+                results[protein.sequence_hash] = Structure(
+                    status="unresolved", error="OpenFold produced no PDB file"
+                )
+                continue
+
+            relative_file = Path("targets") / f"{structure_key(protein)}.pdb"
+            shutil.copyfile(predicted, output_dir / relative_file)
+            results[protein.sequence_hash] = Structure(
+                status="complete",
+                source="OpenFold",
+                source_id=job,
+                file=relative_file.as_posix(),
+                mean_plddt=pdb_mean_plddt(predicted),
+            )
+    return results
+
+
+FOLDING_BACKENDS: dict[FoldingBackend, FoldingRunner] = {
+    "boltz2": run_boltz2,
+    "esmfold": run_esmfold,
+    "openfold": run_openfold,
+}
+
+
+def fold_proteins(
+    proteins: list[Protein],
+    output_dir: Path,
+    backend: FoldingBackend,
+    options: list[str] | None = None,
+) -> dict[str, Structure]:
+    return FOLDING_BACKENDS[backend](proteins, output_dir, options or [])
 
 
 # Step 3 handoff package
@@ -415,10 +576,12 @@ def run_colabfold(proteins: list[Protein], output_dir: Path) -> dict[str, Struct
 def build_bundle(
     request: TranslateRequest,
     output_dir: Path,
+    folding_backend: FoldingBackend,
+    folding_options: list[str] | None = None,
 ) -> TranslateResponse:
+    response = translate_case(request)
     output_dir.mkdir(parents=True, exist_ok=True)
     (output_dir / "targets").mkdir(exist_ok=True)
-    response = translate_case(request)
     unique = {target.sequence_hash: target for target in response.targets}
 
     structures = {
@@ -427,7 +590,7 @@ def build_bundle(
     }
     missing = [protein for key, protein in unique.items() if structures[key].status == "unresolved"]
     if missing:
-        structures.update(run_colabfold(missing, output_dir))
+        structures.update(fold_proteins(missing, output_dir, folding_backend, folding_options))
     unresolved = [key for key, structure in structures.items() if structure.status == "unresolved"]
     if unresolved:
         raise RuntimeError(f"folding failed for {len(unresolved)} unique sequence(s)")
@@ -457,7 +620,7 @@ def build_bundle(
         "reference": request.reference.model_dump(mode="json"),
         "generated_at": datetime.now(UTC).isoformat(),
         "lookup_order": ["RCSB PDB", "AlphaFold DB"],
-        "folding_software": "colabfold_batch",
+        "folding_backend": folding_backend,
     }
     (output_dir / "provenance.json").write_text(json.dumps(provenance, indent=2) + "\n")
     return response
@@ -476,21 +639,64 @@ def healthcheck() -> dict[str, str]:
     return {"status": "ok"}
 
 
-@app.post("/v1/translate", response_model=TranslateResponse, response_model_exclude_none=True)
-def translate(request: TranslateRequest) -> TranslateResponse:
+def api_output_root() -> Path:
+    return Path(os.environ.get("BESPOKE_BIO_OUTPUT_DIR", "outputs")).resolve()
+
+
+@app.post("/v1/build", response_model=PipelineResponse, response_model_exclude_none=True)
+def build(request: TranslateRequest, folding_backend: FoldingBackend) -> PipelineResponse:
+    bundle_id = uuid4().hex
+    options = shlex.split(os.environ.get("BESPOKE_BIO_BACKEND_ARGS", ""))
     try:
-        return translate_case(request)
+        response = build_bundle(
+            request,
+            api_output_root() / bundle_id,
+            folding_backend=folding_backend,
+            folding_options=options,
+        )
     except VariantError as error:
         raise HTTPException(status_code=422, detail=str(error)) from error
+    except (RuntimeError, subprocess.CalledProcessError) as error:
+        raise HTTPException(status_code=503, detail=str(error)) from error
+    return PipelineResponse(bundle_id=bundle_id, **response.model_dump())
+
+
+@app.get("/v1/bundles/{bundle_id}/{file_path:path}", response_class=FileResponse)
+def bundle_file(bundle_id: str, file_path: str) -> FileResponse:
+    root = api_output_root()
+    bundle = (root / bundle_id).resolve()
+    candidate = (bundle / file_path).resolve()
+    if not bundle.is_relative_to(root) or not candidate.is_relative_to(bundle):
+        raise HTTPException(status_code=404, detail="file not found")
+    if not candidate.is_file():
+        raise HTTPException(status_code=404, detail="file not found")
+    return FileResponse(candidate)
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Build a Bespoke Bio Step 3 handoff package")
     parser.add_argument("input", type=Path, help="Step 1 JSON input")
     parser.add_argument("output", type=Path, help="Output directory")
+    parser.add_argument(
+        "--folding-backend",
+        choices=tuple(FOLDING_BACKENDS),
+        required=True,
+        help="Model used for sequences without an exact existing structure",
+    )
+    parser.add_argument(
+        "--backend-arg",
+        action="append",
+        default=[],
+        help="Argument forwarded to the selected model; repeat as needed",
+    )
     arguments = parser.parse_args()
     request = TranslateRequest.model_validate_json(arguments.input.read_text())
-    response = build_bundle(request, arguments.output)
+    response = build_bundle(
+        request,
+        arguments.output,
+        folding_backend=arguments.folding_backend,
+        folding_options=arguments.backend_arg,
+    )
     print(
         json.dumps(
             {

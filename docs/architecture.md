@@ -93,7 +93,7 @@ Contract requirements:
 | Translation and packaging | `bespoke_bio.api` |
 | Experimental structure lookup | RCSB PDB Search and Data APIs |
 | Reference prediction lookup | AlphaFold DB API |
-| Missing-structure prediction | `colabfold_batch` |
+| Missing-structure prediction | Boltz-2, ESMFold, or OpenFold |
 | Verification | pytest, Ruff |
 
 ### Processing flow
@@ -105,7 +105,7 @@ Step 1 JSON
     -> translate to amino-acid sequences
     -> deduplicate by SHA-256 sequence hash
     -> reuse an exact existing structure when available
-    -> fold every unresolved unique sequence with ColabFold
+    -> fold every unresolved unique sequence with the selected backend
     -> write the Step 3 handoff package
 ```
 
@@ -126,13 +126,24 @@ Structure resolution runs once per unique amino-acid sequence:
 1. Search RCSB PDB at 100% identity and verify the complete polymer sequence exactly.
 2. If a UniProt accession was supplied, accept AlphaFold DB only when its complete sequence
    exactly matches the personalized protein.
-3. Run `colabfold_batch` for every unresolved sequence.
+3. Run the selected Boltz-2, ESMFold, or OpenFold backend for every unresolved sequence.
 
-RCSB and AlphaFold structures are stored as mmCIF. ColabFold structures are stored as PDB,
-with its score JSON retained when available. Every target records the source, source ID,
-file, confidence information, and sequence hash. Step 2 fails if any sequence remains without
-a structure. ColabFold owns the CPU, GPU, or remote execution configuration; Step 2 only passes
-it a deduplicated FASTA batch and collects its results.
+RCSB, AlphaFold DB, and Boltz-2 structures are stored as mmCIF. ESMFold and OpenFold structures
+are stored as PDB. Confidence output is retained when the backend provides a separate file, and
+mean pLDDT is normalized to the 0-100 scale. Every target records the source, source ID, file,
+confidence information, and sequence hash. Step 2 fails if any sequence remains without a
+structure.
+
+The backend boundary is one function: a list of unique proteins enters, and one completed or
+unresolved `Structure` result per sequence hash returns. The core pipeline does not choose GPU
+types, worker counts, or cloud infrastructure. Each backend adapter only prepares the model's
+documented input, invokes its installed command, and normalizes its output.
+
+| Backend | Adapter behavior |
+| --- | --- |
+| Boltz-2 | writes one YAML document per protein and collects mmCIF plus confidence JSON |
+| ESMFold | writes one multi-FASTA batch and collects one PDB per protein |
+| OpenFold | writes one FASTA per protein and invokes the configured official inference script |
 
 ## Step 2 -> Step 3
 
@@ -142,8 +153,8 @@ The package contains only the files Step 3 needs:
 proteins.fasta
 targets.jsonl
 provenance.json
-targets/<sequence-hash>.cif          # exact RCSB or AlphaFold match, when found
-targets/<sequence-hash>.pdb          # ColabFold result, when run
+targets/<sequence-hash>.cif          # exact lookup or Boltz-2 result
+targets/<sequence-hash>.pdb          # ESMFold or OpenFold result
 targets/<sequence-hash>.*.json       # confidence data, when available
 ```
 
@@ -165,8 +176,8 @@ translation warnings, and the completed structure result:
   "warnings": [],
   "structure": {
     "status": "complete",
-    "source": "ColabFold",
-    "file": "targets/<sequence-hash>.pdb",
+    "source": "Boltz-2",
+    "file": "targets/<sequence-hash>.cif",
     "mean_plddt": 86.2,
     "confidence_file": "targets/<sequence-hash>.scores.json"
   }
@@ -180,9 +191,12 @@ Step 3 outputs and are intentionally absent from the Step 2 package.
 
 The repository implements the complete Step 2 boundary described above:
 
-- `POST /v1/translate` validates and translates explicit Step 1 scenarios.
+- `POST /v1/build?folding_backend=...` runs translation, lookup, folding, and packaging.
+- `GET /v1/bundles/{bundle_id}/{file}` serves files from the completed package.
 - `python -m bespoke_bio.api INPUT OUTPUT` resolves or folds every unique sequence and writes
   the completed handoff package.
+
+The HTTP API and CLI both call `build_bundle()`; only their transport and configuration differ.
 
 ## Later pathogen mode
 
@@ -199,4 +213,6 @@ and genetic code. Step 2 currently uses the standard nuclear genetic code.
 - TransDecoder: https://github.com/TransDecoder/TransDecoder
 - RCSB PDB: https://www.rcsb.org/
 - AlphaFold DB: https://alphafold.ebi.ac.uk/
-- ColabFold: https://github.com/sokrypton/ColabFold
+- Boltz: https://github.com/jwohlwend/boltz
+- ESMFold: https://github.com/facebookresearch/esm
+- OpenFold: https://github.com/aqlaboratory/openfold
