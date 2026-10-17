@@ -143,7 +143,7 @@ the same DNA variants are not applied twice.
 | Known transcript and CDS sequences | GENCODE FASTA/GTF |
 | Representative-transcript metadata | MANE Select |
 | Novel-transcript ORF prediction | TransDecoder |
-| Translation | Tested `bespoke_bio.translation` module |
+| Translation | Tested `/v1/translate` API kernel |
 | Protein identity and metadata | UniProt |
 | Experimental structure lookup | RCSB PDB |
 | Reference structure predictions | AlphaFold DB |
