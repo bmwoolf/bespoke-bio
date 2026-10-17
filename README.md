@@ -53,3 +53,6 @@ uv run ruff check .
 
 This software produces research predictions, not clinical results.
 
+See [docs/architecture.md](docs/architecture.md) for the end-to-end system,
+software choices, databases, and ownership boundaries.
+
