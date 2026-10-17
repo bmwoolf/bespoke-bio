@@ -1,8 +1,8 @@
 # Bespoke Bio
 
 Bespoke Bio is the complete DNA/RNA-to-designed-protein system. The current implementation
-focuses on Step 2, the translation module: it converts expressed, variant-bearing transcripts
-into amino-acid sequences for the Step 3 structure and key-generation module.
+focuses on Step 2, the translation and folding module: it converts expressed, variant-bearing
+transcripts into amino-acid sequences and folded target structures for Step 3.
 
 The first version is intentionally small:
 
@@ -10,9 +10,10 @@ The first version is intentionally small:
 2. Validate and apply the variants using 1-based CDS coordinates.
 3. Translate the personalized CDS and deduplicate identical protein sequences.
 4. Return stable sequence hashes and explicit translation warnings.
+5. Fold each unique personalized protein and preserve structure confidence and provenance.
 
-Folding, binding-surface selection, and key generation belong to Bespoke Bio's Step 3
-module and are intentionally absent from the Step 2 response contract.
+Binding-surface selection and key generation belong to Bespoke Bio's Step 3 module. Folding
+belongs to Step 2 and its structures form part of the Step 2 response contract.
 
 ## Run locally
 
@@ -41,9 +42,9 @@ transcript quantification. It sends the Step 2 module:
 - assembled transcript sequences for novel isoforms, when available.
 
 The Step 2 module owns transcript/CDS resolution, application of variants to the correct CDS,
-and translation into protein sequences. The current `/v1/translate` endpoint is the tested
-translation kernel and accepts a resolved CDS; the Step 1 bundle adapter will sit in front
-of it.
+translation into protein sequences, and folding those proteins. The current `/v1/translate`
+endpoint is the tested translation kernel and accepts a resolved CDS; the Step 1 bundle
+adapter and folding worker will complete the Step 2 pipeline around it.
 
 Inside the translation kernel, variants use VCF-style replacement semantics: at
 `cds_position`, replace `ref` with `alt`. Coordinates refer to the original reference CDS,

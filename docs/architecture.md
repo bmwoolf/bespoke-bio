@@ -3,20 +3,21 @@
 ## Ownership boundaries
 
 ```text
-Step 1: Bespoke Bio DNA + RNA processing module
+Step 1: DNA + RNA processing module
     -> rare genomic variants and transcript-expression findings
 
-Step 2: Bespoke Bio translation module (Bradley's ownership)
-    -> personalized amino-acid sequences with provenance
+Step 2: Translation module + folding
+    -> personalized amino-acid sequences with provenance + folded proteins
 
-Step 3: Bespoke Bio structure and protein-design module
-    -> folding, lock selection, and key generation
+Step 3: Structure and protein-design module
+    -> lock selection, and key generation
 ```
 
 All three modules together are Bespoke Bio, and all three teams contribute to the shared
 product and repository. The current implementation focus is Bradley's Step 2 module. Its
-API boundary ends when it has produced validated protein sequences; Step 3 consumes those
-sequences to fold proteins, identify binding surfaces, and generate candidate keys.
+API boundary ends when it has produced validated protein sequences and folded target
+structures. Step 3 consumes those structures to identify binding surfaces and generate
+candidate keys.
 
 ## Step 1 -> Step 2
 
@@ -94,7 +95,45 @@ Novel RNA isoforms should include both their assembled sequence and transcript m
 The manifest must state whether an assembled sequence is already sample-specific so that
 the same DNA variants are not applied twice.
 
-## Step 2: Bradley's translation module
+### `1_2_api.json`
+```json
+{
+  "case_id": "patient-001",
+  "reference": {
+    "genome_build": "GRCh38",
+    "annotation": "GENCODE-50"
+  },
+  "transcripts": [
+    {
+      "gene_id": "ENSG00000141510.19",
+      "gene_symbol": "TP53",
+      "transcript_id": "ENST00000269305.9",
+      "strand": "-",
+      "expression": {
+        "tpm": 42.7,
+        "raw_count": 1834
+      },
+      "variants": [
+        {
+          "variant_id": "17:7675088:C:T",
+          "chrom": "17",
+          "position": 7675088,
+          "ref": "C",
+          "alt": "T",
+          "genotype": "0/1",
+          "haplotype": null,
+          "phase_set": null,
+          "population_af": 0.00002,
+          "quality": "PASS"
+        }
+      ]
+    }
+  ]
+}
+```
+
+
+## Step 2: Translation and folding module
 
 ### Software
 
@@ -106,11 +145,17 @@ the same DNA variants are not applied twice.
 | Representative-transcript metadata | MANE Select |
 | Novel-transcript ORF prediction | TransDecoder |
 | Translation | Tested `bespoke_bio.translation` module |
+| Protein identity and metadata | UniProt |
+| Experimental structure lookup | RCSB PDB |
+| Reference structure predictions | AlphaFold DB |
+| Variant and novel protein folding | ColabFold |
+| Structure interchange format | mmCIF |
 | Verification | pytest and Ruff |
 
 VEP and GENCODE are part of Step 2 because Step 1 sends genomic variants rather than
 pre-resolved CDS variants. The exact VEP cache, genome FASTA, GENCODE release, and MANE
-release must be recorded for every run.
+release must be recorded for every run. Every folded structure must also record its source,
+software version, model weights, exact amino-acid input, and confidence outputs.
 
 ### Processing flow
 
@@ -135,7 +180,13 @@ GENCODE CDS FASTA ----------------------+
                      deduplicate by amino-acid sequence hash
                                        |
                                        v
-                            proteins.fasta + proteins.jsonl
+                    exact-sequence structure lookup/cache
+                                       |
+                                       v
+                        fold unresolved sequences with ColabFold
+                                       |
+                                       v
+                  targets.jsonl + proteins.fasta + targets/*.cif
 ```
 
 For a known transcript, use its annotated GENCODE CDS. For a novel assembled transcript,
@@ -160,14 +211,58 @@ The service reports rather than hides:
 Variants on a known haplotype are applied together before translation. Unphased variants
 must be represented as uncertain rather than silently asserted to occur on one protein.
 
+### Folding
+
+Resolve a structure for each unique amino-acid sequence in this order:
+
+1. Use RCSB PDB when an experimental structure has an exact, verified sequence match.
+2. Use AlphaFold DB when the personalized sequence exactly matches a reference protein.
+3. Run ColabFold when the sequence contains a variant or is novel.
+
+Cache structures by amino-acid sequence hash so identical proteins are folded once. Store
+the structure as mmCIF and retain pLDDT, PAE, model/version information, and the exact input
+sequence. A predicted structure remains a research prediction rather than an experimental
+measurement.
+
+### `2_3_api.json`
+```json
+{
+  "case_id": "patient-001",
+  "targets": [
+    {
+      "target_id": "target_f82a91",
+      "gene_symbol": "TP53",
+      "transcript_id": "ENST00000269305.9",
+      "haplotype": "unknown",
+      "source_variants": ["17:7675088:C:T"],
+      "reference_sequence_hash": "sha256:...",
+      "variant_sequence": "MEEPQ...",
+      "protein_change": "p.R175H",
+      "expression_tpm": 42.7,
+      "translation_status": "complete",
+      "structure": {
+        "status": "complete",
+        "file": "targets/target_f82a91.cif",
+        "source": "ColabFold",
+        "mean_plddt": 86.2,
+        "pae_file": "targets/target_f82a91.pae.json"
+      }
+    }
+  ],
+  "failures": []
+}
+```
+
 ## Step 2 -> Step 3
 
-Step 2 returns sequences and provenance only:
+Step 2 returns personalized sequences, folded target structures, and provenance:
 
 ```text
 proteins.fasta
 reference-proteins.fasta
-proteins.jsonl
+targets.jsonl
+targets/<target-id>.cif
+targets/<target-id>.pae.json
 rejected-records.jsonl
 provenance.json
 ```
@@ -189,13 +284,20 @@ Example protein record:
   "changed_residues": [175],
   "sequence_hash": "sha256:...",
   "orf_source": "GENCODE",
-  "warnings": ["unphased_variants"]
+  "warnings": ["unphased_variants"],
+  "structure": {
+    "status": "complete",
+    "file": "targets/target_f82a91.cif",
+    "source": "ColabFold",
+    "mean_plddt": 86.2,
+    "pae_file": "targets/target_f82a91.pae.json"
+  }
 }
 ```
 
-The Bespoke Bio Step 3 module can ingest `proteins.fasta` for folding, lock selection, and
-key generation. Its model choices and structure artifacts remain outside the Step 2 API
-contract, while still belonging to the shared Bespoke Bio product and repository.
+The Bespoke Bio Step 3 module ingests `targets.jsonl` and the target mmCIF files for lock
+selection and key generation. Key sequences, target-key complexes, interface scores, and
+key rankings are Step 3 outputs and are intentionally absent from `2_3_api.json`.
 
 ## Current implementation status
 
@@ -205,15 +307,17 @@ The current Step 2 implementation contains the inner translation kernel:
 resolved CDS + CDS-relative variants -> personalized amino-acid sequence
 ```
 
-The next implementation slice is the Step 1 bundle adapter:
+The next implementation slices are:
 
 1. Accept the manifest, VCF, and expression table.
 2. Run or consume VEP transcript mappings.
 3. Resolve reference CDS sequences from a pinned GENCODE dataset.
 4. Convert genomic variants into the existing translation-kernel input.
-5. Export the Step 3 FASTA and JSONL bundle.
+5. Add the exact-sequence structure resolver and ColabFold worker.
+6. Export the Step 3 FASTA, JSONL, and mmCIF bundle.
 
-This adapter does not require a GPU. A local pinned reference-data directory is sufficient.
+The sequence adapter does not require a GPU; the ColabFold worker does. Both must use pinned
+reference/model versions and emit provenance.
 
 ## Later pathogen mode
 
@@ -221,7 +325,8 @@ Pathogen support changes the reference adapter rather than the translation contr
 a taxon ID, reference accession, organism-specific genetic-code table, and pathogen
 transcript/CDS annotations from NCBI RefSeq/GenBank or UniProt Proteomes.
 
-The Step 2 output remains amino-acid FASTA plus provenance for Step 3.
+The Step 2 output remains amino-acid FASTA, folded target structures, and provenance for
+Step 3.
 
 ## Primary resources
 
@@ -231,3 +336,7 @@ The Step 2 output remains amino-acid FASTA plus provenance for Step 3.
 - Ensembl VEP: https://www.ensembl.org/info/docs/tools/vep/
 - TransDecoder: https://github.com/TransDecoder/TransDecoder
 - NCBI RefSeq: https://www.ncbi.nlm.nih.gov/refseq/
+- UniProt: https://www.uniprot.org/
+- RCSB PDB: https://www.rcsb.org/
+- AlphaFold DB: https://alphafold.ebi.ac.uk/
+- ColabFold: https://github.com/sokrypton/ColabFold
