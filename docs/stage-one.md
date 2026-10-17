@@ -13,14 +13,24 @@ Optimize **time and cost per validated case**, starting with one case and one CP
 
 | Resource | Starting source and decision |
 | --- | --- |
-| DNA reads | [GIAB HG002 Illumina 2×150 WGS index](https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/data_indexes/AshkenazimTrio/sequence.index.AJtrio_Illumina300X_wgs_07292015_updated.HG002). Select and record paired files from this approximately 300× collection to derive a reproducible approximately 30× subset. Measure achieved coverage. |
-| RNA reads | [GIAB HG002 Google Illumina mRNA reads](https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/data_RNAseq/AshkenazimTrio/HG002_NA24385_son/Google_Illumina/mRNA/reads/): `hg002_gm24631.mrna.R1.fastq.gz`, matching `R2`, and `md5.in`. Retain the [library README](https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/data_RNAseq/AshkenazimTrio/HG002_NA24385_son/Google_Illumina/README_RNAseq_Google_HG002-Ill.md); verify strandedness and record aliquot/passage separately from donor identity. |
+| DNA reads | [GIAB HG002 WGS index](https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/data_indexes/AshkenazimTrio/sequence.index.AJtrio_Illumina300X_wgs_07292015_updated.HG002). The [source protocol](https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/data/AshkenazimTrio/HG002_NA24385_son/NIST_HiSeq_HG002_Homogeneity-10953946/README_NIST_Illumina_pairedend_HG002.txt) specifies PCR-free HiSeq 2500 **2×148**, with approximately 20–30× per flow cell. Use the selection below. |
+| RNA reads | [HG002 Google Illumina mRNA directory](https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/data_RNAseq/AshkenazimTrio/HG002_NA24385_son/Google_Illumina/mRNA/reads/): **`hg002_gm24385.mrna.R1.fastq.gz`** and matching `R2`. Use the directory's `md5.in`; the [README](https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/data_RNAseq/AshkenazimTrio/HG002_NA24385_son/Google_Illumina/README_RNAseq_Google_HG002-Ill.md) contains stale `gm24631` filenames. This is poly-A-selected bulk RNA, 2×150. Keep aliquot/passage separate from donor identity. |
 | Genome and annotation | [GENCODE 50 files](https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_50/): `GRCh38.primary_assembly.genome.fa.gz`, `gencode.v50.primary_assembly.annotation.gtf.gz`, protein translations, and `MD5SUMS`. GENCODE 50 corresponds to Ensembl 116; primary assembly excludes alternate/patch sequences present in the broader bundle. |
 | Variant truth | [HG002 v5.0q](https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/release/AshkenazimTrio/HG002_NA24385_son/v5.0q/): `HG002_GRCh38_v5.0q_smvar.vcf.gz`, its index, matching `smvar.benchmark.bed`, README, and checksums. NIST now [supersedes HG002 v4.2.1](https://www.nist.gov/programs-projects/genome-bottle) with this draft benchmark. Keep truth separate from processing inputs. |
 
-Lock URLs, checksums, sizes, donor/specimen/library/lane IDs, assay, protocol, read length,
-and derivation commands/seeds. Verify source checksums after transfer; compute SHA-256 at
-immutable registration. Use published FASTQs and native sampling that preserves pairs.
+Select all **133 pairs** from flow cells `140528_D00360_0018_AH8VC6ADXX` and
+`140528_D00360_0019_BH8VDAADXX`: 266 files, 97,052,435,281 compressed bytes in the source catalog.
+Pin the index SHA-256 `fcebfec63d6ec413bfd2a0086ae00aa3a73c01ea130fd9c8bcce9017ea7ff14b`
+and expand its URLs/MD5s into the source lock. Keep library, flow-cell and lane read groups.
+After intake counts, derive approximately 30× nominal coverage once with **seqtk 1.5**:
+sampling fraction = min(1, 30 × reference bases / sequenced bases). Record the denominator;
+use seed `42 + pair ordinal` in sorted URL order, identical for both mates. Validate pairing
+before/after sampling, hash derived files and measure achieved mapped coverage.
+
+RNA source MD5s are `96a10e4f029805253ada8531c6ef87e9` (R1) and
+`9df3298a1c919b064762bafe1963a271` (R2); sizes are 7,321,569,102 and 7,375,938,930 bytes.
+Use the complete library for the baseline. Record protocol, specimen IDs, derivation commands
+and seeds. Verify actual source checksums after transfer; compute SHA-256 at immutable registration.
 
 Bundle FASTA/`.fai`, per-contig MD5 dictionary, GTF, versioned transcript/CDS/protein records,
 and indexes. Derive transcripts within the same assembly scope; validate exon order, strand,
@@ -42,7 +52,9 @@ Stage 1 needs no GPU, hosted analysis API, database server or workflow control s
 | Work | Baseline | Main implementation / license |
 | --- | --- | --- |
 | Scheduling, resources, retries, resume | [Nextflow **26.10.2**](https://github.com/nextflow-io/nextflow/releases/tag/v26.10.2), Docker Engine; [sarek **3.10.0**](https://github.com/nf-core/sarek/tree/3.10.0), [rnaseq **3.27.0**](https://github.com/nf-core/rnaseq/tree/3.27.0) | Nextflow Apache-2.0; workflows MIT |
-| Intake/QC | Workflow FastQC, fastp where configured, MultiQC; explicit RNA adapter trimming policy | Java/C++/Python; GPL-3.0, MIT, GPL-3.0 respectively |
+| Intake/QC | Workflow FastQC, fastp where configured, MultiQC | Java/C++/Python; GPL-3.0, MIT, GPL-3.0 respectively |
+| RNA adapter handling | Workflow [Trim Galore **2.3.0**](https://github.com/nf-core/rnaseq/blob/3.27.0/modules/nf-core/trimgalore/environment.yml) | GPL-3.0; retain dependency licenses |
+| Reproducible fixture sampling | [seqtk **1.5**](https://github.com/lh3/seqtk/tree/v1.5), matching mate seeds/order | C; MIT |
 | DNA mapping and preparation | Sarek BWA-MEM2 **2.3**, SAMtools/HTSlib, caller-appropriate duplicate handling | C/C++; MIT/BSD components |
 | Germline SNVs/short indels | Sarek DeepVariant **1.10.0**, WGS model; retain VCF **and gVCF** | Native/model computation; BSD-3-Clause |
 | Normalize, index, coverage | BCFtools, SAMtools, workflow mosdepth; preserve original calls | C/Nim; BCFtools MIT or GPL depending on build; mosdepth MIT |
@@ -63,6 +75,9 @@ rnaseq 3.27.0 already pins Salmon 2.7.0. Newer releases—[Salmon 2.8.0](https:/
 [SAMtools](https://github.com/samtools/samtools/releases/tag/1.24)/[BCFtools 1.24](https://github.com/samtools/bcftools/releases/tag/1.24)—need upgrade benchmarks.
 Include a project `LICENSE` and record code/model/data licenses and redistribution terms,
 including GPL dependencies and vendor terms for optional CUDA acceleration.
+Generate container dependency inventories with [Syft](https://github.com/anchore/syft), export
+SPDX JSON, and review model/data terms separately. The project's license does not replace
+dependency licenses; contributors must agree the project license before it is applied.
 
 Sarek's [VEP defaults](https://nf-co.re/sarek/3.10.0/parameters)
 include `--filter_common --per_gene`. Remove both, retain all transcript consequences,
@@ -84,13 +99,14 @@ memory cost.
    reads; reject malformed data. Use native parsers and combine scans where practical.
 3. **Run branches.** DNA: map → sort/index → duplicate handling → DeepVariant VCF/gVCF →
    normalization. Use model-appropriate preprocessing, reviewing BQSR/trimming. RNA:
-   QC/adapter handling → STAR → Salmon; retain genomic/splice evidence and native outputs.
+   Trim Galore adapter handling → STAR → Salmon; retain genomic/splice evidence and native outputs.
    Check mapping, duplication, coverage, contamination indicators, strandedness/rRNA and
    fingerprints. Mismatched or inconclusive sample identity blocks release.
 4. **Annotate and phase.** Preserve assembly-qualified variant IDs, QUAL, FILTER, DP, GQ,
-   allele depths, genotype, PS and original-to-normalized allele links. Test multiallelic genotype/AD/PL remapping. WhatsHap
-   supplies supported phase blocks; never connect independent PS blocks or label a haplotype
-   maternal/paternal without evidence. RNA abundance is transcript-total, not allele-specific.
+   allele depths, genotype, PS and original-to-normalized allele links. Test multiallelic
+   genotype/AD/PL remapping. WhatsHap supplies supported phase blocks; never connect
+   independent PS blocks or label a haplotype maternal/paternal without evidence.
+   RNA abundance is transcript-total, not allele-specific.
 5. **Resolve CDS.** Project variants through the exon map in coding orientation: VCF/CDS
    positions are 1-based; BED is 0-based half-open. Reverse-complement negative-strand
    alleles and retain valid indel anchors. VEP consequence/position alone is insufficient.
@@ -98,9 +114,9 @@ memory cost.
    for released CDS. Reject REF mismatches, overlaps and unsupported boundary edits.
 6. **Gate targets.** Require PASS calls and confident genotypes across the entire CDS;
    missing VCF records are not reference evidence. Configure replay thresholds for depth ≥10
-   and GQ ≥20 throughout, using gVCF plus conservative coverage evidence. Record uncertainty.
-   Defer unresolved splicing, partial CDS, selenoproteins and
-   frameshift/start-loss/stop-loss cases needing sequence beyond the supplied CDS.
+   and GQ ≥20 throughout, using gVCF block minima and per-base coverage, never block averages.
+   Record uncertainty. Defer unresolved splicing/phase, partial CDS, selenoproteins, premature
+   stops and frameshift/start-loss/stop-loss cases under the initial complete-protein policy.
 7. **Publish.** Validate payload, counts, hashes and index access; publish outputs, then the
    ready manifest. Failures cannot publish readiness. Account for every accepted/deferred/
    rejected candidate. An empty selection is recorded but cannot be sent to Step 2.
@@ -108,6 +124,20 @@ memory cost.
 [SAMtools quickcheck](https://www.htslib.org/doc/samtools-quickcheck.html) skips file interiors;
 also require full native decoding, sort/index checks and read-count reconciliation. Expression
 must be finite/nonnegative; retain fractional Salmon counts.
+
+Keep cutoffs in a versioned **pilot QC profile**, separate from validation code:
+
+| Gate | Initial rule |
+| --- | --- |
+| Integrity and reference | Zero hash/pair/REF mismatches; exact annotation joins; no invalid or non-finite values |
+| DNA/RNA identity | Matching sample fingerprints with normal-normal LOD >5; otherwise hold the case. Pin a compatible haplotype map and test a known mismatch control. |
+| RNA strandedness | Start with `auto`; retain rnaseq's 0.8 stranded / 0.1 unstranded-difference thresholds. Require agreement with protocol and RSeQC; hold undetermined/conflicting cases. |
+| Released CDS | Full CDS callability under the depth/GQ policy, supported phase, validated start/terminal stop and exact expected translation; all candidates have a disposition |
+| Mapping, duplication, rRNA | Report distributions and investigate outliers; calibrate assay-specific limits from full runs rather than treating workflow survival thresholds as quality standards |
+
+The LOD/depth/GQ values are conservative pilot choices, not universal assay standards.
+[Picard LOD semantics](https://gatk.broadinstitute.org/hc/en-us/articles/4418062821531-CrosscheckFingerprints-Picard);
+[rnaseq strandedness](https://nf-co.re/rnaseq/3.27.0/docs/usage).
 
 ## 4. Step 2 handoff and formats
 
@@ -117,8 +147,9 @@ input fields. Companion evidence records schema/contract identity, reference has
 coordinates, callability, sample identities, QUAL/GQ/DP, expression semantics, tool versions
 and unsigned artifact URIs.
 
-The manifest requires `schema_version`, `run_id`, `case_id`, `case_sha256`, reference/config
-hashes, artifact roles/locations/sizes/hashes, validation results and disposition counts.
+Use JSON Schema/Pydantic with `schema_version: "1.0.0"`, requiring `run_id`, `case_id`,
+`case_sha256`, reference/config hashes, artifact roles/locations/sizes/hashes, validation
+results and disposition counts. Lock the Step 2 commit and generated request-schema hash.
 Validate it before submission. Link the input hash and manifest to the returned Step 2
 `bundle_id` in the run catalog; the API accepts the case payload alone.
 
@@ -151,29 +182,23 @@ uses `translate_case` locally without invoking structure lookup or folding.
 
 ## 5. Storage and performance
 
-**Start with one worker: 32 vCPU, 256 GiB RAM, approximately 1.2 TiB fast local SSD scratch,**
-Ubuntu 24.04 x86-64 and Docker Engine. Use a persistent SSD for Nextflow work/cache;
-2 TiB is a starting allocation, subject to a full input/index/intermediate space budget.
-Stage 1 tools run as jobs on this worker. DuckDB runs inside the adapter/reporting process.
-Compare a 16-vCPU/128-GiB worker and faster NVMe before increasing spend; GPU DeepVariant
-inference is an optional benchmark that must include CPU preparation and transfer time.
+Separate immutable inputs/references, durable results and disposable scratch. Stage 1 tools
+run as jobs; DuckDB runs inside the adapter/reporting process. Use SSD paths for sorting and
+random access. Stage inputs once per worker and identify assets by hash/release and runs by ID.
+Preserve both Nextflow metadata and required work outputs for resume; test restore before
+cleaning work. Deployment sizing, access, budgets and retention belong to private runtime configuration.
 
-Keep private object-storage areas for `inputs`, `references`, `runs` and `benchmarks` (truth).
-Address immutable assets by hash/release and runs by ID. Fetch public data directly on the
-worker, stage it once, and keep compute/storage close. Use local or persistent SSD paths for
-sorting and random access. Object storage holds durable inputs, references and final evidence.
-
-Retain Nextflow metadata **and** required work outputs on persistent storage for resume.
-Local scratch is disposable. Before launching, check free space and configured disk throughput;
-stop new tasks before space exhaustion. Keep originals/final evidence through pilot review;
-delete temporary work only after hash verification, restore testing and explicit retention
-expiry. Set run timeouts and idle shutdown; account for storage costs after compute stops.
+Measure one complete case before tuning concurrency. Record peak RAM and scratch by task;
+include indexes, inputs, overlapping intermediates and outputs in the space budget. Reserve
+headroom, enforce global CPU/RAM/disk limits and stop scheduling before disk exhaustion.
+Repeat uncached executions separately from cache/resume checks; compare latency, throughput
+and cost per validated case. Reject speed gains achieved by silently reducing evidence scope.
 
 Performance rules:
 
 - Prebuild indexes once; reuse a local read-only bundle keyed by content and tool version.
-- Give concurrent DNA/RNA launches separate budgets totaling at most **30 CPUs / 240 GiB**
-  on the 32-core node. Separate Nextflow launches do not coordinate their resource limits.
+- Give concurrent DNA/RNA launches separate budgets within the host's global limits.
+  Separate Nextflow launches do not coordinate their resource limits.
   Count aligner, sorter and compression threads together; SAMtools sort memory is per thread.
 - Use workflow-supported lane/interval scattering and correct gather steps. Stage once per
   worker, bound concurrency by RAM and scratch, and retry transient failures only.
@@ -183,7 +208,7 @@ Performance rules:
   only when profiling identifies an avoidable copy as a significant bottleneck.
 - Query indexed native files and selected Parquet columns/partitions with DuckDB.
 
-## 6. Telemetry and operations
+## 6. Telemetry and CI
 
 Retain Nextflow `-with-trace`, `-with-report`, `-with-timeline`, logs/stdout/stderr/exit codes,
 resolved config, versions and MultiQC per attempt. Adapter JSONL events contain UTC time,
@@ -200,21 +225,11 @@ Prometheus/node exporter + Grafana for live metrics, Loki/Tempo if central logs/
 needed. Label metrics by stage/tool/status; keep IDs/hashes
 in private logs and sequences out of traces. [OTel scope](https://opentelemetry.io/docs/what-is-opentelemetry/).
 
-Operate workers through local SSH; keep provisioning, addresses, identities and runtime
-configuration outside the checkout. Commit portable workflows and CI; keep deployment local.
-
-- PR CI runs Ruff, pytest, contract/fixture tests and secret scanning on GitHub-hosted runners,
-  without worker/storage access. Pin Actions by commit SHA; run reviewed commits on workers.
-  Never execute fork code on an identity-bearing worker or use privileged PR execution.
-- Restrict SSH ingress to an approved source IP or private network, use keys and verify host
-  keys. Bind APIs to loopback and use SSH tunnels; the Step 2 API has no authentication.
-  Keep Docker private. Run workflows under a service/session that survives SSH disconnects.
-- Use scoped worker identity for storage access. Keep credentials, provider configuration,
-  provisioning/state files, generated data and runtime logs outside Git. Public source locks
-  contain public dataset URLs; private artifact locations belong in runtime manifests.
-- Scan staged changes/history with Gitleaks. Redact authenticated URLs and environment dumps;
-  publish only reviewed public-fixture reports. Keep local command history and CLI token
-  caches out of captured logs and CI artifacts.
+PR CI runs Ruff, pytest, contract/fixture tests and Gitleaks without worker/data access.
+Pin Actions by commit SHA. Publish reviewed public-fixture reports only; redact authenticated
+URLs and environment dumps. Keep provisioning, addresses, identities, credentials and resolved
+runtime configuration outside Git. Public locks contain public dataset URLs; private artifact
+locations remain in runtime manifests.
 
 ## 7. Layout and implementation order
 
@@ -240,28 +255,30 @@ Keep Stage 1 out of `api.py`; configure upstream workflows rather than forking t
    Exercise the actual DeepVariant/VEP and STAR/Salmon configuration.
 4. **Full case:** run approximately 30× HG002 DNA + selected RNA. Use v5.0q's hap.py/vcfeval
    instructions, sex/ploidy settings and GIAB v3.6 stratifications. Report SNP/indel precision,
-   recall/F1, assessed regions, RNA QC, identity and phase completeness.
+   recall/F1, counts and uncertainty across benchmark, coding and difficult regions; do not
+   shrink the evaluation BED to the pipeline's callable regions. Report RNA QC and phase completeness.
 5. **Handoff:** independently verify every released reference/alternate sequence. Test
    schema/hashes, negative strands, exon boundaries, indels, multiallelic sites, common
    alleles, unphased combinations, missing coverage, fractional
-   counts and terminal stops. Preflight locally with `TranslateRequest.model_validate`
+   counts, non-finite expression, missing terminal stops and premature stops. Require independently
+   expected sequences, not just agreement with Step 2. Preflight with `TranslateRequest.model_validate`
    and `translate_case`; `/v1/build` also executes folding, which belongs to Step 2.
-6. **Optimize:** repeat baseline runs; change one tool/resource setting at a time. Define
-   accuracy/regression gates, latency targets and cost ceiling before promoting alternatives.
-   Investigate disagreements, audit training overlap and add another donor before generalizing.
+6. **Qualify, then optimize:** review the first baseline against matching upstream evaluations;
+   freeze its inputs, evaluation regions and results before testing alternatives. Start with
+   zero tolerated precision/recall regression on aggregate and coding benchmarks, with
+   difficult-region changes reviewed individually. Record callable/released-target counts
+   so increased deferral cannot masquerade as improvement. Change one component at a time.
 
-Before the full run, freeze these run-specific decisions:
+HG002 is an integration/regression dataset: [DeepVariant 1.10 WGS training](https://github.com/google/deepvariant/blob/r1.10/docs/deepvariant-details-training-data.md)
+includes HG002. Reproduce the upstream HG003 DNA evaluation as an additional check; it is
+absent from that WGS training list but related to HG002. Add an unrelated donor and another
+library/platform before broader claims. Freeze scientific acceptance criteria before evaluating
+that holdout. Absolute accuracy targets must match assay, reference and benchmark scope;
+do not import a generic percentage or use DNA truth to claim RNA expression accuracy.
 
-| Decision | Required record |
-| --- | --- |
-| Input selection | Exact DNA pairs, sizes/checksums, sampling method/seed, RNA library metadata |
-| Acceptance | Identity/QC cutoffs, CDS callability rules, SNP/indel precision/recall floors, target selection and reasons for deferral |
-| Capacity and cost | Storage/free-space budget, task CPU/RAM limits, run timeout, maximum spend and retention/resume window |
-| Reproducibility | Container/model/data locks, license inventory, manifest schema, reference/CDS checks and Step 2 contract identity |
-
-Record baseline measurements before setting speed targets; faster alternatives must satisfy
-the same accuracy gates. An upstream test profile or a small fixture cannot establish WGS
-accuracy, capacity or cost.
+Scale by adding independently scheduled cases with immutable inputs and atomic publication.
+Use per-task resource limits, bounded queues and idempotent retries; keep biology independent
+of worker count. Add services only when measured concurrency or query load requires them.
 
 ```mermaid
 flowchart TD
