@@ -1,6 +1,6 @@
 # System architecture
 
-## Ownership boundaries
+## Step boundaries
 
 ```text
 Step 1: DNA + RNA processing module
@@ -13,16 +13,15 @@ Step 3: Structure and protein-design module
     -> lock selection, and key generation
 ```
 
-All three modules together are Bespoke Bio, and all three teams contribute to the shared
-product and repository. The current implementation focus is Bradley's Step 2 module. Its
-API boundary ends when it has produced validated protein sequences and folded target
+Bespoke Bio comprises all three modules. Step 1 produces DNA- and RNA-derived findings.
+Step 2 converts those findings into validated protein sequences and folded target
 structures. Step 3 consumes those structures to identify binding surfaces and generate
 candidate keys.
 
 ## Step 1 -> Step 2
 
-The Step 1 contributor owns read alignment, variant calling, rarity filtering, RNA
-alignment, transcript/isoform quantification, and phasing when available.
+Step 1 performs read alignment, variant calling, rarity filtering, RNA alignment,
+transcript/isoform quantification, and phasing when available.
 
 Suggested upstream references:
 
@@ -43,7 +42,7 @@ Suggested upstream software:
 | RNA alignment | STAR |
 | Transcript-level expression | Salmon |
 
-Step 1 hands us a bundle, not raw reads:
+Step 1 emits a processed-data bundle rather than raw reads:
 
 ```text
 manifest.json

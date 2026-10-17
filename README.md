@@ -32,8 +32,8 @@ curl -X POST http://127.0.0.1:8000/v1/translate \
 
 ## Input boundary
 
-Bespoke Bio's Step 1 module owns read alignment, variant calling, rarity filtering, and
-transcript quantification. It sends the Step 2 module:
+Bespoke Bio's Step 1 module performs read alignment, variant calling, rarity filtering,
+and transcript quantification. It sends the Step 2 module:
 
 - normalized rare variants in genomic coordinates;
 - transcript-level expression findings;
@@ -41,8 +41,8 @@ transcript quantification. It sends the Step 2 module:
 - haplotype/phase information when available; and
 - assembled transcript sequences for novel isoforms, when available.
 
-The Step 2 module owns transcript/CDS resolution, application of variants to the correct CDS,
-translation into protein sequences, and folding those proteins. The current `/v1/translate`
+The Step 2 module performs transcript/CDS resolution, application of variants to the correct
+CDS, translation into protein sequences, and folding those proteins. The current `/v1/translate`
 endpoint is the tested translation kernel and accepts a resolved CDS; the Step 1 bundle
 adapter and folding worker will complete the Step 2 pipeline around it.
 
@@ -60,5 +60,5 @@ uv run ruff check .
 This software produces research predictions, not clinical results.
 
 See [docs/architecture.md](docs/architecture.md) for the end-to-end system,
-software choices, databases, and ownership boundaries.
+software choices, databases, and step boundaries.
 
