@@ -3,22 +3,24 @@
 ## Ownership boundaries
 
 ```text
-Step 1: DNA + RNA processing
+Step 1: Bespoke Bio DNA + RNA processing module
     -> rare genomic variants and transcript-expression findings
 
-Step 2: Bespoke Bio translation layer (this repository)
+Step 2: Bespoke Bio translation module (Bradley's ownership)
     -> personalized amino-acid sequences with provenance
 
-Step 3: structure, lock selection, and key generation
-    -> handled by the downstream protein-design team
+Step 3: Bespoke Bio structure and protein-design module
+    -> folding, lock selection, and key generation
 ```
 
-This repository ends when it has produced validated protein sequences. It does not fold
-proteins, identify binding surfaces, or generate candidate keys.
+All three modules together are Bespoke Bio, and all three teams contribute to the shared
+product and repository. The current implementation focus is Bradley's Step 2 module. Its
+API boundary ends when it has produced validated protein sequences; Step 3 consumes those
+sequences to fold proteins, identify binding surfaces, and generate candidate keys.
 
 ## Step 1 -> Step 2
 
-The upstream data team owns read alignment, variant calling, rarity filtering, RNA
+The Step 1 contributor owns read alignment, variant calling, rarity filtering, RNA
 alignment, transcript/isoform quantification, and phasing when available.
 
 Suggested upstream references:
@@ -92,7 +94,7 @@ Novel RNA isoforms should include both their assembled sequence and transcript m
 The manifest must state whether an assembled sequence is already sample-specific so that
 the same DNA variants are not applied twice.
 
-## Step 2: our translation layer
+## Step 2: Bradley's translation module
 
 ### Software
 
@@ -141,7 +143,7 @@ use TransDecoder to identify candidate coding regions and clearly mark the resul
 predicted ORF.
 
 Each record is processed even when expression is low. Expression remains attached as
-evidence and downstream ranking metadata; it is not interpreted as protein abundance.
+evidence and Step 3 ranking metadata; it is not interpreted as protein abundance.
 
 ### Translation checks
 
@@ -191,12 +193,13 @@ Example protein record:
 }
 ```
 
-Step 3 can ingest `proteins.fasta` for folding, lock selection, and key generation. Its
-model choices and structure artifacts remain outside this repository and API contract.
+The Bespoke Bio Step 3 module can ingest `proteins.fasta` for folding, lock selection, and
+key generation. Its model choices and structure artifacts remain outside the Step 2 API
+contract, while still belonging to the shared Bespoke Bio product and repository.
 
 ## Current implementation status
 
-The repository currently contains the inner translation kernel:
+The current Step 2 implementation contains the inner translation kernel:
 
 ```text
 resolved CDS + CDS-relative variants -> personalized amino-acid sequence

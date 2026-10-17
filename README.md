@@ -1,8 +1,8 @@
 # Bespoke Bio
 
-Bespoke Bio's middle layer converts expressed, variant-bearing coding transcripts into
-amino-acid sequences. Those target proteins become the inputs to structure prediction
-and key generation.
+Bespoke Bio is the complete DNA/RNA-to-designed-protein system. The current implementation
+focuses on Step 2, the translation module: it converts expressed, variant-bearing transcripts
+into amino-acid sequences for the Step 3 structure and key-generation module.
 
 The first version is intentionally small:
 
@@ -11,8 +11,8 @@ The first version is intentionally small:
 3. Translate the personalized CDS and deduplicate identical protein sequences.
 4. Return stable sequence hashes and explicit translation warnings.
 
-Folding, binding-surface selection, and key generation belong to the downstream Step 3
-system and are intentionally absent from this service's response contract.
+Folding, binding-surface selection, and key generation belong to Bespoke Bio's Step 3
+module and are intentionally absent from the Step 2 response contract.
 
 ## Run locally
 
@@ -31,8 +31,8 @@ curl -X POST http://127.0.0.1:8000/v1/translate \
 
 ## Input boundary
 
-The upstream data pipeline owns read alignment, variant calling, rarity filtering, and
-transcript quantification. It sends this service:
+Bespoke Bio's Step 1 module owns read alignment, variant calling, rarity filtering, and
+transcript quantification. It sends the Step 2 module:
 
 - normalized rare variants in genomic coordinates;
 - transcript-level expression findings;
@@ -40,7 +40,7 @@ transcript quantification. It sends this service:
 - haplotype/phase information when available; and
 - assembled transcript sequences for novel isoforms, when available.
 
-This service owns transcript/CDS resolution, application of variants to the correct CDS,
+The Step 2 module owns transcript/CDS resolution, application of variants to the correct CDS,
 and translation into protein sequences. The current `/v1/translate` endpoint is the tested
 translation kernel and accepts a resolved CDS; the Step 1 bundle adapter will sit in front
 of it.
