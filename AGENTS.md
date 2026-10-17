@@ -7,16 +7,21 @@ changes.
 
 ## System boundaries
 
-Bespoke Bio contains three steps:
+This is the shared repository for the complete Bespoke Bio system. It is intended to contain
+all three steps. Step 2 is the first implemented contribution; Steps 1 and 3 will be added by
+their respective contributors.
+
+The three modules have distinct responsibilities:
 
 1. Step 1 processes DNA and RNA. It owns alignment, variant calling and filtering,
    transcript/CDS resolution, ORF selection, expression quantification, and phase scenarios.
-2. Step 2 is implemented in this repository. It validates Step 1 output, applies variants to
-   resolved CDS sequences, translates proteins, resolves or predicts structures, and packages
-   the results.
+2. Step 2 validates Step 1 output, applies variants to resolved CDS sequences, translates
+   proteins, resolves or predicts structures, and packages the results. This is the module
+   currently implemented.
 3. Step 3 consumes folded targets to select binding surfaces and design candidate keys.
 
-Do not move Step 1 cleanup or Step 3 protein-design behavior into Step 2.
+Keep these ownership boundaries as all three modules are added to the shared repository. Do not
+move Step 1 cleanup or Step 3 protein-design behavior into Step 2.
 
 ## Step 2 invariants
 

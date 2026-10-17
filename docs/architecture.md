@@ -15,7 +15,8 @@ Step 3: protein design
 
 Bespoke Bio comprises all three steps. Step 1 owns genomic and transcript cleanup. Step 2
 starts from resolved coding sequences and ends with folded target structures. Step 3 consumes
-those structures and generates candidate keys.
+those structures and generates candidate keys. All three modules belong in this shared
+repository; Step 2 is simply the first module implemented.
 
 ## Step 1 -> Step 2
 
@@ -189,7 +190,8 @@ Step 3 outputs and are intentionally absent from the Step 2 package.
 
 ## Current implementation
 
-The repository implements the complete Step 2 boundary described above:
+The first contribution to the shared repository implements the complete Step 2 boundary
+described above. Step 1 and Step 3 will be added alongside it:
 
 - `POST /v1/build?folding_backend=...` runs translation, lookup, folding, and packaging.
 - `GET /v1/bundles/{bundle_id}/{file}` serves files from the completed package.

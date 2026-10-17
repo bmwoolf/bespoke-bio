@@ -1,8 +1,9 @@
 # Bespoke Bio
 
-Bespoke Bio is the complete DNA/RNA-to-designed-protein system. This repository currently
-implements Step 2: translate the resolved DNA/RNA findings from Step 1, resolve or predict
-one structure per unique protein, and package the results for Step 3.
+Bespoke Bio is the complete DNA/RNA-to-designed-protein system. This is the shared repository
+for Steps 1, 2, and 3. Step 2 is the first implemented contribution: it translates the resolved
+DNA/RNA findings from Step 1, resolves or predicts one structure per unique protein, and
+packages the results for Step 3.
 
 The implementation is intentionally small. It:
 
