@@ -1,4 +1,4 @@
-# Stage 1: human reads to the Step 2 handoff
+# Stage 1: human evidence to the Step 2 handoff
 
 Convert paired-end Illumina germline WGS DNA and bulk RNA into reference CDS, CDS-relative
 variants, expression and explicit phase scenarios. Step 2 applies the variants, translates
@@ -10,9 +10,73 @@ Initial scope: diploid small variants and primary-GTF transcripts with
 Predictions assume the annotated exon model. Bulk RNA does not prove full-length isoform
 identity, allele expression or protein abundance. CNV, structural variation and mosaicism
 are outside this pilot's model, not established as absent.
-Align against the full selected reference and retain exclusions with reasons.
+Process the complete DNA and RNA inputs. Publish all native results, granular evidence and
+every supported sequence; retain unresolved and unsupported records with reasons. Align against
+the full selected reference. Broader reconstruction (sex chromosomes, mitochondrial code,
+novel ORFs, structural variants and altered splicing) requires separately validated analysis;
+retaining those reads and calls does not establish resolved protein sequences.
 Optimize **time and cost per validated case**, starting with one case, one coordinator and
 one CPU worker. Use the pinned workflows, thin adapters, native files and retained logs.
+
+## Fast iteration from existing evidence
+
+For the immediate protein-focused run, import HG002's precomputed, phased GIAB v5.0q
+variants with the matching benchmark BED and source documentation. This skips DNA alignment,
+variant calling and read-based phasing. Keep the complete source callset; annotate coding
+intervals and 50-base local flanks, then resolve complete transcript alleles. Do not discard
+synonymous changes before combined haplotype interpretation. This scope does not reconstruct
+novel splicing, regulatory effects or structural variants.
+
+Use the source's assembly-based confidence semantics, not invented DP/GQ values. Preserve GT
+and phase provenance; [VCF phase-set rules](https://samtools.github.io/hts-specs/VCFv4.3.pdf)
+allow a source-scoped default set for phased GT records without a PS subfield. Never phase
+unphased records this way. Confident reference reconstruction requires the complete CDS to be
+covered by the source's supported regions. Using benchmark calls as input tests downstream
+reconstruction; it cannot independently measure our caller's accuracy against those same calls.
+
+Export the actual complete amino-acid sequences in `proteins.fasta` and
+`protein-targets.jsonl`, with sequence hashes, donor, versioned transcript and allele scenario.
+Deduplicate FASTA sequences while retaining every supported target record. Keep CDS and variant
+edits in separate evidence files. Check each sequence against an independent edit/translation
+implementation and retain every deferred transcript with a reason.
+
+Expression is optional for this sequence export and remains null until measured. Gene-level
+values and missing measurements are not transcript TPM. The current Step 2 API requires CDS
+and expression; direct protein ingestion needs an explicit Step 2 interface addition.
+Keep the full FASTQ workflow for separate qualification. Measure the prepared-evidence route
+before promising a 30-minute handoff; fresh sequencing and cold setup have different costs.
+
+The [protein record schema](../config/stage1-protein-target.schema.json) defines this export.
+Step 2 should verify `sequence_sha256`, retain every target record, and deduplicate structure
+work by the complete `amino_acid_sequence`. No nucleotide translation or variant application
+is needed for this route. `expression: null` means unmeasured, not zero.
+
+One protein record from the HG002 export, containing the complete CCL26 precursor sequence:
+
+```json
+{
+  "target_id": "protein_053f7d312f1326fff933fba39f7db183",
+  "donor": "HG002",
+  "gene_id": "ENSG00000006606.10",
+  "gene_symbol": "CCL26",
+  "transcript_id": "ENST00000005180.9",
+  "phase_scenario": "solution_aaa4578e74d3b986b14fcf44:allele-1",
+  "amino_acid_sequence": "MMGLSLASAVLLASLLSLHLGTATRGSDISKTCCFQYSHKPLPWTWVRSYEFTSNSCSQRAVIFTTKRGKKVCTHPRKKWVQKYISLLKTPKQL",
+  "sequence_sha256": "f5e2fc31c84ced489b4dfbc8f7855c20c70b3fb65f1657673657a7abd2d0d140",
+  "reference_sequence_sha256": "f5e2fc31c84ced489b4dfbc8f7855c20c70b3fb65f1657673657a7abd2d0d140",
+  "expression": null
+}
+```
+
+Both hashes match because this allele's protein matches the reference. The sequence contains
+no terminal stop symbol. Each JSONL line follows this schema; the enclosing manifest supplies
+the source release, artifact hashes and validation scope. Step 2's HTTP batch envelope is a
+separate interface decision.
+
+Qualify precomputed calls against their source BED before normalization. Remove the complete
+span of rejected or boundary-crossing events from the usable regions; never turn an omitted
+call into a confident reference allele. Retain the source callset, qualification counts,
+effective BED, native logs and all transcript dispositions.
 
 ## 1. Inputs and references
 
@@ -182,15 +246,15 @@ alternative engines only at measured bottlenecks, checking accuracy, scope and m
    boundaries. Map REF bases; the API position is the smallest mapped one-based CDS position.
    On the minus strand reverse-complement **both full alleles**, retaining the anchor.
    Verify the projected REF against the unmodified CDS. Within each allele, defer overlapping
-   edits/shared anchors needing composition. Unsupported projection defers the transcript;
+   edits/shared anchors needing composition. Unsupported projection defers the affected allele;
    REF mismatch fails validation. Normalize handoff letters to uppercase DNA (`U` → `T`).
 6. **Gate targets.** Apply the original-coordinate callability policy below. Defer incomplete
    CDS tags and unsupported starts. Validate each **jointly edited** allele: ACGT only, ATG
    start, length divisible by three, terminal stop and no internal stops. Strict ATG initiation
    is a pilot restriction. Individual stop/frameshift consequence labels do not decide the
-   joint sequence. Defer the whole transcript if either allele fails. For splicing, defer any
+   joint sequence. Retain a resolved allele even when its partner fails; record each result. For splicing, defer any
    transcript with a called non-reference allele having a transcript-specific `splice_*`
-   consequence or a boundary edit. Retain junction evidence; do not infer new exon models.
+   consequence or an unresolved boundary edit. Retain junction evidence; do not infer new exon models.
 7. **Publish.** Validate payload, counts, hashes and index access. Write immutable outputs
    under a unique attempt directory; flush files/directories before an atomic no-replace ready
    manifest on the same filesystem. Published evidence must survive work-directory cleanup.
@@ -273,7 +337,7 @@ manifest/input hashes to the returned `bundle_id`. Hash allele keys exceeding th
 | Expression | Quantification run + versioned transcript ID, all five quant.sf columns, library type and effective settings. |
 | Allele target | Transcript, shared solution ID, allele-1/allele-2, genotype/phase evidence, reference CDS hash, projected edits, final CDS/protein hashes and one expression-source link. |
 | Disposition | One status per primary-GTF transcript ID, all reason codes/evidence and one primary reason. Counts partition the fixed universe. |
-| Handoff → folding | T selected transcript IDs yield exactly 2T allele records, T ≤10; unique protein sequences ≤2T. Preserve every biological record through sequence deduplication. |
+| Handoff → folding | T released transcript IDs yield up to 2T resolved allele records; unique protein sequences never exceed released allele records. No output-count or expression cutoff. Preserve every biological record through sequence deduplication. |
 
 Record the submission before calling Step 2. Each POST starts a new bundle, so a timeout
 after sending the request means **outcome unknown**. Hold the submission and reconcile it
@@ -296,30 +360,27 @@ Never interpret split multiallelic rows as independent sites or invent phase.
 
 [Read-backed phasing](https://github.com/whatshap/whatshap/blob/v2.8/whatshap/cli/phase.py)
 cannot connect arbitrarily distant sites. Report the fraction of in-scope expressed transcripts
-passing all gates **before the cap**, with phase, coverage, splice and other deferral counts.
+passing all gates, with phase, coverage, splice and other deferral counts.
 Retain blocks/evidence to revisit deferrals; measure yield before optimizing runtime.
 
-Select up to **10** complete allele pairs with `TPM >0`. Rank by any CDS edit on either allele
-first, then `MANE_Select`, TPM descending and versioned transcript ID ascending. Give the two
+Export every resolved allele, including transcripts with zero estimated TPM. Expression and
+`MANE_Select` may order work; they must not discard results. Keep unresolved alleles with their
+evidence and reasons, independently of any resolved partner. Bound execution batches, not output. Give the two
 records distinct deterministic `phase_scenario` values (`<solution>:allele-1` and `:allele-2`), with
 `haplotype: unknown`; they are members of one solution, not maternal/paternal assignments or
 mutually exclusive scenarios. Order unphased alleles by genotype index and phased alleles by
 VCF slot. Assert unique emitted target IDs, including identical-protein pairs.
 
 Statuses: `out_of_scope` for biotype/contig/unsupported genetic code or selenoproteins;
-`deferred` for failed/uncertain biological gates; `eligible_not_selected` for passing pairs
-with zero TPM or outside the cap; `selected` for released pairs. Keep both exclusion reasons
-separate. Primary deferral priority: reference completeness, coverage, splice, phase,
+`deferred` for failed/uncertain biological gates; `partially_resolved` when only one allele
+is released; `selected` when both are released. Primary deferral priority: reference completeness, coverage, splice, phase,
 projection, final ORF; retain all observed reasons and checks not evaluated. Case-level
 integrity failure produces `failed`, not a completed partition or ready handoff.
 
-Step 2 searches external RCSB/AlphaFold services; Boltz also requires an MSA service.
-An entirely local deployment needs a separate Step 2 lookup/MSA policy. Translation preflight
-uses `translate_case` locally without invoking structure lookup or folding.
-Step 2 integration requires retaining every lookup/folding attempt: source, outcome, duration and error.
-Keep **no matching structure** separate from **lookup failed**, even when a later attempt
-succeeds. Pilot policy: record lookup failures, try the next lookup, then use the selected
-folding backend for unresolved sequences. Never switch folding models automatically.
+Stage 1 acceptance uses `translate_case` locally to verify the complete handoff against
+independent CDS/protein expectations. Do not call `/v1/build` during Stage 1 validation:
+it performs structure lookup and folding. Provisioning and execution for those operations
+belong to Step 2.
 
 | Artifact | Format |
 | --- | --- |
@@ -414,7 +475,7 @@ locations remain in runtime manifests.
 
 ```text
 config/stage1.lock.json          # public sources, tools, models, licenses and hashes
-config/stage1.yaml               # portable resource defaults, QC policy, target limit
+config/stage1.yaml               # QC policy; no output-count cap
 workflows/stage1/                # pinned upstream launch configs; adapter tasks
 src/bespoke_bio/stage1/          # intake, references, evidence, cds, handoff, cli
 tests/stage1/                   # contract, biology, failure and replay tests
@@ -453,25 +514,18 @@ Keep Stage 1 out of `api.py`; configure upstream workflows rather than forking t
    non-finite numbers, incomplete ORFs, duplicate IDs and disposition totals. Use independent
    expected sequences. Preflight with `TranslateRequest.model_validate`
    and `translate_case`; `/v1/build` also executes folding, which belongs to Step 2.
-   Test a lost submission response: no automatic duplicate submission. Before qualifying the
-   full Step 2 integration, test lookup failure followed by success with earlier errors retained.
-6. **Real Step 2 integration:** submit the full-case, nonempty handoff through the actual
-   `build_bundle`/HTTP path. Lock the selected backend, weights, settings and required assets
-   in the runtime record; check selected sequence lengths and memory requirements before launch.
-   Compare every returned target ID, amino-acid sequence and hash with independent Stage 1
-   expectations. Require all biological records, one resolved structure per unique sequence,
-   readable structure files with the expected chain/sequence and recorded residue coverage,
-   confidence artifacts where provided, and retained attempt logs. Exercise real inference for
-   at least one unresolved sequence; if all targets have exact matches, use a separate documented
-   backend smoke input. Do not truncate sequences, drop targets or substitute models to pass.
-   Keep Stage 1 handoff acceptance separate from full Step 2 integration acceptance.
-7. **Qualify, then optimize:** review the first baseline against matching upstream evaluations;
-   freeze its inputs, evaluation regions and results before testing alternatives. Start with
-   zero tolerated precision/recall regression on aggregate and coding benchmarks, with
-   difficult-region changes reviewed individually. Record callable/released-target counts
-   so increased deferral cannot masquerade as improvement. Change one component at a time.
-   Link every required acceptance check to its command and result artifact; failed or unrun
-   checks leave the corresponding acceptance incomplete.
+   Stage 1 validation must not invoke remote structure lookup or folding.
+6. **Complete handoff:** validate every released allele with the actual Step 2 request model
+   and local translation function. Compare target counts, full sequences and hashes against
+   independently constructed expectations; retain every biological record through sequence
+   deduplication. Validate all evidence locations and indexes after archive/restore. Publish
+   no ready manifest unless every Stage 1 release check passes. No folding runtime, GPU,
+   model weights or Step 2 service is required for this milestone.
+
+7. **Qualify, then optimize:** freeze baseline inputs, evaluation regions and results before
+   changing a component. Require no precision/recall regression on aggregate and coding
+   benchmarks; review difficult-region changes and callable/released counts. Link every
+   required acceptance check to its command and evidence; failed or unrun checks remain incomplete.
 
 HG002 is an integration/regression dataset: [DeepVariant 1.10 WGS training](https://github.com/google/deepvariant/blob/r1.10/docs/deepvariant-details-training-data.md)
 includes HG002. Reproduce the upstream HG003 DNA evaluation as an additional check; it is
@@ -491,8 +545,31 @@ Scale by adding independently scheduled cases with immutable inputs and atomic p
 Use per-task resource limits, bounded queues and idempotent retries; keep biology independent
 of worker count. Add services only when measured concurrency or query load requires them.
 
+## Run the prepared-evidence route
+
+Install the adapter with `uv sync --extra stage1 --extra dev`. Keep data and runtime settings
+outside Git. `PrecomputedRun` in `stage1/precomputed_run.py` defines the required source
+manifest, validated reference records, genome/GTF/cache paths, container digests and resource
+limits. With those local settings, run:
+
+```bash
+uv run bespoke-stage1 process-precomputed --settings /work/run.json --output /work/attempt-001
+```
+
+Read `proteins/manifest.json` only after successful completion. It lists output hashes,
+counts and scope; `protein-targets.jsonl` contains full sequences and `proteins.fasta` contains
+the unique sequences. `proteins/evidence/` retains variants, allele edits and dispositions.
+Native logs and `events.jsonl` remain beside the outputs. A failed attempt has no completed
+protein manifest. Use a fresh attempt directory for a replay.
+
 ```mermaid
 flowchart TD
+    P["Precomputed HG002 calls + source confidence"] --> P1["Qualify → normalize → VEP"]
+    REF --> P1
+    P1 --> P2["Reconstruct complete supported alleles"]
+    P2 --> P3["Validate full amino-acid sequences + hashes"]
+    P3 --> P4["FASTA + protein records + evidence"]
+    P4 --> B2["Step 2 direct-protein input → fold"]
     S["HG002: 35× NovaSeq DNA + Google mRNA"] --> I["Complete files + input manifest"]
     I --> C0["One coordinator: claim run"]
     C0 --> V["Integrity, pairing and sample validation"]
@@ -505,8 +582,8 @@ flowchart TD
     E --> C["Reference CDS + allele scenarios + expression"]
     R --> C
     C --> G["Identity, biological and contract gates"]
-    G -->|selected allele pairs| H["Immutable case/evidence + atomic ready manifest"]
-    G -->|out of scope, deferred or not selected| X["Disposition + reason; evidence retained"]
+    G -->|each supported allele| H["Immutable case/evidence + atomic ready manifest"]
+    G -->|out of scope or deferred| X["Disposition + reason; evidence retained"]
     H --> B["Step 2: apply edits → translate → fold"]
     D -.-> T["Run logs, QC, JSON/JSONL + TSV"]
     R -.-> T
