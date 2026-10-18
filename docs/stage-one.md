@@ -44,6 +44,9 @@ and indexes. Derive transcripts within the same assembly scope; validate exon or
 CDS phase and translation against GENCODE proteins. Include the annotated terminal stop in
 the handoff CDS. Check benchmark contigs/reference sequences; masked GRCh38 is a different
 asset. Never silently strip versions or rename contigs to force a join.
+Use the full matching transcriptome for RNA quantification, including noncoding transcripts;
+select protein-coding targets afterward. Check that RNA reference preparation preserves the
+expected transcript IDs and sequences.
 
 MANE prioritizes transcripts; retain other isoforms. Optional gnomAD enrichment uses indexed
 local sites files with artifact version, population, allele number and missingness.
@@ -64,7 +67,7 @@ Stage 1 needs no GPU, hosted analysis API, database server or workflow control s
 | Reproducible fixture sampling | [seqtk **1.5**](https://github.com/lh3/seqtk/tree/v1.5), matching mate seeds/order | C; MIT |
 | DNA mapping and preparation | Sarek BWA-MEM2 **2.3**, SAMtools/HTSlib and GATK duplicate marking; retain marked reads | C/C++/Java; MIT/BSD/Apache-2.0 components |
 | Germline SNVs/short indels | Sarek DeepVariant **1.10.0**, WGS model; retain VCF **and gVCF** | Native/model computation; BSD-3-Clause |
-| Normalize, index, coverage | BCFtools, SAMtools, workflow mosdepth; preserve original calls | C/Nim; BCFtools MIT or GPL depending on build; mosdepth MIT |
+| Normalize, index, coverage | BCFtools, SAMtools depth for CDS callability, workflow mosdepth for summary QC | C/Nim; BCFtools MIT or GPL depending on build; mosdepth MIT |
 | Consequences | Offline Ensembl VEP **116.0**, matching **116** cache and pinned FASTA | Perl/native dependencies; Apache-2.0 |
 | RNA evidence | rnaseq STAR **2.7.11b** + Salmon **2.7.0**, `star_salmon` route | C++ / Rust; MIT / BSD-3-Clause |
 | Read-backed phase | [WhatsHap **2.8**](https://whatshap.readthedocs.io/en/stable/guide.html), including indels | Python/C++; MIT |
@@ -76,20 +79,33 @@ Defer Parquet and DuckDB until repeated queries across runs justify them; they a
 reporting tools, not dependencies of the biological pipeline. Keep full callsets in indexed
 native formats instead of building another database or copying them into JSON.
 
-Both workflow tags require Nextflow ≥25.10.4. Lock commits,
+Both workflow tags require Nextflow ≥25.10.4. Lock workflow commits, Java/Nextflow/plugins,
 public source URLs, container digests, models, databases and dependency licenses in
-`config/stage1.lock.json`. Keep resolved runtime configs with private run artifacts.
-Retain workflow-pinned dependencies and cache all run assets locally. Put the selected
-workflow options in the versioned profile and save their resolved values with every run.
-Missing required settings or assets stop preflight; do not select another tool or model.
+`config/stage1.lock.json`. Retain workflow-pinned dependencies. Supply pipeline parameters
+through `-params-file`, and executor/module settings through `-c`; save resolved values privately.
+Preload assets and plugins, disable unpinned remote configuration imports, and verify an
+[offline Stage 1 run](https://nf-co.re/docs/usage/getting_started/offline) with `NXF_OFFLINE=true`.
+Missing required settings or assets stop preflight.
 
-Baseline preprocessing: Sarek `aligner: bwa-mem2`, `trim_fastq: false`, `split_fastq: 0` and
-`skip_tools: baserecalibrator`; keep duplicate marking and its metrics enabled. RNA uses
-`aligner: star_salmon`, `trimmer: trimgalore`, `skip_trimming: false` and
+For both workflows, set `igenomes_ignore: true` and supply the pinned FASTA/index paths
+explicitly; RNA also needs the matching GTF/transcript FASTA. Use the local Ensembl cache
+with `vep_species: homo_sapiens`, `vep_genome: GRCh38`, `vep_cache_version: "116"` and
+`vep_include_fasta: true`. Do not inherit Sarek's default reference/cache locations.
+
+Baseline Sarek parameters: `tools: deepvariant,vep`, `aligner: bwa-mem2`, `wes: false`,
+`trim_fastq: false`, `split_fastq: 0`, `skip_tools: baserecalibrator`,
+`normalize_vcfs: true` and `filter_vcfs: false`. Keep duplicate marking/metrics and native
+alignment outputs. Override `VCFS_NORM` arguments with `--check-ref e --old-rec-tag ORIG`:
+left-normalize while preserving multiallelic genotypes; reject duplicate records instead
+of silently removing them. Keep original VCF/gVCF and normalized outputs.
+
+RNA uses `aligner: star_salmon`, `trimmer: trimgalore`, `skip_trimming: false` and
 `save_align_intermeds: true` (`--save_align_intermeds` on the command line).
 DeepVariant [recommends skipping base-quality recalibration](https://github.com/google/deepvariant/blob/r1.10/docs/deepvariant-details.md).
 These are explicit pilot choices; benchmark read splitting or trimming in separate profiles.
 [Sarek options](https://nf-co.re/sarek/3.10.0/parameters),
+[normalization defaults](https://github.com/nf-core/sarek/blob/3.10.0/conf/modules/post_variant_calling.config),
+[BCFtools normalization](https://samtools.github.io/bcftools/bcftools.html#norm),
 [RNA options](https://nf-co.re/rnaseq/3.27.0/parameters).
 
 Register RNA's sorted genomic BAM/index, original transcriptome BAM, splice junctions and
@@ -97,9 +113,7 @@ Salmon outputs explicitly. rnaseq normally publishes final filtered BAMs; saving
 intermediates also retains earlier evidence. Check the required files before publication
 and include the extra BAMs in the disk budget. [RNA outputs](https://nf-co.re/rnaseq/3.27.0/docs/output).
 
-rnaseq 3.27.0 already pins Salmon 2.7.0. Newer releases—[Salmon 2.8.0](https://github.com/COMBINE-lab/salmon/releases/tag/v2.8.0),
-[VEP 116.3](https://github.com/Ensembl/ensembl-vep/releases/tag/release/116.3),
-[SAMtools](https://github.com/samtools/samtools/releases/tag/1.24)/[BCFtools 1.24](https://github.com/samtools/bcftools/releases/tag/1.24)—need upgrade benchmarks.
+Benchmark upgrades against the pinned baseline before changing dependencies.
 Include a project `LICENSE` and record code/model/data licenses and redistribution terms,
 including GPL dependencies and vendor terms for optional CUDA acceleration.
 Generate container dependency inventories with [Syft](https://github.com/anchore/syft), export
@@ -107,9 +121,10 @@ SPDX JSON, and review model/data terms separately. The project's license does no
 dependency licenses; contributors must agree the project license before it is applied.
 
 Sarek's [VEP defaults](https://nf-co.re/sarek/3.10.0/parameters)
-include `--filter_common --per_gene`. Remove both, retain all transcript consequences,
-request versioned transcript IDs and reference checks, and reconcile annotated records
-against original calls. Restrict optional VEP plugins to the resources actually locked.
+include `--filter_common --per_gene`. Replace `vep_custom_args` with
+`--everything --total_length --offline --format vcf --transcript_version --check_ref`.
+Retain all transcript consequences and reconcile annotated records against original calls.
+REF mismatches fail validation; restrict optional plugins to locked resources.
 
 Use BWA-MEM2 for read mapping; reserve protein homology/MSA search for Step 2. Benchmark
 [minibwa](https://github.com/lh3/minibwa), [fastVEP](https://github.com/Huang-lab/fastVEP) or
@@ -125,6 +140,8 @@ memory cost.
 2. **Validate intake.** Check hashes, decompression, FASTQ structure, sequence/quality lengths,
    read-pair names/counts/order, sample metadata, and supported assay. Preserve `N` and raw
    reads; reject malformed data. Use native parsers and combine scans where practical.
+   rnaseq's default `fq lint` disables paired-name check `P001`; require that check at intake
+   rather than treating default workflow linting as complete pair validation.
 3. **Run branches.** DNA: map → sort/index → mark duplicates → DeepVariant VCF/gVCF →
    normalization, using the preprocessing settings above. RNA:
    Trim Galore adapter handling → STAR → Salmon; retain genomic/splice evidence and native outputs.
@@ -132,17 +149,19 @@ memory cost.
    fingerprints. Mismatched or inconclusive sample identity blocks release.
 4. **Annotate and phase.** Preserve assembly-qualified variant IDs, QUAL, FILTER, DP, GQ,
    allele depths, genotype, PS and original-to-normalized allele links. Test multiallelic
-   genotype/AD/PL remapping. WhatsHap supplies supported phase blocks; never connect
-   independent PS blocks or label a haplotype maternal/paternal without evidence.
+   genotype/AD/PL preservation and any derived allele remapping. WhatsHap supplies supported
+   phase blocks; never connect independent PS blocks or label a haplotype maternal/paternal
+   without evidence.
    RNA abundance is transcript-total, not allele-specific.
 5. **Resolve CDS.** Project variants through the exon map in coding orientation: VCF/CDS
    positions are 1-based; BED is 0-based half-open. Reverse-complement negative-strand
    alleles and retain valid indel anchors. VEP consequence/position alone is insufficient.
-   Normalize adapter sequences to uppercase DNA (`U` → `T`); require unambiguous `ACGT`
+   Normalize handoff sequences to uppercase DNA (`U` → `T`); require unambiguous `ACGT`
    for released CDS. Reject REF mismatches, overlaps and unsupported boundary edits.
-6. **Gate targets.** Require PASS calls and confident genotypes across the entire CDS;
-   missing VCF records are not reference evidence. Configure replay thresholds for depth ≥10
-   and GQ ≥20 throughout, using gVCF block minima and per-base coverage, never block averages.
+6. **Gate targets.** Require PASS variant genotypes with DP ≥10 and GQ ≥20. Cover the entire
+   CDS with accepted variant spans or confident reference blocks; missing VCF records are not
+   reference evidence. Use gVCF block minima and per-base depth for reference positions,
+   never block averages. Assess deleted bases through the deletion genotype's evidence.
    Record uncertainty. Defer unresolved splicing/phase, partial CDS, selenoproteins, premature
    stops and frameshift/start-loss/stop-loss cases under the initial complete-protein policy.
 7. **Publish.** Validate payload, counts, hashes and index access. Write immutable outputs
@@ -156,7 +175,16 @@ allele, and retries never relax quality thresholds.
 
 [SAMtools quickcheck](https://www.htslib.org/doc/samtools-quickcheck.html) skips file interiors;
 also require full native decoding, sort/index checks and read-count reconciliation. Expression
-must be finite/nonnegative; retain fractional Salmon counts.
+must be finite/nonnegative; retain fractional Salmon counts. Reuse recorded workflow checks
+where they cover the requirement instead of repeating whole-file scans.
+
+Sarek's [mosdepth defaults](https://github.com/nf-core/sarek/blob/3.10.0/conf/modules/modules.config)
+use `-n --fast-mode --by 500` for summary QC. For callability, run one
+[SAMtools depth](https://www.htslib.org/doc/samtools-depth.html) pass over the merged CDS
+intervals, including terminal stops and zero-depth positions. Require depth ≥10 with minimum
+mapping/base quality 20; exclude unmapped, secondary, supplementary, QC-failed and duplicate
+reads, and count overlapping mates once. Combine this with reference-block GQ ≥20 and the
+variant-span rule above. Save the callable mask and its exact settings; do not scan per transcript.
 
 Keep cutoffs in a versioned **pilot QC profile**, separate from validation code:
 
@@ -197,19 +225,23 @@ expression and edits for one explicit haplotype/scenario. Step 2 applies edits o
 original CDS coordinates. Map `quality` to FILTER and `raw_count` to Salmon's fractional
 estimate, documenting those semantics. API schema validation does not verify GENCODE identity.
 
-Emit both supported alleles, including a no-edit reference scenario when warranted. One
-unphased heterozygous site produces two unordered scenarios; multiple unresolved sites/blocks
-defer the transcript. Never combine all ALTs or invent phase. Retain common and rare alleles.
+Emit both supported alleles; apply homozygous ALT edits to both. One unphased heterozygous
+site produces two unordered scenarios using its actual genotype (`0/1` or `1/2`), including
+shared homozygous edits. Emit a no-edit reference scenario only when supported. Multiple
+unresolved heterozygous sites/blocks defer the transcript. Never interpret split multiallelic
+rows as independent sites or invent phase. Retain common and rare alleles.
 
 [Read-backed phasing](https://whatshap.readthedocs.io/en/stable/guide.html) needs reads that
 connect heterozygous sites. Short reads can leave disconnected blocks, so conservative
-deferral may limit the number of usable transcripts. Before the 10-target cap, report the
+deferral may limit the number of usable transcripts. Before the 10-transcript cap, report the
 fraction of in-scope expressed transcripts passing all gates, with separate counts for
 phase, coverage and other deferrals. Measure this yield before optimizing runtime; keep
 phase blocks and evidence so deferred transcripts can be revisited without guessing phase.
 
 Use a configurable integration-test batch of up to **10** callable, complete autosomal
-transcripts with `TPM > 0`, preferring MANE and variant-bearing examples deterministically.
+transcript IDs with `TPM > 0`. Rank variant-bearing transcripts first, then MANE, descending
+TPM and versioned transcript ID. Include both allele records (at most 20 records), each with
+a distinct `phase_scenario` within its transcript; the cap must not discard one allele.
 Preserve all evidence and exclusion reasons. Step 2 folds every supplied unique protein.
 
 Step 2 searches external RCSB/AlphaFold services; Boltz also requires an MSA service.
@@ -223,7 +255,7 @@ folding backend for unresolved sequences. Never switch folding models automatica
 | Artifact | Format |
 | --- | --- |
 | Received reads | Original paired `FASTQ.gz` |
-| Active alignment / archive | Sorted indexed BAM / lossless CRAM + CRAI + exact FASTA |
+| Alignment evidence | Workflow-native sorted indexed BAM or lossless CRAM + CRAI + exact FASTA |
 | Variants and reference confidence | Native gVCF; BCF where compatible; BGZF VCF + CSI/TBI for interchange |
 | Coverage/callability, annotation | BED with coordinate convention; native VEP output |
 | RNA | Sorted genomic BAM/index, transcriptome BAM, splice junctions, Salmon `quant.sf` and metadata |
@@ -245,10 +277,12 @@ cleaning work. Deployment sizing, access, budgets and retention belong to privat
 On the first single-host deployment, use an OS file lock per run and one coordinator.
 Hold the claim while its jobs run; duplicate arrivals report the existing run. After a crash,
 confirm earlier jobs have stopped before resuming. Build reference indexes before starting
-cases and share them read-only. Separate attempts have separate output/log paths.
+cases. Mount inputs/references read-only with `docker.writableInputMounts = false`; keep work
+directories writable. Separate attempts have separate output/log paths.
 
 Allow at most three download attempts total, retrying transient errors with bounded backoff.
 Workflow tasks stop on failure unless the profile allows a known transient error and caps its attempts.
+Override upstream retry/ignore strategies for required tasks; verify the resolved policy.
 Keep failed-attempt logs and resume through Nextflow after recovery. Validation failures
 require corrected inputs/configuration. [Nextflow's default file cache](https://docs.seqera.io/nextflow/cache-and-resume)
 uses path, size and modification time. Compute/verify SHA-256 when registering inputs,
@@ -291,8 +325,7 @@ Performance rules:
   Avoid repeated gzip/text conversions and per-transcript genome scans; retain required
   sort/index outputs and durable checkpoints. Add shared memory or custom zero-copy code
   only when profiling identifies an avoidable copy as a significant bottleneck.
-- Use indexed native readers and reuse transcript lookup tables. Avoid per-transcript
-  genome scans or a custom query engine merely to replace an optional analytical tool.
+- Use indexed native readers and reuse transcript lookup tables.
 
 ## 6. Telemetry and CI
 
@@ -341,13 +374,14 @@ Keep Stage 1 out of `api.py`; configure upstream workflows rather than forking t
    atomic publication. Readers must never accept an incomplete attempt.
 3. **Smoke:** run upstream `test,docker`, then bounded human data against the full reference.
    Exercise the actual DeepVariant/VEP and STAR/Salmon configuration. Verify CPU/memory
-   limits, disk-headroom shutdown, RNA evidence publication and resume without repeated input hashing.
+   limits, disk-headroom shutdown, offline execution, RNA evidence publication and resume
+   without repeated input hashing. Test CDS coverage holes hidden by a window average.
 4. **Full case:** run the supplied approximately 35× HG002 DNA pair + selected RNA. Follow
    v5.0q's hap.py/vcfeval instructions, sex/ploidy settings and GIAB v3.6 stratifications.
    Report SNP/indel precision, recall/F1, counts and uncertainty across benchmark, coding and difficult regions; do not
    shrink the evaluation BED to the pipeline's callable regions. Report RNA QC and phase completeness.
 5. **Handoff:** independently verify every released reference/alternate sequence. Test
-   schema/hashes, negative strands, exon boundaries, indels, multiallelic sites, common
+   schema/hashes, negative strands, exon boundaries, indels, homozygous ALT and `1/2` sites, common
    alleles, unphased combinations, missing coverage, fractional
    counts, non-finite expression, missing terminal stops and premature stops. Require independently
    expected sequences, not just agreement with Step 2. Preflight with `TranslateRequest.model_validate`
