@@ -20,6 +20,7 @@ from starlette.middleware.trustedhost import TrustedHostMiddleware
 from .catalog import Catalog
 from .client import DesignService, ServiceError
 from .published import PublishedSnapshot
+from .structures import StructureLibrary
 
 STATIC = Path(__file__).parent / "static"
 JOB_ID = re.compile(r"^[a-f0-9]{32}$")
@@ -50,7 +51,17 @@ def write_json(path, value):
     sync_directory(path.parent)
 
 
-def create_app(index=None, runs=None, service=None, *, allow_run=False, published=None, hosts=()):
+def create_app(
+    index=None,
+    runs=None,
+    service=None,
+    *,
+    allow_run=False,
+    published=None,
+    hosts=(),
+    structures=None,
+    operator_access=False,
+):
     if published and not index:
         raise ValueError("Public snapshots require a verified catalog")
     if published and (service is not None or allow_run or runs is not None):
@@ -63,6 +74,13 @@ def create_app(index=None, runs=None, service=None, *, allow_run=False, publishe
         allowed_hosts=["localhost", "127.0.0.1", "[::1]", "testserver", *hosts],
     )
     catalog = Catalog(Path(index)) if index else None
+    if structures and not catalog:
+        raise ValueError("Structures require a verified catalog")
+    library = (
+        StructureLibrary(structures, catalog.metadata()["manifest_sha256"]) if structures else None
+    )
+    if library:
+        catalog.ready_index = library.index
     run_root = Path(runs).resolve() if runs else None
     lock = threading.Lock()
     snapshot = (
@@ -93,7 +111,8 @@ def create_app(index=None, runs=None, service=None, *, allow_run=False, publishe
         response.headers["X-Frame-Options"] = "DENY"
         response.headers["Cache-Control"] = (
             "public, max-age=31536000, immutable"
-            if request.url.path.startswith("/assets/") and response.status_code == 200
+            if request.url.path.startswith(("/assets/", "/api/structures/"))
+            and response.status_code == 200
             else "public, max-age=60, stale-while-revalidate=300"
             if snapshot and request.url.path.startswith("/api/") and response.status_code == 200
             else "no-store"
@@ -112,6 +131,8 @@ def create_app(index=None, runs=None, service=None, *, allow_run=False, publishe
     def require_service():
         if service is None or run_root is None:
             raise HTTPException(503, "Configure the design API and a private runs directory")
+        if isinstance(service, DesignService):
+            service.check_available()
         run_root.mkdir(parents=True, exist_ok=True, mode=0o700)
         return service
 
@@ -229,23 +250,45 @@ def create_app(index=None, runs=None, service=None, *, allow_run=False, publishe
     def catalog_info():
         return {
             **require_catalog().metadata(),
-            "service_configured": service is not None,
-            "gpu_execution_enabled": allow_run,
+            "service_configured": service is not None and getattr(service, "available", True),
+            "gpu_execution_enabled": allow_run and getattr(service, "available", True),
+            "service_expires_at": service.expires_at.isoformat()
+            if isinstance(service, DesignService) and service.expires_at
+            else None,
+            "operator_access": operator_access and snapshot is not None,
             "read_only": snapshot is not None,
+            "structured_records": library.records if library else 0,
+            "structured_sequences": len(library.structures) if library else 0,
         }
 
     @app.get("/api/targets")
     def search(
         q: str = Query("", max_length=200),
         changed: bool = False,
+        ready: bool = False,
         limit: int = Query(25, ge=1, le=100),
         offset: int = Query(0, ge=0, le=2**63 - 1),
     ):
-        return require_catalog().search(q.strip(), changed, limit, offset)
+        return require_catalog().search(q.strip(), changed, limit, offset, ready)
 
     @app.get("/api/targets/{target_id}")
     def target_record(target_id: str):
         return target(target_id)
+
+    @app.get("/api/targets/{target_id}/structure")
+    def target_structure(target_id: str):
+        record = target(target_id)
+        return library.structures.get(record["sequence_sha256"]) if library else None
+
+    @app.get("/api/structures/{name}")
+    def structure_artifact(name: str):
+        try:
+            path = library.file(name) if library else None
+        except KeyError as exc:
+            raise HTTPException(404, "Unpublished structure artifact") from exc
+        if path is None:
+            raise HTTPException(404, "No structure library configured")
+        return FileResponse(path, media_type="application/octet-stream", filename=name)
 
     @app.post("/api/prepare", status_code=201)
     def prepare(selection: Selection):
@@ -268,6 +311,83 @@ def create_app(index=None, runs=None, service=None, *, allow_run=False, publishe
             return []
         return [envelope(json.loads(p.read_text())) for p in sorted(run_root.glob("*.json"))]
 
+    def design_record(job_id, entry):
+        job, result = entry["job"], entry["results"]
+        metadata = entry.get("design", {})
+        record = None
+        if job["target_id"]:
+            try:
+                record = require_catalog().get(job["target_id"])
+            except KeyError:
+                pass  # External batches have their own identity, not an HG002 record.
+        return {
+            "job_id": job_id,
+            "target_id": job["target_id"],
+            "name": metadata.get("name")
+            or (record["gene_symbol"] or record["gene_id"] if record else None)
+            or ("PD-L1" if job["status"] == "cached_demo_completed" else "Saved target"),
+            "description": metadata.get("description")
+            or (record["transcript_id"] if record else "Previously generated candidates"),
+            "source": metadata.get("source", "Saved results"),
+            "length": len(metadata.get("amino_acid_sequence", ""))
+            or (len(record["amino_acid_sequence"]) if record else None),
+            "candidate_count": len(result["candidates"]),
+            "structured_candidates": sum(
+                bool(c.get("complex_structure_url") and c.get("binder_structure_url"))
+                for c in result["candidates"]
+            ),
+            "passed_count": sum(
+                c.get("native_filter_passed") is True for c in result["candidates"]
+            ),
+        }
+
+    @app.get("/api/designs")
+    def designs(
+        q: str = Query("", max_length=200),
+        limit: int = Query(25, ge=1, le=100),
+        offset: int = Query(0, ge=0, le=2**63 - 1),
+    ):
+        # One row per published job. Never merge jobs by gene, sequence, or candidate name.
+        records = (
+            [design_record(jid, entry) for jid, entry in snapshot.jobs.items()] if snapshot else []
+        )
+        query = q.strip().casefold()
+        records = [
+            r
+            for r in records
+            if query
+            in " ".join(
+                str(r[field] or "")
+                for field in ("name", "description", "source", "target_id", "job_id")
+            ).casefold()
+        ]
+        return {
+            "total": len(records),
+            "candidate_total": sum(r["candidate_count"] for r in records),
+            "structured_candidates": sum(r["structured_candidates"] for r in records),
+            "offset": offset,
+            "limit": limit,
+            "records": records[offset : offset + limit],
+        }
+
+    @app.get("/api/designs/{job_id}")
+    def design(job_id: str):
+        if not snapshot:
+            raise HTTPException(404, "No published design library configured")
+        entry = published_job(job_id)
+        protein_structure = None
+        if library and entry["job"]["target_id"]:
+            try:
+                record = require_catalog().get(entry["job"]["target_id"])
+                protein_structure = library.structures.get(record["sequence_sha256"])
+            except KeyError:
+                pass
+        return {
+            **design_record(job_id, entry),
+            "provenance": entry.get("design", {}),
+            "protein_structure": protein_structure,
+        }
+
     @app.get("/api/jobs/{job_id}")
     def status(job_id: str):
         if snapshot:
@@ -283,6 +403,7 @@ def create_app(index=None, runs=None, service=None, *, allow_run=False, publishe
     def run(job_id: str):
         if not allow_run:
             raise HTTPException(403, "GPU execution is disabled for integration testing")
+        upstream = require_service()
         with lock:
             path, record = receipt(job_id)
             if record["status"] != "prepared_pending_gpu_execution" or record.get(
@@ -291,8 +412,21 @@ def create_app(index=None, runs=None, service=None, *, allow_run=False, publishe
                 raise HTTPException(409, "Only a prepared job can be started once")
             record["status"] = "dispatch_requested"
             record["dispatch_attempted"] = True
+            record["error"] = None
             write_json(path, record)
-            update(record, require_service().request(remote_path(record) + "/run", {}))
+            try:
+                update(record, upstream.request(remote_path(record) + "/run", {}))
+            except ServiceError as exc:
+                # Explicit auth/budget/input rejections did not enqueue a job. A timeout
+                # or server failure remains ambiguous and must never dispatch twice.
+                if exc.status in {401, 402, 403, 404, 422}:
+                    record.update(
+                        status="prepared_pending_gpu_execution",
+                        dispatch_attempted=False,
+                        error=exc.message,
+                    )
+                    write_json(path, record)
+                raise
             write_json(path, record)
             return envelope(record)
 
@@ -396,6 +530,7 @@ def create_app(index=None, runs=None, service=None, *, allow_run=False, publishe
 
 
 def from_environment():
+    config = os.environ.get("BIOCAD_SERVICE_CONFIG_FILE")
     base = os.environ.get("BIOCAD_BASE_URL")
     token_file = os.environ.get("BIOCAD_API_TOKEN_FILE")
     token = (
@@ -404,10 +539,16 @@ def from_environment():
     return create_app(
         os.environ.get("BESPOKE_DEMO_INDEX"),
         os.environ.get("BESPOKE_DEMO_RUNS"),
-        DesignService(base, token) if base else None,
+        DesignService.from_config(config)
+        if config
+        else DesignService(base, token)
+        if base
+        else None,
         allow_run=os.environ.get("BESPOKE_DEMO_ALLOW_RUN") == "1",
         published=os.environ.get("BESPOKE_DEMO_PUBLISHED"),
         hosts=tuple(filter(None, os.environ.get("BESPOKE_DEMO_HOSTS", "").split(","))),
+        structures=os.environ.get("BESPOKE_DEMO_STRUCTURES"),
+        operator_access=os.environ.get("BESPOKE_DEMO_OPERATOR_ACCESS") == "1",
     )
 
 

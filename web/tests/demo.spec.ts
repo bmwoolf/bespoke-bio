@@ -23,6 +23,8 @@ async function ready(page: Page) {
   );
 }
 async function searchTarget(page: Page) {
+  const tab = page.getByRole("button", { name: "Proteins", exact: true });
+  if (await tab.isVisible()) await tab.click();
   await page.getByLabel("Search gene or transcript").fill("A1BG");
   await page.getByLabel("Changed sequences", { exact: true }).check();
   await expect(
@@ -41,20 +43,19 @@ test("public catalog preserves selection across refresh and never submits jobs",
   page,
 }, testInfo) => {
   test.skip(!publicDeployment, "Public deployment check");
+  await hidePreparedHistory(page);
   const writes: string[] = [];
   page.on("request", (request) => {
     if (!["GET", "HEAD", "OPTIONS"].includes(request.method()))
       writes.push(request.url());
   });
-  await page.goto("/");
+  await page.goto("/?example=1");
   await ready(page);
   await searchTarget(page);
-  await expect(
-    page.getByRole("heading", {
-      name: "No 3D structure for this protein",
-      exact: true,
-    }),
-  ).toBeVisible();
+  await ready(page);
+  await expect(page.getByTestId("viewer-info")).toContainText(
+    "495 residues · 1 chain",
+  );
   await expect(
     page.getByRole("button", { name: "Prepare target", exact: true }),
   ).toHaveCount(0);
@@ -65,13 +66,13 @@ test("public catalog preserves selection across refresh and never submits jobs",
   await expect(
     page.getByRole("heading", { name: "A1BG", exact: true }),
   ).toBeVisible();
-  await expect(page.locator(".molecule")).toHaveCount(0);
+  await ready(page);
   await page.screenshot({
-    path: testInfo.outputPath("sequence-only-desktop.png"),
+    path: testInfo.outputPath("protein-desktop.png"),
   });
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.getByRole("button", { name: "Proteins", exact: true }).click();
-  const drawer = page.getByRole("dialog", { name: "Proteins", exact: true });
+  await page.getByRole("button", { name: "Browse", exact: true }).click();
+  const drawer = page.getByRole("dialog", { name: "Browse", exact: true });
   await expect(drawer).toBeVisible();
   await page.screenshot({
     path: testInfo.outputPath("public-mobile-catalog.png"),
@@ -84,7 +85,7 @@ test("public catalog preserves selection across refresh and never submits jobs",
     ),
   ).toBe(true);
   await page.screenshot({
-    path: testInfo.outputPath("sequence-only-mobile.png"),
+    path: testInfo.outputPath("protein-mobile.png"),
   });
   await page.getByRole("button", { name: "Example", exact: true }).click();
   await ready(page);
@@ -128,7 +129,7 @@ test("existing jobs reopen from the sidebar, and cross-target URLs never display
   await page.route(`**/api/jobs/${jobId}`, (route) =>
     route.fulfill({ json: prepared }),
   );
-  await page.goto("/");
+  await page.goto("/?example=1");
   await searchTarget(page);
   await expect(page.getByTestId("job-status")).toHaveText("Ready to generate");
   await expect(
@@ -154,13 +155,142 @@ test("public page with no published example never attempts automatic replay", as
     if (request.method() === "POST") writes.push(request.url());
   });
   await page.route("**/api/jobs", (route) => route.fulfill({ json: [] }));
-  await page.goto("/");
+  await page.goto("/?example=1");
   await expect(
     page.getByText("No saved example has been published here yet.", {
       exact: false,
     }),
   ).toBeVisible();
   expect(writes).toEqual([]);
+});
+
+test("saved protein structures switch without refresh and retain correct sequence identity", async ({
+  page,
+}) => {
+  await hidePreparedHistory(page);
+  await page.goto("/?example=1");
+  await page.getByRole("button", { name: "Proteins", exact: true }).click();
+  await expect(
+    page.getByLabel("Structure ready", { exact: true }),
+  ).toBeChecked();
+  await searchTarget(page);
+  await ready(page);
+  await expect(page.getByTestId("viewer-info")).toContainText(
+    "495 residues · 1 chain",
+  );
+  const first = "protein_dcd5494921477cd9218a2a6745bf5095";
+  const twin = "protein_e055e4bd687a0c5bd5ad8afc76a18d42";
+  const second = "protein_3eb7f26a5b56905be5c2ecfe2cb40b34";
+  const a = await (
+    await page.request.get(`/api/targets/${first}/structure`)
+  ).json();
+  const b = await (
+    await page.request.get(`/api/targets/${second}/structure`)
+  ).json();
+  const shared = await (
+    await page.request.get(`/api/targets/${twin}/structure`)
+  ).json();
+  // Different biological records can legitimately share the same complete sequence.
+  expect(shared).toEqual(a);
+  await page
+    .getByRole("button")
+    .filter({ hasText: "HG002 · 76a18d42" })
+    .click();
+  await expect(page).toHaveURL(new RegExp(twin));
+  await ready(page);
+  expect(a.sequence_sha256).not.toBe(b.sequence_sha256);
+  const fetched = page.waitForResponse(
+    (response) => new URL(response.url()).pathname === b.structure_url,
+  );
+  await page
+    .getByRole("button")
+    .filter({ hasText: "HG002 · 2cb40b34" })
+    .click();
+  await fetched;
+  await ready(page);
+  await expect(page).toHaveURL(new RegExp(second));
+  await expect(page.getByTestId("viewer-info")).toContainText(
+    "517 residues · 1 chain",
+  );
+});
+
+test("one Generate keys action submits once and keeps the protein visible while running", async ({
+  page,
+}, testInfo) => {
+  const id = "e".repeat(32);
+  const targetId = "protein_dcd5494921477cd9218a2a6745bf5095";
+  let state = "running";
+  const writes: string[] = [];
+  const job = () => ({
+    job_id: id,
+    target_id: targetId,
+    status: state,
+    mode: "test",
+    execution_performed: false,
+    dispatch_attempted: true,
+    progress: { stage: "folding" },
+    error: null,
+  });
+  await page.route("**/api/catalog", async (route) => {
+    const response = await route.fetch();
+    await route.fulfill({
+      json: {
+        ...(await response.json()),
+        read_only: false,
+        service_configured: true,
+        gpu_execution_enabled: true,
+      },
+    });
+  });
+  await hidePreparedHistory(page);
+  await page.route("**/api/prepare", async (route) => {
+    writes.push("prepare");
+    expect(route.request().postDataJSON().target_id).toBe(targetId);
+    await route.fulfill({
+      json: {
+        ...job(),
+        status: "prepared_pending_gpu_execution",
+        dispatch_attempted: false,
+      },
+    });
+  });
+  await page.route(`**/api/jobs/${id}/run`, async (route) => {
+    writes.push("run");
+    await route.fulfill({ json: job() });
+  });
+  await page.route(`**/api/jobs/${id}`, (route) =>
+    route.fulfill({ json: job() }),
+  );
+  await page.route(`**/api/jobs/${id}/results`, (route) =>
+    route.fulfill({
+      json: {
+        run_id: id,
+        target_id: targetId,
+        candidates: [],
+        download_url: `/api/jobs/${id}/download`,
+      },
+    }),
+  );
+  await page.goto("/?example=1");
+  await searchTarget(page);
+  await ready(page);
+  expect(writes).toEqual([]);
+  page.once("dialog", (dialog) => dialog.accept());
+  await page
+    .getByRole("button", { name: "Generate keys", exact: true })
+    .click();
+  await expect(page.getByTestId("job-status")).toHaveText("Generating");
+  await ready(page);
+  await expect(page.getByTestId("viewer-info")).toContainText(
+    "495 residues · 1 chain",
+  );
+  await page.screenshot({
+    path: testInfo.outputPath("running-job-protein.png"),
+  });
+  state = "completed";
+  await expect(page.getByTestId("job-status")).toHaveText("No keys returned");
+  await ready(page);
+  expect(writes).toEqual(["prepare", "run"]);
 });
 
 test("saved example opens directly; representations, candidates and downloads stay together", async ({
@@ -178,7 +308,7 @@ test("saved example opens directly; representations, candidates and downloads st
       unexpected.push(request.url());
   });
   await page.setViewportSize({ width: 1440, height: 900 });
-  await page.goto("/");
+  await page.goto("/?example=1");
   await expect(
     page.getByRole("heading", { name: "PD-L1", exact: true }),
   ).toBeVisible();
@@ -218,15 +348,17 @@ test("saved example opens directly; representations, candidates and downloads st
     .length;
   await page.getByText("Details", { exact: true }).click();
   await page
-    .getByRole("combobox", { name: "Structure", exact: true })
-    .selectOption("binder");
+    .getByRole("group", { name: "Structure", exact: true })
+    .getByRole("button", { name: "Key", exact: true })
+    .click();
   await ready(page);
   await expect(page.getByTestId("viewer-info")).toContainText(
     `${binderLength} residues · 1 chain`,
   );
   await page
-    .getByRole("combobox", { name: "Structure", exact: true })
-    .selectOption("complex");
+    .getByRole("group", { name: "Structure", exact: true })
+    .getByRole("button", { name: "Complex", exact: true })
+    .click();
   await ready(page);
   await page.getByRole("button", { name: "02 Failed", exact: true }).click();
   await ready(page);
@@ -235,7 +367,7 @@ test("saved example opens directly; representations, candidates and downloads st
   ).toHaveAttribute("aria-pressed", "true");
   await page.getByText("Details", { exact: true }).click();
   await expect(page.locator(".candidate-details")).toContainText(
-    "Computational filters: failed",
+    "Original native filters: failed",
   );
   await page.getByText("Details", { exact: true }).click();
   await page.getByRole("button", { name: "01 Passed", exact: true }).click();
@@ -282,13 +414,13 @@ test("donor selection removes example; preparation, details and mobile history p
   page.on("request", (request) => {
     if (request.url().endsWith("/run")) runs.push(request.url());
   });
-  await page.goto("/");
+  await page.goto("/?example=1");
   await ready(page);
   await searchTarget(page);
-  await expect(page.locator(".molecule")).toHaveCount(0);
-  await expect(
-    page.getByText("No 3D structure for this protein", { exact: true }),
-  ).toBeVisible();
+  await ready(page);
+  await expect(page.getByTestId("viewer-info")).toContainText(
+    "495 residues · 1 chain",
+  );
   await expect(
     page.getByRole("heading", { name: "PD-L1", exact: true }),
   ).toHaveCount(0);
@@ -311,14 +443,14 @@ test("donor selection removes example; preparation, details and mobile history p
   });
   await expect(page.getByTestId("job-status")).toHaveText("Ready to generate");
   await expect(
-    page.getByRole("button", { name: "Generate binders", exact: true }),
+    page.getByRole("button", { name: "Generate keys", exact: true }),
   ).toBeDisabled();
   await page.screenshot({ path: testInfo.outputPath("prepared-target.png") });
   await page.getByRole("button", { name: "Example", exact: true }).click();
   await ready(page);
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.getByRole("button", { name: "Proteins", exact: true }).click();
-  const drawer = page.getByRole("dialog", { name: "Proteins", exact: true });
+  await page.getByRole("button", { name: "Browse", exact: true }).click();
+  const drawer = page.getByRole("dialog", { name: "Browse", exact: true });
   await expect(drawer).toBeVisible();
   await drawer.getByLabel("Search gene or transcript").fill("A1BG");
   await drawer.getByLabel("Changed sequences", { exact: true }).check();
@@ -334,7 +466,7 @@ test("donor selection removes example; preparation, details and mobile history p
   await expect(
     page.getByRole("heading", { name: "A1BG", exact: true }),
   ).toBeVisible();
-  await expect(page.locator(".molecule")).toHaveCount(0);
+  await ready(page);
   await page.setViewportSize({ width: 320, height: 700 });
   await page.getByLabel("Settings", { exact: true }).click();
   const settingsBox = await page
@@ -389,7 +521,7 @@ test("a late preparation response cannot replace a newly selected example", asyn
     "Preparation belongs to the private operator gateway",
   );
   await hidePreparedHistory(page);
-  await page.goto("/");
+  await page.goto("/?example=1");
   await ready(page);
   await searchTarget(page);
   let release!: () => void;
@@ -435,7 +567,7 @@ test("surface computation falls back to CPU without float buffers", async ({
       },
     });
   });
-  await page.goto("/");
+  await page.goto("/?example=1");
   await ready(page);
   await expect(page.getByTestId("viewer-info")).toContainText("1,496 atoms");
   await expect(page.getByTestId("viewer-info")).toContainText(
@@ -459,7 +591,7 @@ test("without WebGL the original structure remains downloadable", async ({
       },
     });
   });
-  await page.goto("/");
+  await page.goto("/?example=1");
   await expect(page.getByRole("alert")).toContainText("WebGL is unavailable");
   await expect(
     page.getByRole("link", { name: "Download structure", exact: true }),
@@ -473,7 +605,7 @@ test("a failed viewer chunk leaves candidates and downloads usable", async ({
   await page.route(/MolecularViewer(?:-[^/]+\.js|\.tsx)(?:\?|$)/, (route) =>
     route.abort(),
   );
-  await page.goto("/");
+  await page.goto("/?example=1");
   await expect(page.getByRole("alert")).toContainText(
     "molecular viewer could not load",
   );
@@ -495,7 +627,7 @@ test("empty results do not invent a candidate or substitute a structure", async 
     const body = await response.json();
     await route.fulfill({ json: { ...body, candidates: [] } });
   });
-  await page.goto("/");
+  await page.goto("/?example=1");
   await expect(
     page.getByRole("heading", { name: "No candidates returned", exact: true }),
   ).toBeVisible();
@@ -520,7 +652,7 @@ test("automatic cached replay never retries a failed submission", async ({
       json: { detail: "Saved example unavailable" },
     });
   });
-  await page.goto("/");
+  await page.goto("/?example=1");
   await expect(page.getByRole("alert")).toHaveText("Saved example unavailable");
   await searchTarget(page);
   await page.getByRole("button", { name: "Example", exact: true }).click();

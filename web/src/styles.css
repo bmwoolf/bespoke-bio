@@ -36,7 +36,8 @@ summary,
 select {
   cursor: pointer;
 }
-button {
+button,
+.button-link {
   min-height: 42px;
   padding: 9px 17px;
   border: 1px solid transparent;
@@ -45,6 +46,12 @@ button {
   color: white;
   font-size: 13px;
   font-weight: 550;
+}
+.button-link {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  white-space: nowrap;
 }
 button:hover {
   filter: brightness(0.95);
@@ -138,6 +145,59 @@ h3 {
   flex-direction: column;
   height: 100%;
   min-height: 0;
+}
+.catalog-browser {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.catalog-browser > .catalog {
+  flex: 1;
+  height: auto;
+  padding-top: 16px;
+}
+.catalog-tabs {
+  display: flex;
+  margin: 20px 20px 0;
+  padding: 3px;
+  background: #e9ece4;
+  border-radius: 9px;
+}
+.catalog-tabs button {
+  flex: 1;
+  padding: 8px;
+  white-space: nowrap;
+  background: transparent;
+  color: var(--muted);
+  font-size: 12px;
+}
+.catalog-tabs button[aria-pressed="true"] {
+  background: var(--paper);
+  color: var(--ink);
+  box-shadow: 0 1px 4px #26332f16;
+}
+.catalog-footnote {
+  margin-top: 10px;
+  font-size: 10px;
+  color: var(--muted);
+}
+.prediction-note {
+  margin: 0 0 12px;
+  color: var(--muted);
+  font-size: 11px;
+}
+.prediction-metrics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  padding: 10px 0;
+  font-size: 12px;
+  color: var(--muted);
+}
+.prediction-metrics strong {
+  color: var(--ink);
+  font-weight: 550;
 }
 .catalog-heading {
   display: flex;
@@ -308,6 +368,7 @@ input[type="search"] {
 }
 .result-toolbar {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
   gap: 12px;
@@ -322,13 +383,26 @@ input[type="search"] {
   font-size: 13px;
   font-weight: 550;
 }
-.structure-picker select {
-  font-size: 13px;
-  color: var(--ink);
-  padding: 10px 28px 10px 0;
-  border: 0;
+.structure-tabs {
+  display: flex;
+  gap: 2px;
+  padding: 3px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #eceee7;
+}
+.structure-tabs button {
   background: transparent;
-  min-height: 42px;
+  color: var(--muted);
+  min-height: 36px;
+  padding: 7px 14px;
+  font-size: 12px;
+  border-radius: 5px;
+}
+.structure-tabs button[aria-pressed="true"] {
+  background: #fff;
+  color: var(--ink);
+  box-shadow: 0 1px 3px #17211b12;
 }
 .popover {
   position: relative;
@@ -775,7 +849,10 @@ summary:focus-visible {
     grid-template-columns: 1fr auto;
   }
   .chain-legend {
-    display: none;
+    display: flex;
+    position: absolute;
+    bottom: calc(100% + 12px);
+    left: 4px;
   }
   .segmented {
     justify-self: start;
@@ -794,6 +871,9 @@ summary:focus-visible {
   }
   .app-header nav {
     gap: 0;
+  }
+  .app-header nav > .muted {
+    display: none;
   }
   .app-header nav button {
     padding: 8px 10px;
@@ -883,8 +963,14 @@ summary:focus-visible {
     gap: 9px;
   }
   .drawer .catalog {
-    height: calc(100dvh - 115px);
+    height: auto;
     padding: 0;
+  }
+  .drawer .catalog-browser {
+    height: calc(100dvh - 115px);
+  }
+  .drawer .catalog-tabs {
+    margin: 0 0 16px;
   }
   .drawer .catalog-details {
     display: none;
@@ -920,5 +1006,80 @@ summary:focus-visible {
   }
   .camera-controls .icon-button {
     width: 32px;
+  }
+}
+
+.loading-status {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+.loading-status::before {
+  content: "";
+  width: 0.75rem;
+  height: 0.75rem;
+  flex: 0 0 auto;
+  border: 1.5px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: loading-spin 0.9s linear infinite;
+}
+@keyframes loading-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .loading-status::before {
+    animation: none;
+  }
+}
+
+.prediction-popover .popover-content {
+  left: 0;
+  right: auto;
+  width: 250px;
+}
+.prediction-popover select {
+  display: block;
+  width: 100%;
+  margin-top: 6px;
+}
+
+.assembly-note {
+  margin: 0;
+  padding: 12px 16px;
+  border-left: 3px solid #ad8646;
+  background: #ad86460d;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.6;
+}
+.comparison-table {
+  overflow-x: auto;
+  margin: 12px 0;
+}
+.comparison-table table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+.comparison-table th,
+.comparison-table td {
+  text-align: left;
+  padding: 9px 12px;
+  border-bottom: 1px solid var(--line);
+  white-space: nowrap;
+}
+.metadata-row dd {
+  overflow-wrap: anywhere;
+}
+
+@media (min-width: 861px) {
+  /* The embedded viewer shares space with metrics; fullscreen uses the whole screen. */
+  .workspace:has(.prediction-metrics)
+    .molecule:not(:fullscreen)
+    .molstar-viewport {
+    height: clamp(320px, calc(100dvh - 490px), 800px);
   }
 }

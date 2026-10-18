@@ -1,6 +1,7 @@
 """Sequence handoff, cardinality, retry behavior and isolated artifact access."""
 
 import json
+from datetime import UTC, datetime, timedelta
 from hashlib import sha256
 from io import BytesIO
 from urllib.error import HTTPError
@@ -13,10 +14,169 @@ from bespoke_bio.demo.catalog import Catalog, build_index
 from bespoke_bio.demo.client import DesignService, ServiceError
 from bespoke_bio.demo.published import PublishedSnapshot, artifact_key, export_snapshot
 from bespoke_bio.demo.service import create_app
+from bespoke_bio.demo.structures import StructureLibrary, publish_structures
+from bespoke_bio.demo.vault import materialize
 from bespoke_bio.stage1.io import artifact
 
 HEADERS = {"X-Bespoke-Request": "1"}
 REMOTE = "a" * 32
+
+
+def test_runtime_credential_is_private_and_expired_refresh_preserves_valid_file(tmp_path):
+    path = tmp_path / "credential.json"
+    config = {
+        "base_url": "https://design.example",
+        "api_token": "synthetic-test-token",
+        "expires_at": (datetime.now(UTC) + timedelta(hours=1)).isoformat(),
+    }
+    materialize(json.dumps(config), path)
+    assert path.stat().st_mode & 0o777 == 0o600
+    assert DesignService.from_config(path).available
+    original = path.read_bytes()
+    config["expires_at"] = "2000-01-01T00:00:00+00:00"
+    with pytest.raises(ServiceError, match="expired"):
+        materialize(json.dumps(config), path)
+    assert path.read_bytes() == original
+    assert list(tmp_path.iterdir()) == [path]
+    config["expires_at"] = "2030-01-01T00:00:00"
+    with pytest.raises(ValueError, match="timezone"):
+        materialize(json.dumps(config), path)
+    assert path.read_bytes() == original
+
+
+def test_expired_credential_cannot_submit_or_mark_a_prepared_job_dispatched(index, tmp_path):
+    runs = tmp_path / "runs"
+    with TestClient(create_app(index, runs, FakeService())) as client:
+        job = prepare(client)
+    expired = DesignService("https://design.example", "fixture", expires_at="2000-01-01T00:00:00Z")
+    with TestClient(create_app(index, runs, expired, allow_run=True)) as client:
+        metadata = client.get("/api/catalog").json()
+        assert metadata["service_configured"] is False
+        assert metadata["gpu_execution_enabled"] is False
+        assert metadata["service_expires_at"]
+        assert "fixture" not in json.dumps(metadata)
+        for path, payload in [
+            ("/api/prepare", {"target_id": "fixture-0"}),
+            (f"/api/jobs/{job['job_id']}/run", {}),
+        ]:
+            assert client.post(path, json=payload, headers=HEADERS).status_code == 503
+    saved = json.loads((runs / (job["job_id"] + ".json")).read_text())
+    assert saved["status"] == "prepared_pending_gpu_execution"
+    assert not saved.get("dispatch_attempted")
+
+
+def test_public_operator_link_does_not_enable_mutations(index, published):
+    with TestClient(create_app(index, published=published[0], operator_access=True)) as client:
+        meta = client.get("/api/catalog").json()
+        assert meta["operator_access"] is True
+        assert meta["read_only"] is True
+        assert meta["service_configured"] is False
+        assert meta["service_expires_at"] is None
+        assert client.post("/api/prepare", json={}, headers=HEADERS).status_code == 403
+
+
+@pytest.fixture
+def structure_source(index, tmp_path):
+    from io import StringIO
+
+    from Bio.PDB import MMCIFIO, PDBParser
+
+    folder = tmp_path / "structure-source"
+    folder.mkdir()
+    lines = []
+    for residue, name in enumerate(("MET", "GLN"), 1):
+        for offset, atom in enumerate(("N", "CA", "C", "O")):
+            serial = (residue - 1) * 4 + offset + 1
+            lines.append(
+                f"ATOM  {serial:5d} {atom:^4s} {name} A{residue:4d}    "
+                f"{float(serial):8.3f}{0.0:8.3f}{0.0:8.3f}{1.0:6.2f}{80.0:6.2f}          "
+                f"{atom[0]:>2s}  \n"
+            )
+    writer = MMCIFIO()
+    writer.set_structure(PDBParser(QUIET=True).get_structure("fixture", StringIO("".join(lines))))
+    writer.save(str(folder / "target.cif"))
+    (folder / "confidence.json").write_text('{"synthetic":true}')
+    source = {
+        "version": 1,
+        "catalog_sha256": Catalog(index).metadata()["manifest_sha256"],
+        "structures": [
+            {
+                "amino_acid_sequence": "MQ",
+                "sequence_sha256": sha256(b"MQ").hexdigest(),
+                "file": "target.cif",
+                "file_sha256": sha256((folder / "target.cif").read_bytes()).hexdigest(),
+                "confidence": {
+                    "file": "confidence.json",
+                    "sha256": sha256((folder / "confidence.json").read_bytes()).hexdigest(),
+                },
+                "source": "Synthetic test",
+                "mean_plddt": 80.0,
+                "provenance": {"synthetic": True, "peptide_geometry_screen_flags": 1},
+            }
+        ],
+    }
+    (folder / "manifest.json").write_text(json.dumps(source))
+    return folder / "manifest.json"
+
+
+def test_structures_preserve_all_records_and_filter_exact_ready_sequences(
+    index, structure_source, tmp_path, package
+):
+    root = tmp_path / "structures"
+    assert publish_structures(index, structure_source, root) == {
+        "structured_records": 2,
+        "structured_sequences": 1,
+    }
+    with TestClient(create_app(index, structures=root)) as client:
+        assert client.get("/api/catalog").json()["target_records"] == 3
+        assert client.get("/api/targets").json()["total"] == 3
+        pages = [client.get(f"/api/targets?ready=true&limit=1&offset={i}").json() for i in range(3)]
+        assert all(p["total"] == 2 for p in pages)
+        assert [r["target_id"] for p in pages for r in p["records"]] == ["fixture-1", "fixture-2"]
+        assert client.get("/api/targets?ready=true&q=missing").json()["total"] == 0
+        assert client.get("/api/targets?ready=true&changed=true").json()["total"] == 2
+        assert client.get("/api/targets/fixture-1").json() == package[1][1]
+        a = client.get("/api/targets/fixture-1/structure").json()
+        b = client.get("/api/targets/fixture-2/structure").json()
+        assert a == b
+        assert a["geometry_screen_flags"] == 1
+        assert client.get("/api/targets/fixture-0/structure").json() is None
+        response = client.get(a["structure_url"])
+        assert response.content == (structure_source.parent / "target.cif").read_bytes()
+        assert "immutable" in response.headers["cache-control"]
+        assert client.get("/api/structures/secret.json").status_code == 404
+    with pytest.raises(FileExistsError):
+        publish_structures(index, structure_source, root)
+
+
+def test_structure_publication_rejects_mislabeled_coordinates_and_corruption(
+    index, structure_source, tmp_path
+):
+    source = json.loads(structure_source.read_text())
+    source["structures"][0].update(
+        amino_acid_sequence="ME", sequence_sha256=sha256(b"ME").hexdigest()
+    )
+    structure_source.write_text(json.dumps(source))
+    with pytest.raises(ValueError, match="exact complete sequence"):
+        publish_structures(index, structure_source, tmp_path / "bad")
+    assert not (tmp_path / "bad").exists()
+    source["structures"][0].update(
+        amino_acid_sequence="MQ", sequence_sha256=sha256(b"MQ").hexdigest()
+    )
+    structure_source.write_text(json.dumps(source))
+    root = tmp_path / "good"
+    publish_structures(index, structure_source, root)
+    path = next((root / "files").glob("*.cif"))
+    path.write_bytes(b"x" * path.stat().st_size)
+    with pytest.raises(ValueError, match="checksum mismatch"):
+        StructureLibrary(root, Catalog(index).metadata()["manifest_sha256"])
+
+
+def test_structure_library_rejects_a_different_catalog(index, structure_source, tmp_path):
+    root = tmp_path / "structures"
+    publish_structures(index, structure_source, root)
+    with pytest.raises(ValueError, match="does not match"):
+        StructureLibrary(root, "0" * 64)
 
 
 @pytest.fixture
@@ -401,6 +561,23 @@ def test_unknown_dispatch_is_not_repeated_after_status_refresh(index, tmp_path):
         assert sum(path.endswith("/run") for path, _ in upstream.calls) == 1
 
 
+def test_budget_rejection_can_be_explicitly_retried_after_capacity_is_restored(index, tmp_path):
+    upstream = FakeService()
+    with TestClient(create_app(index, tmp_path / "jobs", upstream, allow_run=True)) as client:
+        job = prepare(client)
+        base = f"/api/jobs/{job['job_id']}"
+        upstream.failure = ServiceError(402, "Design service budget is exhausted")
+        assert client.post(base + "/run", json={}, headers=HEADERS).status_code == 402
+        saved = client.get("/api/jobs").json()[0]
+        assert saved["status"] == "prepared_pending_gpu_execution"
+        assert saved["dispatch_attempted"] is False
+        upstream.failure = None
+        response = client.post(base + "/run", json={}, headers=HEADERS)
+        assert response.status_code == 200
+        assert response.json()["error"] is None
+        assert response.json()["dispatch_attempted"] is True
+
+
 @pytest.mark.parametrize("url", ["http://remote.example", "https://a:b@host", "https://host/path"])
 def test_client_rejects_unsafe_origins(url):
     with pytest.raises(ValueError):
@@ -414,6 +591,7 @@ def test_client_sends_token_only_to_configured_origin_and_redacts_errors():
         def open(self, request, timeout):
             assert request.full_url == "https://service.example/v1/designs"
             assert request.get_header("Authorization") == "Bearer private-token"
+            assert request.get_header("User-agent") == "bespoke-bio/0.1"
             assert json.loads(request.data) == {"sequence": "ME"}
             raise HTTPError(request.full_url, 401, "private-token", {}, BytesIO(b"private-token"))
 
@@ -424,3 +602,106 @@ def test_client_sends_token_only_to_configured_origin_and_redacts_errors():
     assert "private-token" not in str(error.value)
     with pytest.raises(ValueError):
         client.request("https://elsewhere.example/v1/designs")
+
+
+def test_design_catalog_keeps_distinct_jobs_and_native_failures(index, published):
+    root, job_id = published
+    manifest = json.loads((root / "manifest.json").read_text())
+    original = manifest["jobs"][job_id]
+    # Distinct jobs with the same biological label must remain distinct rows.
+    for number in range(27):
+        jid = f"{number:032x}"
+        entry = json.loads(json.dumps(original))
+        entry["job"].update(job_id=jid, target_id=f"external:{number}")
+        entry["results"].update(run_id=jid, target_id=f"external:{number}")
+        entry["design"] = {
+            "target_id": f"external:{number}",
+            "name": "FGF2",
+            "amino_acid_sequence": "ME",
+            "sequence_sha256": sha256(b"ME").hexdigest(),
+        }
+        for url in list(manifest["files"]):
+            if job_id in url:
+                manifest["files"][url.replace(job_id, jid)] = manifest["files"][url]
+        entry["results"] = json.loads(json.dumps(entry["results"]).replace(job_id, jid))
+        manifest["jobs"][jid] = entry
+    (root / "manifest.json").write_text(json.dumps(manifest))
+    with TestClient(create_app(index, published=root)) as client:
+        a = client.get("/api/designs?q=fgf2&limit=25").json()
+        b = client.get("/api/designs?q=fgf2&limit=25&offset=25").json()
+        assert a["total"] == b["total"] == 27
+        assert a["candidate_total"] == b["candidate_total"] == 27
+        assert a["structured_candidates"] == b["structured_candidates"] == 27
+        assert len(a["records"]) == 25 and len(b["records"]) == 2
+        assert len({r["job_id"] for r in a["records"] + b["records"]}) == 27
+        assert all(r["candidate_count"] == 1 and r["passed_count"] == 0 for r in a["records"])
+        detail = client.get("/api/designs/" + a["records"][0]["job_id"]).json()
+        assert detail["name"] == "FGF2" and detail["protein_structure"] is None
+        assert client.get("/api/designs/" + "f" * 32).status_code == 404
+    first = manifest["jobs"]["0" * 32]
+    first["design"]["sequence_sha256"] = "0" * 64
+    (root / "manifest.json").write_text(json.dumps(manifest))
+    with pytest.raises(ValueError, match="sequence checksum"):
+        PublishedSnapshot(root, manifest["catalog_sha256"])
+
+
+def test_campaign_import_rejects_sequence_and_chain_role_mismatches(structure_source):
+    from io import StringIO
+
+    from Bio.PDB import MMCIFIO
+
+    from bespoke_bio.demo.import_campaigns import complex_roles
+    from bespoke_bio.demo.import_science import read_structure
+
+    data = (structure_source.parent / "target.cif").read_bytes()
+    model, _ = read_structure(data)
+    key = model[0]["A"].copy()
+    key.id = "Z"
+    key[(" ", 2, " ")].resname = "GLU"
+    model[0].add(key)
+    stream = StringIO()
+    writer = MMCIFIO()
+    writer.set_structure(model)
+    writer.save(stream)
+    data = stream.getvalue().encode()
+    _, roles = complex_roles(data, "MQ", "ME")
+    assert roles == {"target": ["A"], "binder": ["Z"]}
+    with pytest.raises(ValueError, match="sequences or chain roles"):
+        complex_roles(data, "MM", "ME")
+    with pytest.raises(ValueError, match="sequences or chain roles"):
+        complex_roles(data, "MQ", "MQ")
+
+
+def test_campaign_bundle_requires_hashes_for_every_structure(tmp_path):
+    from bespoke_bio.demo.import_campaigns import verified_bundle, within
+
+    (tmp_path / "binder.cif").write_bytes(b"synthetic coordinates")
+    (tmp_path / "complex.cif").write_bytes(b"synthetic complex")
+    hashes = {
+        name: sha256((tmp_path / name).read_bytes()).hexdigest()
+        for name in ("binder.cif", "complex.cif")
+    }
+    (tmp_path / "manifest.json").write_text(json.dumps(hashes))
+    bundle = {
+        "target_states": [{"chains": {"A": "MQ"}}],
+        "components": [
+            {
+                "id": "binder_abc",
+                "sequence": "ME",
+                "sequence_sha256": sha256(b"ME").hexdigest(),
+                "structure": "binder.cif",
+                "evidence": {"complex_structure": "complex.cif"},
+            }
+        ],
+    }
+    (tmp_path / "bundle.json").write_text(json.dumps(bundle))
+    assert verified_bundle(tmp_path)[1] == "MQ"
+    bundle["components"][0]["sequence"] = "MM"
+    (tmp_path / "bundle.json").write_text(json.dumps(bundle))
+    with pytest.raises(ValueError, match="sequence checksum"):
+        verified_bundle(tmp_path)
+    (tmp_path / "complex.cif").write_bytes(b"corrupted coordinates")
+    with pytest.raises(ValueError, match="checksum mismatch"):
+        verified_bundle(tmp_path)
+    with pytest.raises(ValueError, match="escapes"):
+        within(tmp_path, "../escape")

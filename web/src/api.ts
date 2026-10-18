@@ -1,11 +1,17 @@
 import { z } from "zod";
 
+export const isOperator = () =>
+  typeof location !== "undefined" && location.pathname.startsWith("/operator/");
+export const appPath = (path: string) =>
+  (isOperator() ? "/operator" : "") + path;
+
 const count = z.number().int().nonnegative();
 const digest = z.string().regex(/^[a-f0-9]{64}$/);
 const jobId = z.string().regex(/^[a-f0-9]{32}$/);
 const artifactUrl = z
   .string()
-  .regex(/^\/api\/jobs\/[a-f0-9]{32}\/(artifacts\/[^?#]+|download)$/);
+  .regex(/^\/api\/jobs\/[a-f0-9]{32}\/(artifacts\/[^?#]+|download)$/)
+  .transform(appPath);
 export const catalogSchema = z.object({
   target_records: count,
   unique_sequences: count,
@@ -13,7 +19,26 @@ export const catalogSchema = z.object({
   service_configured: z.boolean(),
   gpu_execution_enabled: z.boolean(),
   read_only: z.boolean().default(false),
+  operator_access: z.boolean().default(false),
+  service_expires_at: z.string().nullable().default(null),
+  structured_records: count.default(0),
+  structured_sequences: count.default(0),
 });
+const structureUrl = z
+  .string()
+  .regex(/^\/api\/structures\/[a-f0-9]{64}\.(cif|json|npz)$/)
+  .transform(appPath);
+export const structureSchema = z.object({
+  sequence_sha256: digest,
+  source: z.string(),
+  residues: count,
+  mean_plddt: z.number().min(0).max(100).nullable(),
+  geometry_screen_flags: count.nullable().default(null),
+  structure_url: structureUrl,
+  confidence_url: structureUrl,
+  provenance_url: structureUrl,
+});
+export type ProteinStructure = z.infer<typeof structureSchema>;
 export const targetSchema = z
   .object({
     target_id: z.string(),
@@ -40,6 +65,9 @@ export const pageSchema = z.object({
       donor: z.string(),
       changed: z.union([z.literal(0), z.literal(1)]),
       length: count,
+      has_structure: z
+        .union([z.boolean(), z.literal(0), z.literal(1)])
+        .default(false),
     }),
   ),
 });
@@ -54,6 +82,25 @@ export const jobSchema = z.object({
   error: z.string().nullable(),
 });
 const metrics = z.record(z.string(), z.number().finite().nullable());
+const chainRoles = z.object({
+  target: z.array(z.string()).min(1),
+  binder: z.array(z.string()).min(1),
+});
+const predictionSchema = z.object({
+  id: z.string(),
+  seed: count,
+  context: z.string(),
+  target_structure_url: artifactUrl,
+  binder_structure_url: artifactUrl,
+  complex_structure_url: artifactUrl,
+  evidence_url: artifactUrl,
+  complex_chains: chainRoles,
+  confidence_metrics: metrics,
+  confidence_units: z.record(z.string(), z.string()),
+  binder_alone_plddt: z.number().min(0).max(100),
+  target_alone_plddt: z.number().min(0).max(100),
+});
+export type Prediction = z.infer<typeof predictionSchema>;
 export const candidateSchema = z.object({
   id: z.string(),
   sequence: z.string(),
@@ -63,7 +110,45 @@ export const candidateSchema = z.object({
   confidence_units: z.record(z.string(), z.string()).optional(),
   binder_structure_url: artifactUrl,
   complex_structure_url: artifactUrl,
+  target_structure_url: artifactUrl.optional(),
+  complex_chains: chainRoles.optional(),
+  predictions: z.array(predictionSchema).default([]),
+  assembly_assessment: z.string().nullable().default(null),
+  comparison_scores: z
+    .array(
+      z.object({
+        id: z.string(),
+        seed: count,
+        scored_on: z.string(),
+        metrics,
+        complex_chains: chainRoles,
+        target_structure_url: artifactUrl,
+        binder_structure_url: artifactUrl,
+        complex_structure_url: artifactUrl,
+      }),
+    )
+    .default([]),
 });
+export const designSchema = z.object({
+  job_id: jobId,
+  target_id: z.string().nullable(),
+  name: z.string(),
+  description: z.string(),
+  source: z.string(),
+  length: count.nullable(),
+  candidate_count: count,
+  structured_candidates: count.default(0),
+  passed_count: count,
+});
+export const designPageSchema = z.object({
+  total: count,
+  candidate_total: count.default(0),
+  structured_candidates: count.default(0),
+  offset: count,
+  limit: count,
+  records: z.array(designSchema),
+});
+export type Design = z.infer<typeof designSchema>;
 export const resultsSchema = z.object({
   run_id: jobId,
   target_id: z.string().nullable(),
@@ -81,14 +166,18 @@ export type Selection = {
   binder_length: number;
   num_designs: number;
 };
-export type StructureSelection = { url: string; title: string };
+export type StructureSelection = {
+  url: string;
+  title: string;
+  chainRoles?: z.infer<typeof chainRoles>;
+};
 
 export async function request<T>(
   path: string,
   schema: z.ZodType<T>,
   options: RequestInit = {},
 ): Promise<T> {
-  const response = await fetch(path, options);
+  const response = await fetch(appPath(path), options);
   const body: unknown = await response.json();
   if (!response.ok) {
     const error = z.object({ detail: z.string() }).safeParse(body);
@@ -110,6 +199,22 @@ const post = <T>(path: string, schema: z.ZodType<T>, body: unknown = {}) =>
     body: JSON.stringify(body),
   });
 export const api = {
+  designs: (q: string, offset: number, signal?: AbortSignal) =>
+    request(
+      "/api/designs?" +
+        new URLSearchParams({ q, offset: String(offset), limit: "25" }),
+      designPageSchema,
+      { signal },
+    ),
+  design: (id: string, signal?: AbortSignal) =>
+    request(
+      `/api/designs/${id}`,
+      designSchema.extend({
+        provenance: z.record(z.string(), z.unknown()),
+        protein_structure: structureSchema.nullable().default(null),
+      }),
+      { signal },
+    ),
   catalog: (signal?: AbortSignal) =>
     request("/api/catalog", catalogSchema, { signal }),
   targets: (
@@ -117,6 +222,7 @@ export const api = {
     changed: boolean,
     offset: number,
     signal?: AbortSignal,
+    ready = false,
   ) =>
     request(
       "/api/targets?" +
@@ -125,12 +231,19 @@ export const api = {
           changed: String(changed),
           offset: String(offset),
           limit: "25",
+          ready: String(ready),
         }),
       pageSchema,
       { signal },
     ),
   target: (id: string, signal?: AbortSignal) =>
     request("/api/targets/" + encodeURIComponent(id), targetSchema, { signal }),
+  structure: (id: string, signal?: AbortSignal) =>
+    request(
+      `/api/targets/${encodeURIComponent(id)}/structure`,
+      structureSchema.nullable(),
+      { signal },
+    ),
   jobs: (signal?: AbortSignal) =>
     request("/api/jobs", z.array(jobSchema), { signal }),
   job: (id: string, signal?: AbortSignal) =>

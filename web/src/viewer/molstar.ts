@@ -4,6 +4,10 @@ import { PluginConfig } from "molstar/lib/mol-plugin/config";
 import { Color } from "molstar/lib/mol-util/color";
 import { createStructureRepresentationParams } from "molstar/lib/mol-plugin-state/helpers/structure-representation-params";
 import { StateTransforms } from "molstar/lib/mol-plugin-state/transforms";
+import {
+  Structure,
+  StructureProperties,
+} from "molstar/lib/mol-model/structure";
 import type { StateObjectSelector } from "molstar/lib/mol-state";
 import type { PluginStateObject } from "molstar/lib/mol-plugin-state/objects";
 
@@ -112,6 +116,11 @@ export class MolecularScene {
         throw new Error("Mol* did not produce a molecular representation");
       const legend =
         this.representation.cell?.obj?.data.repr.theme.color.legend;
+      const chainIds = new Set<string>();
+      Structure.eachAtomicHierarchyElement(structure, {
+        chain: (location) =>
+          chainIds.add(StructureProperties.chain.auth_asym_id(location)),
+      });
       return {
         colors:
           settings.colorByChain && legend?.kind === "table-legend"
@@ -122,10 +131,7 @@ export class MolecularScene {
             : [],
         atoms: structure.elementCount,
         residues: structure.polymerResidueCount,
-        chains: structure.models.reduce(
-          (sum, model) => sum + model.atomicHierarchy.chains._rowCount,
-          0,
-        ),
+        chains: chainIds.size,
         webgl: this.plugin.canvas3d?.webgl.isWebGL2 ? "WebGL 2" : "WebGL 1",
         surfacePath:
           settings.style === "surface"
@@ -143,7 +149,14 @@ export class MolecularScene {
   }
 
   resize() {
-    if (!this.disposed) this.plugin.handleResize();
+    if (!this.disposed) {
+      this.plugin.handleResize();
+      // Sync the camera viewport before computing its new aspect-dependent distance.
+      // requestResize alone runs after the camera-reset queue in Mol*'s render loop.
+      this.plugin.canvas3d?.handleResize();
+      // Keep the full molecule framed when the viewport changes aspect ratio.
+      this.plugin.canvas3d?.requestCameraReset({ durationMs: 0 });
+    }
   }
   resetCamera() {
     if (!this.disposed)

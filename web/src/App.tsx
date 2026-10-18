@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { api, isActive, isComplete } from "./api";
+import { api, appPath, isActive, isComplete, isOperator } from "./api";
 import type { Job } from "./api";
+import { DesignCatalog } from "./components/DesignCatalog";
+import { DesignWorkspace } from "./components/DesignWorkspace";
 import { TargetCatalog } from "./components/TargetCatalog";
 import { ExampleWorkspace, TargetWorkspace } from "./components/Workspace";
 import { Dialog } from "./components/Dialog";
@@ -9,31 +11,52 @@ import { ErrorMessage, Loading, jobLabel } from "./components/Status";
 
 type Selection =
   | { kind: "example" }
+  | { kind: "design"; jobId?: string }
   | { kind: "target"; id: string; jobId?: string };
 
 function readSelection(): Selection {
   const params = new URLSearchParams(location.search);
   const id = params.get("target");
+  if (params.has("design"))
+    return { kind: "design", jobId: params.get("design") || undefined };
+  if (params.has("example") || isOperator())
+    return id
+      ? { kind: "target", id, jobId: params.get("job") ?? undefined }
+      : { kind: "example" };
   return id
     ? { kind: "target", id, jobId: params.get("job") ?? undefined }
-    : { kind: "example" };
+    : { kind: "design" };
 }
 
 export function App() {
   const cache = useQueryClient();
   const [selection, setSelection] = useState<Selection>(readSelection);
+  const [collection, setCollection] = useState<"designs" | "proteins">(() =>
+    readSelection().kind === "target" || isOperator() ? "proteins" : "designs",
+  );
   function navigate(next: Selection) {
     const url = new URL(location.href);
     url.search = "";
+    if (next.kind === "design" && next.jobId)
+      url.searchParams.set("design", next.jobId);
+    if (next.kind === "example") url.searchParams.set("example", "1");
     if (next.kind === "target") {
       url.searchParams.set("target", next.id);
       if (next.jobId) url.searchParams.set("job", next.jobId);
     }
     if (url.href !== location.href) history.pushState(null, "", url);
     setSelection(next);
+    if (next.kind !== "example")
+      setCollection(next.kind === "target" ? "proteins" : "designs");
   }
   useEffect(() => {
-    const back = () => setSelection(readSelection());
+    const back = () => {
+      const next = readSelection();
+      setSelection(next);
+      setCollection(
+        next.kind === "target" || isOperator() ? "proteins" : "designs",
+      );
+    };
     addEventListener("popstate", back);
     return () => removeEventListener("popstate", back);
   }, []);
@@ -41,10 +64,16 @@ export function App() {
   const catalog = useQuery({
     queryKey: ["catalog"],
     queryFn: ({ signal }) => api.catalog(signal),
+    refetchInterval: isOperator() ? 30_000 : false,
   });
   const jobs = useQuery({
     queryKey: ["jobs"],
     queryFn: ({ signal }) => api.jobs(signal),
+  });
+  const firstDesigns = useQuery({
+    queryKey: ["designs", "", 0],
+    queryFn: ({ signal }) => api.designs("", 0, signal),
+    enabled: !isOperator(),
   });
   const meta = catalog.data;
   const selectedId = selection.kind === "target" ? selection.id : null;
@@ -71,7 +100,15 @@ export function App() {
     navigate({ kind: "target", id });
     setDialog(null);
   }
+  function selectDesign(jobId: string) {
+    navigate({ kind: "design", jobId });
+    setDialog(null);
+  }
   function selectJob(job: Job) {
+    if (meta?.read_only) {
+      selectDesign(job.job_id);
+      return;
+    }
     cache.setQueryData(["job", job.job_id], job);
     navigate(
       job.target_id
@@ -80,19 +117,66 @@ export function App() {
     );
     setDialog(null);
   }
+  function browse(compact = false) {
+    return (
+      <div className="catalog-browser">
+        {!isOperator() && (
+          <div
+            className="catalog-tabs"
+            role="group"
+            aria-label="Catalog collection"
+          >
+            <button
+              aria-pressed={collection === "designs"}
+              onClick={() => setCollection("designs")}
+            >
+              Saved keys
+            </button>
+            <button
+              aria-pressed={collection === "proteins"}
+              onClick={() => setCollection("proteins")}
+            >
+              Proteins
+            </button>
+          </div>
+        )}
+        {collection === "designs" ? (
+          <DesignCatalog
+            selectedId={
+              selection.kind === "design"
+                ? (selection.jobId ??
+                  firstDesigns.data?.records[0]?.job_id ??
+                  null)
+                : null
+            }
+            onSelect={selectDesign}
+          />
+        ) : (
+          <TargetCatalog
+            selectedId={selectedId}
+            onSelect={selectTarget}
+            catalog={meta}
+            modeledTargets={modeledTargets}
+            compact={compact}
+          />
+        )}
+      </div>
+    );
+  }
   return (
     <div className="app-shell">
       <header className="app-header">
-        <a className="brand" href="/">
+        <a className="brand" href={appPath("/")}>
           bespoke<span>bio</span>
           <span className="brand-dot" />
         </a>
         <nav aria-label="Workspace">
+          {isOperator() && <span className="muted">Operator</span>}
           <button
             className="quiet mobile-browse"
             onClick={() => setDialog("proteins")}
           >
-            Proteins
+            Browse
           </button>
           <button className="quiet" onClick={() => setDialog("history")}>
             History
@@ -107,19 +191,17 @@ export function App() {
         </nav>
       </header>
       <div className="app-body">
-        <aside className="desktop-catalog">
-          <TargetCatalog
-            selectedId={selectedId}
-            onSelect={selectTarget}
-            catalog={meta}
-            modeledTargets={modeledTargets}
-          />
-        </aside>
+        <aside className="desktop-catalog">{browse()}</aside>
         <main className="workspace" id="workspace">
           <ErrorMessage error={catalog.error} />
           {catalog.isPending && <Loading>Loading workspace…</Loading>}
           {meta &&
-            (selection.kind === "example" ? (
+            (selection.kind === "design" ? (
+              <DesignWorkspace
+                key={selection.jobId ?? "first"}
+                jobId={selection.jobId}
+              />
+            ) : selection.kind === "example" ? (
               <ExampleWorkspace
                 configured={meta.service_configured}
                 readOnly={meta.read_only}
@@ -138,18 +220,10 @@ export function App() {
       </div>
       <Dialog
         open={dialog === "proteins"}
-        title="Proteins"
+        title="Browse"
         onClose={() => setDialog(null)}
       >
-        {dialog === "proteins" && (
-          <TargetCatalog
-            selectedId={selectedId}
-            onSelect={selectTarget}
-            catalog={meta}
-            modeledTargets={modeledTargets}
-            compact
-          />
-        )}
+        {dialog === "proteins" && browse(true)}
       </Dialog>
       <Dialog
         open={dialog === "history"}
