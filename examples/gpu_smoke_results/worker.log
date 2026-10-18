@@ -1,0 +1,41 @@
+/workspace/rfd3-env/lib/python3.12/site-packages/hydra/_internal/config_loader_impl.py:216: UserWarning: provider=hydra.searchpath in main, path=configs is not available.
+  warnings.warn(
+{"status": "passed", "scope": "CLI configuration composition; no model loaded"}
+Environment variable CCD_MIRROR_PATH not set. Will not be able to use function requiring this variable. To set it you may:
+  (1) add the line 'export VAR_NAME=path/to/variable' to your .bashrc or .zshrc file
+  (2) set it in your current shell with 'export VAR_NAME=path/to/variable'
+  (3) write it to a .env file in the root of the atomworks.io repository
+Environment variable PDB_MIRROR_PATH not set. Will not be able to use function requiring this variable. To set it you may:
+  (1) add the line 'export VAR_NAME=path/to/variable' to your .bashrc or .zshrc file
+  (2) set it in your current shell with 'export VAR_NAME=path/to/variable'
+  (3) write it to a .env file in the root of the atomworks.io repository
+INFO:rfd3.utils.inference:[rank: 0] No ori_token or infer_ori_strategy provided. Setting origin as COM of fixed motif ([ 19.344488 -25.285692 -33.38111 ]).
+/workspace/rfd3-env/lib/python3.12/site-packages/rfd3/transforms/conditioning_base.py:164: DeprecationWarning: Setting the dtype on a NumPy array has been deprecated in NumPy 2.5.
+Instead of changing the dtype on an array x, create a new array with x.view(new_dtype)
+  atom_array.get_annotation(annotation).dtype = bool
+INFO:rfd3.utils.inference:[rank: 0] No ori_token or infer_ori_strategy provided. Setting origin as COM of fixed motif ([ 19.344488 -25.285692 -33.381115]).
+{"status": "passed", "cases": 2, "checkpoint_loaded": false}
+/workspace/rfd3-env/lib/python3.12/site-packages/hydra/_internal/config_loader_impl.py:216: UserWarning: provider=hydra.searchpath in main, path=configs is not available.
+  warnings.warn(
+Environment variable CCD_MIRROR_PATH not set. Will not be able to use function requiring this variable. To set it you may:
+  (1) add the line 'export VAR_NAME=path/to/variable' to your .bashrc or .zshrc file
+  (2) set it in your current shell with 'export VAR_NAME=path/to/variable'
+  (3) write it to a .env file in the root of the atomworks.io repository
+Environment variable PDB_MIRROR_PATH not set. Will not be able to use function requiring this variable. To set it you may:
+  (1) add the line 'export VAR_NAME=path/to/variable' to your .bashrc or .zshrc file
+  (2) set it in your current shell with 'export VAR_NAME=path/to/variable'
+  (3) write it to a .env file in the root of the atomworks.io repository
+Seed set to 7
+00:19:32 INFO rfd3.engine: [rank: 0] Outputs will be written to /workspace/gpu_smoke/gpu_smoke.
+00:19:32 INFO rfd3.engine: [rank: 0] Prevalidating design specification for example: rfd3_inputs.draft_topology_K1_L1_L2_K2
+00:19:34 INFO rfd3.engine: [rank: 0] Prevalidating design specification for example: rfd3_inputs.draft_topology_K1_K2_L1_L2
+00:19:34 INFO rfd3.engine: [rank: 0] Found 0 existing example IDs in the output directory (0 total).
+Using bfloat16 Automatic Mixed Precision (AMP)
+You are using a CUDA device ('NVIDIA A100-SXM4-80GB') that has Tensor Cores. To properly utilize them, you should set `torch.set_float32_matmul_precision('medium' | 'high')` which will trade-off precision for performance. For more details, read https://pytorch.org/docs/stable/generated/torch.set_float32_matmul_precision.html#torch.set_float32_matmul_precision
+00:19:41 INFO rfd3.engine: [rank: 0] RFD3 inference: mode=legacy, policy=torch, kernels=torch, compile_model=False, token_and_atom_cuda_graph=False, low_memory_mode=False
+00:20:06 INFO rfd3.engine: [rank: 0] Finished inference batch in 24.29 seconds.
+00:20:06 WARNING atomworks.io: Writing chem_comp with chem_comp_source='ccd' from a plain AtomArray. A plain AtomArray has no preserved CCD context, so known component codes resolve to the bundled CCD. If this structure came from a CIF, parse it with return_atom_array_plus=True to preserve its CCD registry. If it was constructed or modified and a component slice is the complete intended CCD definition, write it with ccd_entries={code: component_template}; run any earlier CCD-dependent processing inside `with custom_ccd_residues(ccd_entries):`. Silence this warning with CIFWriteConfig(warn_on_ccd_without_registry=False).
+00:20:06 INFO rfd3.engine: [rank: 0] Outputs for rfd3_inputs.draft_topology_K1_L1_L2_K2_0_model_0 written to /workspace/gpu_smoke/gpu_smoke/rfd3_inputs.draft_topology_K1_L1_L2_K2_0_model_0.
+00:20:31 INFO rfd3.engine: [rank: 0] Finished inference batch in 23.81 seconds.
+00:20:31 WARNING atomworks.io: Writing chem_comp with chem_comp_source='ccd' from a plain AtomArray. A plain AtomArray has no preserved CCD context, so known component codes resolve to the bundled CCD. If this structure came from a CIF, parse it with return_atom_array_plus=True to preserve its CCD registry. If it was constructed or modified and a component slice is the complete intended CCD definition, write it with ccd_entries={code: component_template}; run any earlier CCD-dependent processing inside `with custom_ccd_residues(ccd_entries):`. Silence this warning with CIFWriteConfig(warn_on_ccd_without_registry=False).
+00:20:31 INFO rfd3.engine: [rank: 0] Outputs for rfd3_inputs.draft_topology_K1_K2_L1_L2_0_model_0 written to /workspace/gpu_smoke/gpu_smoke/rfd3_inputs.draft_topology_K1_K2_L1_L2_0_model_0.

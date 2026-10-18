@@ -1,0 +1,68 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "target_scaffold_length": {
+      "anyOf": [
+        {
+          "maximum": 300,
+          "minimum": 30,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Target Scaffold Length"
+    },
+    "flank_residues": {
+      "default": 2,
+      "maximum": 5,
+      "minimum": 0,
+      "title": "Flank Residues",
+      "type": "integer"
+    },
+    "preserve_native_disulfides": {
+      "default": true,
+      "title": "Preserve Native Disulfides",
+      "type": "boolean"
+    },
+    "bridge_min_residues": {
+      "default": 4,
+      "maximum": 40,
+      "minimum": 1,
+      "title": "Bridge Min Residues",
+      "type": "integer"
+    },
+    "bridge_max_residues": {
+      "default": 24,
+      "maximum": 60,
+      "minimum": 1,
+      "title": "Bridge Max Residues",
+      "type": "integer"
+    },
+    "bridge_slack_residues": {
+      "default": 3,
+      "maximum": 10,
+      "minimum": 0,
+      "title": "Bridge Slack Residues",
+      "type": "integer"
+    },
+    "terminal_residues": {
+      "default": 8,
+      "maximum": 30,
+      "minimum": 1,
+      "title": "Terminal Residues",
+      "type": "integer"
+    },
+    "maximum_scaffold_length": {
+      "default": 180,
+      "maximum": 300,
+      "minimum": 30,
+      "title": "Maximum Scaffold Length",
+      "type": "integer"
+    }
+  },
+  "title": "MotifPlanRequest",
+  "type": "object"
+}

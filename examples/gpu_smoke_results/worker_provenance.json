@@ -1,0 +1,9 @@
+{
+  "foundry_commit": "d078b24d6d0e6f8607e9a0311128f4a897f83953",
+  "torch": "2.11.0+cu128",
+  "cuda": "12.8",
+  "gpu": "NVIDIA A100-SXM4-80GB",
+  "weights": {
+    "/workspace/checkpoints/rfd3_latest.ckpt": "9b3f85923e0d51e9453e15cdd2f8c666e7ce096a60577f57d11bbc54ae6d67c1"
+  }
+}

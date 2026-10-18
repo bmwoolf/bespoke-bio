@@ -1,0 +1,874 @@
+{
+  "status": "passed",
+  "foundry_commit": "d078b24d6d0e6f8607e9a0311128f4a897f83953",
+  "method": "Unmodified native DesignInputSpecification constructor and build(return_metadata=True)",
+  "device": "CPU",
+  "checkpoint_loaded": false,
+  "cases": [
+    {
+      "id": "topology_K1_L1_L2_K2",
+      "status": "passed",
+      "chain_lengths": {
+        "A": 170,
+        "B": 115,
+        "C": 115
+      },
+      "residue_count": 400,
+      "atom_count": 2898,
+      "protected_atoms_checked": 2458,
+      "protected_residues": 312,
+      "generated_scaffold_residues": 88,
+      "maximum_fixed_atom_displacement_after_joint_alignment_angstrom": 2.0030225952531845e-06,
+      "sampled_contig": "8P,K20,K21,K22,K23,K24,K25,K26,K27,K28,K29,K30,K31,K32,K33,K34,K35,24P,L20,L21,L22,L23,L24,L25,L26,L27,L28,L29,L30,L31,L32,L33,L34,L35,24P,L94,L95,L96,L97,L98,L99,L100,L101,L102,L103,L104,L105,L106,L107,L108,L109,L110,L111,L112,L113,L114,L115,L116,L117,L118,24P,K94,K95,K96,K97,K98,K99,K100,K101,K102,K103,K104,K105,K106,K107,K108,K109,K110,K111,K112,K113,K114,K115,K116,K117,K118,8P,/0,T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14,T15,T16,T17,T18,T19,T20,T21,T22,T23,T24,T25,T26,T27,T28,T29,T30,T31,T32,T33,T34,T35,T36,T37,T38,T39,T40,T41,T42,T43,T44,T45,T46,T47,T48,T49,T50,T51,T52,T53,T54,T55,T56,T57,T58,T59,T60,T61,T62,T63,T64,T65,T66,T67,T68,T69,T70,T71,T72,T73,T74,T75,T76,T77,T78,T79,T80,T81,T82,T83,T84,T85,T86,T87,T88,T89,T90,T91,T92,T93,T94,T95,T96,T97,T98,T99,T100,T101,T102,T103,T104,T105,T106,T107,T108,T109,T110,T111,T112,T113,T114,T115,/0,U1,U2,U3,U4,U5,U6,U7,U8,U9,U10,U11,U12,U13,U14,U15,U16,U17,U18,U19,U20,U21,U22,U23,U24,U25,U26,U27,U28,U29,U30,U31,U32,U33,U34,U35,U36,U37,U38,U39,U40,U41,U42,U43,U44,U45,U46,U47,U48,U49,U50,U51,U52,U53,U54,U55,U56,U57,U58,U59,U60,U61,U62,U63,U64,U65,U66,U67,U68,U69,U70,U71,U72,U73,U74,U75,U76,U77,U78,U79,U80,U81,U82,U83,U84,U85,U86,U87,U88,U89,U90,U91,U92,U93,U94,U95,U96,U97,U98,U99,U100,U101,U102,U103,U104,U105,U106,U107,U108,U109,U110,U111,U112,U113,U114,U115",
+      "scaffold_motif_residue_map": [
+        {
+          "source": "K20",
+          "chain": "A",
+          "residue": 9
+        },
+        {
+          "source": "K21",
+          "chain": "A",
+          "residue": 10
+        },
+        {
+          "source": "K22",
+          "chain": "A",
+          "residue": 11
+        },
+        {
+          "source": "K23",
+          "chain": "A",
+          "residue": 12
+        },
+        {
+          "source": "K24",
+          "chain": "A",
+          "residue": 13
+        },
+        {
+          "source": "K25",
+          "chain": "A",
+          "residue": 14
+        },
+        {
+          "source": "K26",
+          "chain": "A",
+          "residue": 15
+        },
+        {
+          "source": "K27",
+          "chain": "A",
+          "residue": 16
+        },
+        {
+          "source": "K28",
+          "chain": "A",
+          "residue": 17
+        },
+        {
+          "source": "K29",
+          "chain": "A",
+          "residue": 18
+        },
+        {
+          "source": "K30",
+          "chain": "A",
+          "residue": 19
+        },
+        {
+          "source": "K31",
+          "chain": "A",
+          "residue": 20
+        },
+        {
+          "source": "K32",
+          "chain": "A",
+          "residue": 21
+        },
+        {
+          "source": "K33",
+          "chain": "A",
+          "residue": 22
+        },
+        {
+          "source": "K34",
+          "chain": "A",
+          "residue": 23
+        },
+        {
+          "source": "K35",
+          "chain": "A",
+          "residue": 24
+        },
+        {
+          "source": "L20",
+          "chain": "A",
+          "residue": 49
+        },
+        {
+          "source": "L21",
+          "chain": "A",
+          "residue": 50
+        },
+        {
+          "source": "L22",
+          "chain": "A",
+          "residue": 51
+        },
+        {
+          "source": "L23",
+          "chain": "A",
+          "residue": 52
+        },
+        {
+          "source": "L24",
+          "chain": "A",
+          "residue": 53
+        },
+        {
+          "source": "L25",
+          "chain": "A",
+          "residue": 54
+        },
+        {
+          "source": "L26",
+          "chain": "A",
+          "residue": 55
+        },
+        {
+          "source": "L27",
+          "chain": "A",
+          "residue": 56
+        },
+        {
+          "source": "L28",
+          "chain": "A",
+          "residue": 57
+        },
+        {
+          "source": "L29",
+          "chain": "A",
+          "residue": 58
+        },
+        {
+          "source": "L30",
+          "chain": "A",
+          "residue": 59
+        },
+        {
+          "source": "L31",
+          "chain": "A",
+          "residue": 60
+        },
+        {
+          "source": "L32",
+          "chain": "A",
+          "residue": 61
+        },
+        {
+          "source": "L33",
+          "chain": "A",
+          "residue": 62
+        },
+        {
+          "source": "L34",
+          "chain": "A",
+          "residue": 63
+        },
+        {
+          "source": "L35",
+          "chain": "A",
+          "residue": 64
+        },
+        {
+          "source": "L94",
+          "chain": "A",
+          "residue": 89
+        },
+        {
+          "source": "L95",
+          "chain": "A",
+          "residue": 90
+        },
+        {
+          "source": "L96",
+          "chain": "A",
+          "residue": 91
+        },
+        {
+          "source": "L97",
+          "chain": "A",
+          "residue": 92
+        },
+        {
+          "source": "L98",
+          "chain": "A",
+          "residue": 93
+        },
+        {
+          "source": "L99",
+          "chain": "A",
+          "residue": 94
+        },
+        {
+          "source": "L100",
+          "chain": "A",
+          "residue": 95
+        },
+        {
+          "source": "L101",
+          "chain": "A",
+          "residue": 96
+        },
+        {
+          "source": "L102",
+          "chain": "A",
+          "residue": 97
+        },
+        {
+          "source": "L103",
+          "chain": "A",
+          "residue": 98
+        },
+        {
+          "source": "L104",
+          "chain": "A",
+          "residue": 99
+        },
+        {
+          "source": "L105",
+          "chain": "A",
+          "residue": 100
+        },
+        {
+          "source": "L106",
+          "chain": "A",
+          "residue": 101
+        },
+        {
+          "source": "L107",
+          "chain": "A",
+          "residue": 102
+        },
+        {
+          "source": "L108",
+          "chain": "A",
+          "residue": 103
+        },
+        {
+          "source": "L109",
+          "chain": "A",
+          "residue": 104
+        },
+        {
+          "source": "L110",
+          "chain": "A",
+          "residue": 105
+        },
+        {
+          "source": "L111",
+          "chain": "A",
+          "residue": 106
+        },
+        {
+          "source": "L112",
+          "chain": "A",
+          "residue": 107
+        },
+        {
+          "source": "L113",
+          "chain": "A",
+          "residue": 108
+        },
+        {
+          "source": "L114",
+          "chain": "A",
+          "residue": 109
+        },
+        {
+          "source": "L115",
+          "chain": "A",
+          "residue": 110
+        },
+        {
+          "source": "L116",
+          "chain": "A",
+          "residue": 111
+        },
+        {
+          "source": "L117",
+          "chain": "A",
+          "residue": 112
+        },
+        {
+          "source": "L118",
+          "chain": "A",
+          "residue": 113
+        },
+        {
+          "source": "K94",
+          "chain": "A",
+          "residue": 138
+        },
+        {
+          "source": "K95",
+          "chain": "A",
+          "residue": 139
+        },
+        {
+          "source": "K96",
+          "chain": "A",
+          "residue": 140
+        },
+        {
+          "source": "K97",
+          "chain": "A",
+          "residue": 141
+        },
+        {
+          "source": "K98",
+          "chain": "A",
+          "residue": 142
+        },
+        {
+          "source": "K99",
+          "chain": "A",
+          "residue": 143
+        },
+        {
+          "source": "K100",
+          "chain": "A",
+          "residue": 144
+        },
+        {
+          "source": "K101",
+          "chain": "A",
+          "residue": 145
+        },
+        {
+          "source": "K102",
+          "chain": "A",
+          "residue": 146
+        },
+        {
+          "source": "K103",
+          "chain": "A",
+          "residue": 147
+        },
+        {
+          "source": "K104",
+          "chain": "A",
+          "residue": 148
+        },
+        {
+          "source": "K105",
+          "chain": "A",
+          "residue": 149
+        },
+        {
+          "source": "K106",
+          "chain": "A",
+          "residue": 150
+        },
+        {
+          "source": "K107",
+          "chain": "A",
+          "residue": 151
+        },
+        {
+          "source": "K108",
+          "chain": "A",
+          "residue": 152
+        },
+        {
+          "source": "K109",
+          "chain": "A",
+          "residue": 153
+        },
+        {
+          "source": "K110",
+          "chain": "A",
+          "residue": 154
+        },
+        {
+          "source": "K111",
+          "chain": "A",
+          "residue": 155
+        },
+        {
+          "source": "K112",
+          "chain": "A",
+          "residue": 156
+        },
+        {
+          "source": "K113",
+          "chain": "A",
+          "residue": 157
+        },
+        {
+          "source": "K114",
+          "chain": "A",
+          "residue": 158
+        },
+        {
+          "source": "K115",
+          "chain": "A",
+          "residue": 159
+        },
+        {
+          "source": "K116",
+          "chain": "A",
+          "residue": 160
+        },
+        {
+          "source": "K117",
+          "chain": "A",
+          "residue": 161
+        },
+        {
+          "source": "K118",
+          "chain": "A",
+          "residue": 162
+        }
+      ]
+    },
+    {
+      "id": "topology_K1_K2_L1_L2",
+      "status": "passed",
+      "chain_lengths": {
+        "A": 170,
+        "B": 115,
+        "C": 115
+      },
+      "residue_count": 400,
+      "atom_count": 2898,
+      "protected_atoms_checked": 2458,
+      "protected_residues": 312,
+      "generated_scaffold_residues": 88,
+      "maximum_fixed_atom_displacement_after_joint_alignment_angstrom": 2.0030226153111793e-06,
+      "sampled_contig": "8P,K20,K21,K22,K23,K24,K25,K26,K27,K28,K29,K30,K31,K32,K33,K34,K35,24P,K94,K95,K96,K97,K98,K99,K100,K101,K102,K103,K104,K105,K106,K107,K108,K109,K110,K111,K112,K113,K114,K115,K116,K117,K118,24P,L20,L21,L22,L23,L24,L25,L26,L27,L28,L29,L30,L31,L32,L33,L34,L35,24P,L94,L95,L96,L97,L98,L99,L100,L101,L102,L103,L104,L105,L106,L107,L108,L109,L110,L111,L112,L113,L114,L115,L116,L117,L118,8P,/0,T1,T2,T3,T4,T5,T6,T7,T8,T9,T10,T11,T12,T13,T14,T15,T16,T17,T18,T19,T20,T21,T22,T23,T24,T25,T26,T27,T28,T29,T30,T31,T32,T33,T34,T35,T36,T37,T38,T39,T40,T41,T42,T43,T44,T45,T46,T47,T48,T49,T50,T51,T52,T53,T54,T55,T56,T57,T58,T59,T60,T61,T62,T63,T64,T65,T66,T67,T68,T69,T70,T71,T72,T73,T74,T75,T76,T77,T78,T79,T80,T81,T82,T83,T84,T85,T86,T87,T88,T89,T90,T91,T92,T93,T94,T95,T96,T97,T98,T99,T100,T101,T102,T103,T104,T105,T106,T107,T108,T109,T110,T111,T112,T113,T114,T115,/0,U1,U2,U3,U4,U5,U6,U7,U8,U9,U10,U11,U12,U13,U14,U15,U16,U17,U18,U19,U20,U21,U22,U23,U24,U25,U26,U27,U28,U29,U30,U31,U32,U33,U34,U35,U36,U37,U38,U39,U40,U41,U42,U43,U44,U45,U46,U47,U48,U49,U50,U51,U52,U53,U54,U55,U56,U57,U58,U59,U60,U61,U62,U63,U64,U65,U66,U67,U68,U69,U70,U71,U72,U73,U74,U75,U76,U77,U78,U79,U80,U81,U82,U83,U84,U85,U86,U87,U88,U89,U90,U91,U92,U93,U94,U95,U96,U97,U98,U99,U100,U101,U102,U103,U104,U105,U106,U107,U108,U109,U110,U111,U112,U113,U114,U115",
+      "scaffold_motif_residue_map": [
+        {
+          "source": "K20",
+          "chain": "A",
+          "residue": 9
+        },
+        {
+          "source": "K21",
+          "chain": "A",
+          "residue": 10
+        },
+        {
+          "source": "K22",
+          "chain": "A",
+          "residue": 11
+        },
+        {
+          "source": "K23",
+          "chain": "A",
+          "residue": 12
+        },
+        {
+          "source": "K24",
+          "chain": "A",
+          "residue": 13
+        },
+        {
+          "source": "K25",
+          "chain": "A",
+          "residue": 14
+        },
+        {
+          "source": "K26",
+          "chain": "A",
+          "residue": 15
+        },
+        {
+          "source": "K27",
+          "chain": "A",
+          "residue": 16
+        },
+        {
+          "source": "K28",
+          "chain": "A",
+          "residue": 17
+        },
+        {
+          "source": "K29",
+          "chain": "A",
+          "residue": 18
+        },
+        {
+          "source": "K30",
+          "chain": "A",
+          "residue": 19
+        },
+        {
+          "source": "K31",
+          "chain": "A",
+          "residue": 20
+        },
+        {
+          "source": "K32",
+          "chain": "A",
+          "residue": 21
+        },
+        {
+          "source": "K33",
+          "chain": "A",
+          "residue": 22
+        },
+        {
+          "source": "K34",
+          "chain": "A",
+          "residue": 23
+        },
+        {
+          "source": "K35",
+          "chain": "A",
+          "residue": 24
+        },
+        {
+          "source": "K94",
+          "chain": "A",
+          "residue": 49
+        },
+        {
+          "source": "K95",
+          "chain": "A",
+          "residue": 50
+        },
+        {
+          "source": "K96",
+          "chain": "A",
+          "residue": 51
+        },
+        {
+          "source": "K97",
+          "chain": "A",
+          "residue": 52
+        },
+        {
+          "source": "K98",
+          "chain": "A",
+          "residue": 53
+        },
+        {
+          "source": "K99",
+          "chain": "A",
+          "residue": 54
+        },
+        {
+          "source": "K100",
+          "chain": "A",
+          "residue": 55
+        },
+        {
+          "source": "K101",
+          "chain": "A",
+          "residue": 56
+        },
+        {
+          "source": "K102",
+          "chain": "A",
+          "residue": 57
+        },
+        {
+          "source": "K103",
+          "chain": "A",
+          "residue": 58
+        },
+        {
+          "source": "K104",
+          "chain": "A",
+          "residue": 59
+        },
+        {
+          "source": "K105",
+          "chain": "A",
+          "residue": 60
+        },
+        {
+          "source": "K106",
+          "chain": "A",
+          "residue": 61
+        },
+        {
+          "source": "K107",
+          "chain": "A",
+          "residue": 62
+        },
+        {
+          "source": "K108",
+          "chain": "A",
+          "residue": 63
+        },
+        {
+          "source": "K109",
+          "chain": "A",
+          "residue": 64
+        },
+        {
+          "source": "K110",
+          "chain": "A",
+          "residue": 65
+        },
+        {
+          "source": "K111",
+          "chain": "A",
+          "residue": 66
+        },
+        {
+          "source": "K112",
+          "chain": "A",
+          "residue": 67
+        },
+        {
+          "source": "K113",
+          "chain": "A",
+          "residue": 68
+        },
+        {
+          "source": "K114",
+          "chain": "A",
+          "residue": 69
+        },
+        {
+          "source": "K115",
+          "chain": "A",
+          "residue": 70
+        },
+        {
+          "source": "K116",
+          "chain": "A",
+          "residue": 71
+        },
+        {
+          "source": "K117",
+          "chain": "A",
+          "residue": 72
+        },
+        {
+          "source": "K118",
+          "chain": "A",
+          "residue": 73
+        },
+        {
+          "source": "L20",
+          "chain": "A",
+          "residue": 98
+        },
+        {
+          "source": "L21",
+          "chain": "A",
+          "residue": 99
+        },
+        {
+          "source": "L22",
+          "chain": "A",
+          "residue": 100
+        },
+        {
+          "source": "L23",
+          "chain": "A",
+          "residue": 101
+        },
+        {
+          "source": "L24",
+          "chain": "A",
+          "residue": 102
+        },
+        {
+          "source": "L25",
+          "chain": "A",
+          "residue": 103
+        },
+        {
+          "source": "L26",
+          "chain": "A",
+          "residue": 104
+        },
+        {
+          "source": "L27",
+          "chain": "A",
+          "residue": 105
+        },
+        {
+          "source": "L28",
+          "chain": "A",
+          "residue": 106
+        },
+        {
+          "source": "L29",
+          "chain": "A",
+          "residue": 107
+        },
+        {
+          "source": "L30",
+          "chain": "A",
+          "residue": 108
+        },
+        {
+          "source": "L31",
+          "chain": "A",
+          "residue": 109
+        },
+        {
+          "source": "L32",
+          "chain": "A",
+          "residue": 110
+        },
+        {
+          "source": "L33",
+          "chain": "A",
+          "residue": 111
+        },
+        {
+          "source": "L34",
+          "chain": "A",
+          "residue": 112
+        },
+        {
+          "source": "L35",
+          "chain": "A",
+          "residue": 113
+        },
+        {
+          "source": "L94",
+          "chain": "A",
+          "residue": 138
+        },
+        {
+          "source": "L95",
+          "chain": "A",
+          "residue": 139
+        },
+        {
+          "source": "L96",
+          "chain": "A",
+          "residue": 140
+        },
+        {
+          "source": "L97",
+          "chain": "A",
+          "residue": 141
+        },
+        {
+          "source": "L98",
+          "chain": "A",
+          "residue": 142
+        },
+        {
+          "source": "L99",
+          "chain": "A",
+          "residue": 143
+        },
+        {
+          "source": "L100",
+          "chain": "A",
+          "residue": 144
+        },
+        {
+          "source": "L101",
+          "chain": "A",
+          "residue": 145
+        },
+        {
+          "source": "L102",
+          "chain": "A",
+          "residue": 146
+        },
+        {
+          "source": "L103",
+          "chain": "A",
+          "residue": 147
+        },
+        {
+          "source": "L104",
+          "chain": "A",
+          "residue": 148
+        },
+        {
+          "source": "L105",
+          "chain": "A",
+          "residue": 149
+        },
+        {
+          "source": "L106",
+          "chain": "A",
+          "residue": 150
+        },
+        {
+          "source": "L107",
+          "chain": "A",
+          "residue": 151
+        },
+        {
+          "source": "L108",
+          "chain": "A",
+          "residue": 152
+        },
+        {
+          "source": "L109",
+          "chain": "A",
+          "residue": 153
+        },
+        {
+          "source": "L110",
+          "chain": "A",
+          "residue": 154
+        },
+        {
+          "source": "L111",
+          "chain": "A",
+          "residue": 155
+        },
+        {
+          "source": "L112",
+          "chain": "A",
+          "residue": 156
+        },
+        {
+          "source": "L113",
+          "chain": "A",
+          "residue": 157
+        },
+        {
+          "source": "L114",
+          "chain": "A",
+          "residue": 158
+        },
+        {
+          "source": "L115",
+          "chain": "A",
+          "residue": 159
+        },
+        {
+          "source": "L116",
+          "chain": "A",
+          "residue": 160
+        },
+        {
+          "source": "L117",
+          "chain": "A",
+          "residue": 161
+        },
+        {
+          "source": "L118",
+          "chain": "A",
+          "residue": 162
+        }
+      ]
+    }
+  ],
+  "packages": {
+    "rc-foundry": "1.0.0",
+    "atomworks": "3.0.3",
+    "biotite": "1.6.0",
+    "torch": "2.14.1",
+    "numpy": "2.5.4",
+    "pydantic": "2.14.1"
+  },
+  "scope": "Native input construction and fixed-atom mapping; no generation/folding validation"
+}

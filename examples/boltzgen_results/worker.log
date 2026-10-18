@@ -1,0 +1,169 @@
+Using dataset artifact: /workspace/cache/boltzgen/datasets--boltzgen--inference-data/snapshots/c3d36fd276e9caf098c75d4113c6d5eb320b1a4c/mols.zip
+************** Checking design spec: pdl1.yaml **************
+Total designed residues: 75
+Design specification visualization is written to checked_unconstrained/pdl1.cif
+*************************************************************
+
+=== Configuring pipeline ===
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Using dataset artifact: /workspace/cache/boltzgen/datasets--boltzgen--inference-data/snapshots/c3d36fd276e9caf098c75d4113c6d5eb320b1a4c/mols.zip
+************** Checking design spec: pdl1.yaml **************
+Total designed residues: 75
+Design specification visualization is written to results_unconstrained/pdl1.cif
+*************************************************************
+Using kernels: False [device capability: (8, 0)]
+Config overrides for protocol protein-anything: {}
+Using 1 devices
+Raw designs will be saved to: results_unconstrained/intermediate_designs
+Using diffusion batch size: 1
+Number of diffusion batches: 2
+Using model artifact: /workspace/cache/boltzgen/models--boltzgen--boltzgen-1/snapshots/c1be29e1f82ffcc72264f64b993c43fb4e0d17f0/boltzgen1_diverse.ckpt
+Using model artifact: /workspace/cache/boltzgen/models--boltzgen--boltzgen-1/snapshots/c1be29e1f82ffcc72264f64b993c43fb4e0d17f0/boltzgen1_adherence.ckpt
+Using model artifact: /workspace/cache/boltzgen/boltzgen/solublempnn_v_48_020.pt
+Inverse-folded designs will be saved to: results_unconstrained/intermediate_designs_inverse_folded
+Using model artifact: /workspace/cache/boltzgen/models--boltzgen--boltzgen-1/snapshots/c1be29e1f82ffcc72264f64b993c43fb4e0d17f0/boltz2_conf_final.ckpt
+Using model artifact: /workspace/cache/boltzgen/models--boltzgen--boltzgen-1/snapshots/c1be29e1f82ffcc72264f64b993c43fb4e0d17f0/boltz2_conf_final.ckpt
+Final ranked designs will be saved to: results_unconstrained/final_ranked_designs
+[1] design                   
+[2] inverse_folding          
+[3] folding                  
+[4] design_folding           
+[5] esmfold2_scoring         
+[6] analysis                 
+[7] filtering                
+Renaming existing config directory to results_unconstrained/previous-config-1
+Configuration complete. Configs written to results_unconstrained/config
+Steps manifest written to results_unconstrained/steps.yaml
+
+=== Executing pipeline ===
+**************************************************
+Pipeline step 1 of 7: design
+Running command: /opt/boltzgen-env/bin/python /opt/boltzgen-env/lib/python3.12/site-packages/boltzgen/resources/main.py results_unconstrained/config/design.yaml
+/opt/boltzgen-env/lib/python3.12/site-packages/lightning_fabric/plugins/environments/slurm.py:204: The `srun` command is available on your system but is not used. HINT: If your intention is to run Lightning on SLURM, prepend your python command with `srun` like so: srun python /opt/boltzgen-env/lib/python3.12/site-packages/boltz ...
+Predicting: |          | 0/? [00:00<?, ?it/s][Step 1/7] design - Predicting: |          | 0/? [00:00<?, ?it/s][Step 1/7] design - Predicting: |          | 0/? [00:00<?, ?it/s]Predicting DataLoader 0:   0%|          | 0/2 [00:00<?, ?it/s]   [Step 1/7] design - Predicting DataLoader 0: :   0%|          | 0/2 [00:00<?, ?it/s]Switched step_scale to 2.0
+Switched noise_scale to 0.88
+[Step 1/7] design - Predicting DataLoader 0: :  50%|█████     | 1/2 [00:18<00:18,  0.06it/s]Loaded weights from /workspace/cache/boltzgen/models--boltzgen--boltzgen-1/snapshots/c1be29e1f82ffcc72264f64b993c43fb4e0d17f0/boltzgen1_adherence.ckpt
+Switched checkpoint.
+[Step 1/7] design - Predicting DataLoader 0: : 100%|██████████| 2/2 [00:40<00:00,  0.05it/s]Number of failed examples: 0
+[Step 1/7] design - Predicting DataLoader 0: : 100%|██████████| 2/2 [00:40<00:00,  0.05it/s]
+✓ Step design completed successfully in 79.6s
+**************************************************
+Pipeline step 2 of 7: inverse_folding
+Running command: /opt/boltzgen-env/bin/python /opt/boltzgen-env/lib/python3.12/site-packages/boltzgen/resources/main.py results_unconstrained/config/inverse_folding.yaml
+Initializing FromGeneratedDataModule datasets for results_unconstrained/intermediate_designs
+[Info] Number of files to process (including already processed ones): 2
+[Info] Skipped already inverse_fold IDs. Number of files after filtering: 2
+Found 1 targets and 2 remaining designs that still need to be processed in this step.
+/opt/boltzgen-env/lib/python3.12/site-packages/lightning_fabric/plugins/environments/slurm.py:204: The `srun` command is available on your system but is not used. HINT: If your intention is to run Lightning on SLURM, prepend your python command with `srun` like so: srun python /opt/boltzgen-env/lib/python3.12/site-packages/boltz ...
+Predicting: |          | 0/? [00:00<?, ?it/s][Step 2/7] inverse_folding - Predicting: |          | 0/? [00:00<?, ?it/s][Step 2/7] inverse_folding - Predicting: |          | 0/? [00:00<?, ?it/s]Predicting DataLoader 0:   0%|          | 0/2 [00:00<?, ?it/s]            [Step 2/7] inverse_folding - Predicting DataLoader 0: :   0%|          | 0/2 [00:00<?, ?it/s][Step 2/7] inverse_folding - Predicting DataLoader 0: :  50%|█████     | 1/2 [00:01<00:01,  0.75it/s][Step 2/7] inverse_folding - Predicting DataLoader 0: : 100%|██████████| 2/2 [00:02<00:00,  0.84it/s]Number of failed examples: 0
+[Step 2/7] inverse_folding - Predicting DataLoader 0: : 100%|██████████| 2/2 [00:02<00:00,  0.84it/s]
+✓ Step inverse_folding completed successfully in 10.9s
+**************************************************
+Pipeline step 3 of 7: folding
+Running command: /opt/boltzgen-env/bin/python /opt/boltzgen-env/lib/python3.12/site-packages/boltzgen/resources/main.py results_unconstrained/config/folding.yaml
+Initializing FromGeneratedDataModule datasets for results_unconstrained/intermediate_designs_inverse_folded
+[Info] Number of files to process (including already processed ones): 2
+[Info] Skipped already folded IDs. Number of files after filtering: 2
+Found 1 targets and 2 remaining designs that still need to be processed in this step.
+/opt/boltzgen-env/lib/python3.12/site-packages/lightning_fabric/plugins/environments/slurm.py:204: The `srun` command is available on your system but is not used. HINT: If your intention is to run Lightning on SLURM, prepend your python command with `srun` like so: srun python /opt/boltzgen-env/lib/python3.12/site-packages/boltz ...
+Predicting: |          | 0/? [00:00<?, ?it/s][Step 3/7] folding - Predicting: |          | 0/? [00:00<?, ?it/s][Step 3/7] folding - Predicting: |          | 0/? [00:00<?, ?it/s]Predicting DataLoader 0:   0%|          | 0/2 [00:00<?, ?it/s]    [Step 3/7] folding - Predicting DataLoader 0: :   0%|          | 0/2 [00:00<?, ?it/s][Step 3/7] folding - Predicting DataLoader 0: :  50%|█████     | 1/2 [00:13<00:13,  0.08it/s][Step 3/7] folding - Predicting DataLoader 0: : 100%|██████████| 2/2 [00:26<00:00,  0.08it/s]Number of failed structure predictions: 0
+[Step 3/7] folding - Predicting DataLoader 0: : 100%|██████████| 2/2 [00:26<00:00,  0.08it/s]
+✓ Step folding completed successfully in 69.0s
+**************************************************
+Pipeline step 4 of 7: design_folding
+Running command: /opt/boltzgen-env/bin/python /opt/boltzgen-env/lib/python3.12/site-packages/boltzgen/resources/main.py results_unconstrained/config/design_folding.yaml
+Initializing FromGeneratedDataModule datasets for results_unconstrained/intermediate_designs_inverse_folded
+[Info] Number of files to process (including already processed ones): 2
+[Info] Skipped already design_folded IDs. Number of files after filtering: 2
+Found 1 targets and 2 remaining designs that still need to be processed in this step.
+/opt/boltzgen-env/lib/python3.12/site-packages/lightning_fabric/plugins/environments/slurm.py:204: The `srun` command is available on your system but is not used. HINT: If your intention is to run Lightning on SLURM, prepend your python command with `srun` like so: srun python /opt/boltzgen-env/lib/python3.12/site-packages/boltz ...
+Predicting: |          | 0/? [00:00<?, ?it/s][Step 4/7] design_folding - Predicting: |          | 0/? [00:00<?, ?it/s][Step 4/7] design_folding - Predicting: |          | 0/? [00:00<?, ?it/s]Predicting DataLoader 0:   0%|          | 0/2 [00:00<?, ?it/s]           [Step 4/7] design_folding - Predicting DataLoader 0: :   0%|          | 0/2 [00:00<?, ?it/s][Step 4/7] design_folding - Predicting DataLoader 0: :  50%|█████     | 1/2 [00:07<00:07,  0.13it/s][Step 4/7] design_folding - Predicting DataLoader 0: : 100%|██████████| 2/2 [00:15<00:00,  0.13it/s]Number of failed structure predictions: 0
+[Step 4/7] design_folding - Predicting DataLoader 0: : 100%|██████████| 2/2 [00:15<00:00,  0.13it/s]
+✓ Step design_folding completed successfully in 55.1s
+**************************************************
+Pipeline step 5 of 7: esmfold2_scoring
+Running command: /opt/boltzgen-env/bin/python /opt/boltzgen-env/lib/python3.12/site-packages/boltzgen/resources/main.py results_unconstrained/config/esmfold2_scoring.yaml
+Initializing FromGeneratedDataModule datasets for results_unconstrained/intermediate_designs_inverse_folded
+[Info] Number of files to process (including already processed ones): 2
+Found 1 targets and 2 remaining designs that still need to be processed in this step.
+Checking the cached ESMFold2 runtime...
+Checking ESMFold2 dependencies and device using /tmp/boltzgen-uv-cache/archive-v0/mtKRb63x8z3Aw0rH/bin/python...
+ESMC: Transformer Engine is not installed; falling back to pure-PyTorch LayerNorm+Linear / LayerNorm+MLP. Outputs will differ numerically - measured on the unnormalized residual stream (before the final LayerNorm), ~O(10) max-diff in fp32 and ~O(100) in bf16; after the final LayerNorm these shrink to a few ULP and perplexity stays within rounding noise. Install with `pip install transformer-engine[pytorch]` to enable fused fp32-reduction LayerNorm.
+ESMC: neither xformers nor flash-attn is installed; falling back to PyTorch ``F.scaled_dot_product_attention``. The attention reduction order in bf16 differs from a fused kernel by ~1 bf16 ULP per attention block; compounded across the 80-block stack this reaches ~O(100) max-diff on the unnormalized residual stream. Install an xformers build matching your PyTorch and CUDA versions for a fused attention kernel.
+ESMC: flash-attn rotary kernel not installed; falling back to pure-PyTorch RoPE. For faster GPU inference run `pip install flash-attn`.
+/tmp/boltzgen-uv-cache/archive-v0/mtKRb63x8z3Aw0rH/lib/python3.12/site-packages/torch/jit/_script.py:1488: DeprecationWarning: `torch.jit.script` is deprecated. Please switch to `torch.compile` or `torch.export`.
+  warnings.warn(
+ESMFold2 runtime ready: /tmp/boltzgen-uv-cache/archive-v0/mtKRb63x8z3Aw0rH/bin/python
+ESM checkpoint cache: /workspace/cache/huggingface/hub
+First use downloads about 27 GB of ESMFold2 and ESMC weights; cached files are reused on later runs. Downloads may take several minutes or longer depending on the connection.
+Set HF_HOME or HF_HUB_CACHE before starting to change this location; --cache controls Boltz downloads only.
+Checking/downloading ESMFold2 chemical component data...
+Chemical component data ready: /workspace/cache/huggingface/hub/models--biohub--ESMFold2/snapshots/8fc3ff471022fdce52c77030685eb775de0c00a3/ccd.pkl
+ESMC: Transformer Engine is not installed; falling back to pure-PyTorch LayerNorm+Linear / LayerNorm+MLP. Outputs will differ numerically - measured on the unnormalized residual stream (before the final LayerNorm), ~O(10) max-diff in fp32 and ~O(100) in bf16; after the final LayerNorm these shrink to a few ULP and perplexity stays within rounding noise. Install with `pip install transformer-engine[pytorch]` to enable fused fp32-reduction LayerNorm.
+ESMC: neither xformers nor flash-attn is installed; falling back to PyTorch ``F.scaled_dot_product_attention``. The attention reduction order in bf16 differs from a fused kernel by ~1 bf16 ULP per attention block; compounded across the 80-block stack this reaches ~O(100) max-diff on the unnormalized residual stream. Install an xformers build matching your PyTorch and CUDA versions for a fused attention kernel.
+ESMC: flash-attn rotary kernel not installed; falling back to pure-PyTorch RoPE. For faster GPU inference run `pip install flash-attn`.
+/tmp/boltzgen-uv-cache/archive-v0/mtKRb63x8z3Aw0rH/lib/python3.12/site-packages/torch/jit/_script.py:1488: DeprecationWarning: `torch.jit.script` is deprecated. Please switch to `torch.compile` or `torch.export`.
+  warnings.warn(
+Checking/downloading ESMFold2 2021 checkpoint...
+Fetching 2 files:   0%|          | 0/2 [00:00<?, ?it/s]Fetching 2 files:  50%|█████     | 1/2 [00:00<00:00,  2.81it/s]Fetching 2 files: 100%|██████████| 2/2 [00:05<00:00,  2.90s/it]Fetching 2 files: 100%|██████████| 2/2 [00:05<00:00,  2.90s/it]
+ESMFold2 checkpoint ready: /workspace/cache/huggingface/hub/models--biohub--ESMFold2/snapshots/8fc3ff471022fdce52c77030685eb775de0c00a3
+Checking/downloading ESMC-6B checkpoint...
+Fetching 11 files:   0%|          | 0/11 [00:00<?, ?it/s]Fetching 11 files:  55%|█████▍    | 6/11 [00:16<00:13,  2.67s/it]Fetching 11 files:  64%|██████▎   | 7/11 [00:23<00:13,  3.43s/it]Fetching 11 files:  73%|███████▎  | 8/11 [00:29<00:11,  3.67s/it]Fetching 11 files:  82%|████████▏ | 9/11 [00:30<00:06,  3.41s/it]Fetching 11 files:  91%|█████████ | 10/11 [00:34<00:03,  3.44s/it]Fetching 11 files: 100%|██████████| 11/11 [00:35<00:00,  3.23s/it]Fetching 11 files: 100%|██████████| 11/11 [00:35<00:00,  3.23s/it]
+ESMC-6B checkpoint ready: /workspace/cache/huggingface/hub/models--biohub--ESMC-6B/snapshots/af1602ba7406f521b11bf8f81d52af378cde09e4
+Loading ESMFold2 weights into memory; this can take several minutes...
+Loading ESMC-6B weights into memory...
+Moving ESMFold2 and ESMC to cuda:0...
+Loading CCD dictionary from /workspace/cache/huggingface/hub/models--biohub--ESMFold2/snapshots/8fc3ff471022fdce52c77030685eb775de0c00a3/ccd.pkl
+ESMFold2 ready for scoring on cuda:0.
+Scoring pdl1_0 with ESMFold2
+ESMFold2 acceleration: auto
+ESMFold2 pdl1_0: sample 0, esmfold2_ipsae_min=0.040384
+Scoring pdl1_1 with ESMFold2
+ESMFold2 acceleration: auto
+ESMFold2 pdl1_1: sample 3, esmfold2_ipsae_min=0.054063
+✓ Step esmfold2_scoring completed successfully in 116.2s
+**************************************************
+Pipeline step 6 of 7: analysis
+Running command: /opt/boltzgen-env/bin/python /opt/boltzgen-env/lib/python3.12/site-packages/boltzgen/resources/main.py results_unconstrained/config/analysis.yaml
+Initializing FromGeneratedDataModule datasets for results_unconstrained/intermediate_designs_inverse_folded
+[Info] Number of files to process (including already processed ones): 2
+Found 1 targets and 2 remaining designs that still need to be processed in this step.
+Processing samples:   0%|          | 0/2 [00:00<?, ?it/s]Processing samples:  50%|█████     | 1/2 [00:08<00:08,  8.37s/it]Processing samples: 100%|██████████| 2/2 [00:09<00:00,  4.79s/it]
+Computed metrics successfully for 2 out of 2.
+Loading saved metrics from disk. 1% of total:   0%|          | 0/2 [00:00<?, ?it/s]Loading saved metrics from disk. 1% of total: 100%|██████████| 2/2 [00:00<00:00, 12.19it/s]Loading saved metrics from disk. 1% of total: 100%|██████████| 2/2 [00:00<00:00, 12.16it/s]
+Number of targets: 1. Number of designs: 2.
+✓ Step analysis completed successfully in 19.0s
+**************************************************
+Pipeline step 7 of 7: filtering
+Running command: /opt/boltzgen-env/bin/python /opt/boltzgen-env/lib/python3.12/site-packages/boltzgen/resources/main.py results_unconstrained/config/filtering.yaml
+Total number of designs:     2
+Duplicates found: 0. Removing duplicates. 2 designs remain.
+
+Num designs that pass the has_x filter with threshold 0 where lower is better: 2
+Remaining designs: 2
+Num designs that pass the filter_rmsd filter with threshold 2.5 where lower is better: 1
+Remaining designs: 1
+Num designs that pass the filter_rmsd_design filter with threshold 2.5 where lower is better: 2
+Remaining designs: 1
+Num designs that pass the designfolding-filter_rmsd filter with threshold 2.5 where lower is better: 2
+Remaining designs: 1
+Num designs that pass the ALA_fraction filter with threshold 0.3 where lower is better: 2
+Remaining designs: 1
+Num designs that pass the GLY_fraction filter with threshold 0.3 where lower is better: 2
+Remaining designs: 1
+Num designs that pass the GLU_fraction filter with threshold 0.3 where lower is better: 2
+Remaining designs: 1
+Num designs that pass the LEU_fraction filter with threshold 0.3 where lower is better: 2
+Remaining designs: 1
+Num designs that pass the VAL_fraction filter with threshold 0.3 where lower is better: 2
+Remaining designs: 1
+Only 1 designs pass filters. We highly recommend relaxing the thresholds.
+
+
+copy top design files: 0it [00:00, ?it/s]copy top design files: 2it [00:00, 11.86it/s]copy top design files: 2it [00:00, 11.84it/s]
+copy diversity files:   0%|          | 0/2 [00:00<?, ?it/s]copy diversity files: 100%|██████████| 2/2 [00:00<00:00, 11.65it/s]copy diversity files: 100%|██████████| 2/2 [00:00<00:00, 11.62it/s]
+Files + CSV saved to results_unconstrained/final_ranked_designs
+
+Writing design files is done. Now making plots for a final summary .pdf file with statistics.
+A description of metrics and summarizing plots was written to: results_unconstrained/final_ranked_designs/results_overview.pdf
+✓ Step filtering completed successfully in 14.0s

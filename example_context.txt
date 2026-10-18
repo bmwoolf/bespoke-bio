@@ -1,0 +1,77 @@
+First data pass example
+{
+  "case_id": "patient-001",
+  "reference": {
+    "genome_build": "GRCh38",
+    "annotation": "GENCODE-50"
+  },
+  "transcripts": [
+    {
+      "gene_id": "ENSG00000141510.19",
+      "gene_symbol": "TP53",
+      "transcript_id": "ENST00000269305.9",
+      "strand": "-",
+      "expression": {
+        "tpm": 42.7,
+        "raw_count": 1834
+      },
+      "variants": [
+        {
+          "variant_id": "17:7675088:C:T",
+          "chrom": "17",
+          "position": 7675088,
+          "ref": "C",
+          "alt": "T",
+          "genotype": "0/1",
+          "haplotype": null,
+          "phase_set": null,
+          "population_af": 0.00002,
+          "quality": "PASS"
+        }
+      ]
+    }
+  ]
+}
+
+Second data pass
+
+{
+  "case_id": "patient-001",
+  "targets": [
+    {
+      "target_id": "target_f82a91",
+      "gene_symbol": "TP53",
+      "transcript_id": "ENST00000269305.9",
+      "haplotype": "unknown",
+      "source_variants": ["17:7675088:C:T"],
+      "reference_sequence_hash": "sha256:...",
+      "variant_sequence": "MEEPQ...",
+      "protein_change": "p.R175H",
+      "expression_tpm": 42.7,
+      "translation_status": "complete",
+      "structure": {
+        "file": "targets/target_f82a91.cif",
+        "source": "ColabFold",
+        "mean_plddt": 86.2
+      },
+      "keys": [
+        {
+          "key_id": "key_001",
+          "sequence": "MKT...",
+          "structure_file": "keys/key_001.cif",
+          "complex_file": "complexes/target_f82a91_key_001.cif",
+          "interface_score": 0.91,
+          "model_confidence": 0.84,
+          "off_target_score": 0.08,
+          "rank": 1
+        }
+      ]
+    }
+  ],
+  "failures": []
+}
+
+
+Choosing from the prompts or categories (wild card included), propose what you’ll be building with your team. Preferably three different ideas, less than 200 words per project idea.: "BioCAD idea -- our focus is on handling bio data from the battlefront, processing comics data from (assumed) battlefield sensors, designing bespoke soldier-specific therapeutics etc from data and context, then sending the molecular CAD designs back to the front for synthesis. The McMaster website acts a pre-populated CAD parts catalog that allows the headquarters medic to oversee the design workflow, quickly find and source and build appropriate and functional 'keys', the keys as fleshed out machines (think integrated rocket components), then send that data back to a peptide synthesizer at the front. Base case will be human proteins only to start, but this workflow can be extended to pathogens easily. We purposely elide the confirmation stuff here (eg is your transmitted data correct and synthesized correctly) and focus on the computational pipeline" 
+
+The “So What?” - why your project matters and what the end deliverable will look like? "McMaster website for on the fly CAD protein design -- moving from the existing single domain synbio parts catalog to a fully fleshed out integrated design pipeline. The deliverable here is a pipeline that takes in omics data, processes and models, and returns a protein design. The highlights here are the bespoke loop (take into account genome variance on the fly) and the design pipeline (going from genome variant 'locks' to context-specific molecular keys, built on top of an integrated 'parts-plus' binder design model."

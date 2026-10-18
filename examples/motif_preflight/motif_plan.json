@@ -1,0 +1,1311 @@
+{
+  "schema_version": "0.1.0",
+  "request": {
+    "flank_residues": 2,
+    "preserve_native_disulfides": true,
+    "bridge_min_residues": 4,
+    "bridge_max_residues": 24,
+    "bridge_slack_residues": 3,
+    "terminal_residues": 8,
+    "maximum_scaffold_length": 180
+  },
+  "source_layout_id": "layout_10abfadd277a02b0",
+  "source_sha256": "97c29c9af313bec532a0dd3dd097bb43df48a5c2299e05cb25ba520aba9cf4b1",
+  "foundry_commit": "d078b24d6d0e6f8607e9a0311128f4a897f83953",
+  "model_validation": "draft: own geometry/mapping checks only; native RFD3 parsing and inference not executed",
+  "evidence": "geometry_only",
+  "contact_residues": [
+    {
+      "chain": "K",
+      "number": 27,
+      "insertion": ""
+    },
+    {
+      "chain": "K",
+      "number": 29,
+      "insertion": ""
+    },
+    {
+      "chain": "K",
+      "number": 30,
+      "insertion": ""
+    },
+    {
+      "chain": "K",
+      "number": 32,
+      "insertion": ""
+    },
+    {
+      "chain": "K",
+      "number": 99,
+      "insertion": ""
+    },
+    {
+      "chain": "K",
+      "number": 100,
+      "insertion": ""
+    },
+    {
+      "chain": "K",
+      "number": 101,
+      "insertion": ""
+    },
+    {
+      "chain": "K",
+      "number": 102,
+      "insertion": ""
+    },
+    {
+      "chain": "K",
+      "number": 103,
+      "insertion": ""
+    },
+    {
+      "chain": "K",
+      "number": 104,
+      "insertion": ""
+    },
+    {
+      "chain": "K",
+      "number": 105,
+      "insertion": ""
+    },
+    {
+      "chain": "K",
+      "number": 108,
+      "insertion": ""
+    },
+    {
+      "chain": "K",
+      "number": 109,
+      "insertion": ""
+    },
+    {
+      "chain": "K",
+      "number": 111,
+      "insertion": ""
+    },
+    {
+      "chain": "K",
+      "number": 113,
+      "insertion": ""
+    },
+    {
+      "chain": "K",
+      "number": 114,
+      "insertion": ""
+    },
+    {
+      "chain": "K",
+      "number": 115,
+      "insertion": ""
+    },
+    {
+      "chain": "K",
+      "number": 116,
+      "insertion": ""
+    },
+    {
+      "chain": "L",
+      "number": 27,
+      "insertion": ""
+    },
+    {
+      "chain": "L",
+      "number": 29,
+      "insertion": ""
+    },
+    {
+      "chain": "L",
+      "number": 30,
+      "insertion": ""
+    },
+    {
+      "chain": "L",
+      "number": 32,
+      "insertion": ""
+    },
+    {
+      "chain": "L",
+      "number": 99,
+      "insertion": ""
+    },
+    {
+      "chain": "L",
+      "number": 100,
+      "insertion": ""
+    },
+    {
+      "chain": "L",
+      "number": 101,
+      "insertion": ""
+    },
+    {
+      "chain": "L",
+      "number": 102,
+      "insertion": ""
+    },
+    {
+      "chain": "L",
+      "number": 103,
+      "insertion": ""
+    },
+    {
+      "chain": "L",
+      "number": 104,
+      "insertion": ""
+    },
+    {
+      "chain": "L",
+      "number": 105,
+      "insertion": ""
+    },
+    {
+      "chain": "L",
+      "number": 108,
+      "insertion": ""
+    },
+    {
+      "chain": "L",
+      "number": 109,
+      "insertion": ""
+    },
+    {
+      "chain": "L",
+      "number": 111,
+      "insertion": ""
+    },
+    {
+      "chain": "L",
+      "number": 113,
+      "insertion": ""
+    },
+    {
+      "chain": "L",
+      "number": 114,
+      "insertion": ""
+    },
+    {
+      "chain": "L",
+      "number": 115,
+      "insertion": ""
+    },
+    {
+      "chain": "L",
+      "number": 116,
+      "insertion": ""
+    }
+  ],
+  "blocks": [
+    {
+      "id": "K1",
+      "chain": "K",
+      "token": "K20-35",
+      "input_first": 20,
+      "input_last": 35,
+      "count": 16,
+      "source_residues": [
+        {
+          "chain": "K",
+          "number": 20,
+          "insertion": ""
+        },
+        {
+          "chain": "K",
+          "number": 21,
+          "insertion": ""
+        },
+        {
+          "chain": "K",
+          "number": 22,
+          "insertion": ""
+        },
+        {
+          "chain": "K",
+          "number": 23,
+          "insertion": ""
+        },
+        {
+          "chain": "K",
+          "number": 24,
+          "insertion": ""
+        },
+        {
+          "chain": "K",
+          "number": 25,
+          "insertion": ""
+        },
+        {
+          "chain": "K",
+          "number": 26,
+          "insertion": ""
+        },
+        {
+          "chain": "K",
+          "number": 27,
+          "insertion": ""
+        },
+        {
+          "chain": "K",
+          "number": 28,
+          "insertion": ""
+        },
+        {
+          "chain": "K",
+          "number": 29,
+          "insertion": ""
+        },
+        {
+          "chain": "K",
+          "number": 30,
+          "insertion": ""
+        },
+        {
+          "chain": "K",
+          "number": 31,
+          "insertion": ""
+        },
+        {
+          "chain": "K",
+          "number": 32,
+          "insertion": ""
+        },
+        {
+          "chain": "K",
+          "number": 33,
+          "insertion": ""
+        },
+        {
+          "chain": "K",
+          "number": 34,
+          "insertion": ""
+        },
+        {
+          "chain": "K",
+          "number": 35,
+          "insertion": ""
+        }
+      ],
+      "contact_source_positions": [
+        27,
+        29,
+        30,
+        32
+      ],
+      "start_n": [
+        7.24,
+        -44.965,
+        -6.042
+      ],
+      "end_c": [
+        13.909,
+        -47.669,
+        -15.105
+      ],
+      "fixed_atoms": "all observed atoms; no coordinates fabricated",
+      "support_sufficiency": "unknown; flanks and disulfides do not establish an independently folding motif"
+    },
+    {
+      "id": "K2",
+      "chain": "K",
+      "token": "K94-118",
+      "input_first": 94,
+      "input_last": 118,
+      "count": 25,
+      "source_residues": [
+        {
+          "chain": "K",
+          "number": 94,
+          "insertion": ""
+        },
+        {
+          "chain": "K",
+          "number": 95,
+          "insertion": ""
+        },
+        {
+          "chain": "K",
+          "number": 96,
+          "insertion": ""
+        },
+        {
+          "chain": "K",
+          "number": 97,
+          "insertion": ""
+        },
+        {
+          "chain": "K",
+          "number": 98,
+          "insertion": ""
+        },
+        {
+          "chain": "K",
+          "number": 99,
+          "insertion": ""
+        },
+        {
+          "chain": "K",
+          "number": 100,
+          "insertion": ""
+        },
+        {
+          "chain": "K",
+          "number": 101,
+          "insertion": ""
+        },
+        {
+          "chain": "K",
+          "number": 102,
+          "insertion": ""
+        },
+        {
+          "chain": "K",
+          "number": 103,
+          "insertion": ""
+        },
+        {
+          "chain": "K",
+          "number": 104,
+          "insertion": ""
+        },
+        {
+          "chain": "K",
+          "number": 105,
+          "insertion": ""
+        },
+        {
+          "chain": "K",
+          "number": 106,
+          "insertion": ""
+        },
+        {
+          "chain": "K",
+          "number": 107,
+          "insertion": ""
+        },
+        {
+          "chain": "K",
+          "number": 108,
+          "insertion": ""
+        },
+        {
+          "chain": "K",
+          "number": 109,
+          "insertion": ""
+        },
+        {
+          "chain": "K",
+          "number": 110,
+          "insertion": ""
+        },
+        {
+          "chain": "K",
+          "number": 111,
+          "insertion": ""
+        },
+        {
+          "chain": "K",
+          "number": 112,
+          "insertion": ""
+        },
+        {
+          "chain": "K",
+          "number": 113,
+          "insertion": ""
+        },
+        {
+          "chain": "K",
+          "number": 114,
+          "insertion": ""
+        },
+        {
+          "chain": "K",
+          "number": 115,
+          "insertion": ""
+        },
+        {
+          "chain": "K",
+          "number": 116,
+          "insertion": ""
+        },
+        {
+          "chain": "K",
+          "number": 117,
+          "insertion": ""
+        },
+        {
+          "chain": "K",
+          "number": 118,
+          "insertion": ""
+        }
+      ],
+      "contact_source_positions": [
+        99,
+        100,
+        101,
+        102,
+        103,
+        104,
+        105,
+        108,
+        109,
+        111,
+        113,
+        114,
+        115,
+        116
+      ],
+      "start_n": [
+        15.351,
+        -39.704,
+        -8.53
+      ],
+      "end_c": [
+        12.381,
+        -39.115,
+        -18.98
+      ],
+      "fixed_atoms": "all observed atoms; no coordinates fabricated",
+      "support_sufficiency": "unknown; flanks and disulfides do not establish an independently folding motif"
+    },
+    {
+      "id": "L1",
+      "chain": "L",
+      "token": "L20-35",
+      "input_first": 20,
+      "input_last": 35,
+      "count": 16,
+      "source_residues": [
+        {
+          "chain": "L",
+          "number": 20,
+          "insertion": ""
+        },
+        {
+          "chain": "L",
+          "number": 21,
+          "insertion": ""
+        },
+        {
+          "chain": "L",
+          "number": 22,
+          "insertion": ""
+        },
+        {
+          "chain": "L",
+          "number": 23,
+          "insertion": ""
+        },
+        {
+          "chain": "L",
+          "number": 24,
+          "insertion": ""
+        },
+        {
+          "chain": "L",
+          "number": 25,
+          "insertion": ""
+        },
+        {
+          "chain": "L",
+          "number": 26,
+          "insertion": ""
+        },
+        {
+          "chain": "L",
+          "number": 27,
+          "insertion": ""
+        },
+        {
+          "chain": "L",
+          "number": 28,
+          "insertion": ""
+        },
+        {
+          "chain": "L",
+          "number": 29,
+          "insertion": ""
+        },
+        {
+          "chain": "L",
+          "number": 30,
+          "insertion": ""
+        },
+        {
+          "chain": "L",
+          "number": 31,
+          "insertion": ""
+        },
+        {
+          "chain": "L",
+          "number": 32,
+          "insertion": ""
+        },
+        {
+          "chain": "L",
+          "number": 33,
+          "insertion": ""
+        },
+        {
+          "chain": "L",
+          "number": 34,
+          "insertion": ""
+        },
+        {
+          "chain": "L",
+          "number": 35,
+          "insertion": ""
+        }
+      ],
+      "contact_source_positions": [
+        27,
+        29,
+        30,
+        32
+      ],
+      "start_n": [
+        11.158904,
+        -12.9928935,
+        -6.042
+      ],
+      "end_c": [
+        13.862904,
+        -6.32389353,
+        -15.105
+      ],
+      "fixed_atoms": "all observed atoms; no coordinates fabricated",
+      "support_sufficiency": "unknown; flanks and disulfides do not establish an independently folding motif"
+    },
+    {
+      "id": "L2",
+      "chain": "L",
+      "token": "L94-118",
+      "input_first": 94,
+      "input_last": 118,
+      "count": 25,
+      "source_residues": [
+        {
+          "chain": "L",
+          "number": 94,
+          "insertion": ""
+        },
+        {
+          "chain": "L",
+          "number": 95,
+          "insertion": ""
+        },
+        {
+          "chain": "L",
+          "number": 96,
+          "insertion": ""
+        },
+        {
+          "chain": "L",
+          "number": 97,
+          "insertion": ""
+        },
+        {
+          "chain": "L",
+          "number": 98,
+          "insertion": ""
+        },
+        {
+          "chain": "L",
+          "number": 99,
+          "insertion": ""
+        },
+        {
+          "chain": "L",
+          "number": 100,
+          "insertion": ""
+        },
+        {
+          "chain": "L",
+          "number": 101,
+          "insertion": ""
+        },
+        {
+          "chain": "L",
+          "number": 102,
+          "insertion": ""
+        },
+        {
+          "chain": "L",
+          "number": 103,
+          "insertion": ""
+        },
+        {
+          "chain": "L",
+          "number": 104,
+          "insertion": ""
+        },
+        {
+          "chain": "L",
+          "number": 105,
+          "insertion": ""
+        },
+        {
+          "chain": "L",
+          "number": 106,
+          "insertion": ""
+        },
+        {
+          "chain": "L",
+          "number": 107,
+          "insertion": ""
+        },
+        {
+          "chain": "L",
+          "number": 108,
+          "insertion": ""
+        },
+        {
+          "chain": "L",
+          "number": 109,
+          "insertion": ""
+        },
+        {
+          "chain": "L",
+          "number": 110,
+          "insertion": ""
+        },
+        {
+          "chain": "L",
+          "number": 111,
+          "insertion": ""
+        },
+        {
+          "chain": "L",
+          "number": 112,
+          "insertion": ""
+        },
+        {
+          "chain": "L",
+          "number": 113,
+          "insertion": ""
+        },
+        {
+          "chain": "L",
+          "number": 114,
+          "insertion": ""
+        },
+        {
+          "chain": "L",
+          "number": 115,
+          "insertion": ""
+        },
+        {
+          "chain": "L",
+          "number": 116,
+          "insertion": ""
+        },
+        {
+          "chain": "L",
+          "number": 117,
+          "insertion": ""
+        },
+        {
+          "chain": "L",
+          "number": 118,
+          "insertion": ""
+        }
+      ],
+      "contact_source_positions": [
+        99,
+        100,
+        101,
+        102,
+        103,
+        104,
+        105,
+        108,
+        109,
+        111,
+        113,
+        114,
+        115,
+        116
+      ],
+      "start_n": [
+        5.89790397,
+        -4.88189353,
+        -8.53
+      ],
+      "end_c": [
+        5.30890397,
+        -7.85189353,
+        -18.98
+      ],
+      "fixed_atoms": "all observed atoms; no coordinates fabricated",
+      "support_sufficiency": "unknown; flanks and disulfides do not establish an independently folding motif"
+    }
+  ],
+  "native_disulfides": [
+    {
+      "first": {
+        "chain": "K",
+        "number": 22,
+        "insertion": ""
+      },
+      "second": {
+        "chain": "K",
+        "number": 96,
+        "insertion": ""
+      },
+      "evidence": "inferred from observed SG geometry, not imported bond annotations",
+      "sg_distance_angstrom": 2.0808414163506055
+    },
+    {
+      "first": {
+        "chain": "K",
+        "number": 33,
+        "insertion": ""
+      },
+      "second": {
+        "chain": "K",
+        "number": 106,
+        "insertion": ""
+      },
+      "evidence": "inferred from observed SG geometry, not imported bond annotations",
+      "sg_distance_angstrom": 2.0321262263944107
+    },
+    {
+      "first": {
+        "chain": "L",
+        "number": 22,
+        "insertion": ""
+      },
+      "second": {
+        "chain": "L",
+        "number": 96,
+        "insertion": ""
+      },
+      "evidence": "inferred from observed SG geometry, not imported bond annotations",
+      "sg_distance_angstrom": 2.0808414163506064
+    },
+    {
+      "first": {
+        "chain": "L",
+        "number": 33,
+        "insertion": ""
+      },
+      "second": {
+        "chain": "L",
+        "number": 106,
+        "insertion": ""
+      },
+      "evidence": "inferred from observed SG geometry, not imported bond annotations",
+      "sg_distance_angstrom": 2.0321262263944138
+    }
+  ],
+  "disulfide_policy": "endpoints and flanks preserved in fixed motifs",
+  "topologies": [
+    {
+      "id": "topology_K1_K2_L1_L2",
+      "order": [
+        "K1",
+        "K2",
+        "L1",
+        "L2"
+      ],
+      "provenance_order": "tandem_control",
+      "status": "locally_preflighted",
+      "failed_checks": [],
+      "bridges": [
+        {
+          "from": "K1",
+          "to": "K2",
+          "anchor_distance_angstrom": 10.42838501398946,
+          "necessary_contour_minimum_residues": 2,
+          "proposed_residues": 10,
+          "status": "unmodeled"
+        },
+        {
+          "from": "K2",
+          "to": "L1",
+          "anchor_distance_angstrom": 29.176185676516358,
+          "necessary_contour_minimum_residues": 7,
+          "proposed_residues": 10,
+          "status": "unmodeled"
+        },
+        {
+          "from": "L1",
+          "to": "L2",
+          "anchor_distance_angstrom": 10.428385036902887,
+          "necessary_contour_minimum_residues": 2,
+          "proposed_residues": 9,
+          "status": "unmodeled"
+        }
+      ],
+      "scaffold_length": 127,
+      "contig": "8,K20-35,10,K94-118,10,L20-35,9,L94-118,8,/0,T1-115,/0,U1-115",
+      "output_motif_spans": [
+        {
+          "block_id": "K1",
+          "output_chain": "A",
+          "output_first": 9,
+          "output_last": 24,
+          "input_chain": "K",
+          "input_first": 20,
+          "input_last": 35
+        },
+        {
+          "block_id": "K2",
+          "output_chain": "A",
+          "output_first": 35,
+          "output_last": 59,
+          "input_chain": "K",
+          "input_first": 94,
+          "input_last": 118
+        },
+        {
+          "block_id": "L1",
+          "output_chain": "A",
+          "output_first": 70,
+          "output_last": 85,
+          "input_chain": "L",
+          "input_first": 20,
+          "input_last": 35
+        },
+        {
+          "block_id": "L2",
+          "output_chain": "A",
+          "output_first": 95,
+          "output_last": 119,
+          "input_chain": "L",
+          "input_first": 94,
+          "input_last": 118
+        }
+      ],
+      "note": "Sequence provenance interleaves modules; spatial interdigitation and a shared folded core are not established"
+    },
+    {
+      "id": "topology_K1_L1_K2_L2",
+      "order": [
+        "K1",
+        "L1",
+        "K2",
+        "L2"
+      ],
+      "provenance_order": "interleaved",
+      "status": "locally_preflighted",
+      "failed_checks": [],
+      "bridges": [
+        {
+          "from": "K1",
+          "to": "L1",
+          "anchor_distance_angstrom": 35.94625653678778,
+          "necessary_contour_minimum_residues": 9,
+          "proposed_residues": 12,
+          "status": "unmodeled"
+        },
+        {
+          "from": "L1",
+          "to": "K2",
+          "anchor_distance_angstrom": 34.05402417708885,
+          "necessary_contour_minimum_residues": 8,
+          "proposed_residues": 11,
+          "status": "unmodeled"
+        },
+        {
+          "from": "K2",
+          "to": "L2",
+          "anchor_distance_angstrom": 36.37497233979097,
+          "necessary_contour_minimum_residues": 9,
+          "proposed_residues": 12,
+          "status": "unmodeled"
+        }
+      ],
+      "scaffold_length": 133,
+      "contig": "8,K20-35,12,L20-35,11,K94-118,12,L94-118,8,/0,T1-115,/0,U1-115",
+      "output_motif_spans": [
+        {
+          "block_id": "K1",
+          "output_chain": "A",
+          "output_first": 9,
+          "output_last": 24,
+          "input_chain": "K",
+          "input_first": 20,
+          "input_last": 35
+        },
+        {
+          "block_id": "L1",
+          "output_chain": "A",
+          "output_first": 37,
+          "output_last": 52,
+          "input_chain": "L",
+          "input_first": 20,
+          "input_last": 35
+        },
+        {
+          "block_id": "K2",
+          "output_chain": "A",
+          "output_first": 64,
+          "output_last": 88,
+          "input_chain": "K",
+          "input_first": 94,
+          "input_last": 118
+        },
+        {
+          "block_id": "L2",
+          "output_chain": "A",
+          "output_first": 101,
+          "output_last": 125,
+          "input_chain": "L",
+          "input_first": 94,
+          "input_last": 118
+        }
+      ],
+      "note": "Sequence provenance interleaves modules; spatial interdigitation and a shared folded core are not established"
+    },
+    {
+      "id": "topology_K1_L1_L2_K2",
+      "order": [
+        "K1",
+        "L1",
+        "L2",
+        "K2"
+      ],
+      "provenance_order": "interleaved",
+      "status": "locally_preflighted",
+      "failed_checks": [],
+      "bridges": [
+        {
+          "from": "K1",
+          "to": "L1",
+          "anchor_distance_angstrom": 35.94625653678778,
+          "necessary_contour_minimum_residues": 9,
+          "proposed_residues": 12,
+          "status": "unmodeled"
+        },
+        {
+          "from": "L1",
+          "to": "L2",
+          "anchor_distance_angstrom": 10.428385036902887,
+          "necessary_contour_minimum_residues": 2,
+          "proposed_residues": 5,
+          "status": "unmodeled"
+        },
+        {
+          "from": "L2",
+          "to": "K2",
+          "anchor_distance_angstrom": 34.99432638660099,
+          "necessary_contour_minimum_residues": 9,
+          "proposed_residues": 12,
+          "status": "unmodeled"
+        }
+      ],
+      "scaffold_length": 127,
+      "contig": "8,K20-35,12,L20-35,5,L94-118,12,K94-118,8,/0,T1-115,/0,U1-115",
+      "output_motif_spans": [
+        {
+          "block_id": "K1",
+          "output_chain": "A",
+          "output_first": 9,
+          "output_last": 24,
+          "input_chain": "K",
+          "input_first": 20,
+          "input_last": 35
+        },
+        {
+          "block_id": "L1",
+          "output_chain": "A",
+          "output_first": 37,
+          "output_last": 52,
+          "input_chain": "L",
+          "input_first": 20,
+          "input_last": 35
+        },
+        {
+          "block_id": "L2",
+          "output_chain": "A",
+          "output_first": 58,
+          "output_last": 82,
+          "input_chain": "L",
+          "input_first": 94,
+          "input_last": 118
+        },
+        {
+          "block_id": "K2",
+          "output_chain": "A",
+          "output_first": 95,
+          "output_last": 119,
+          "input_chain": "K",
+          "input_first": 94,
+          "input_last": 118
+        }
+      ],
+      "note": "Sequence provenance interleaves modules; spatial interdigitation and a shared folded core are not established"
+    },
+    {
+      "id": "topology_L1_K1_K2_L2",
+      "order": [
+        "L1",
+        "K1",
+        "K2",
+        "L2"
+      ],
+      "provenance_order": "interleaved",
+      "status": "locally_preflighted",
+      "failed_checks": [],
+      "bridges": [
+        {
+          "from": "L1",
+          "to": "K1",
+          "anchor_distance_angstrom": 40.23848823724734,
+          "necessary_contour_minimum_residues": 10,
+          "proposed_residues": 13,
+          "status": "unmodeled"
+        },
+        {
+          "from": "K1",
+          "to": "K2",
+          "anchor_distance_angstrom": 10.42838501398946,
+          "necessary_contour_minimum_residues": 2,
+          "proposed_residues": 5,
+          "status": "unmodeled"
+        },
+        {
+          "from": "K2",
+          "to": "L2",
+          "anchor_distance_angstrom": 36.37497233979097,
+          "necessary_contour_minimum_residues": 9,
+          "proposed_residues": 12,
+          "status": "unmodeled"
+        }
+      ],
+      "scaffold_length": 128,
+      "contig": "8,L20-35,13,K20-35,5,K94-118,12,L94-118,8,/0,T1-115,/0,U1-115",
+      "output_motif_spans": [
+        {
+          "block_id": "L1",
+          "output_chain": "A",
+          "output_first": 9,
+          "output_last": 24,
+          "input_chain": "L",
+          "input_first": 20,
+          "input_last": 35
+        },
+        {
+          "block_id": "K1",
+          "output_chain": "A",
+          "output_first": 38,
+          "output_last": 53,
+          "input_chain": "K",
+          "input_first": 20,
+          "input_last": 35
+        },
+        {
+          "block_id": "K2",
+          "output_chain": "A",
+          "output_first": 59,
+          "output_last": 83,
+          "input_chain": "K",
+          "input_first": 94,
+          "input_last": 118
+        },
+        {
+          "block_id": "L2",
+          "output_chain": "A",
+          "output_first": 96,
+          "output_last": 120,
+          "input_chain": "L",
+          "input_first": 94,
+          "input_last": 118
+        }
+      ],
+      "note": "Sequence provenance interleaves modules; spatial interdigitation and a shared folded core are not established"
+    },
+    {
+      "id": "topology_L1_K1_L2_K2",
+      "order": [
+        "L1",
+        "K1",
+        "L2",
+        "K2"
+      ],
+      "provenance_order": "interleaved",
+      "status": "locally_preflighted",
+      "failed_checks": [],
+      "bridges": [
+        {
+          "from": "L1",
+          "to": "K1",
+          "anchor_distance_angstrom": 40.23848823724734,
+          "necessary_contour_minimum_residues": 10,
+          "proposed_residues": 13,
+          "status": "unmodeled"
+        },
+        {
+          "from": "K1",
+          "to": "L2",
+          "anchor_distance_angstrom": 44.02436557949469,
+          "necessary_contour_minimum_residues": 11,
+          "proposed_residues": 14,
+          "status": "unmodeled"
+        },
+        {
+          "from": "L2",
+          "to": "K2",
+          "anchor_distance_angstrom": 34.99432638660099,
+          "necessary_contour_minimum_residues": 9,
+          "proposed_residues": 12,
+          "status": "unmodeled"
+        }
+      ],
+      "scaffold_length": 137,
+      "contig": "8,L20-35,13,K20-35,14,L94-118,12,K94-118,8,/0,T1-115,/0,U1-115",
+      "output_motif_spans": [
+        {
+          "block_id": "L1",
+          "output_chain": "A",
+          "output_first": 9,
+          "output_last": 24,
+          "input_chain": "L",
+          "input_first": 20,
+          "input_last": 35
+        },
+        {
+          "block_id": "K1",
+          "output_chain": "A",
+          "output_first": 38,
+          "output_last": 53,
+          "input_chain": "K",
+          "input_first": 20,
+          "input_last": 35
+        },
+        {
+          "block_id": "L2",
+          "output_chain": "A",
+          "output_first": 68,
+          "output_last": 92,
+          "input_chain": "L",
+          "input_first": 94,
+          "input_last": 118
+        },
+        {
+          "block_id": "K2",
+          "output_chain": "A",
+          "output_first": 105,
+          "output_last": 129,
+          "input_chain": "K",
+          "input_first": 94,
+          "input_last": 118
+        }
+      ],
+      "note": "Sequence provenance interleaves modules; spatial interdigitation and a shared folded core are not established"
+    },
+    {
+      "id": "topology_L1_L2_K1_K2",
+      "order": [
+        "L1",
+        "L2",
+        "K1",
+        "K2"
+      ],
+      "provenance_order": "tandem_control",
+      "status": "locally_preflighted",
+      "failed_checks": [],
+      "bridges": [
+        {
+          "from": "L1",
+          "to": "L2",
+          "anchor_distance_angstrom": 10.428385036902887,
+          "necessary_contour_minimum_residues": 2,
+          "proposed_residues": 5,
+          "status": "unmodeled"
+        },
+        {
+          "from": "L2",
+          "to": "K1",
+          "anchor_distance_angstrom": 39.35103108853233,
+          "necessary_contour_minimum_residues": 10,
+          "proposed_residues": 13,
+          "status": "unmodeled"
+        },
+        {
+          "from": "K1",
+          "to": "K2",
+          "anchor_distance_angstrom": 10.42838501398946,
+          "necessary_contour_minimum_residues": 2,
+          "proposed_residues": 5,
+          "status": "unmodeled"
+        }
+      ],
+      "scaffold_length": 121,
+      "contig": "8,L20-35,5,L94-118,13,K20-35,5,K94-118,8,/0,T1-115,/0,U1-115",
+      "output_motif_spans": [
+        {
+          "block_id": "L1",
+          "output_chain": "A",
+          "output_first": 9,
+          "output_last": 24,
+          "input_chain": "L",
+          "input_first": 20,
+          "input_last": 35
+        },
+        {
+          "block_id": "L2",
+          "output_chain": "A",
+          "output_first": 30,
+          "output_last": 54,
+          "input_chain": "L",
+          "input_first": 94,
+          "input_last": 118
+        },
+        {
+          "block_id": "K1",
+          "output_chain": "A",
+          "output_first": 68,
+          "output_last": 83,
+          "input_chain": "K",
+          "input_first": 20,
+          "input_last": 35
+        },
+        {
+          "block_id": "K2",
+          "output_chain": "A",
+          "output_first": 89,
+          "output_last": 113,
+          "input_chain": "K",
+          "input_first": 94,
+          "input_last": 118
+        }
+      ],
+      "note": "Sequence provenance interleaves modules; spatial interdigitation and a shared folded core are not established"
+    }
+  ],
+  "locally_viable_topologies": 6,
+  "matched_comparison_scaffold_length": 127,
+  "selected_topology_ids": [
+    "topology_K1_L1_L2_K2",
+    "topology_K1_K2_L1_L2"
+  ],
+  "original_two_key_observed_length": 254,
+  "fixed_motif_residues": 82,
+  "target_chain_order": [
+    "T",
+    "U"
+  ],
+  "predicted_output_chain_order": [
+    "A:designed_scaffold",
+    "B:target_from_T",
+    "C:target_from_U"
+  ],
+  "unknowns": [
+    "Folding core and framework support not established",
+    "Generated bridges and terminal regions not modeled",
+    "Disulfide pairing/folding after redesign unvalidated",
+    "Motif order does not establish spatial interdigitation",
+    "Relative target placement is hypothetical",
+    "No affinity, selectivity or function computed"
+  ],
+  "gpu_acceptance": [
+    "Verify native input mapping and exact protected atom identities before generating a batch",
+    "Check motif geometry and each separate interface; reject missing or scrambled motifs",
+    "Redesign generated regions with inverse folding, retaining protected identities",
+    "Independently predict the discrete scaffold alone and the two-target complex",
+    "Check C-N bonds across every motif/bridge boundary and disulfide geometry",
+    "Reassess compactness, forbidden clashes and each chain-pair metric after reprediction"
+  ]
+}

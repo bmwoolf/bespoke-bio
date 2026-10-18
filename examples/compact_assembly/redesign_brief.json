@@ -1,0 +1,138 @@
+{
+  "status": "proposal_not_executed",
+  "architecture": "compact_two_recognition_modules",
+  "component_id": "component_e4fa42cfcee573f7",
+  "candidate_layout_ids": [
+    "layout_10abfadd277a02b0",
+    "layout_945eeb928cc39904",
+    "layout_a133ff8ec8c6cf0c"
+  ],
+  "protected_binding_residues_per_instance": [
+    {
+      "chain": "B",
+      "number": 27,
+      "insertion": ""
+    },
+    {
+      "chain": "B",
+      "number": 29,
+      "insertion": ""
+    },
+    {
+      "chain": "B",
+      "number": 30,
+      "insertion": ""
+    },
+    {
+      "chain": "B",
+      "number": 32,
+      "insertion": ""
+    },
+    {
+      "chain": "B",
+      "number": 99,
+      "insertion": ""
+    },
+    {
+      "chain": "B",
+      "number": 100,
+      "insertion": ""
+    },
+    {
+      "chain": "B",
+      "number": 101,
+      "insertion": ""
+    },
+    {
+      "chain": "B",
+      "number": 102,
+      "insertion": ""
+    },
+    {
+      "chain": "B",
+      "number": 103,
+      "insertion": ""
+    },
+    {
+      "chain": "B",
+      "number": 104,
+      "insertion": ""
+    },
+    {
+      "chain": "B",
+      "number": 105,
+      "insertion": ""
+    },
+    {
+      "chain": "B",
+      "number": 108,
+      "insertion": ""
+    },
+    {
+      "chain": "B",
+      "number": 109,
+      "insertion": ""
+    },
+    {
+      "chain": "B",
+      "number": 111,
+      "insertion": ""
+    },
+    {
+      "chain": "B",
+      "number": 113,
+      "insertion": ""
+    },
+    {
+      "chain": "B",
+      "number": 114,
+      "insertion": ""
+    },
+    {
+      "chain": "B",
+      "number": 115,
+      "insertion": ""
+    },
+    {
+      "chain": "B",
+      "number": 116,
+      "insertion": ""
+    }
+  ],
+  "selection_definition": "observed component residues within 5 \u00c5 heavy-atom distance of target polypeptide",
+  "geometry_inputs": [
+    "compact_1.cif",
+    "compact_2.cif",
+    "compact_3.cif"
+  ],
+  "instances": [
+    {
+      "id": "key1",
+      "output_chain": "K",
+      "source_chain": "B"
+    },
+    {
+      "id": "key2",
+      "output_chain": "L",
+      "source_chain": "B"
+    }
+  ],
+  "redesign_goal": "Explore a shared compact scaffold supporting both protected binding motifs",
+  "editable_regions": null,
+  "unknowns": [
+    "Required folding core and disulfides beyond the binding surface have not been assigned",
+    "Non-interface residues are not automatically safe to delete",
+    "Precise generative model conditioning must be validated before execution"
+  ],
+  "future_routes": {
+    "motif_scaffolding": "preferred assembly-redesign experiment; executable model input not compiled",
+    "Raygun_or_SCISOR": "optional single-module shortening experiment; not run or installed"
+  },
+  "acceptance_requirements": [
+    "preserve each required interface after independent full-atom reprediction",
+    "evaluate the joint complex and forbidden cross-contacts",
+    "model sequence connectivity and linkers",
+    "compare full-construct compactness at equal evidence level"
+  ],
+  "conformational_design": "deferred by user"
+}

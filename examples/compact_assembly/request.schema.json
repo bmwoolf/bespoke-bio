@@ -1,0 +1,54 @@
+{
+  "additionalProperties": false,
+  "description": "Bounded rigid packing of two complete bound modules; no backbone editing.",
+  "properties": {
+    "offsets_angstrom": {
+      "items": {
+        "type": "number"
+      },
+      "maxItems": 8,
+      "minItems": 1,
+      "title": "Offsets Angstrom",
+      "type": "array"
+    },
+    "z_rotations_degrees": {
+      "items": {
+        "type": "number"
+      },
+      "maxItems": 8,
+      "minItems": 1,
+      "title": "Z Rotations Degrees",
+      "type": "array"
+    },
+    "linker_sequence": {
+      "default": "GGGGSGGGGSGGGGS",
+      "title": "Linker Sequence",
+      "type": "string"
+    },
+    "attachment": {
+      "default": "C",
+      "enum": [
+        "N",
+        "C"
+      ],
+      "title": "Attachment",
+      "type": "string"
+    },
+    "vdw_overlap_tolerance_angstrom": {
+      "default": 0.4,
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "title": "Vdw Overlap Tolerance Angstrom",
+      "type": "number"
+    },
+    "top_k": {
+      "default": 3,
+      "maximum": 10,
+      "minimum": 1,
+      "title": "Top K",
+      "type": "integer"
+    }
+  },
+  "title": "PlacementSearchRequest",
+  "type": "object"
+}

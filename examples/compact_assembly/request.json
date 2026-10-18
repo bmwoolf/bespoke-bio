@@ -1,0 +1,16 @@
+{
+  "offsets_angstrom": [
+    30.0,
+    40.0,
+    50.0,
+    65.0
+  ],
+  "z_rotations_degrees": [
+    0.0,
+    90.0
+  ],
+  "linker_sequence": "GGGGSGGGGSGGGGS",
+  "attachment": "C",
+  "vdw_overlap_tolerance_angstrom": 0.4,
+  "top_k": 3
+}

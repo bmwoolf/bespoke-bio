@@ -1,0 +1,57 @@
+{
+  "status": "pass",
+  "evidence": "geometry_only",
+  "joint_target_frame_ca_rmsd_angstrom": 0.055064467334376616,
+  "fixed_atom_rmsd_tolerance_angstrom": 0.5,
+  "blocks": [
+    {
+      "block_id": "K1",
+      "source_interface": "K:T",
+      "status": "pass",
+      "fixed_atom_rmsd_angstrom": 0.04662537822278131,
+      "maximum_fixed_atom_displacement_angstrom": 0.08600999365672499,
+      "missing": [],
+      "identity_mismatches": []
+    },
+    {
+      "block_id": "K2",
+      "source_interface": "K:T",
+      "status": "pass",
+      "fixed_atom_rmsd_angstrom": 0.05043643696755959,
+      "maximum_fixed_atom_displacement_angstrom": 0.1308340244888153,
+      "missing": [],
+      "identity_mismatches": []
+    },
+    {
+      "block_id": "L1",
+      "source_interface": "L:U",
+      "status": "pass",
+      "fixed_atom_rmsd_angstrom": 0.033399633061802304,
+      "maximum_fixed_atom_displacement_angstrom": 0.07017291088830557,
+      "missing": [],
+      "identity_mismatches": []
+    },
+    {
+      "block_id": "L2",
+      "source_interface": "L:U",
+      "status": "pass",
+      "fixed_atom_rmsd_angstrom": 0.04397157203008719,
+      "maximum_fixed_atom_displacement_angstrom": 0.07799281756920903,
+      "missing": [],
+      "identity_mismatches": []
+    }
+  ],
+  "scope": "Motif identity and target-relative geometry only; not folded scaffold acceptance",
+  "remaining": [
+    "all generated residues and peptide bonds",
+    "full-atom inventory",
+    "disulfide pairing",
+    "binding/function",
+    "independent prediction"
+  ],
+  "scaffold_residues": 170,
+  "expected_scaffold_residues": 170,
+  "backbone_gaps": [],
+  "backbone_screen": "passed",
+  "limits": "Geometry triage only; sequence design, independent refolding, packing, disulfide and functional validation remain required."
+}

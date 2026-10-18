@@ -1,0 +1,9 @@
+{
+  "flank_residues": 2,
+  "preserve_native_disulfides": true,
+  "bridge_min_residues": 4,
+  "bridge_max_residues": 24,
+  "bridge_slack_residues": 3,
+  "terminal_residues": 8,
+  "maximum_scaffold_length": 180
+}

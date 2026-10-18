@@ -1,0 +1,169 @@
+{
+  "artifact": {
+    "byteLength": 155467,
+    "mediaType": "image/png",
+    "outputPath": "binders.png",
+    "sha256": "33349553fab37cb047c1d7a06fd84b3213894c7e3e775c6522002f6325983d35"
+  },
+  "createdAt": "2026-10-18T01:33:19.005Z",
+  "provenance": {
+    "canonicalSpec": "{\"autoCrop\":true,\"cropPadding\":28,\"destination\":{\"base\":\"opened-source\",\"collisionPolicy\":\"versioned\",\"kind\":\"workspace\",\"relativePath\":\"binders.png\"},\"format\":\"png\",\"height\":650,\"kind\":\"image\",\"outputPath\":\"binders.png\",\"overwrite\":false,\"scene\":{\"antialiasing\":\"quality\",\"background\":\"#FFFFFF\",\"camera\":{\"focus\":{\"kind\":\"all\"},\"orientation\":\"front\",\"zoom\":2.1},\"clearExisting\":false,\"density\":[],\"lighting\":\"studio\",\"scientificAnnotations\":{\"guides\":[],\"quality\":[],\"symmetry\":[]}},\"transparent\":false,\"width\":1200}",
+    "density": {
+      "initial": [],
+      "sceneTransitions": []
+    },
+    "generatedAt": "2026-10-18T01:33:18.901Z",
+    "output": {
+      "autoCrop": true,
+      "crop": {
+        "applied": true,
+        "empty": false,
+        "height": 309,
+        "padding": 28,
+        "width": 951,
+        "x": 136,
+        "y": 163
+      },
+      "format": "png",
+      "height": 309,
+      "sourceHeight": 650,
+      "sourceWidth": 1200,
+      "transparent": false,
+      "width": 951
+    },
+    "renderer": "Mol* 5.11.0",
+    "replay": {
+      "autoCrop": true,
+      "cropPadding": 28,
+      "destination": {
+        "base": "opened-source",
+        "collisionPolicy": "versioned",
+        "kind": "workspace",
+        "relativePath": "binders.png"
+      },
+      "format": "png",
+      "height": 650,
+      "kind": "image",
+      "outputPath": "binders.png",
+      "overwrite": false,
+      "scene": {
+        "antialiasing": "quality",
+        "background": "#FFFFFF",
+        "camera": {
+          "focus": {
+            "kind": "all"
+          },
+          "orientation": "front",
+          "zoom": 2.1
+        },
+        "clearExisting": false,
+        "density": [],
+        "lighting": "studio",
+        "scientificAnnotations": {
+          "guides": [],
+          "quality": [],
+          "symmetry": []
+        }
+      },
+      "transparent": false,
+      "width": 1200
+    },
+    "schemaVersion": 1,
+    "source": {
+      "fileName": "pdl1_0.cif",
+      "name": "pdl1_0.cif",
+      "resourceUri": "viewer-file://structure-viewer/opened/c2337372-f815-44f1-9b35-6e3e2d1a5d5f",
+      "sha256": "7df712d24082437edda255cd422d83f16fd3129b23104e8855a7ad21d9306e96"
+    },
+    "structureObjects": [
+      {
+        "construction": {
+          "dynamicBonds": false,
+          "kind": "model",
+          "modelIndex": 0
+        },
+        "fileName": "pdl1_0.cif",
+        "frameCount": 1,
+        "id": "primary",
+        "matrix": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        "primary": true,
+        "resourceUri": "viewer-file://structure-viewer/opened/c2337372-f815-44f1-9b35-6e3e2d1a5d5f",
+        "visible": true
+      },
+      {
+        "construction": {
+          "dynamicBonds": false,
+          "kind": "model",
+          "modelIndex": 0
+        },
+        "fileName": "pdl1_1.cif",
+        "frameCount": 1,
+        "id": "candidate_1",
+        "matrix": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          95,
+          0,
+          0,
+          1
+        ],
+        "primary": false,
+        "resourceUri": "viewer-file://structure-viewer/opened/24aa6899-a143-4967-b366-10ed91c6cc32",
+        "visible": true
+      }
+    ],
+    "encodingDurationMs": 403.7999997138977,
+    "jobId": "7c6dda4f-ce4b-4644-83b7-7e208a808f75",
+    "workspacePublication": {
+      "destination": {
+        "base": "opened-source",
+        "relativePath": "binders.png"
+      },
+      "artifact": {
+        "kind": "render",
+        "mediaType": "image/png"
+      },
+      "output": {
+        "workspacePath": "examples/boltzgen_results/candidates/binders.png"
+      },
+      "plugin": {
+        "name": "structure-viewer",
+        "version": "0.1.95"
+      },
+      "schemaVersion": 1,
+      "source": {
+        "sha256": "7df712d24082437edda255cd422d83f16fd3129b23104e8855a7ad21d9306e96",
+        "workspacePath": "examples/boltzgen_results/candidates/pdl1_0.cif"
+      }
+    }
+  },
+  "renderer": "Mol* 5.11.0",
+  "schemaVersion": 1
+}

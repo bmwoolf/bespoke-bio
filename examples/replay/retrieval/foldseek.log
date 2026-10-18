@@ -1,0 +1,193 @@
+createdb outputs/assembly-benchmark-v2/library outputs/assembly-benchmark-v2/retrieval/db --chain-name-mode 1 
+
+MMseqs Version:         	463739e0014a1549a527de589102cde98f802f37
+Use GPU                 	0
+Path to ProstT5         	
+Chain name mode         	1
+Model name mode         	0
+Write mapping file      	0
+Write Foldcomp          	0
+Mask b-factor threshold 	0
+Coord store mode        	2
+Save residue indices    	false
+Write lookup file       	1
+Input format            	0
+Input compression format	0
+File Inclusion Regex    	.*
+File Exclusion Regex    	^$
+Threads                 	16
+Verbosity               	3
+
+Output file: outputs/assembly-benchmark-v2/retrieval/db
+[=================================================================] 1 0s 0ms
+Time for merging to db_ss: 0h 0m 0s 1ms
+Time for merging to db_h: 0h 0m 0s 1ms
+Time for merging to db_ca: 0h 0m 0s 1ms
+Time for merging to db: 0h 0m 0s 1ms
+Ignore 0 out of 1.
+Too short: 0, incorrect: 0, not proteins: 0.
+Time for processing: 0h 0m 0s 12ms
+Create directory outputs/assembly-benchmark-v2/retrieval/tmp
+easy-search outputs/assembly-benchmark-v2/alternate.cif outputs/assembly-benchmark-v2/retrieval/db outputs/assembly-benchmark-v2/retrieval/hits.tsv outputs/assembly-benchmark-v2/retrieval/tmp --format-output query,target,qstart,qend,tstart,tend,qaln,taln,qcov,tcov,alntmscore,qtmscore,ttmscore,evalue --alignment-type 1 --exhaustive-search 1 --max-seqs 5 --threads 1 -e 10 
+
+MMseqs Version:                    	463739e0014a1549a527de589102cde98f802f37
+TMscore threshold                  	0
+TMscore threshold mode             	0
+LDDT threshold                     	0
+Sort by structure bit score        	1
+Alignment type                     	1
+Exact TMscore                      	0
+Substitution matrix                	aa:3di.out,nucl:3di.out
+Add backtrace                      	false
+Alignment mode                     	3
+Alignment mode                     	0
+E-value threshold                  	10
+Seq. id. threshold                 	0
+Min alignment length               	0
+Seq. id. mode                      	0
+Alternative alignments             	0
+Coverage threshold                 	0
+Coverage mode                      	0
+Max sequence length                	65535
+Compositional bias                 	1
+Compositional bias scale           	1
+Max reject                         	2147483647
+Max accept                         	2147483647
+Preload mode                       	0
+Gap open cost                      	aa:10,nucl:10
+Gap extension cost                 	aa:1,nucl:1
+Threads                            	1
+Compressed                         	0
+Verbosity                          	3
+Seed substitution matrix           	aa:3di.out,nucl:3di.out
+Sensitivity                        	9.5
+k-mer length                       	6
+Target search mode                 	0
+k-score                            	seq:2147483647,prof:2147483647
+Max results per query              	5
+Split database                     	0
+Split mode                         	2
+Split memory limit                 	0
+Diagonal scoring                   	true
+Exact k-mer matching               	0
+Mask residues                      	0
+Mask residues probability          	0.999995
+Mask lower case residues           	1
+Mask lower letter repeating N times	6
+Minimum diagonal score             	30
+Selected taxa                      	
+Spaced k-mers                      	1
+Spaced k-mer pattern               	
+Local temporary path               	
+Use GPU                            	0
+Use GPU server                     	0
+Wait for GPU server                	600
+Prefilter mode                     	0
+TMalign hit order                  	0
+TMalign fast                       	1
+MultiDomain Mode                   	1
+Candidate seeds                    	10
+Refine seeds                       	3
+Block length                       	16
+Mask profile                       	1
+Profile E-value threshold          	0.1
+Global sequence weighting          	false
+Allow deletions                    	false
+Filter MSA                         	1
+Use filter only at N seqs          	0
+Maximum seq. id. threshold         	0.9
+Minimum seq. id.                   	0.0
+Minimum score per column           	-20
+Minimum coverage                   	0
+Select N most diverse seqs         	1000
+Pseudo count mode                  	0
+Profile output mode                	0
+Cluster search                     	0
+Exhaustive search mode             	true
+Search iterations                  	1
+Remove temporary files             	true
+Force restart with latest tmp      	false
+MPI runner                         	
+Path to ProstT5                    	
+Chain name mode                    	0
+Model name mode                    	0
+Write mapping file                 	0
+Write Foldcomp                     	0
+Mask b-factor threshold            	0
+Coord store mode                   	2
+Save residue indices               	false
+Write lookup file                  	1
+Input format                       	0
+Input compression format           	0
+File Inclusion Regex               	.*
+File Exclusion Regex               	^$
+Alignment format                   	0
+Format alignment output            	query,target,qstart,qend,tstart,tend,qaln,taln,qcov,tcov,alntmscore,qtmscore,ttmscore,evalue
+Database output                    	false
+Report mode                        	2
+Greedy best hits                   	false
+View results with StrucTTY         	false
+StrucTTY color mode                	0
+StrucTTY secondary structure       	false
+
+Alignment backtraces will be computed, since they were requested by output format.
+createdb outputs/assembly-benchmark-v2/alternate.cif outputs/assembly-benchmark-v2/retrieval/tmp/2656012646383830469/query --gpu 0 --chain-name-mode 0 --model-name-mode 0 --write-mapping 0 --write-foldcomp 0 --mask-bfactor-threshold 0 --coord-store-mode 2 --save-res-index 0 --write-lookup 1 --input-format 0 --input-compression-format 0 --file-include '.*' --file-exclude '^$' --threads 1 -v 3 
+
+Output file: outputs/assembly-benchmark-v2/retrieval/tmp/2656012646383830469/query
+[=================================================================] 1 0s 0ms
+Time for merging to query_ss: 0h 0m 0s 0ms
+Time for merging to query_h: 0h 0m 0s 0ms
+Time for merging to query_ca: 0h 0m 0s 0ms
+Time for merging to query: 0h 0m 0s 0ms
+Ignore 0 out of 1.
+Too short: 0, incorrect: 0, not proteins: 0.
+Time for processing: 0h 0m 0s 4ms
+Create directory outputs/assembly-benchmark-v2/retrieval/tmp/2656012646383830469/search_tmp
+search outputs/assembly-benchmark-v2/retrieval/tmp/2656012646383830469/query outputs/assembly-benchmark-v2/retrieval/db outputs/assembly-benchmark-v2/retrieval/tmp/2656012646383830469/result outputs/assembly-benchmark-v2/retrieval/tmp/2656012646383830469/search_tmp --alignment-type 1 -a 1 --alignment-mode 3 -e 10 --threads 1 -s 9.5 -k 6 --max-seqs 5 --exhaustive-search 1 --remove-tmp-files 1 
+
+structurealign outputs/assembly-benchmark-v2/retrieval/tmp/2656012646383830469/query outputs/assembly-benchmark-v2/retrieval/db outputs/assembly-benchmark-v2/retrieval/tmp/2656012646383830469/search_tmp/1719772218768682764/pref outputs/assembly-benchmark-v2/retrieval/tmp/2656012646383830469/search_tmp/1719772218768682764/strualn --tmscore-threshold 0 --tmscore-threshold-mode 0 --lddt-threshold 0 --sort-by-structure-bits 0 --alignment-type 1 --exact-tmscore 0 --sub-mat 'aa:3di.out,nucl:3di.out' -a 1 --alignment-mode 1 --alignment-output-mode 0 --wrapped-scoring 0 -e 10 --min-seq-id 0 --min-aln-len 0 --seq-id-mode 0 --alt-ali 0 -c 0 --cov-mode 0 --max-seq-len 65535 --comp-bias-corr 1 --comp-bias-corr-scale 0.5 --max-rejected 2147483647 --max-accept 2147483647 --add-self-matches 0 --db-load-mode 0 --pca substitution:1.100,context:1.400 --pcb substitution:4.100,context:5.800 --score-bias 0 --realign 0 --realign-score-bias -0.2 --realign-max-seqs 2147483647 --corr-score-weight 0 --gap-open aa:10,nucl:10 --gap-extend aa:1,nucl:1 --zdrop 40 --threads 1 --compressed 0 -v 3 
+
+[=================================================================] 1 0s 0ms
+Time for merging to strualn: 0h 0m 0s 0ms
+Time for processing: 0h 0m 0s 3ms
+tmalign outputs/assembly-benchmark-v2/retrieval/tmp/2656012646383830469/query outputs/assembly-benchmark-v2/retrieval/db outputs/assembly-benchmark-v2/retrieval/tmp/2656012646383830469/search_tmp/1719772218768682764/strualn outputs/assembly-benchmark-v2/retrieval/tmp/2656012646383830469/search_tmp/1719772218768682764/aln --min-seq-id 0 -c 0 --cov-mode 0 --max-rejected 2147483647 --max-accept 2147483647 -a 1 --add-self-matches 0 --tmscore-threshold 0 --tmscore-threshold-mode 0 --tmalign-hit-order 0 --tmalign-fast 1 --db-load-mode 0 --threads 1 -v 3 
+
+Query database: outputs/assembly-benchmark-v2/retrieval/tmp/2656012646383830469/query
+Target database: outputs/assembly-benchmark-v2/retrieval/db
+[=================================================================] 1 0s 0ms
+Time for merging to aln: 0h 0m 0s 0ms
+Time for processing: 0h 0m 0s 4ms
+Removing temporary files
+rmdb outputs/assembly-benchmark-v2/retrieval/tmp/2656012646383830469/search_tmp/1719772218768682764/strualn -v 3 
+
+Time for processing: 0h 0m 0s 0ms
+mvdb outputs/assembly-benchmark-v2/retrieval/tmp/2656012646383830469/search_tmp/1719772218768682764/aln outputs/assembly-benchmark-v2/retrieval/tmp/2656012646383830469/result -v 3 
+
+Time for processing: 0h 0m 0s 0ms
+Removing temporary files
+rmdb outputs/assembly-benchmark-v2/retrieval/tmp/2656012646383830469/search_tmp/1719772218768682764/strualn -v 3 
+
+Time for processing: 0h 0m 0s 0ms
+rmdb outputs/assembly-benchmark-v2/retrieval/tmp/2656012646383830469/search_tmp/1719772218768682764/pref -v 3 
+
+Time for processing: 0h 0m 0s 0ms
+convertalis outputs/assembly-benchmark-v2/retrieval/tmp/2656012646383830469/query outputs/assembly-benchmark-v2/retrieval/db outputs/assembly-benchmark-v2/retrieval/tmp/2656012646383830469/result outputs/assembly-benchmark-v2/retrieval/hits.tsv --sub-mat 'aa:3di.out,nucl:3di.out' --format-mode 0 --format-output query,target,qstart,qend,tstart,tend,qaln,taln,qcov,tcov,alntmscore,qtmscore,ttmscore,evalue --translation-table 1 --gap-open aa:10,nucl:10 --gap-extend aa:1,nucl:1 --db-output 0 --db-load-mode 0 --search-type 0 --threads 1 --compressed 0 -v 3 --exact-tmscore 0 
+
+[=================================================================] 1 0s 0ms
+Time for merging to hits.tsv: 0h 0m 0s 0ms
+Time for processing: 0h 0m 0s 1ms
+rmdb outputs/assembly-benchmark-v2/retrieval/tmp/2656012646383830469/result -v 3 
+
+Time for processing: 0h 0m 0s 0ms
+rmdb outputs/assembly-benchmark-v2/retrieval/tmp/2656012646383830469/query -v 3 
+
+Time for processing: 0h 0m 0s 0ms
+rmdb outputs/assembly-benchmark-v2/retrieval/tmp/2656012646383830469/query_h -v 3 
+
+Time for processing: 0h 0m 0s 0ms
+rmdb outputs/assembly-benchmark-v2/retrieval/tmp/2656012646383830469/query_ca -v 3 
+
+Time for processing: 0h 0m 0s 0ms
+rmdb outputs/assembly-benchmark-v2/retrieval/tmp/2656012646383830469/query_ss -v 3 
+
+Time for processing: 0h 0m 0s 0ms

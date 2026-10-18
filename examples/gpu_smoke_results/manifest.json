@@ -1,0 +1,22 @@
+{
+  "files": {
+    "README.md": "da93773eee26ac48927e83bb50f0c58b83c7d0c71cb98ca6c81ceb170d3ceb94",
+    "attempt1-atomworks303.log": "ea39846cc54c6d4dace3b432b58e5aa8631d2ff9dd6f81748ea62cd42e884edb",
+    "control-check.json": "83d826d60299d9a54845369705e5f94fab28abf01c734b3893544237733a1f15",
+    "control-metadata.json": "0756822d536c6d65dacf4af5ec3ebba06be4d562501e3d5cfe312bc1c7f7b4fb",
+    "control.cif": "aff63e9970b80ed5daf9c83d2bb9e45d93b444b0c4cc63a171aa287854f84e66",
+    "download_verified.json": "e7f5a9236ef4d905b688a38e6ca3f6cb46c17c07c980b7551acf52346ac1d6e9",
+    "interleaved-check.json": "a0fe8a2d6d1f7697345cd4c8268c2a10d551206d9fe9d609a9c914cee857d101",
+    "interleaved-metadata.json": "c37478f8ff192bf01b78c57ef55f17c3bf260397ae10b2d7a583f7e2dedf0383",
+    "interleaved.cif": "679a0b94fae413ccc0d3e00ac1812c99ec1c3ab4dc4e9e7e920d689415ab6e94",
+    "native_validation_on_worker.json": "82ab4d131287ad8cd02cb2ff7e62c23ccdd59d1d7d6b554155ce1ee71848e91b",
+    "resolved_config.yaml": "7ffc76e5819c347f97914a4b14429dfbbe776081de8b11beba12ea649a9d79b3",
+    "review.html": "51d6bee96ab3d78c82b2a96aded8e1f58c0da6fce375b6af85a2e0708a2b5988",
+    "run_status.json": "351d9f4c6eda297dcb18d882126d15706a5945ed4feab7152c5accab9b8b04f2",
+    "terminated.json": "63437295085a00fb41b7d72d49221eb1af4289c140d257c10d946af35ea916fd",
+    "worker.log": "1250bcfa21c57a267675e7c8a01cbff90ffc432414a90c423f093a10b7f49f15",
+    "worker_provenance.json": "4a7914ee9885631c2720889fe4632c316a3ef95b9fa99765084107963e33e6f3",
+    "worker_requirements.txt": "5d27f36e4d2690deac2bf62a7d3d842dd25b55ed6913fb66701c05706bd29da5"
+  },
+  "evidence": "GPU_generation_completed_geometry_checked"
+}

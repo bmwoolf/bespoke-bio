@@ -1,0 +1,721 @@
+{
+  "transform": {
+    "rotation": [
+      [
+        -0.3177610830731372,
+        -0.9128855197715647,
+        0.2562575303783021
+      ],
+      [
+        -0.8425977563931031,
+        0.14793514651571715,
+        -0.5178264316802316
+      ],
+      [
+        0.4348067559335933,
+        -0.38046710793020316,
+        -0.8162033231846899
+      ]
+    ],
+    "translation": [
+      -14.444492128357794,
+      -6.029809700349391,
+      132.87756757548726
+    ]
+  },
+  "ca_rmsd_angstrom": 1.4259675185076943,
+  "residue_pairs": [
+    {
+      "query_index": 0,
+      "template_index": 0,
+      "query_auth": "18",
+      "template_auth": "18"
+    },
+    {
+      "query_index": 1,
+      "template_index": 1,
+      "query_auth": "19",
+      "template_auth": "19"
+    },
+    {
+      "query_index": 2,
+      "template_index": 2,
+      "query_auth": "20",
+      "template_auth": "20"
+    },
+    {
+      "query_index": 3,
+      "template_index": 3,
+      "query_auth": "21",
+      "template_auth": "21"
+    },
+    {
+      "query_index": 4,
+      "template_index": 4,
+      "query_auth": "22",
+      "template_auth": "22"
+    },
+    {
+      "query_index": 5,
+      "template_index": 5,
+      "query_auth": "23",
+      "template_auth": "23"
+    },
+    {
+      "query_index": 6,
+      "template_index": 6,
+      "query_auth": "24",
+      "template_auth": "24"
+    },
+    {
+      "query_index": 7,
+      "template_index": 7,
+      "query_auth": "25",
+      "template_auth": "25"
+    },
+    {
+      "query_index": 8,
+      "template_index": 8,
+      "query_auth": "26",
+      "template_auth": "26"
+    },
+    {
+      "query_index": 9,
+      "template_index": 9,
+      "query_auth": "27",
+      "template_auth": "27"
+    },
+    {
+      "query_index": 10,
+      "template_index": 10,
+      "query_auth": "28",
+      "template_auth": "28"
+    },
+    {
+      "query_index": 11,
+      "template_index": 11,
+      "query_auth": "29",
+      "template_auth": "29"
+    },
+    {
+      "query_index": 12,
+      "template_index": 12,
+      "query_auth": "30",
+      "template_auth": "30"
+    },
+    {
+      "query_index": 13,
+      "template_index": 13,
+      "query_auth": "31",
+      "template_auth": "31"
+    },
+    {
+      "query_index": 14,
+      "template_index": 14,
+      "query_auth": "32",
+      "template_auth": "32"
+    },
+    {
+      "query_index": 15,
+      "template_index": 15,
+      "query_auth": "33",
+      "template_auth": "33"
+    },
+    {
+      "query_index": 16,
+      "template_index": 16,
+      "query_auth": "34",
+      "template_auth": "34"
+    },
+    {
+      "query_index": 17,
+      "template_index": 17,
+      "query_auth": "35",
+      "template_auth": "35"
+    },
+    {
+      "query_index": 18,
+      "template_index": 18,
+      "query_auth": "36",
+      "template_auth": "36"
+    },
+    {
+      "query_index": 19,
+      "template_index": 19,
+      "query_auth": "37",
+      "template_auth": "37"
+    },
+    {
+      "query_index": 20,
+      "template_index": 20,
+      "query_auth": "38",
+      "template_auth": "38"
+    },
+    {
+      "query_index": 21,
+      "template_index": 21,
+      "query_auth": "39",
+      "template_auth": "39"
+    },
+    {
+      "query_index": 22,
+      "template_index": 22,
+      "query_auth": "40",
+      "template_auth": "40"
+    },
+    {
+      "query_index": 23,
+      "template_index": 23,
+      "query_auth": "41",
+      "template_auth": "41"
+    },
+    {
+      "query_index": 24,
+      "template_index": 24,
+      "query_auth": "42",
+      "template_auth": "42"
+    },
+    {
+      "query_index": 25,
+      "template_index": 25,
+      "query_auth": "43",
+      "template_auth": "43"
+    },
+    {
+      "query_index": 26,
+      "template_index": 26,
+      "query_auth": "44",
+      "template_auth": "44"
+    },
+    {
+      "query_index": 27,
+      "template_index": 27,
+      "query_auth": "45",
+      "template_auth": "45"
+    },
+    {
+      "query_index": 28,
+      "template_index": 28,
+      "query_auth": "46",
+      "template_auth": "46"
+    },
+    {
+      "query_index": 29,
+      "template_index": 29,
+      "query_auth": "47",
+      "template_auth": "47"
+    },
+    {
+      "query_index": 30,
+      "template_index": 30,
+      "query_auth": "48",
+      "template_auth": "48"
+    },
+    {
+      "query_index": 31,
+      "template_index": 31,
+      "query_auth": "49",
+      "template_auth": "49"
+    },
+    {
+      "query_index": 32,
+      "template_index": 32,
+      "query_auth": "50",
+      "template_auth": "50"
+    },
+    {
+      "query_index": 33,
+      "template_index": 33,
+      "query_auth": "51",
+      "template_auth": "51"
+    },
+    {
+      "query_index": 34,
+      "template_index": 34,
+      "query_auth": "52",
+      "template_auth": "52"
+    },
+    {
+      "query_index": 35,
+      "template_index": 35,
+      "query_auth": "53",
+      "template_auth": "53"
+    },
+    {
+      "query_index": 36,
+      "template_index": 36,
+      "query_auth": "54",
+      "template_auth": "54"
+    },
+    {
+      "query_index": 37,
+      "template_index": 37,
+      "query_auth": "55",
+      "template_auth": "55"
+    },
+    {
+      "query_index": 38,
+      "template_index": 38,
+      "query_auth": "56",
+      "template_auth": "56"
+    },
+    {
+      "query_index": 39,
+      "template_index": 39,
+      "query_auth": "57",
+      "template_auth": "57"
+    },
+    {
+      "query_index": 40,
+      "template_index": 40,
+      "query_auth": "58",
+      "template_auth": "58"
+    },
+    {
+      "query_index": 41,
+      "template_index": 41,
+      "query_auth": "59",
+      "template_auth": "59"
+    },
+    {
+      "query_index": 42,
+      "template_index": 42,
+      "query_auth": "60",
+      "template_auth": "60"
+    },
+    {
+      "query_index": 43,
+      "template_index": 43,
+      "query_auth": "61",
+      "template_auth": "61"
+    },
+    {
+      "query_index": 44,
+      "template_index": 44,
+      "query_auth": "62",
+      "template_auth": "62"
+    },
+    {
+      "query_index": 45,
+      "template_index": 45,
+      "query_auth": "63",
+      "template_auth": "63"
+    },
+    {
+      "query_index": 46,
+      "template_index": 46,
+      "query_auth": "64",
+      "template_auth": "64"
+    },
+    {
+      "query_index": 47,
+      "template_index": 47,
+      "query_auth": "65",
+      "template_auth": "65"
+    },
+    {
+      "query_index": 48,
+      "template_index": 48,
+      "query_auth": "66",
+      "template_auth": "66"
+    },
+    {
+      "query_index": 49,
+      "template_index": 49,
+      "query_auth": "67",
+      "template_auth": "67"
+    },
+    {
+      "query_index": 50,
+      "template_index": 50,
+      "query_auth": "68",
+      "template_auth": "68"
+    },
+    {
+      "query_index": 51,
+      "template_index": 51,
+      "query_auth": "69",
+      "template_auth": "69"
+    },
+    {
+      "query_index": 52,
+      "template_index": 52,
+      "query_auth": "70",
+      "template_auth": "70"
+    },
+    {
+      "query_index": 53,
+      "template_index": 53,
+      "query_auth": "71",
+      "template_auth": "71"
+    },
+    {
+      "query_index": 54,
+      "template_index": 54,
+      "query_auth": "72",
+      "template_auth": "72"
+    },
+    {
+      "query_index": 55,
+      "template_index": 55,
+      "query_auth": "73",
+      "template_auth": "73"
+    },
+    {
+      "query_index": 56,
+      "template_index": 56,
+      "query_auth": "74",
+      "template_auth": "74"
+    },
+    {
+      "query_index": 57,
+      "template_index": 57,
+      "query_auth": "75",
+      "template_auth": "75"
+    },
+    {
+      "query_index": 58,
+      "template_index": 58,
+      "query_auth": "76",
+      "template_auth": "76"
+    },
+    {
+      "query_index": 59,
+      "template_index": 59,
+      "query_auth": "77",
+      "template_auth": "77"
+    },
+    {
+      "query_index": 60,
+      "template_index": 60,
+      "query_auth": "78",
+      "template_auth": "78"
+    },
+    {
+      "query_index": 61,
+      "template_index": 61,
+      "query_auth": "79",
+      "template_auth": "79"
+    },
+    {
+      "query_index": 62,
+      "template_index": 62,
+      "query_auth": "80",
+      "template_auth": "80"
+    },
+    {
+      "query_index": 63,
+      "template_index": 63,
+      "query_auth": "81",
+      "template_auth": "81"
+    },
+    {
+      "query_index": 64,
+      "template_index": 64,
+      "query_auth": "82",
+      "template_auth": "82"
+    },
+    {
+      "query_index": 65,
+      "template_index": 65,
+      "query_auth": "83",
+      "template_auth": "83"
+    },
+    {
+      "query_index": 66,
+      "template_index": 66,
+      "query_auth": "84",
+      "template_auth": "84"
+    },
+    {
+      "query_index": 67,
+      "template_index": 67,
+      "query_auth": "85",
+      "template_auth": "85"
+    },
+    {
+      "query_index": 68,
+      "template_index": 68,
+      "query_auth": "86",
+      "template_auth": "86"
+    },
+    {
+      "query_index": 69,
+      "template_index": 69,
+      "query_auth": "87",
+      "template_auth": "87"
+    },
+    {
+      "query_index": 70,
+      "template_index": 70,
+      "query_auth": "88",
+      "template_auth": "88"
+    },
+    {
+      "query_index": 71,
+      "template_index": 71,
+      "query_auth": "89",
+      "template_auth": "89"
+    },
+    {
+      "query_index": 72,
+      "template_index": 72,
+      "query_auth": "90",
+      "template_auth": "90"
+    },
+    {
+      "query_index": 73,
+      "template_index": 73,
+      "query_auth": "91",
+      "template_auth": "91"
+    },
+    {
+      "query_index": 74,
+      "template_index": 74,
+      "query_auth": "92",
+      "template_auth": "92"
+    },
+    {
+      "query_index": 75,
+      "template_index": 75,
+      "query_auth": "93",
+      "template_auth": "93"
+    },
+    {
+      "query_index": 76,
+      "template_index": 76,
+      "query_auth": "94",
+      "template_auth": "94"
+    },
+    {
+      "query_index": 77,
+      "template_index": 77,
+      "query_auth": "95",
+      "template_auth": "95"
+    },
+    {
+      "query_index": 78,
+      "template_index": 78,
+      "query_auth": "96",
+      "template_auth": "96"
+    },
+    {
+      "query_index": 79,
+      "template_index": 79,
+      "query_auth": "97",
+      "template_auth": "97"
+    },
+    {
+      "query_index": 80,
+      "template_index": 80,
+      "query_auth": "98",
+      "template_auth": "98"
+    },
+    {
+      "query_index": 81,
+      "template_index": 81,
+      "query_auth": "99",
+      "template_auth": "99"
+    },
+    {
+      "query_index": 82,
+      "template_index": 82,
+      "query_auth": "100",
+      "template_auth": "100"
+    },
+    {
+      "query_index": 83,
+      "template_index": 83,
+      "query_auth": "101",
+      "template_auth": "101"
+    },
+    {
+      "query_index": 84,
+      "template_index": 84,
+      "query_auth": "102",
+      "template_auth": "102"
+    },
+    {
+      "query_index": 85,
+      "template_index": 85,
+      "query_auth": "103",
+      "template_auth": "103"
+    },
+    {
+      "query_index": 86,
+      "template_index": 86,
+      "query_auth": "104",
+      "template_auth": "104"
+    },
+    {
+      "query_index": 87,
+      "template_index": 87,
+      "query_auth": "105",
+      "template_auth": "105"
+    },
+    {
+      "query_index": 88,
+      "template_index": 88,
+      "query_auth": "106",
+      "template_auth": "106"
+    },
+    {
+      "query_index": 89,
+      "template_index": 89,
+      "query_auth": "107",
+      "template_auth": "107"
+    },
+    {
+      "query_index": 90,
+      "template_index": 90,
+      "query_auth": "108",
+      "template_auth": "108"
+    },
+    {
+      "query_index": 91,
+      "template_index": 91,
+      "query_auth": "109",
+      "template_auth": "109"
+    },
+    {
+      "query_index": 92,
+      "template_index": 92,
+      "query_auth": "110",
+      "template_auth": "110"
+    },
+    {
+      "query_index": 93,
+      "template_index": 93,
+      "query_auth": "111",
+      "template_auth": "111"
+    },
+    {
+      "query_index": 94,
+      "template_index": 94,
+      "query_auth": "112",
+      "template_auth": "112"
+    },
+    {
+      "query_index": 95,
+      "template_index": 95,
+      "query_auth": "113",
+      "template_auth": "113"
+    },
+    {
+      "query_index": 96,
+      "template_index": 96,
+      "query_auth": "114",
+      "template_auth": "114"
+    },
+    {
+      "query_index": 97,
+      "template_index": 97,
+      "query_auth": "115",
+      "template_auth": "115"
+    },
+    {
+      "query_index": 98,
+      "template_index": 98,
+      "query_auth": "116",
+      "template_auth": "116"
+    },
+    {
+      "query_index": 99,
+      "template_index": 99,
+      "query_auth": "117",
+      "template_auth": "117"
+    },
+    {
+      "query_index": 100,
+      "template_index": 100,
+      "query_auth": "118",
+      "template_auth": "118"
+    },
+    {
+      "query_index": 101,
+      "template_index": 101,
+      "query_auth": "119",
+      "template_auth": "119"
+    },
+    {
+      "query_index": 102,
+      "template_index": 102,
+      "query_auth": "120",
+      "template_auth": "120"
+    },
+    {
+      "query_index": 103,
+      "template_index": 103,
+      "query_auth": "121",
+      "template_auth": "121"
+    },
+    {
+      "query_index": 104,
+      "template_index": 104,
+      "query_auth": "122",
+      "template_auth": "122"
+    },
+    {
+      "query_index": 105,
+      "template_index": 105,
+      "query_auth": "123",
+      "template_auth": "123"
+    },
+    {
+      "query_index": 106,
+      "template_index": 106,
+      "query_auth": "124",
+      "template_auth": "124"
+    },
+    {
+      "query_index": 107,
+      "template_index": 107,
+      "query_auth": "125",
+      "template_auth": "125"
+    },
+    {
+      "query_index": 108,
+      "template_index": 108,
+      "query_auth": "126",
+      "template_auth": "126"
+    },
+    {
+      "query_index": 109,
+      "template_index": 109,
+      "query_auth": "127",
+      "template_auth": "127"
+    },
+    {
+      "query_index": 110,
+      "template_index": 110,
+      "query_auth": "128",
+      "template_auth": "128"
+    },
+    {
+      "query_index": 111,
+      "template_index": 111,
+      "query_auth": "129",
+      "template_auth": "129"
+    },
+    {
+      "query_index": 112,
+      "template_index": 112,
+      "query_auth": "130",
+      "template_auth": "130"
+    },
+    {
+      "query_index": 113,
+      "template_index": 113,
+      "query_auth": "131",
+      "template_auth": "131"
+    },
+    {
+      "query_index": 114,
+      "template_index": 114,
+      "query_auth": "132",
+      "template_auth": "132"
+    }
+  ],
+  "evidence": "transferred_analogy",
+  "direction": "template target -> query target; same transform applied to partner"
+}

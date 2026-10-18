@@ -1,0 +1,1539 @@
+{
+  "method": "256-point Shrake\u2013Rupley-style geometric solvent exposure plus nonlocal side-chain contacts <4.5 \u00c5",
+  "probe_radius_angstrom": 1.4,
+  "core_like_rule": "isolated-module residue SASA <10 \u00c5\u00b2, hydrophobic/aromatic/Cys, contacts a retained motif nonlocally",
+  "evidence": "geometry_derived; not mutational essentiality",
+  "source_layout_id": "layout_10abfadd277a02b0",
+  "modules": [
+    {
+      "chain": "K",
+      "omitted_packing_support": [
+        {
+          "residue": {
+            "chain": "K",
+            "number": 1,
+            "insertion": ""
+          },
+          "name": "GLN",
+          "approximate_isolated_module_sasa_angstrom2": 176.59269063387228,
+          "retained_motif_neighbors": [
+            {
+              "chain": "K",
+              "number": 117,
+              "insertion": ""
+            }
+          ],
+          "core_like": false,
+          "policy": "preserve this packing or require its replacement by the redesigned scaffold; deletion is not validated"
+        },
+        {
+          "residue": {
+            "chain": "K",
+            "number": 2,
+            "insertion": ""
+          },
+          "name": "VAL",
+          "approximate_isolated_module_sasa_angstrom2": 16.323008356461205,
+          "retained_motif_neighbors": [
+            {
+              "chain": "K",
+              "number": 30,
+              "insertion": ""
+            },
+            {
+              "chain": "K",
+              "number": 31,
+              "insertion": ""
+            },
+            {
+              "chain": "K",
+              "number": 98,
+              "insertion": ""
+            },
+            {
+              "chain": "K",
+              "number": 117,
+              "insertion": ""
+            }
+          ],
+          "core_like": false,
+          "policy": "preserve this packing or require its replacement by the redesigned scaffold; deletion is not validated"
+        },
+        {
+          "residue": {
+            "chain": "K",
+            "number": 3,
+            "insertion": ""
+          },
+          "name": "GLN",
+          "approximate_isolated_module_sasa_angstrom2": 131.59387326535617,
+          "retained_motif_neighbors": [
+            {
+              "chain": "K",
+              "number": 25,
+              "insertion": ""
+            }
+          ],
+          "core_like": false,
+          "policy": "preserve this packing or require its replacement by the redesigned scaffold; deletion is not validated"
+        },
+        {
+          "residue": {
+            "chain": "K",
+            "number": 4,
+            "insertion": ""
+          },
+          "name": "LEU",
+          "approximate_isolated_module_sasa_angstrom2": 18.21724635283237,
+          "retained_motif_neighbors": [
+            {
+              "chain": "K",
+              "number": 22,
+              "insertion": ""
+            },
+            {
+              "chain": "K",
+              "number": 24,
+              "insertion": ""
+            },
+            {
+              "chain": "K",
+              "number": 34,
+              "insertion": ""
+            },
+            {
+              "chain": "K",
+              "number": 96,
+              "insertion": ""
+            },
+            {
+              "chain": "K",
+              "number": 98,
+              "insertion": ""
+            },
+            {
+              "chain": "K",
+              "number": 117,
+              "insertion": ""
+            }
+          ],
+          "core_like": false,
+          "policy": "preserve this packing or require its replacement by the redesigned scaffold; deletion is not validated"
+        },
+        {
+          "residue": {
+            "chain": "K",
+            "number": 6,
+            "insertion": ""
+          },
+          "name": "GLU",
+          "approximate_isolated_module_sasa_angstrom2": 9.626389543554044,
+          "retained_motif_neighbors": [
+            {
+              "chain": "K",
+              "number": 95,
+              "insertion": ""
+            },
+            {
+              "chain": "K",
+              "number": 96,
+              "insertion": ""
+            }
+          ],
+          "core_like": false,
+          "policy": "preserve this packing or require its replacement by the redesigned scaffold; deletion is not validated"
+        },
+        {
+          "residue": {
+            "chain": "K",
+            "number": 7,
+            "insertion": ""
+          },
+          "name": "SER",
+          "approximate_isolated_module_sasa_angstrom2": 60.49205452860734,
+          "retained_motif_neighbors": [
+            {
+              "chain": "K",
+              "number": 21,
+              "insertion": ""
+            }
+          ],
+          "core_like": false,
+          "policy": "preserve this packing or require its replacement by the redesigned scaffold; deletion is not validated"
+        },
+        {
+          "residue": {
+            "chain": "K",
+            "number": 36,
+            "insertion": ""
+          },
+          "name": "TRP",
+          "approximate_isolated_module_sasa_angstrom2": 0.4271829560004468,
+          "retained_motif_neighbors": [
+            {
+              "chain": "K",
+              "number": 20,
+              "insertion": ""
+            },
+            {
+              "chain": "K",
+              "number": 22,
+              "insertion": ""
+            },
+            {
+              "chain": "K",
+              "number": 96,
+              "insertion": ""
+            }
+          ],
+          "core_like": true,
+          "policy": "preserve this packing or require its replacement by the redesigned scaffold; deletion is not validated"
+        },
+        {
+          "residue": {
+            "chain": "K",
+            "number": 37,
+            "insertion": ""
+          },
+          "name": "PHE",
+          "approximate_isolated_module_sasa_angstrom2": 0.0,
+          "retained_motif_neighbors": [
+            {
+              "chain": "K",
+              "number": 95,
+              "insertion": ""
+            },
+            {
+              "chain": "K",
+              "number": 97,
+              "insertion": ""
+            },
+            {
+              "chain": "K",
+              "number": 112,
+              "insertion": ""
+            },
+            {
+              "chain": "K",
+              "number": 115,
+              "insertion": ""
+            },
+            {
+              "chain": "K",
+              "number": 118,
+              "insertion": ""
+            }
+          ],
+          "core_like": true,
+          "policy": "preserve this packing or require its replacement by the redesigned scaffold; deletion is not validated"
+        },
+        {
+          "residue": {
+            "chain": "K",
+            "number": 38,
+            "insertion": ""
+          },
+          "name": "ARG",
+          "approximate_isolated_module_sasa_angstrom2": 19.553674822657204,
+          "retained_motif_neighbors": [
+            {
+              "chain": "K",
+              "number": 94,
+              "insertion": ""
+            }
+          ],
+          "core_like": false,
+          "policy": "preserve this packing or require its replacement by the redesigned scaffold; deletion is not validated"
+        },
+        {
+          "residue": {
+            "chain": "K",
+            "number": 39,
+            "insertion": ""
+          },
+          "name": "GLN",
+          "approximate_isolated_module_sasa_angstrom2": 57.10318727556886,
+          "retained_motif_neighbors": [
+            {
+              "chain": "K",
+              "number": 95,
+              "insertion": ""
+            }
+          ],
+          "core_like": false,
+          "policy": "preserve this packing or require its replacement by the redesigned scaffold; deletion is not validated"
+        },
+        {
+          "residue": {
+            "chain": "K",
+            "number": 45,
+            "insertion": ""
+          },
+          "name": "ARG",
+          "approximate_isolated_module_sasa_angstrom2": 79.40414057716458,
+          "retained_motif_neighbors": [
+            {
+              "chain": "K",
+              "number": 95,
+              "insertion": ""
+            },
+            {
+              "chain": "K",
+              "number": 112,
+              "insertion": ""
+            },
+            {
+              "chain": "K",
+              "number": 118,
+              "insertion": ""
+            }
+          ],
+          "core_like": false,
+          "policy": "preserve this packing or require its replacement by the redesigned scaffold; deletion is not validated"
+        },
+        {
+          "residue": {
+            "chain": "K",
+            "number": 47,
+            "insertion": ""
+          },
+          "name": "ARG",
+          "approximate_isolated_module_sasa_angstrom2": 24.563155302049275,
+          "retained_motif_neighbors": [
+            {
+              "chain": "K",
+              "number": 35,
+              "insertion": ""
+            },
+            {
+              "chain": "K",
+              "number": 110,
+              "insertion": ""
+            }
+          ],
+          "core_like": false,
+          "policy": "preserve this packing or require its replacement by the redesigned scaffold; deletion is not validated"
+        },
+        {
+          "residue": {
+            "chain": "K",
+            "number": 50,
+            "insertion": ""
+          },
+          "name": "LYS",
+          "approximate_isolated_module_sasa_angstrom2": 0.0,
+          "retained_motif_neighbors": [
+            {
+              "chain": "K",
+              "number": 103,
+              "insertion": ""
+            },
+            {
+              "chain": "K",
+              "number": 106,
+              "insertion": ""
+            },
+            {
+              "chain": "K",
+              "number": 107,
+              "insertion": ""
+            }
+          ],
+          "core_like": false,
+          "policy": "preserve this packing or require its replacement by the redesigned scaffold; deletion is not validated"
+        },
+        {
+          "residue": {
+            "chain": "K",
+            "number": 51,
+            "insertion": ""
+          },
+          "name": "LEU",
+          "approximate_isolated_module_sasa_angstrom2": 4.245568077624658,
+          "retained_motif_neighbors": [
+            {
+              "chain": "K",
+              "number": 34,
+              "insertion": ""
+            }
+          ],
+          "core_like": true,
+          "policy": "preserve this packing or require its replacement by the redesigned scaffold; deletion is not validated"
+        },
+        {
+          "residue": {
+            "chain": "K",
+            "number": 52,
+            "insertion": ""
+          },
+          "name": "LEU",
+          "approximate_isolated_module_sasa_angstrom2": 8.019406368846576,
+          "retained_motif_neighbors": [
+            {
+              "chain": "K",
+              "number": 32,
+              "insertion": ""
+            },
+            {
+              "chain": "K",
+              "number": 102,
+              "insertion": ""
+            },
+            {
+              "chain": "K",
+              "number": 103,
+              "insertion": ""
+            },
+            {
+              "chain": "K",
+              "number": 106,
+              "insertion": ""
+            }
+          ],
+          "core_like": true,
+          "policy": "preserve this packing or require its replacement by the redesigned scaffold; deletion is not validated"
+        },
+        {
+          "residue": {
+            "chain": "K",
+            "number": 53,
+            "insertion": ""
+          },
+          "name": "THR",
+          "approximate_isolated_module_sasa_angstrom2": 18.376491042821932,
+          "retained_motif_neighbors": [
+            {
+              "chain": "K",
+              "number": 32,
+              "insertion": ""
+            },
+            {
+              "chain": "K",
+              "number": 34,
+              "insertion": ""
+            }
+          ],
+          "core_like": false,
+          "policy": "preserve this packing or require its replacement by the redesigned scaffold; deletion is not validated"
+        },
+        {
+          "residue": {
+            "chain": "K",
+            "number": 54,
+            "insertion": ""
+          },
+          "name": "THR",
+          "approximate_isolated_module_sasa_angstrom2": 92.80068451216565,
+          "retained_motif_neighbors": [
+            {
+              "chain": "K",
+              "number": 32,
+              "insertion": ""
+            }
+          ],
+          "core_like": false,
+          "policy": "preserve this packing or require its replacement by the redesigned scaffold; deletion is not validated"
+        },
+        {
+          "residue": {
+            "chain": "K",
+            "number": 57,
+            "insertion": ""
+          },
+          "name": "SER",
+          "approximate_isolated_module_sasa_angstrom2": 51.5614090706664,
+          "retained_motif_neighbors": [
+            {
+              "chain": "K",
+              "number": 103,
+              "insertion": ""
+            }
+          ],
+          "core_like": false,
+          "policy": "preserve this packing or require its replacement by the redesigned scaffold; deletion is not validated"
+        },
+        {
+          "residue": {
+            "chain": "K",
+            "number": 59,
+            "insertion": ""
+          },
+          "name": "TYR",
+          "approximate_isolated_module_sasa_angstrom2": 91.49886758311116,
+          "retained_motif_neighbors": [
+            {
+              "chain": "K",
+              "number": 107,
+              "insertion": ""
+            }
+          ],
+          "core_like": false,
+          "policy": "preserve this packing or require its replacement by the redesigned scaffold; deletion is not validated"
+        },
+        {
+          "residue": {
+            "chain": "K",
+            "number": 68,
+            "insertion": ""
+          },
+          "name": "PHE",
+          "approximate_isolated_module_sasa_angstrom2": 2.982961841242925,
+          "retained_motif_neighbors": [
+            {
+              "chain": "K",
+              "number": 94,
+              "insertion": ""
+            }
+          ],
+          "core_like": true,
+          "policy": "preserve this packing or require its replacement by the redesigned scaffold; deletion is not validated"
+        },
+        {
+          "residue": {
+            "chain": "K",
+            "number": 78,
+            "insertion": ""
+          },
+          "name": "THR",
+          "approximate_isolated_module_sasa_angstrom2": 28.162453918164104,
+          "retained_motif_neighbors": [
+            {
+              "chain": "K",
+              "number": 21,
+              "insertion": ""
+            }
+          ],
+          "core_like": false,
+          "policy": "preserve this packing or require its replacement by the redesigned scaffold; deletion is not validated"
+        },
+        {
+          "residue": {
+            "chain": "K",
+            "number": 79,
+            "insertion": ""
+          },
+          "name": "VAL",
+          "approximate_isolated_module_sasa_angstrom2": 2.830378718416439,
+          "retained_motif_neighbors": [
+            {
+              "chain": "K",
+              "number": 22,
+              "insertion": ""
+            },
+            {
+              "chain": "K",
+              "number": 34,
+              "insertion": ""
+            }
+          ],
+          "core_like": true,
+          "policy": "preserve this packing or require its replacement by the redesigned scaffold; deletion is not validated"
+        },
+        {
+          "residue": {
+            "chain": "K",
+            "number": 80,
+            "insertion": ""
+          },
+          "name": "TYR",
+          "approximate_isolated_module_sasa_angstrom2": 44.24047734853002,
+          "retained_motif_neighbors": [
+            {
+              "chain": "K",
+              "number": 21,
+              "insertion": ""
+            }
+          ],
+          "core_like": false,
+          "policy": "preserve this packing or require its replacement by the redesigned scaffold; deletion is not validated"
+        },
+        {
+          "residue": {
+            "chain": "K",
+            "number": 81,
+            "insertion": ""
+          },
+          "name": "LEU",
+          "approximate_isolated_module_sasa_angstrom2": 0.0,
+          "retained_motif_neighbors": [
+            {
+              "chain": "K",
+              "number": 20,
+              "insertion": ""
+            },
+            {
+              "chain": "K",
+              "number": 94,
+              "insertion": ""
+            }
+          ],
+          "core_like": true,
+          "policy": "preserve this packing or require its replacement by the redesigned scaffold; deletion is not validated"
+        },
+        {
+          "residue": {
+            "chain": "K",
+            "number": 83,
+            "insertion": ""
+          },
+          "name": "MET",
+          "approximate_isolated_module_sasa_angstrom2": 0.0,
+          "retained_motif_neighbors": [
+            {
+              "chain": "K",
+              "number": 20,
+              "insertion": ""
+            },
+            {
+              "chain": "K",
+              "number": 94,
+              "insertion": ""
+            }
+          ],
+          "core_like": true,
+          "policy": "preserve this packing or require its replacement by the redesigned scaffold; deletion is not validated"
+        },
+        {
+          "residue": {
+            "chain": "K",
+            "number": 90,
+            "insertion": ""
+          },
+          "name": "ASP",
+          "approximate_isolated_module_sasa_angstrom2": 0.8370773516133951,
+          "retained_motif_neighbors": [
+            {
+              "chain": "K",
+              "number": 94,
+              "insertion": ""
+            }
+          ],
+          "core_like": false,
+          "policy": "preserve this packing or require its replacement by the redesigned scaffold; deletion is not validated"
+        },
+        {
+          "residue": {
+            "chain": "K",
+            "number": 122,
+            "insertion": ""
+          },
+          "name": "THR",
+          "approximate_isolated_module_sasa_angstrom2": 20.6217675446819,
+          "retained_motif_neighbors": [
+            {
+              "chain": "K",
+              "number": 20,
+              "insertion": ""
+            },
+            {
+              "chain": "K",
+              "number": 94,
+              "insertion": ""
+            }
+          ],
+          "core_like": false,
+          "policy": "preserve this packing or require its replacement by the redesigned scaffold; deletion is not validated"
+        },
+        {
+          "residue": {
+            "chain": "K",
+            "number": 124,
+            "insertion": ""
+          },
+          "name": "VAL",
+          "approximate_isolated_module_sasa_angstrom2": 0.0,
+          "retained_motif_neighbors": [
+            {
+              "chain": "K",
+              "number": 20,
+              "insertion": ""
+            },
+            {
+              "chain": "K",
+              "number": 94,
+              "insertion": ""
+            }
+          ],
+          "core_like": true,
+          "policy": "preserve this packing or require its replacement by the redesigned scaffold; deletion is not validated"
+        }
+      ],
+      "core_like_omissions": [
+        {
+          "chain": "K",
+          "number": 36,
+          "insertion": ""
+        },
+        {
+          "chain": "K",
+          "number": 37,
+          "insertion": ""
+        },
+        {
+          "chain": "K",
+          "number": 51,
+          "insertion": ""
+        },
+        {
+          "chain": "K",
+          "number": 52,
+          "insertion": ""
+        },
+        {
+          "chain": "K",
+          "number": 68,
+          "insertion": ""
+        },
+        {
+          "chain": "K",
+          "number": 79,
+          "insertion": ""
+        },
+        {
+          "chain": "K",
+          "number": 81,
+          "insertion": ""
+        },
+        {
+          "chain": "K",
+          "number": 83,
+          "insertion": ""
+        },
+        {
+          "chain": "K",
+          "number": 124,
+          "insertion": ""
+        }
+      ],
+      "retained_buried_hydrophobic_residues": [
+        {
+          "chain": "K",
+          "number": 20,
+          "insertion": ""
+        },
+        {
+          "chain": "K",
+          "number": 22,
+          "insertion": ""
+        },
+        {
+          "chain": "K",
+          "number": 24,
+          "insertion": ""
+        },
+        {
+          "chain": "K",
+          "number": 33,
+          "insertion": ""
+        },
+        {
+          "chain": "K",
+          "number": 34,
+          "insertion": ""
+        },
+        {
+          "chain": "K",
+          "number": 35,
+          "insertion": ""
+        },
+        {
+          "chain": "K",
+          "number": 94,
+          "insertion": ""
+        },
+        {
+          "chain": "K",
+          "number": 96,
+          "insertion": ""
+        },
+        {
+          "chain": "K",
+          "number": 97,
+          "insertion": ""
+        },
+        {
+          "chain": "K",
+          "number": 98,
+          "insertion": ""
+        },
+        {
+          "chain": "K",
+          "number": 106,
+          "insertion": ""
+        }
+      ]
+    },
+    {
+      "chain": "L",
+      "omitted_packing_support": [
+        {
+          "residue": {
+            "chain": "L",
+            "number": 1,
+            "insertion": ""
+          },
+          "name": "GLN",
+          "approximate_isolated_module_sasa_angstrom2": 171.9112953200534,
+          "retained_motif_neighbors": [
+            {
+              "chain": "L",
+              "number": 117,
+              "insertion": ""
+            }
+          ],
+          "core_like": false,
+          "policy": "preserve this packing or require its replacement by the redesigned scaffold; deletion is not validated"
+        },
+        {
+          "residue": {
+            "chain": "L",
+            "number": 2,
+            "insertion": ""
+          },
+          "name": "VAL",
+          "approximate_isolated_module_sasa_angstrom2": 16.794738142863945,
+          "retained_motif_neighbors": [
+            {
+              "chain": "L",
+              "number": 30,
+              "insertion": ""
+            },
+            {
+              "chain": "L",
+              "number": 31,
+              "insertion": ""
+            },
+            {
+              "chain": "L",
+              "number": 98,
+              "insertion": ""
+            },
+            {
+              "chain": "L",
+              "number": 117,
+              "insertion": ""
+            }
+          ],
+          "core_like": false,
+          "policy": "preserve this packing or require its replacement by the redesigned scaffold; deletion is not validated"
+        },
+        {
+          "residue": {
+            "chain": "L",
+            "number": 3,
+            "insertion": ""
+          },
+          "name": "GLN",
+          "approximate_isolated_module_sasa_angstrom2": 128.44269381213138,
+          "retained_motif_neighbors": [
+            {
+              "chain": "L",
+              "number": 25,
+              "insertion": ""
+            }
+          ],
+          "core_like": false,
+          "policy": "preserve this packing or require its replacement by the redesigned scaffold; deletion is not validated"
+        },
+        {
+          "residue": {
+            "chain": "L",
+            "number": 4,
+            "insertion": ""
+          },
+          "name": "LEU",
+          "approximate_isolated_module_sasa_angstrom2": 19.1693502058316,
+          "retained_motif_neighbors": [
+            {
+              "chain": "L",
+              "number": 22,
+              "insertion": ""
+            },
+            {
+              "chain": "L",
+              "number": 24,
+              "insertion": ""
+            },
+            {
+              "chain": "L",
+              "number": 34,
+              "insertion": ""
+            },
+            {
+              "chain": "L",
+              "number": 96,
+              "insertion": ""
+            },
+            {
+              "chain": "L",
+              "number": 98,
+              "insertion": ""
+            },
+            {
+              "chain": "L",
+              "number": 117,
+              "insertion": ""
+            }
+          ],
+          "core_like": false,
+          "policy": "preserve this packing or require its replacement by the redesigned scaffold; deletion is not validated"
+        },
+        {
+          "residue": {
+            "chain": "L",
+            "number": 6,
+            "insertion": ""
+          },
+          "name": "GLU",
+          "approximate_isolated_module_sasa_angstrom2": 9.261041978343389,
+          "retained_motif_neighbors": [
+            {
+              "chain": "L",
+              "number": 95,
+              "insertion": ""
+            },
+            {
+              "chain": "L",
+              "number": 96,
+              "insertion": ""
+            }
+          ],
+          "core_like": false,
+          "policy": "preserve this packing or require its replacement by the redesigned scaffold; deletion is not validated"
+        },
+        {
+          "residue": {
+            "chain": "L",
+            "number": 7,
+            "insertion": ""
+          },
+          "name": "SER",
+          "approximate_isolated_module_sasa_angstrom2": 60.963784315010074,
+          "retained_motif_neighbors": [
+            {
+              "chain": "L",
+              "number": 21,
+              "insertion": ""
+            }
+          ],
+          "core_like": false,
+          "policy": "preserve this packing or require its replacement by the redesigned scaffold; deletion is not validated"
+        },
+        {
+          "residue": {
+            "chain": "L",
+            "number": 36,
+            "insertion": ""
+          },
+          "name": "TRP",
+          "approximate_isolated_module_sasa_angstrom2": 0.4271829560004468,
+          "retained_motif_neighbors": [
+            {
+              "chain": "L",
+              "number": 20,
+              "insertion": ""
+            },
+            {
+              "chain": "L",
+              "number": 22,
+              "insertion": ""
+            },
+            {
+              "chain": "L",
+              "number": 96,
+              "insertion": ""
+            }
+          ],
+          "core_like": true,
+          "policy": "preserve this packing or require its replacement by the redesigned scaffold; deletion is not validated"
+        },
+        {
+          "residue": {
+            "chain": "L",
+            "number": 37,
+            "insertion": ""
+          },
+          "name": "PHE",
+          "approximate_isolated_module_sasa_angstrom2": 0.0,
+          "retained_motif_neighbors": [
+            {
+              "chain": "L",
+              "number": 95,
+              "insertion": ""
+            },
+            {
+              "chain": "L",
+              "number": 97,
+              "insertion": ""
+            },
+            {
+              "chain": "L",
+              "number": 112,
+              "insertion": ""
+            },
+            {
+              "chain": "L",
+              "number": 115,
+              "insertion": ""
+            },
+            {
+              "chain": "L",
+              "number": 118,
+              "insertion": ""
+            }
+          ],
+          "core_like": true,
+          "policy": "preserve this packing or require its replacement by the redesigned scaffold; deletion is not validated"
+        },
+        {
+          "residue": {
+            "chain": "L",
+            "number": 38,
+            "insertion": ""
+          },
+          "name": "ARG",
+          "approximate_isolated_module_sasa_angstrom2": 20.45258756506039,
+          "retained_motif_neighbors": [
+            {
+              "chain": "L",
+              "number": 94,
+              "insertion": ""
+            }
+          ],
+          "core_like": false,
+          "policy": "preserve this packing or require its replacement by the redesigned scaffold; deletion is not validated"
+        },
+        {
+          "residue": {
+            "chain": "L",
+            "number": 39,
+            "insertion": ""
+          },
+          "name": "GLN",
+          "approximate_isolated_module_sasa_angstrom2": 57.583561342165346,
+          "retained_motif_neighbors": [
+            {
+              "chain": "L",
+              "number": 95,
+              "insertion": ""
+            }
+          ],
+          "core_like": false,
+          "policy": "preserve this packing or require its replacement by the redesigned scaffold; deletion is not validated"
+        },
+        {
+          "residue": {
+            "chain": "L",
+            "number": 45,
+            "insertion": ""
+          },
+          "name": "ARG",
+          "approximate_isolated_module_sasa_angstrom2": 80.792071666358,
+          "retained_motif_neighbors": [
+            {
+              "chain": "L",
+              "number": 95,
+              "insertion": ""
+            },
+            {
+              "chain": "L",
+              "number": 112,
+              "insertion": ""
+            },
+            {
+              "chain": "L",
+              "number": 118,
+              "insertion": ""
+            }
+          ],
+          "core_like": false,
+          "policy": "preserve this packing or require its replacement by the redesigned scaffold; deletion is not validated"
+        },
+        {
+          "residue": {
+            "chain": "L",
+            "number": 47,
+            "insertion": ""
+          },
+          "name": "ARG",
+          "approximate_isolated_module_sasa_angstrom2": 22.3913379718385,
+          "retained_motif_neighbors": [
+            {
+              "chain": "L",
+              "number": 35,
+              "insertion": ""
+            },
+            {
+              "chain": "L",
+              "number": 110,
+              "insertion": ""
+            }
+          ],
+          "core_like": false,
+          "policy": "preserve this packing or require its replacement by the redesigned scaffold; deletion is not validated"
+        },
+        {
+          "residue": {
+            "chain": "L",
+            "number": 50,
+            "insertion": ""
+          },
+          "name": "LYS",
+          "approximate_isolated_module_sasa_angstrom2": 0.4717297864027398,
+          "retained_motif_neighbors": [
+            {
+              "chain": "L",
+              "number": 103,
+              "insertion": ""
+            },
+            {
+              "chain": "L",
+              "number": 106,
+              "insertion": ""
+            },
+            {
+              "chain": "L",
+              "number": 107,
+              "insertion": ""
+            }
+          ],
+          "core_like": false,
+          "policy": "preserve this packing or require its replacement by the redesigned scaffold; deletion is not validated"
+        },
+        {
+          "residue": {
+            "chain": "L",
+            "number": 51,
+            "insertion": ""
+          },
+          "name": "LEU",
+          "approximate_isolated_module_sasa_angstrom2": 4.717297864027398,
+          "retained_motif_neighbors": [
+            {
+              "chain": "L",
+              "number": 34,
+              "insertion": ""
+            }
+          ],
+          "core_like": true,
+          "policy": "preserve this packing or require its replacement by the redesigned scaffold; deletion is not validated"
+        },
+        {
+          "residue": {
+            "chain": "L",
+            "number": 52,
+            "insertion": ""
+          },
+          "name": "LEU",
+          "approximate_isolated_module_sasa_angstrom2": 8.491136155249317,
+          "retained_motif_neighbors": [
+            {
+              "chain": "L",
+              "number": 32,
+              "insertion": ""
+            },
+            {
+              "chain": "L",
+              "number": 102,
+              "insertion": ""
+            },
+            {
+              "chain": "L",
+              "number": 103,
+              "insertion": ""
+            },
+            {
+              "chain": "L",
+              "number": 106,
+              "insertion": ""
+            }
+          ],
+          "core_like": true,
+          "policy": "preserve this packing or require its replacement by the redesigned scaffold; deletion is not validated"
+        },
+        {
+          "residue": {
+            "chain": "L",
+            "number": 53,
+            "insertion": ""
+          },
+          "name": "THR",
+          "approximate_isolated_module_sasa_angstrom2": 19.266759505031366,
+          "retained_motif_neighbors": [
+            {
+              "chain": "L",
+              "number": 32,
+              "insertion": ""
+            },
+            {
+              "chain": "L",
+              "number": 34,
+              "insertion": ""
+            }
+          ],
+          "core_like": false,
+          "policy": "preserve this packing or require its replacement by the redesigned scaffold; deletion is not validated"
+        },
+        {
+          "residue": {
+            "chain": "L",
+            "number": 54,
+            "insertion": ""
+          },
+          "name": "THR",
+          "approximate_isolated_module_sasa_angstrom2": 94.16268276077784,
+          "retained_motif_neighbors": [
+            {
+              "chain": "L",
+              "number": 32,
+              "insertion": ""
+            }
+          ],
+          "core_like": false,
+          "policy": "preserve this packing or require its replacement by the redesigned scaffold; deletion is not validated"
+        },
+        {
+          "residue": {
+            "chain": "L",
+            "number": 57,
+            "insertion": ""
+          },
+          "name": "SER",
+          "approximate_isolated_module_sasa_angstrom2": 51.45502684947431,
+          "retained_motif_neighbors": [
+            {
+              "chain": "L",
+              "number": 103,
+              "insertion": ""
+            }
+          ],
+          "core_like": false,
+          "policy": "preserve this packing or require its replacement by the redesigned scaffold; deletion is not validated"
+        },
+        {
+          "residue": {
+            "chain": "L",
+            "number": 59,
+            "insertion": ""
+          },
+          "name": "TYR",
+          "approximate_isolated_module_sasa_angstrom2": 92.75448361053125,
+          "retained_motif_neighbors": [
+            {
+              "chain": "L",
+              "number": 107,
+              "insertion": ""
+            }
+          ],
+          "core_like": false,
+          "policy": "preserve this packing or require its replacement by the redesigned scaffold; deletion is not validated"
+        },
+        {
+          "residue": {
+            "chain": "L",
+            "number": 68,
+            "insertion": ""
+          },
+          "name": "PHE",
+          "approximate_isolated_module_sasa_angstrom2": 3.82003919285632,
+          "retained_motif_neighbors": [
+            {
+              "chain": "L",
+              "number": 94,
+              "insertion": ""
+            }
+          ],
+          "core_like": true,
+          "policy": "preserve this packing or require its replacement by the redesigned scaffold; deletion is not validated"
+        },
+        {
+          "residue": {
+            "chain": "L",
+            "number": 78,
+            "insertion": ""
+          },
+          "name": "THR",
+          "approximate_isolated_module_sasa_angstrom2": 27.272185455954663,
+          "retained_motif_neighbors": [
+            {
+              "chain": "L",
+              "number": 21,
+              "insertion": ""
+            }
+          ],
+          "core_like": false,
+          "policy": "preserve this packing or require its replacement by the redesigned scaffold; deletion is not validated"
+        },
+        {
+          "residue": {
+            "chain": "L",
+            "number": 79,
+            "insertion": ""
+          },
+          "name": "VAL",
+          "approximate_isolated_module_sasa_angstrom2": 3.7738382912219186,
+          "retained_motif_neighbors": [
+            {
+              "chain": "L",
+              "number": 22,
+              "insertion": ""
+            },
+            {
+              "chain": "L",
+              "number": 34,
+              "insertion": ""
+            }
+          ],
+          "core_like": true,
+          "policy": "preserve this packing or require its replacement by the redesigned scaffold; deletion is not validated"
+        },
+        {
+          "residue": {
+            "chain": "L",
+            "number": 80,
+            "insertion": ""
+          },
+          "name": "TYR",
+          "approximate_isolated_module_sasa_angstrom2": 45.130745810739455,
+          "retained_motif_neighbors": [
+            {
+              "chain": "L",
+              "number": 21,
+              "insertion": ""
+            }
+          ],
+          "core_like": false,
+          "policy": "preserve this packing or require its replacement by the redesigned scaffold; deletion is not validated"
+        },
+        {
+          "residue": {
+            "chain": "L",
+            "number": 81,
+            "insertion": ""
+          },
+          "name": "LEU",
+          "approximate_isolated_module_sasa_angstrom2": 0.0,
+          "retained_motif_neighbors": [
+            {
+              "chain": "L",
+              "number": 20,
+              "insertion": ""
+            },
+            {
+              "chain": "L",
+              "number": 94,
+              "insertion": ""
+            }
+          ],
+          "core_like": true,
+          "policy": "preserve this packing or require its replacement by the redesigned scaffold; deletion is not validated"
+        },
+        {
+          "residue": {
+            "chain": "L",
+            "number": 83,
+            "insertion": ""
+          },
+          "name": "MET",
+          "approximate_isolated_module_sasa_angstrom2": 0.0,
+          "retained_motif_neighbors": [
+            {
+              "chain": "L",
+              "number": 20,
+              "insertion": ""
+            },
+            {
+              "chain": "L",
+              "number": 94,
+              "insertion": ""
+            }
+          ],
+          "core_like": true,
+          "policy": "preserve this packing or require its replacement by the redesigned scaffold; deletion is not validated"
+        },
+        {
+          "residue": {
+            "chain": "L",
+            "number": 90,
+            "insertion": ""
+          },
+          "name": "ASP",
+          "approximate_isolated_module_sasa_angstrom2": 0.41853867580669757,
+          "retained_motif_neighbors": [
+            {
+              "chain": "L",
+              "number": 94,
+              "insertion": ""
+            }
+          ],
+          "core_like": false,
+          "policy": "preserve this packing or require its replacement by the redesigned scaffold; deletion is not validated"
+        },
+        {
+          "residue": {
+            "chain": "L",
+            "number": 122,
+            "insertion": ""
+          },
+          "name": "THR",
+          "approximate_isolated_module_sasa_angstrom2": 20.568576434085863,
+          "retained_motif_neighbors": [
+            {
+              "chain": "L",
+              "number": 20,
+              "insertion": ""
+            },
+            {
+              "chain": "L",
+              "number": 94,
+              "insertion": ""
+            }
+          ],
+          "core_like": false,
+          "policy": "preserve this packing or require its replacement by the redesigned scaffold; deletion is not validated"
+        },
+        {
+          "residue": {
+            "chain": "L",
+            "number": 124,
+            "insertion": ""
+          },
+          "name": "VAL",
+          "approximate_isolated_module_sasa_angstrom2": 0.0,
+          "retained_motif_neighbors": [
+            {
+              "chain": "L",
+              "number": 20,
+              "insertion": ""
+            },
+            {
+              "chain": "L",
+              "number": 94,
+              "insertion": ""
+            }
+          ],
+          "core_like": true,
+          "policy": "preserve this packing or require its replacement by the redesigned scaffold; deletion is not validated"
+        }
+      ],
+      "core_like_omissions": [
+        {
+          "chain": "L",
+          "number": 36,
+          "insertion": ""
+        },
+        {
+          "chain": "L",
+          "number": 37,
+          "insertion": ""
+        },
+        {
+          "chain": "L",
+          "number": 51,
+          "insertion": ""
+        },
+        {
+          "chain": "L",
+          "number": 52,
+          "insertion": ""
+        },
+        {
+          "chain": "L",
+          "number": 68,
+          "insertion": ""
+        },
+        {
+          "chain": "L",
+          "number": 79,
+          "insertion": ""
+        },
+        {
+          "chain": "L",
+          "number": 81,
+          "insertion": ""
+        },
+        {
+          "chain": "L",
+          "number": 83,
+          "insertion": ""
+        },
+        {
+          "chain": "L",
+          "number": 124,
+          "insertion": ""
+        }
+      ],
+      "retained_buried_hydrophobic_residues": [
+        {
+          "chain": "L",
+          "number": 20,
+          "insertion": ""
+        },
+        {
+          "chain": "L",
+          "number": 22,
+          "insertion": ""
+        },
+        {
+          "chain": "L",
+          "number": 24,
+          "insertion": ""
+        },
+        {
+          "chain": "L",
+          "number": 33,
+          "insertion": ""
+        },
+        {
+          "chain": "L",
+          "number": 34,
+          "insertion": ""
+        },
+        {
+          "chain": "L",
+          "number": 35,
+          "insertion": ""
+        },
+        {
+          "chain": "L",
+          "number": 94,
+          "insertion": ""
+        },
+        {
+          "chain": "L",
+          "number": 96,
+          "insertion": ""
+        },
+        {
+          "chain": "L",
+          "number": 97,
+          "insertion": ""
+        },
+        {
+          "chain": "L",
+          "number": 98,
+          "insertion": ""
+        },
+        {
+          "chain": "L",
+          "number": 106,
+          "insertion": ""
+        }
+      ]
+    }
+  ],
+  "decision": "Scaffold replacement experiment, not validated framework deletion. The 82-residue motif mask alone is insufficient evidence of preserved folding.",
+  "must_preserve_or_rebuild": [
+    "Both target-facing recognition geometries",
+    "Observed disulfide endpoints and compatible pairing",
+    "Hydrophobic packing against the recognition loops",
+    "A coherent scaffold and peptide backbone"
+  ],
+  "limits": [
+    "SASA is approximate and calculated for isolated modules",
+    "Beta-sheet hydrogen-bond support is not quantified by this side-chain screen",
+    "A structure cannot establish the smallest function-preserving core without redesign/prediction and experiments"
+  ],
+  "primary_support": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5341541/",
+  "numbering_note": "Our author-chain residue IDs differ from the publication immunoglobulin numbering; use the exported source mapping"
+}

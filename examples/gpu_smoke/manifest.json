@@ -1,0 +1,21 @@
+{
+  "files": {
+    "REVIEW.md": "d7b9e5a71da4157e9ffca4aacadcde89f306431f942e64bc168c57d5a1a66810",
+    "bootstrap.sh": "a0361b08b45a6b7bf4edfee6e119dce5a8f4af73fb0b045f79ad82d3cd6c6c49",
+    "check_config.py": "428c541d605e53c74a61a10e0cd3f3b985a371deca37e364a02b1c5d332385e3",
+    "constraints.txt": "d80df6d847455f9f3990635b669e6ed1ffb8f57a285d23fd68ae3f5d4035f8d7",
+    "core_audit.json": "a6409768190fc03986ccbdb5fc44ccb06d39702036ffa716462a7a8454e49139",
+    "gpu_smoke_test.sh": "bd927b227da8add8a4420175ef57a289f8dbf8e1165fdf19dc6907f7d6c365f1",
+    "model_input.cif": "4f56227a6e7ef3ec52b6372fffbdefd9395859b1a970792e38ea3b15e436ebaa",
+    "motif_plan.json": "bf9ceef8ae35bf8d60600ed757798160ed5e3ca718e43108584a1b9dcf1ea465",
+    "motifs.cif": "9e1e40ed855f672c4928783be4aa1b380631912d878bece918136f777feaf6f6",
+    "native_validation.json": "2e4b380652a2a84155b0ebc8152bfd10f9e5c046bd8aeabed1ce3e61967e56eb",
+    "request.json": "f529eccf219f38ce2896da71d983f3af00a4a4d4874be2a80079644ad7bdacd6",
+    "request.schema.json": "687a1e2821a5319e9f14e6981f611bf5ed90e6f061b2bae359fb7a40bc7cb59b",
+    "residue_mapping.json": "33dd28b2975ce6b2b4b142041738a457b202f44bbd75114cd6ae4c4867ac9780",
+    "resolved_config.yaml": "7ffc76e5819c347f97914a4b14429dfbbe776081de8b11beba12ea649a9d79b3",
+    "rfd3_inputs.draft.json": "91ffa686b9564ce945d5f83cc039e754f0eeb29d19b2d90540bfbdc85bb9c528",
+    "validate_native.py": "2fd2b4fdc89e38ec946aa524be97909739bfa83467adeae816fa4b5fc30ba18b"
+  },
+  "evidence": "inputs_native_validated_and_GPU_executed_with_atomworks_3_0_1"
+}

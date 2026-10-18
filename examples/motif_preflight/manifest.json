@@ -1,0 +1,15 @@
+{
+  "files": {
+    "request.json": "5d2d3fb25c7d40e5421295851c78536e6e52bb72177e37f55490c16fc74705fc",
+    "model_input.cif": "4f56227a6e7ef3ec52b6372fffbdefd9395859b1a970792e38ea3b15e436ebaa",
+    "residue_mapping.json": "33dd28b2975ce6b2b4b142041738a457b202f44bbd75114cd6ae4c4867ac9780",
+    "motifs.cif": "9e1e40ed855f672c4928783be4aa1b380631912d878bece918136f777feaf6f6",
+    "request.schema.json": "647aeb5cf497e274acc0806e41ab6b0e2fe48a7dfa40cff67b04406a5d389edb",
+    "motif_plan.json": "404ba5399f826e5aeedff8b38122a50f9b9c2aaa5600d65dd971c32308e2dc76",
+    "rfd3_inputs.draft.json": "e72ecdbe25f01f7e4d6c35719d60c5c87fb0fa6a0cdd1673fbb0694d4eeb6c2c",
+    "gpu_smoke_test.sh": "74f4cfd243c3e606a1580f2457eeb276c667a718a1346cee8776b0674d55d554",
+    "REVIEW.md": "f956117bc1542dc7673bab018f0fcb9c97c364978d98a8f48f9fe2ab9a93be4d"
+  },
+  "foundry_commit": "d078b24d6d0e6f8607e9a0311128f4a897f83953",
+  "evidence": "geometry_only"
+}

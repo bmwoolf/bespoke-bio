@@ -1,0 +1,5094 @@
+{
+  "schema_version": "0.1.0",
+  "request": {
+    "offsets_angstrom": [
+      30.0,
+      40.0,
+      50.0,
+      65.0
+    ],
+    "z_rotations_degrees": [
+      0.0,
+      90.0
+    ],
+    "linker_sequence": "GGGGSGGGGSGGGGS",
+    "attachment": "C",
+    "vdw_overlap_tolerance_angstrom": 0.4,
+    "top_k": 3
+  },
+  "component_id": "component_e4fa42cfcee573f7",
+  "source_component_id": "component_59cc6b9b079429ef",
+  "component_revision_note": "Protein-only derivative: crystallization nonprotein atoms omitted; sequence and observed polypeptide coordinates preserved",
+  "target_state_id": "state_90542838916fed98",
+  "sampled_layouts": 48,
+  "controls": 1,
+  "eligible_layouts": 5,
+  "ranking": "Filter forbidden vdW overlaps and necessary linker reach; ascending key C\u03b1 radius of gyration, then anchor distance, then ID",
+  "overlap_rule": "distance < sum of Gemmi element vdW radii minus overlap tolerance; not a force-field energy",
+  "context": "Selected full target author chain including its nonprotein context; no whole-biological-assembly or membrane expansion",
+  "relative_target_pose": "hypothesized: each target co-moves with its key; not compatible-site fitting on a prepositioned target assembly",
+  "evidence": "geometry_only",
+  "backbone_or_sequence_redesign": false,
+  "conformational_sampling": false,
+  "interdigitation": "not established: intact domains remain rigid; shared-scaffold integration requires redesign",
+  "unmodeled": [
+    "linker",
+    "fusion folding",
+    "independent complex prediction",
+    "alternate-state assembly",
+    "binding and function"
+  ],
+  "top_layout_ids": [
+    "layout_10abfadd277a02b0",
+    "layout_945eeb928cc39904",
+    "layout_a133ff8ec8c6cf0c"
+  ],
+  "layouts": [
+    {
+      "status": "rejected",
+      "failed_checks": [
+        "key1:key2",
+        "target1:target2",
+        "key1:target2",
+        "key2:target1"
+      ],
+      "transform": {
+        "rotation": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "translation": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "forbidden_pairs": {
+        "key1:key2": {
+          "vdw_overlap_pairs": 5950,
+          "minimum_vdw_gap_angstrom": -3.5999999046325684,
+          "minimum_heavy_atom_distance_angstrom": 0.0,
+          "contact_atom_pairs_5A": 23302
+        },
+        "target1:target2": {
+          "vdw_overlap_pairs": 5819,
+          "minimum_vdw_gap_angstrom": -4.539999961853027,
+          "minimum_heavy_atom_distance_angstrom": 0.0,
+          "contact_atom_pairs_5A": 23619
+        },
+        "key1:target2": {
+          "vdw_overlap_pairs": 4,
+          "minimum_vdw_gap_angstrom": -0.49615728070943277,
+          "minimum_heavy_atom_distance_angstrom": 2.559668337890671,
+          "contact_atom_pairs_5A": 456
+        },
+        "key2:target1": {
+          "vdw_overlap_pairs": 4,
+          "minimum_vdw_gap_angstrom": -0.49615728070943277,
+          "minimum_heavy_atom_distance_angstrom": 2.559668337890671,
+          "contact_atom_pairs_5A": 456
+        }
+      },
+      "compactness": {
+        "key_ca_radius_of_gyration_angstrom": 13.384810636628803,
+        "key_ca_bounding_box_extents_angstrom": [
+          31.142,
+          25.383000000000003,
+          37.474000000000004
+        ]
+      },
+      "connection": {
+        "anchor_distance_angstrom": 39.443515271841584,
+        "contour_upper_bound_angstrom": 60.8,
+        "extension_fraction": 0.6487420274973945,
+        "status": "unmodeled",
+        "linker_sequence": "GGGGSGGGGSGGGGS"
+      },
+      "required_interfaces": {
+        "key1:target1": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        },
+        "key2:target2": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        }
+      },
+      "confidence": null,
+      "function": null,
+      "id": "layout_0ad7066b261dac5a",
+      "kind": "overlap_control"
+    },
+    {
+      "status": "rejected",
+      "failed_checks": [
+        "key1:key2",
+        "target1:target2",
+        "key2:target1"
+      ],
+      "transform": {
+        "rotation": [
+          [
+            1.0,
+            -0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "translation": [
+          30.0,
+          0.0,
+          0.0
+        ]
+      },
+      "forbidden_pairs": {
+        "key1:key2": {
+          "vdw_overlap_pairs": 4,
+          "minimum_vdw_gap_angstrom": -1.0190379662384128,
+          "minimum_heavy_atom_distance_angstrom": 2.2009620623718167,
+          "contact_atom_pairs_5A": 97
+        },
+        "target1:target2": {
+          "vdw_overlap_pairs": 38,
+          "minimum_vdw_gap_angstrom": -2.530720694812966,
+          "minimum_heavy_atom_distance_angstrom": 0.6892793337972635,
+          "contact_atom_pairs_5A": 384
+        },
+        "key1:target2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 14.468830553061437,
+          "minimum_heavy_atom_distance_angstrom": 17.508830514914465,
+          "contact_atom_pairs_5A": 0
+        },
+        "key2:target1": {
+          "vdw_overlap_pairs": 486,
+          "minimum_vdw_gap_angstrom": -2.9246802030843524,
+          "minimum_heavy_atom_distance_angstrom": 0.4263085736881205,
+          "contact_atom_pairs_5A": 2306
+        }
+      },
+      "compactness": {
+        "key_ca_radius_of_gyration_angstrom": 20.103560773614497,
+        "key_ca_bounding_box_extents_angstrom": [
+          61.141999999999996,
+          25.383000000000003,
+          37.474000000000004
+        ]
+      },
+      "connection": {
+        "anchor_distance_angstrom": 42.65056737020036,
+        "contour_upper_bound_angstrom": 60.8,
+        "extension_fraction": 0.7014895949046113,
+        "status": "unmodeled",
+        "linker_sequence": "GGGGSGGGGSGGGGS"
+      },
+      "required_interfaces": {
+        "key1:target1": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        },
+        "key2:target2": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        }
+      },
+      "confidence": null,
+      "function": null,
+      "id": "layout_8a48912a18b3cbbf",
+      "kind": "sampled"
+    },
+    {
+      "status": "rejected",
+      "failed_checks": [
+        "key1:key2",
+        "target1:target2",
+        "key2:target1"
+      ],
+      "transform": {
+        "rotation": [
+          [
+            6.123233995736766e-17,
+            -1.0,
+            0.0
+          ],
+          [
+            1.0,
+            6.123233995736766e-17,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "translation": [
+          -3.806096033402895,
+          -60.23289352818373,
+          0.0
+        ]
+      },
+      "forbidden_pairs": {
+        "key1:key2": {
+          "vdw_overlap_pairs": 2,
+          "minimum_vdw_gap_angstrom": -1.0181219112301663,
+          "minimum_heavy_atom_distance_angstrom": 2.0518780220126316,
+          "contact_atom_pairs_5A": 68
+        },
+        "target1:target2": {
+          "vdw_overlap_pairs": 23,
+          "minimum_vdw_gap_angstrom": -1.6828794740292528,
+          "minimum_heavy_atom_distance_angstrom": 1.3571204878237746,
+          "contact_atom_pairs_5A": 243
+        },
+        "key1:target2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 8.359568419765633,
+          "minimum_heavy_atom_distance_angstrom": 11.408081728773302,
+          "contact_atom_pairs_5A": 0
+        },
+        "key2:target1": {
+          "vdw_overlap_pairs": 336,
+          "minimum_vdw_gap_angstrom": -2.8430079921391407,
+          "minimum_heavy_atom_distance_angstrom": 0.40699200786085915,
+          "contact_atom_pairs_5A": 1723
+        }
+      },
+      "compactness": {
+        "key_ca_radius_of_gyration_angstrom": 20.140822242817972,
+        "key_ca_bounding_box_extents_angstrom": [
+          59.614903966597105,
+          31.142000000000003,
+          37.474000000000004
+        ]
+      },
+      "connection": {
+        "anchor_distance_angstrom": 45.12984720463466,
+        "contour_upper_bound_angstrom": 60.8,
+        "extension_fraction": 0.7422672237604385,
+        "status": "unmodeled",
+        "linker_sequence": "GGGGSGGGGSGGGGS"
+      },
+      "required_interfaces": {
+        "key1:target1": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        },
+        "key2:target2": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        }
+      },
+      "confidence": null,
+      "function": null,
+      "id": "layout_abbfb1e0adf35769",
+      "kind": "sampled"
+    },
+    {
+      "status": "rejected",
+      "failed_checks": [
+        "key1:key2",
+        "target1:target2",
+        "key1:target2"
+      ],
+      "transform": {
+        "rotation": [
+          [
+            1.0,
+            -0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "translation": [
+          -30.0,
+          0.0,
+          0.0
+        ]
+      },
+      "forbidden_pairs": {
+        "key1:key2": {
+          "vdw_overlap_pairs": 4,
+          "minimum_vdw_gap_angstrom": -1.0190379662384141,
+          "minimum_heavy_atom_distance_angstrom": 2.2009620623718154,
+          "contact_atom_pairs_5A": 97
+        },
+        "target1:target2": {
+          "vdw_overlap_pairs": 38,
+          "minimum_vdw_gap_angstrom": -2.530720694812967,
+          "minimum_heavy_atom_distance_angstrom": 0.6892793337972629,
+          "contact_atom_pairs_5A": 384
+        },
+        "key1:target2": {
+          "vdw_overlap_pairs": 486,
+          "minimum_vdw_gap_angstrom": -2.9246802030843515,
+          "minimum_heavy_atom_distance_angstrom": 0.426308573688122,
+          "contact_atom_pairs_5A": 2306
+        },
+        "key2:target1": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 14.46883055306144,
+          "minimum_heavy_atom_distance_angstrom": 17.508830514914468,
+          "contact_atom_pairs_5A": 0
+        }
+      },
+      "compactness": {
+        "key_ca_radius_of_gyration_angstrom": 20.103560773614497,
+        "key_ca_bounding_box_extents_angstrom": [
+          61.141999999999996,
+          25.383000000000003,
+          37.474000000000004
+        ]
+      },
+      "connection": {
+        "anchor_distance_angstrom": 55.61034883005141,
+        "contour_upper_bound_angstrom": 60.8,
+        "extension_fraction": 0.9146438952311087,
+        "status": "unmodeled",
+        "linker_sequence": "GGGGSGGGGSGGGGS"
+      },
+      "required_interfaces": {
+        "key1:target1": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        },
+        "key2:target2": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        }
+      },
+      "confidence": null,
+      "function": null,
+      "id": "layout_bbcd47d02c691d4d",
+      "kind": "sampled"
+    },
+    {
+      "status": "rejected",
+      "failed_checks": [
+        "key1:key2",
+        "key1:target2"
+      ],
+      "transform": {
+        "rotation": [
+          [
+            6.123233995736766e-17,
+            -1.0,
+            0.0
+          ],
+          [
+            1.0,
+            6.123233995736766e-17,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "translation": [
+          -63.806096033402895,
+          -60.23289352818373,
+          0.0
+        ]
+      },
+      "forbidden_pairs": {
+        "key1:key2": {
+          "vdw_overlap_pairs": 45,
+          "minimum_vdw_gap_angstrom": -2.244834332237959,
+          "minimum_heavy_atom_distance_angstrom": 0.8255365470383523,
+          "contact_atom_pairs_5A": 261
+        },
+        "target1:target2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": -0.20982425438233898,
+          "minimum_heavy_atom_distance_angstrom": 3.0101757742278905,
+          "contact_atom_pairs_5A": 16
+        },
+        "key1:target2": {
+          "vdw_overlap_pairs": 23,
+          "minimum_vdw_gap_angstrom": -3.018666631666957,
+          "minimum_heavy_atom_distance_angstrom": 0.38133346370047466,
+          "contact_atom_pairs_5A": 112
+        },
+        "key2:target1": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 11.549924306141607,
+          "minimum_heavy_atom_distance_angstrom": 14.589924267994634,
+          "contact_atom_pairs_5A": 0
+        }
+      },
+      "compactness": {
+        "key_ca_radius_of_gyration_angstrom": 20.067233724044115,
+        "key_ca_bounding_box_extents_angstrom": [
+          56.910096033402894,
+          31.142000000000003,
+          37.474000000000004
+        ]
+      },
+      "connection": {
+        "anchor_distance_angstrom": 57.91230122108789,
+        "contour_upper_bound_angstrom": 60.8,
+        "extension_fraction": 0.9525049542942087,
+        "status": "unmodeled",
+        "linker_sequence": "GGGGSGGGGSGGGGS"
+      },
+      "required_interfaces": {
+        "key1:target1": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        },
+        "key2:target2": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        }
+      },
+      "confidence": null,
+      "function": null,
+      "id": "layout_8365e099b7e012f5",
+      "kind": "sampled"
+    },
+    {
+      "status": "rejected",
+      "failed_checks": [
+        "target1:target2",
+        "key1:target2"
+      ],
+      "transform": {
+        "rotation": [
+          [
+            1.0,
+            -0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "translation": [
+          0.0,
+          30.0,
+          0.0
+        ]
+      },
+      "forbidden_pairs": {
+        "key1:key2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 1.0162692026827944,
+          "minimum_heavy_atom_distance_angstrom": 4.236269231293024,
+          "contact_atom_pairs_5A": 4
+        },
+        "target1:target2": {
+          "vdw_overlap_pairs": 33,
+          "minimum_vdw_gap_angstrom": -2.3979939459076767,
+          "minimum_heavy_atom_distance_angstrom": 0.8220060827025528,
+          "contact_atom_pairs_5A": 331
+        },
+        "key1:target2": {
+          "vdw_overlap_pairs": 1,
+          "minimum_vdw_gap_angstrom": -0.40448247237870305,
+          "minimum_heavy_atom_distance_angstrom": 2.845517527621297,
+          "contact_atom_pairs_5A": 12
+        },
+        "key2:target1": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 4.048304037676481,
+          "minimum_heavy_atom_distance_angstrom": 7.268304066286711,
+          "contact_atom_pairs_5A": 0
+        }
+      },
+      "compactness": {
+        "key_ca_radius_of_gyration_angstrom": 20.103560773614497,
+        "key_ca_bounding_box_extents_angstrom": [
+          31.142,
+          55.383,
+          37.474000000000004
+        ]
+      },
+      "connection": {
+        "anchor_distance_angstrom": 49.37581287432137,
+        "contour_upper_bound_angstrom": 60.8,
+        "extension_fraction": 0.8121021854329172,
+        "status": "unmodeled",
+        "linker_sequence": "GGGGSGGGGSGGGGS"
+      },
+      "required_interfaces": {
+        "key1:target1": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        },
+        "key2:target2": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        }
+      },
+      "confidence": null,
+      "function": null,
+      "id": "layout_0e4d78c60ee86703",
+      "kind": "sampled"
+    },
+    {
+      "status": "rejected",
+      "failed_checks": [
+        "key1:key2"
+      ],
+      "transform": {
+        "rotation": [
+          [
+            6.123233995736766e-17,
+            -1.0,
+            0.0
+          ],
+          [
+            1.0,
+            6.123233995736766e-17,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "translation": [
+          -33.806096033402895,
+          -30.23289352818373,
+          0.0
+        ]
+      },
+      "forbidden_pairs": {
+        "key1:key2": {
+          "vdw_overlap_pairs": 1,
+          "minimum_vdw_gap_angstrom": -0.6042769264064458,
+          "minimum_heavy_atom_distance_angstrom": 2.645723073593554,
+          "contact_atom_pairs_5A": 43
+        },
+        "target1:target2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 11.067802296191443,
+          "minimum_heavy_atom_distance_angstrom": 14.137802229434241,
+          "contact_atom_pairs_5A": 0
+        },
+        "key1:target2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 14.493855044946923,
+          "minimum_heavy_atom_distance_angstrom": 17.56385497818972,
+          "contact_atom_pairs_5A": 0
+        },
+        "key2:target1": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 4.221743263605571,
+          "minimum_heavy_atom_distance_angstrom": 7.441743292215801,
+          "contact_atom_pairs_5A": 0
+        }
+      },
+      "compactness": {
+        "key_ca_radius_of_gyration_angstrom": 20.00453025282082,
+        "key_ca_bounding_box_extents_angstrom": [
+          31.142,
+          58.62810647181627,
+          37.474000000000004
+        ]
+      },
+      "connection": {
+        "anchor_distance_angstrom": 42.21321190133275,
+        "contour_upper_bound_angstrom": 60.8,
+        "extension_fraction": 0.6942962483771834,
+        "status": "unmodeled",
+        "linker_sequence": "GGGGSGGGGSGGGGS"
+      },
+      "required_interfaces": {
+        "key1:target1": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        },
+        "key2:target2": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        }
+      },
+      "confidence": null,
+      "function": null,
+      "id": "layout_c4984af97a390315",
+      "kind": "sampled"
+    },
+    {
+      "status": "rejected",
+      "failed_checks": [
+        "target1:target2",
+        "key2:target1"
+      ],
+      "transform": {
+        "rotation": [
+          [
+            1.0,
+            -0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "translation": [
+          0.0,
+          -30.0,
+          0.0
+        ]
+      },
+      "forbidden_pairs": {
+        "key1:key2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 1.0162692026827989,
+          "minimum_heavy_atom_distance_angstrom": 4.236269231293028,
+          "contact_atom_pairs_5A": 4
+        },
+        "target1:target2": {
+          "vdw_overlap_pairs": 33,
+          "minimum_vdw_gap_angstrom": -2.3979939459076767,
+          "minimum_heavy_atom_distance_angstrom": 0.8220060827025528,
+          "contact_atom_pairs_5A": 331
+        },
+        "key1:target2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 4.048304037676481,
+          "minimum_heavy_atom_distance_angstrom": 7.268304066286711,
+          "contact_atom_pairs_5A": 0
+        },
+        "key2:target1": {
+          "vdw_overlap_pairs": 1,
+          "minimum_vdw_gap_angstrom": -0.4044824723787026,
+          "minimum_heavy_atom_distance_angstrom": 2.8455175276212974,
+          "contact_atom_pairs_5A": 12
+        }
+      },
+      "compactness": {
+        "key_ca_radius_of_gyration_angstrom": 20.103560773614497,
+        "key_ca_bounding_box_extents_angstrom": [
+          31.142,
+          55.382999999999996,
+          37.474000000000004
+        ]
+      },
+      "connection": {
+        "anchor_distance_angstrom": 49.73540888542086,
+        "contour_upper_bound_angstrom": 60.8,
+        "extension_fraction": 0.8180165935102115,
+        "status": "unmodeled",
+        "linker_sequence": "GGGGSGGGGSGGGGS"
+      },
+      "required_interfaces": {
+        "key1:target1": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        },
+        "key2:target2": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        }
+      },
+      "confidence": null,
+      "function": null,
+      "id": "layout_81203b162ab1f095",
+      "kind": "sampled"
+    },
+    {
+      "status": "rejected",
+      "failed_checks": [
+        "key1:key2",
+        "target1:target2",
+        "key1:target2"
+      ],
+      "transform": {
+        "rotation": [
+          [
+            6.123233995736766e-17,
+            -1.0,
+            0.0
+          ],
+          [
+            1.0,
+            6.123233995736766e-17,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "translation": [
+          -33.806096033402895,
+          -90.23289352818372,
+          0.0
+        ]
+      },
+      "forbidden_pairs": {
+        "key1:key2": {
+          "vdw_overlap_pairs": 5,
+          "minimum_vdw_gap_angstrom": -1.5821692437638035,
+          "minimum_heavy_atom_distance_angstrom": 1.4578307180892238,
+          "contact_atom_pairs_5A": 50
+        },
+        "target1:target2": {
+          "vdw_overlap_pairs": 1615,
+          "minimum_vdw_gap_angstrom": -3.0099852525077324,
+          "minimum_heavy_atom_distance_angstrom": 0.2400147474922676,
+          "contact_atom_pairs_5A": 8143
+        },
+        "key1:target2": {
+          "vdw_overlap_pairs": 397,
+          "minimum_vdw_gap_angstrom": -3.026421548209337,
+          "minimum_heavy_atom_distance_angstrom": 0.19357848040089234,
+          "contact_atom_pairs_5A": 2062
+        },
+        "key2:target1": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 1.160215710482559,
+          "minimum_heavy_atom_distance_angstrom": 4.560215805849991,
+          "contact_atom_pairs_5A": 1
+        }
+      },
+      "compactness": {
+        "key_ca_radius_of_gyration_angstrom": 20.20310271508268,
+        "key_ca_bounding_box_extents_angstrom": [
+          31.142,
+          57.896893528183725,
+          37.474000000000004
+        ]
+      },
+      "connection": {
+        "anchor_distance_angstrom": 60.07147811073795,
+        "contour_upper_bound_angstrom": 60.8,
+        "extension_fraction": 0.9880177320845058,
+        "status": "unmodeled",
+        "linker_sequence": "GGGGSGGGGSGGGGS"
+      },
+      "required_interfaces": {
+        "key1:target1": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        },
+        "key2:target2": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        }
+      },
+      "confidence": null,
+      "function": null,
+      "id": "layout_5024ab979611f111",
+      "kind": "sampled"
+    },
+    {
+      "status": "rejected",
+      "failed_checks": [
+        "key1:key2",
+        "target1:target2",
+        "key1:target2"
+      ],
+      "transform": {
+        "rotation": [
+          [
+            1.0,
+            -0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "translation": [
+          0.0,
+          0.0,
+          30.0
+        ]
+      },
+      "forbidden_pairs": {
+        "key1:key2": {
+          "vdw_overlap_pairs": 515,
+          "minimum_vdw_gap_angstrom": -2.951704434000961,
+          "minimum_heavy_atom_distance_angstrom": 0.3463784057934289,
+          "contact_atom_pairs_5A": 2773
+        },
+        "target1:target2": {
+          "vdw_overlap_pairs": 15,
+          "minimum_vdw_gap_angstrom": -1.4585301878238472,
+          "minimum_heavy_atom_distance_angstrom": 1.7614698407863822,
+          "contact_atom_pairs_5A": 304
+        },
+        "key1:target2": {
+          "vdw_overlap_pairs": 2410,
+          "minimum_vdw_gap_angstrom": -3.0990599019734635,
+          "minimum_heavy_atom_distance_angstrom": 0.24207643421035216,
+          "contact_atom_pairs_5A": 11611
+        },
+        "key2:target1": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 21.203590696298253,
+          "minimum_heavy_atom_distance_angstrom": 24.24359065815128,
+          "contact_atom_pairs_5A": 0
+        }
+      },
+      "compactness": {
+        "key_ca_radius_of_gyration_angstrom": 20.103560773614497,
+        "key_ca_bounding_box_extents_angstrom": [
+          31.142,
+          25.383000000000003,
+          67.474
+        ]
+      },
+      "connection": {
+        "anchor_distance_angstrom": 13.285740363261658,
+        "contour_upper_bound_angstrom": 60.8,
+        "extension_fraction": 0.2185154665010141,
+        "status": "unmodeled",
+        "linker_sequence": "GGGGSGGGGSGGGGS"
+      },
+      "required_interfaces": {
+        "key1:target1": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        },
+        "key2:target2": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        }
+      },
+      "confidence": null,
+      "function": null,
+      "id": "layout_5ae41048bc78063f",
+      "kind": "sampled"
+    },
+    {
+      "status": "rejected",
+      "failed_checks": [
+        "key1:key2",
+        "target1:target2",
+        "key1:target2"
+      ],
+      "transform": {
+        "rotation": [
+          [
+            6.123233995736766e-17,
+            -1.0,
+            0.0
+          ],
+          [
+            1.0,
+            6.123233995736766e-17,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "translation": [
+          -33.806096033402895,
+          -60.23289352818373,
+          30.0
+        ]
+      },
+      "forbidden_pairs": {
+        "key1:key2": {
+          "vdw_overlap_pairs": 628,
+          "minimum_vdw_gap_angstrom": -3.120164903609633,
+          "minimum_heavy_atom_distance_angstrom": 0.2798351917577987,
+          "contact_atom_pairs_5A": 2995
+        },
+        "target1:target2": {
+          "vdw_overlap_pairs": 45,
+          "minimum_vdw_gap_angstrom": -2.317041160308566,
+          "minimum_heavy_atom_distance_angstrom": 0.9029588683016635,
+          "contact_atom_pairs_5A": 374
+        },
+        "key1:target2": {
+          "vdw_overlap_pairs": 2183,
+          "minimum_vdw_gap_angstrom": -3.146403462323092,
+          "minimum_heavy_atom_distance_angstrom": 0.18120345113931036,
+          "contact_atom_pairs_5A": 11135
+        },
+        "key2:target1": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 17.465096459920492,
+          "minimum_heavy_atom_distance_angstrom": 20.53509639316329,
+          "contact_atom_pairs_5A": 0
+        }
+      },
+      "compactness": {
+        "key_ca_radius_of_gyration_angstrom": 20.104061653708243,
+        "key_ca_bounding_box_extents_angstrom": [
+          31.142,
+          31.142000000000003,
+          67.474
+        ]
+      },
+      "connection": {
+        "anchor_distance_angstrom": 20.39580522357096,
+        "contour_upper_bound_angstrom": 60.8,
+        "extension_fraction": 0.33545732275610135,
+        "status": "unmodeled",
+        "linker_sequence": "GGGGSGGGGSGGGGS"
+      },
+      "required_interfaces": {
+        "key1:target1": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        },
+        "key2:target2": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        }
+      },
+      "confidence": null,
+      "function": null,
+      "id": "layout_04f53d94ce542fe5",
+      "kind": "sampled"
+    },
+    {
+      "status": "rejected",
+      "failed_checks": [
+        "key1:key2",
+        "target1:target2",
+        "key2:target1",
+        "linker_contour_upper_bound"
+      ],
+      "transform": {
+        "rotation": [
+          [
+            1.0,
+            -0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "translation": [
+          0.0,
+          0.0,
+          -30.0
+        ]
+      },
+      "forbidden_pairs": {
+        "key1:key2": {
+          "vdw_overlap_pairs": 515,
+          "minimum_vdw_gap_angstrom": -2.9517044340009604,
+          "minimum_heavy_atom_distance_angstrom": 0.3463784057934287,
+          "contact_atom_pairs_5A": 2773
+        },
+        "target1:target2": {
+          "vdw_overlap_pairs": 15,
+          "minimum_vdw_gap_angstrom": -1.4585301878238466,
+          "minimum_heavy_atom_distance_angstrom": 1.761469840786383,
+          "contact_atom_pairs_5A": 304
+        },
+        "key1:target2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 21.203590696298253,
+          "minimum_heavy_atom_distance_angstrom": 24.24359065815128,
+          "contact_atom_pairs_5A": 0
+        },
+        "key2:target1": {
+          "vdw_overlap_pairs": 2410,
+          "minimum_vdw_gap_angstrom": -3.099059901973466,
+          "minimum_heavy_atom_distance_angstrom": 0.24207643421035216,
+          "contact_atom_pairs_5A": 11611
+        }
+      },
+      "compactness": {
+        "key_ca_radius_of_gyration_angstrom": 20.103560773614497,
+        "key_ca_bounding_box_extents_angstrom": [
+          31.142,
+          25.383000000000003,
+          67.474
+        ]
+      },
+      "connection": {
+        "anchor_distance_angstrom": 68.81185142836951,
+        "contour_upper_bound_angstrom": 60.8,
+        "extension_fraction": 1.1317738721771302,
+        "status": "unmodeled",
+        "linker_sequence": "GGGGSGGGGSGGGGS"
+      },
+      "required_interfaces": {
+        "key1:target1": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        },
+        "key2:target2": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890675,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        }
+      },
+      "confidence": null,
+      "function": null,
+      "id": "layout_ffdd33e86081f75e",
+      "kind": "sampled"
+    },
+    {
+      "status": "rejected",
+      "failed_checks": [
+        "key1:key2",
+        "target1:target2",
+        "key2:target1",
+        "linker_contour_upper_bound"
+      ],
+      "transform": {
+        "rotation": [
+          [
+            6.123233995736766e-17,
+            -1.0,
+            0.0
+          ],
+          [
+            1.0,
+            6.123233995736766e-17,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "translation": [
+          -33.806096033402895,
+          -60.23289352818373,
+          -30.0
+        ]
+      },
+      "forbidden_pairs": {
+        "key1:key2": {
+          "vdw_overlap_pairs": 651,
+          "minimum_vdw_gap_angstrom": -2.9462405993054572,
+          "minimum_heavy_atom_distance_angstrom": 0.34131769051921546,
+          "contact_atom_pairs_5A": 3184
+        },
+        "target1:target2": {
+          "vdw_overlap_pairs": 4,
+          "minimum_vdw_gap_angstrom": -0.7081987062321096,
+          "minimum_heavy_atom_distance_angstrom": 2.331801255620918,
+          "contact_atom_pairs_5A": 60
+        },
+        "key1:target2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 17.972355360971342,
+          "minimum_heavy_atom_distance_angstrom": 21.01235532282437,
+          "contact_atom_pairs_5A": 0
+        },
+        "key2:target1": {
+          "vdw_overlap_pairs": 2114,
+          "minimum_vdw_gap_angstrom": -3.240788809642162,
+          "minimum_heavy_atom_distance_angstrom": 0.14943547806176427,
+          "contact_atom_pairs_5A": 10824
+        }
+      },
+      "compactness": {
+        "key_ca_radius_of_gyration_angstrom": 20.104061653708243,
+        "key_ca_bounding_box_extents_angstrom": [
+          31.142,
+          31.142000000000003,
+          67.474
+        ]
+      },
+      "connection": {
+        "anchor_distance_angstrom": 70.53048185513725,
+        "contour_upper_bound_angstrom": 60.8,
+        "extension_fraction": 1.16004081998581,
+        "status": "unmodeled",
+        "linker_sequence": "GGGGSGGGGSGGGGS"
+      },
+      "required_interfaces": {
+        "key1:target1": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        },
+        "key2:target2": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890675,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        }
+      },
+      "confidence": null,
+      "function": null,
+      "id": "layout_9397cc34169d3804",
+      "kind": "sampled"
+    },
+    {
+      "status": "rejected",
+      "failed_checks": [
+        "key2:target1"
+      ],
+      "transform": {
+        "rotation": [
+          [
+            1.0,
+            -0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "translation": [
+          40.0,
+          0.0,
+          0.0
+        ]
+      },
+      "forbidden_pairs": {
+        "key1:key2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 6.984860386301454,
+          "minimum_heavy_atom_distance_angstrom": 10.024860348154482,
+          "contact_atom_pairs_5A": 0
+        },
+        "target1:target2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 2.283378933445718,
+          "minimum_heavy_atom_distance_angstrom": 5.5033789620559475,
+          "contact_atom_pairs_5A": 0
+        },
+        "key1:target2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 22.824631216650175,
+          "minimum_heavy_atom_distance_angstrom": 25.864631178503203,
+          "contact_atom_pairs_5A": 0
+        },
+        "key2:target1": {
+          "vdw_overlap_pairs": 75,
+          "minimum_vdw_gap_angstrom": -3.033781581362473,
+          "minimum_heavy_atom_distance_angstrom": 0.36621851400495825,
+          "contact_atom_pairs_5A": 346
+        }
+      },
+      "compactness": {
+        "key_ca_radius_of_gyration_angstrom": 24.065601089073414,
+        "key_ca_bounding_box_extents_angstrom": [
+          71.142,
+          25.383000000000003,
+          37.474000000000004
+        ]
+      },
+      "connection": {
+        "anchor_distance_angstrom": 48.029479457932915,
+        "contour_upper_bound_angstrom": 60.8,
+        "extension_fraction": 0.7899585437160019,
+        "status": "unmodeled",
+        "linker_sequence": "GGGGSGGGGSGGGGS"
+      },
+      "required_interfaces": {
+        "key1:target1": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        },
+        "key2:target2": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        }
+      },
+      "confidence": null,
+      "function": null,
+      "id": "layout_81cb87089e1dfa11",
+      "kind": "sampled"
+    },
+    {
+      "status": "rejected",
+      "failed_checks": [
+        "key2:target1"
+      ],
+      "transform": {
+        "rotation": [
+          [
+            6.123233995736766e-17,
+            -1.0,
+            0.0
+          ],
+          [
+            1.0,
+            6.123233995736766e-17,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "translation": [
+          6.193903966597105,
+          -60.23289352818373,
+          0.0
+        ]
+      },
+      "forbidden_pairs": {
+        "key1:key2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 7.726966660990655,
+          "minimum_heavy_atom_distance_angstrom": 10.946966689600885,
+          "contact_atom_pairs_5A": 0
+        },
+        "target1:target2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 1.803966095050499,
+          "minimum_heavy_atom_distance_angstrom": 4.843966056903526,
+          "contact_atom_pairs_5A": 2
+        },
+        "key1:target2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 16.007783265068888,
+          "minimum_heavy_atom_distance_angstrom": 19.047783226921915,
+          "contact_atom_pairs_5A": 0
+        },
+        "key2:target1": {
+          "vdw_overlap_pairs": 49,
+          "minimum_vdw_gap_angstrom": -2.6916237934853915,
+          "minimum_heavy_atom_distance_angstrom": 0.7083763018820403,
+          "contact_atom_pairs_5A": 300
+        }
+      },
+      "compactness": {
+        "key_ca_radius_of_gyration_angstrom": 24.106967094535573,
+        "key_ca_bounding_box_extents_angstrom": [
+          69.6149039665971,
+          31.142000000000003,
+          37.474000000000004
+        ]
+      },
+      "connection": {
+        "anchor_distance_angstrom": 50.171517697251424,
+        "contour_upper_bound_angstrom": 60.8,
+        "extension_fraction": 0.8251894358100563,
+        "status": "unmodeled",
+        "linker_sequence": "GGGGSGGGGSGGGGS"
+      },
+      "required_interfaces": {
+        "key1:target1": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        },
+        "key2:target2": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        }
+      },
+      "confidence": null,
+      "function": null,
+      "id": "layout_bca6be823e876a39",
+      "kind": "sampled"
+    },
+    {
+      "status": "rejected",
+      "failed_checks": [
+        "key1:target2",
+        "linker_contour_upper_bound"
+      ],
+      "transform": {
+        "rotation": [
+          [
+            1.0,
+            -0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "translation": [
+          -40.0,
+          0.0,
+          0.0
+        ]
+      },
+      "forbidden_pairs": {
+        "key1:key2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 6.984860386301454,
+          "minimum_heavy_atom_distance_angstrom": 10.024860348154482,
+          "contact_atom_pairs_5A": 0
+        },
+        "target1:target2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 2.283378933445719,
+          "minimum_heavy_atom_distance_angstrom": 5.503378962055948,
+          "contact_atom_pairs_5A": 0
+        },
+        "key1:target2": {
+          "vdw_overlap_pairs": 75,
+          "minimum_vdw_gap_angstrom": -3.03378158136247,
+          "minimum_heavy_atom_distance_angstrom": 0.3662185140049615,
+          "contact_atom_pairs_5A": 346
+        },
+        "key2:target1": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 22.82463121665018,
+          "minimum_heavy_atom_distance_angstrom": 25.864631178503206,
+          "contact_atom_pairs_5A": 0
+        }
+      },
+      "compactness": {
+        "key_ca_radius_of_gyration_angstrom": 24.065601089073414,
+        "key_ca_bounding_box_extents_angstrom": [
+          71.142,
+          25.383000000000003,
+          37.474000000000004
+        ]
+      },
+      "connection": {
+        "anchor_distance_angstrom": 63.28310119613292,
+        "contour_upper_bound_angstrom": 60.8,
+        "extension_fraction": 1.0408404801995546,
+        "status": "unmodeled",
+        "linker_sequence": "GGGGSGGGGSGGGGS"
+      },
+      "required_interfaces": {
+        "key1:target1": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        },
+        "key2:target2": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        }
+      },
+      "confidence": null,
+      "function": null,
+      "id": "layout_30fd6a298f155caf",
+      "kind": "sampled"
+    },
+    {
+      "status": "rejected",
+      "failed_checks": [
+        "linker_contour_upper_bound"
+      ],
+      "transform": {
+        "rotation": [
+          [
+            6.123233995736766e-17,
+            -1.0,
+            0.0
+          ],
+          [
+            1.0,
+            6.123233995736766e-17,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "translation": [
+          -73.8060960334029,
+          -60.23289352818373,
+          0.0
+        ]
+      },
+      "forbidden_pairs": {
+        "key1:key2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 5.430850751051983,
+          "minimum_heavy_atom_distance_angstrom": 8.50085068429478,
+          "contact_atom_pairs_5A": 0
+        },
+        "target1:target2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 8.564787055397927,
+          "minimum_heavy_atom_distance_angstrom": 11.604787017250954,
+          "contact_atom_pairs_5A": 0
+        },
+        "key1:target2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 4.601824150430643,
+          "minimum_heavy_atom_distance_angstrom": 8.001824245798074,
+          "contact_atom_pairs_5A": 0
+        },
+        "key2:target1": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 20.55447554941501,
+          "minimum_heavy_atom_distance_angstrom": 23.77447557802524,
+          "contact_atom_pairs_5A": 0
+        }
+      },
+      "compactness": {
+        "key_ca_radius_of_gyration_angstrom": 24.025002132261797,
+        "key_ca_bounding_box_extents_angstrom": [
+          66.9100960334029,
+          31.142000000000003,
+          37.474000000000004
+        ]
+      },
+      "connection": {
+        "anchor_distance_angstrom": 65.37091519468025,
+        "contour_upper_bound_angstrom": 60.8,
+        "extension_fraction": 1.0751795262282937,
+        "status": "unmodeled",
+        "linker_sequence": "GGGGSGGGGSGGGGS"
+      },
+      "required_interfaces": {
+        "key1:target1": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        },
+        "key2:target2": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        }
+      },
+      "confidence": null,
+      "function": null,
+      "id": "layout_c1175fae7ea59c88",
+      "kind": "sampled"
+    },
+    {
+      "status": "passes_geometry_screen",
+      "failed_checks": [],
+      "transform": {
+        "rotation": [
+          [
+            1.0,
+            -0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "translation": [
+          0.0,
+          40.0,
+          0.0
+        ]
+      },
+      "forbidden_pairs": {
+        "key1:key2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 10.094878003125547,
+          "minimum_heavy_atom_distance_angstrom": 13.314878031735777,
+          "contact_atom_pairs_5A": 0
+        },
+        "target1:target2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 3.635445042039975,
+          "minimum_heavy_atom_distance_angstrom": 6.675445003893002,
+          "contact_atom_pairs_5A": 0
+        },
+        "key1:target2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 6.28613863154264,
+          "minimum_heavy_atom_distance_angstrom": 9.455017556831933,
+          "contact_atom_pairs_5A": 0
+        },
+        "key2:target1": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 13.298724014123817,
+          "minimum_heavy_atom_distance_angstrom": 16.518724042734046,
+          "contact_atom_pairs_5A": 0
+        }
+      },
+      "compactness": {
+        "key_ca_radius_of_gyration_angstrom": 24.065601089073414,
+        "key_ca_bounding_box_extents_angstrom": [
+          31.142,
+          65.38300000000001,
+          37.474000000000004
+        ]
+      },
+      "connection": {
+        "anchor_distance_angstrom": 55.96455036002702,
+        "contour_upper_bound_angstrom": 60.8,
+        "extension_fraction": 0.9204695782899182,
+        "status": "unmodeled",
+        "linker_sequence": "GGGGSGGGGSGGGGS"
+      },
+      "required_interfaces": {
+        "key1:target1": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        },
+        "key2:target2": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        }
+      },
+      "confidence": null,
+      "function": null,
+      "id": "layout_945eeb928cc39904",
+      "kind": "sampled",
+      "artifact": "compact_2.cif",
+      "instances": [
+        {
+          "id": "key1",
+          "component_id": "component_e4fa42cfcee573f7",
+          "chain": "K",
+          "transform": {
+            "rotation": [
+              [
+                1.0,
+                0.0,
+                0.0
+              ],
+              [
+                0.0,
+                1.0,
+                0.0
+              ],
+              [
+                0.0,
+                0.0,
+                1.0
+              ]
+            ],
+            "translation": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        },
+        {
+          "id": "key2",
+          "component_id": "component_e4fa42cfcee573f7",
+          "chain": "L",
+          "transform": {
+            "rotation": [
+              [
+                1.0,
+                -0.0,
+                0.0
+              ],
+              [
+                0.0,
+                1.0,
+                0.0
+              ],
+              [
+                0.0,
+                0.0,
+                1.0
+              ]
+            ],
+            "translation": [
+              0.0,
+              40.0,
+              0.0
+            ]
+          }
+        }
+      ],
+      "target_placements": [
+        {
+          "id": "target1",
+          "target_state_id": "state_90542838916fed98",
+          "chain": "T",
+          "transform": {
+            "rotation": [
+              [
+                1.0,
+                0.0,
+                0.0
+              ],
+              [
+                0.0,
+                1.0,
+                0.0
+              ],
+              [
+                0.0,
+                0.0,
+                1.0
+              ]
+            ],
+            "translation": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        },
+        {
+          "id": "target2",
+          "target_state_id": "state_90542838916fed98",
+          "chain": "U",
+          "transform": {
+            "rotation": [
+              [
+                1.0,
+                -0.0,
+                0.0
+              ],
+              [
+                0.0,
+                1.0,
+                0.0
+              ],
+              [
+                0.0,
+                0.0,
+                1.0
+              ]
+            ],
+            "translation": [
+              0.0,
+              40.0,
+              0.0
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "status": "passes_geometry_screen",
+      "failed_checks": [],
+      "transform": {
+        "rotation": [
+          [
+            6.123233995736766e-17,
+            -1.0,
+            0.0
+          ],
+          [
+            1.0,
+            6.123233995736766e-17,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "translation": [
+          -33.806096033402895,
+          -20.23289352818373,
+          0.0
+        ]
+      },
+      "forbidden_pairs": {
+        "key1:key2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 8.139715007710466,
+          "minimum_heavy_atom_distance_angstrom": 11.239714912343034,
+          "contact_atom_pairs_5A": 0
+        },
+        "target1:target2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 20.719484746231053,
+          "minimum_heavy_atom_distance_angstrom": 23.78948467947385,
+          "contact_atom_pairs_5A": 0
+        },
+        "key1:target2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 23.366210930428487,
+          "minimum_heavy_atom_distance_angstrom": 26.436210863671285,
+          "contact_atom_pairs_5A": 0
+        },
+        "key2:target1": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 13.125127234717475,
+          "minimum_heavy_atom_distance_angstrom": 16.345127263327704,
+          "contact_atom_pairs_5A": 0
+        }
+      },
+      "compactness": {
+        "key_ca_radius_of_gyration_angstrom": 23.955177781069878,
+        "key_ca_bounding_box_extents_angstrom": [
+          31.142,
+          68.62810647181627,
+          37.474000000000004
+        ]
+      },
+      "connection": {
+        "anchor_distance_angstrom": 46.663876697753544,
+        "contour_upper_bound_angstrom": 60.8,
+        "extension_fraction": 0.7674979720025255,
+        "status": "unmodeled",
+        "linker_sequence": "GGGGSGGGGSGGGGS"
+      },
+      "required_interfaces": {
+        "key1:target1": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        },
+        "key2:target2": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        }
+      },
+      "confidence": null,
+      "function": null,
+      "id": "layout_10abfadd277a02b0",
+      "kind": "sampled",
+      "artifact": "compact_1.cif",
+      "instances": [
+        {
+          "id": "key1",
+          "component_id": "component_e4fa42cfcee573f7",
+          "chain": "K",
+          "transform": {
+            "rotation": [
+              [
+                1.0,
+                0.0,
+                0.0
+              ],
+              [
+                0.0,
+                1.0,
+                0.0
+              ],
+              [
+                0.0,
+                0.0,
+                1.0
+              ]
+            ],
+            "translation": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        },
+        {
+          "id": "key2",
+          "component_id": "component_e4fa42cfcee573f7",
+          "chain": "L",
+          "transform": {
+            "rotation": [
+              [
+                6.123233995736766e-17,
+                -1.0,
+                0.0
+              ],
+              [
+                1.0,
+                6.123233995736766e-17,
+                0.0
+              ],
+              [
+                0.0,
+                0.0,
+                1.0
+              ]
+            ],
+            "translation": [
+              -33.806096033402895,
+              -20.23289352818373,
+              0.0
+            ]
+          }
+        }
+      ],
+      "target_placements": [
+        {
+          "id": "target1",
+          "target_state_id": "state_90542838916fed98",
+          "chain": "T",
+          "transform": {
+            "rotation": [
+              [
+                1.0,
+                0.0,
+                0.0
+              ],
+              [
+                0.0,
+                1.0,
+                0.0
+              ],
+              [
+                0.0,
+                0.0,
+                1.0
+              ]
+            ],
+            "translation": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        },
+        {
+          "id": "target2",
+          "target_state_id": "state_90542838916fed98",
+          "chain": "U",
+          "transform": {
+            "rotation": [
+              [
+                6.123233995736766e-17,
+                -1.0,
+                0.0
+              ],
+              [
+                1.0,
+                6.123233995736766e-17,
+                0.0
+              ],
+              [
+                0.0,
+                0.0,
+                1.0
+              ]
+            ],
+            "translation": [
+              -33.806096033402895,
+              -20.23289352818373,
+              0.0
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "status": "passes_geometry_screen",
+      "failed_checks": [],
+      "transform": {
+        "rotation": [
+          [
+            1.0,
+            -0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "translation": [
+          0.0,
+          -40.0,
+          0.0
+        ]
+      },
+      "forbidden_pairs": {
+        "key1:key2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 10.094878003125553,
+          "minimum_heavy_atom_distance_angstrom": 13.314878031735782,
+          "contact_atom_pairs_5A": 0
+        },
+        "target1:target2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 3.635445042039975,
+          "minimum_heavy_atom_distance_angstrom": 6.675445003893002,
+          "contact_atom_pairs_5A": 0
+        },
+        "key1:target2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 13.298724014123817,
+          "minimum_heavy_atom_distance_angstrom": 16.518724042734046,
+          "contact_atom_pairs_5A": 0
+        },
+        "key2:target1": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 6.286138631542634,
+          "minimum_heavy_atom_distance_angstrom": 9.455017556831926,
+          "contact_atom_pairs_5A": 0
+        }
+      },
+      "compactness": {
+        "key_ca_radius_of_gyration_angstrom": 24.065601089073418,
+        "key_ca_bounding_box_extents_angstrom": [
+          31.142,
+          65.383,
+          37.474000000000004
+        ]
+      },
+      "connection": {
+        "anchor_distance_angstrom": 56.387506568388005,
+        "contour_upper_bound_angstrom": 60.8,
+        "extension_fraction": 0.9274260948748028,
+        "status": "unmodeled",
+        "linker_sequence": "GGGGSGGGGSGGGGS"
+      },
+      "required_interfaces": {
+        "key1:target1": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        },
+        "key2:target2": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        }
+      },
+      "confidence": null,
+      "function": null,
+      "id": "layout_a133ff8ec8c6cf0c",
+      "kind": "sampled",
+      "artifact": "compact_3.cif",
+      "instances": [
+        {
+          "id": "key1",
+          "component_id": "component_e4fa42cfcee573f7",
+          "chain": "K",
+          "transform": {
+            "rotation": [
+              [
+                1.0,
+                0.0,
+                0.0
+              ],
+              [
+                0.0,
+                1.0,
+                0.0
+              ],
+              [
+                0.0,
+                0.0,
+                1.0
+              ]
+            ],
+            "translation": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        },
+        {
+          "id": "key2",
+          "component_id": "component_e4fa42cfcee573f7",
+          "chain": "L",
+          "transform": {
+            "rotation": [
+              [
+                1.0,
+                -0.0,
+                0.0
+              ],
+              [
+                0.0,
+                1.0,
+                0.0
+              ],
+              [
+                0.0,
+                0.0,
+                1.0
+              ]
+            ],
+            "translation": [
+              0.0,
+              -40.0,
+              0.0
+            ]
+          }
+        }
+      ],
+      "target_placements": [
+        {
+          "id": "target1",
+          "target_state_id": "state_90542838916fed98",
+          "chain": "T",
+          "transform": {
+            "rotation": [
+              [
+                1.0,
+                0.0,
+                0.0
+              ],
+              [
+                0.0,
+                1.0,
+                0.0
+              ],
+              [
+                0.0,
+                0.0,
+                1.0
+              ]
+            ],
+            "translation": [
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        },
+        {
+          "id": "target2",
+          "target_state_id": "state_90542838916fed98",
+          "chain": "U",
+          "transform": {
+            "rotation": [
+              [
+                1.0,
+                -0.0,
+                0.0
+              ],
+              [
+                0.0,
+                1.0,
+                0.0
+              ],
+              [
+                0.0,
+                0.0,
+                1.0
+              ]
+            ],
+            "translation": [
+              0.0,
+              -40.0,
+              0.0
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "status": "rejected",
+      "failed_checks": [
+        "target1:target2",
+        "key1:target2",
+        "linker_contour_upper_bound"
+      ],
+      "transform": {
+        "rotation": [
+          [
+            6.123233995736766e-17,
+            -1.0,
+            0.0
+          ],
+          [
+            1.0,
+            6.123233995736766e-17,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "translation": [
+          -33.806096033402895,
+          -100.23289352818372,
+          0.0
+        ]
+      },
+      "forbidden_pairs": {
+        "key1:key2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 6.036613111352413,
+          "minimum_heavy_atom_distance_angstrom": 9.07661307320544,
+          "contact_atom_pairs_5A": 0
+        },
+        "target1:target2": {
+          "vdw_overlap_pairs": 492,
+          "minimum_vdw_gap_angstrom": -3.152179053095171,
+          "minimum_heavy_atom_distance_angstrom": 0.2478210422722604,
+          "contact_atom_pairs_5A": 2859
+        },
+        "key1:target2": {
+          "vdw_overlap_pairs": 81,
+          "minimum_vdw_gap_angstrom": -2.5978652574377734,
+          "minimum_heavy_atom_distance_angstrom": 0.8021348379296582,
+          "contact_atom_pairs_5A": 490
+        },
+        "key2:target1": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 6.723796240415398,
+          "minimum_heavy_atom_distance_angstrom": 9.763796202268425,
+          "contact_atom_pairs_5A": 0
+        }
+      },
+      "compactness": {
+        "key_ca_radius_of_gyration_angstrom": 24.17635306305607,
+        "key_ca_bounding_box_extents_angstrom": [
+          31.142,
+          67.89689352818372,
+          37.474000000000004
+        ]
+      },
+      "connection": {
+        "anchor_distance_angstrom": 67.9192193195162,
+        "contour_upper_bound_angstrom": 60.8,
+        "extension_fraction": 1.1170924230183585,
+        "status": "unmodeled",
+        "linker_sequence": "GGGGSGGGGSGGGGS"
+      },
+      "required_interfaces": {
+        "key1:target1": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        },
+        "key2:target2": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        }
+      },
+      "confidence": null,
+      "function": null,
+      "id": "layout_3b48d0e9f4d9f264",
+      "kind": "sampled"
+    },
+    {
+      "status": "rejected",
+      "failed_checks": [
+        "key1:key2",
+        "key1:target2"
+      ],
+      "transform": {
+        "rotation": [
+          [
+            1.0,
+            -0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "translation": [
+          0.0,
+          0.0,
+          40.0
+        ]
+      },
+      "forbidden_pairs": {
+        "key1:key2": {
+          "vdw_overlap_pairs": 25,
+          "minimum_vdw_gap_angstrom": -2.131371822275159,
+          "minimum_heavy_atom_distance_angstrom": 1.1186281777248408,
+          "contact_atom_pairs_5A": 176
+        },
+        "target1:target2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 2.6320075310898376,
+          "minimum_heavy_atom_distance_angstrom": 5.672007492942865,
+          "contact_atom_pairs_5A": 0
+        },
+        "key1:target2": {
+          "vdw_overlap_pairs": 1619,
+          "minimum_vdw_gap_angstrom": -3.245743815106305,
+          "minimum_heavy_atom_distance_angstrom": 0.15425628026112623,
+          "contact_atom_pairs_5A": 8312
+        },
+        "key2:target1": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 29.576337533615565,
+          "minimum_heavy_atom_distance_angstrom": 32.64633746685836,
+          "contact_atom_pairs_5A": 0
+        }
+      },
+      "compactness": {
+        "key_ca_radius_of_gyration_angstrom": 24.065601089073414,
+        "key_ca_bounding_box_extents_angstrom": [
+          31.142,
+          25.383000000000003,
+          77.474
+        ]
+      },
+      "connection": {
+        "anchor_distance_angstrom": 10.80513290061719,
+        "contour_upper_bound_angstrom": 60.8,
+        "extension_fraction": 0.17771600165488802,
+        "status": "unmodeled",
+        "linker_sequence": "GGGGSGGGGSGGGGS"
+      },
+      "required_interfaces": {
+        "key1:target1": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        },
+        "key2:target2": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        }
+      },
+      "confidence": null,
+      "function": null,
+      "id": "layout_b98ea629539f02bc",
+      "kind": "sampled"
+    },
+    {
+      "status": "rejected",
+      "failed_checks": [
+        "key1:key2",
+        "key1:target2"
+      ],
+      "transform": {
+        "rotation": [
+          [
+            6.123233995736766e-17,
+            -1.0,
+            0.0
+          ],
+          [
+            1.0,
+            6.123233995736766e-17,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "translation": [
+          -33.806096033402895,
+          -60.23289352818373,
+          40.0
+        ]
+      },
+      "forbidden_pairs": {
+        "key1:key2": {
+          "vdw_overlap_pairs": 7,
+          "minimum_vdw_gap_angstrom": -1.534314604230209,
+          "minimum_heavy_atom_distance_angstrom": 1.535685329012589,
+          "contact_atom_pairs_5A": 87
+        },
+        "target1:target2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 3.3514909611545525,
+          "minimum_heavy_atom_distance_angstrom": 6.39149092300758,
+          "contact_atom_pairs_5A": 0
+        },
+        "key1:target2": {
+          "vdw_overlap_pairs": 1937,
+          "minimum_vdw_gap_angstrom": -3.1734735456168455,
+          "minimum_heavy_atom_distance_angstrom": 0.07652645438315438,
+          "contact_atom_pairs_5A": 9452
+        },
+        "key2:target1": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 26.022785837056134,
+          "minimum_heavy_atom_distance_angstrom": 29.09278577029893,
+          "contact_atom_pairs_5A": 0
+        }
+      },
+      "compactness": {
+        "key_ca_radius_of_gyration_angstrom": 24.06601950834625,
+        "key_ca_bounding_box_extents_angstrom": [
+          31.142,
+          31.142000000000003,
+          77.474
+        ]
+      },
+      "connection": {
+        "anchor_distance_angstrom": 18.874026351519287,
+        "contour_upper_bound_angstrom": 60.8,
+        "extension_fraction": 0.3104280649920936,
+        "status": "unmodeled",
+        "linker_sequence": "GGGGSGGGGSGGGGS"
+      },
+      "required_interfaces": {
+        "key1:target1": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        },
+        "key2:target2": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        }
+      },
+      "confidence": null,
+      "function": null,
+      "id": "layout_5653a5097bb7e93e",
+      "kind": "sampled"
+    },
+    {
+      "status": "rejected",
+      "failed_checks": [
+        "key1:key2",
+        "key2:target1",
+        "linker_contour_upper_bound"
+      ],
+      "transform": {
+        "rotation": [
+          [
+            1.0,
+            -0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "translation": [
+          0.0,
+          0.0,
+          -40.0
+        ]
+      },
+      "forbidden_pairs": {
+        "key1:key2": {
+          "vdw_overlap_pairs": 25,
+          "minimum_vdw_gap_angstrom": -2.1313718222751596,
+          "minimum_heavy_atom_distance_angstrom": 1.1186281777248401,
+          "contact_atom_pairs_5A": 176
+        },
+        "target1:target2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 2.6320075310898376,
+          "minimum_heavy_atom_distance_angstrom": 5.672007492942865,
+          "contact_atom_pairs_5A": 0
+        },
+        "key1:target2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 29.576337533615565,
+          "minimum_heavy_atom_distance_angstrom": 32.64633746685836,
+          "contact_atom_pairs_5A": 0
+        },
+        "key2:target1": {
+          "vdw_overlap_pairs": 1619,
+          "minimum_vdw_gap_angstrom": -3.245743815106307,
+          "minimum_heavy_atom_distance_angstrom": 0.15425628026112476,
+          "contact_atom_pairs_5A": 8312
+        }
+      },
+      "compactness": {
+        "key_ca_radius_of_gyration_angstrom": 24.065601089073418,
+        "key_ca_bounding_box_extents_angstrom": [
+          31.142,
+          25.383000000000003,
+          77.474
+        ]
+      },
+      "connection": {
+        "anchor_distance_angstrom": 78.70724805886685,
+        "contour_upper_bound_angstrom": 60.8,
+        "extension_fraction": 1.2945271062313628,
+        "status": "unmodeled",
+        "linker_sequence": "GGGGSGGGGSGGGGS"
+      },
+      "required_interfaces": {
+        "key1:target1": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        },
+        "key2:target2": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890675,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        }
+      },
+      "confidence": null,
+      "function": null,
+      "id": "layout_f5e102a7a1480ffc",
+      "kind": "sampled"
+    },
+    {
+      "status": "rejected",
+      "failed_checks": [
+        "key1:key2",
+        "key2:target1",
+        "linker_contour_upper_bound"
+      ],
+      "transform": {
+        "rotation": [
+          [
+            6.123233995736766e-17,
+            -1.0,
+            0.0
+          ],
+          [
+            1.0,
+            6.123233995736766e-17,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "translation": [
+          -33.806096033402895,
+          -60.23289352818373,
+          -40.0
+        ]
+      },
+      "forbidden_pairs": {
+        "key1:key2": {
+          "vdw_overlap_pairs": 56,
+          "minimum_vdw_gap_angstrom": -2.750614816731108,
+          "minimum_heavy_atom_distance_angstrom": 0.49938518326889186,
+          "contact_atom_pairs_5A": 360
+        },
+        "target1:target2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 7.290958277320941,
+          "minimum_heavy_atom_distance_angstrom": 10.330958239173968,
+          "contact_atom_pairs_5A": 0
+        },
+        "key1:target2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 27.36623420505139,
+          "minimum_heavy_atom_distance_angstrom": 30.40623416690442,
+          "contact_atom_pairs_5A": 0
+        },
+        "key2:target1": {
+          "vdw_overlap_pairs": 1381,
+          "minimum_vdw_gap_angstrom": -3.033130812566249,
+          "minimum_heavy_atom_distance_angstrom": 0.3018910124496862,
+          "contact_atom_pairs_5A": 7114
+        }
+      },
+      "compactness": {
+        "key_ca_radius_of_gyration_angstrom": 24.06601950834625,
+        "key_ca_bounding_box_extents_angstrom": [
+          31.142,
+          31.142000000000003,
+          77.474
+        ]
+      },
+      "connection": {
+        "anchor_distance_angstrom": 80.21414383210634,
+        "contour_upper_bound_angstrom": 60.8,
+        "extension_fraction": 1.3193115761859597,
+        "status": "unmodeled",
+        "linker_sequence": "GGGGSGGGGSGGGGS"
+      },
+      "required_interfaces": {
+        "key1:target1": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        },
+        "key2:target2": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890675,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        }
+      },
+      "confidence": null,
+      "function": null,
+      "id": "layout_660804bde9a543c6",
+      "kind": "sampled"
+    },
+    {
+      "status": "rejected",
+      "failed_checks": [
+        "key2:target1"
+      ],
+      "transform": {
+        "rotation": [
+          [
+            1.0,
+            -0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "translation": [
+          50.0,
+          0.0,
+          0.0
+        ]
+      },
+      "forbidden_pairs": {
+        "key1:key2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 15.182079147395939,
+          "minimum_heavy_atom_distance_angstrom": 18.40207917600617,
+          "contact_atom_pairs_5A": 0
+        },
+        "target1:target2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 7.910664949466282,
+          "minimum_heavy_atom_distance_angstrom": 10.95066491131931,
+          "contact_atom_pairs_5A": 0
+        },
+        "key1:target2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 30.612605568774164,
+          "minimum_heavy_atom_distance_angstrom": 33.65260553062719,
+          "contact_atom_pairs_5A": 0
+        },
+        "key2:target1": {
+          "vdw_overlap_pairs": 3,
+          "minimum_vdw_gap_angstrom": -1.9342120706895134,
+          "minimum_heavy_atom_distance_angstrom": 1.3689054021370537,
+          "contact_atom_pairs_5A": 19
+        }
+      },
+      "compactness": {
+        "key_ca_radius_of_gyration_angstrom": 28.357594322833727,
+        "key_ca_bounding_box_extents_angstrom": [
+          81.142,
+          25.383000000000003,
+          37.474000000000004
+        ]
+      },
+      "connection": {
+        "anchor_distance_angstrom": 54.722855343996805,
+        "contour_upper_bound_angstrom": 60.8,
+        "extension_fraction": 0.9000469628946843,
+        "status": "unmodeled",
+        "linker_sequence": "GGGGSGGGGSGGGGS"
+      },
+      "required_interfaces": {
+        "key1:target1": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        },
+        "key2:target2": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        }
+      },
+      "confidence": null,
+      "function": null,
+      "id": "layout_c5aeab14668e1e2d",
+      "kind": "sampled"
+    },
+    {
+      "status": "passes_geometry_screen",
+      "failed_checks": [],
+      "transform": {
+        "rotation": [
+          [
+            6.123233995736766e-17,
+            -1.0,
+            0.0
+          ],
+          [
+            1.0,
+            6.123233995736766e-17,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "translation": [
+          16.193903966597105,
+          -60.23289352818373,
+          0.0
+        ]
+      },
+      "forbidden_pairs": {
+        "key1:key2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 17.549067332135014,
+          "minimum_heavy_atom_distance_angstrom": 20.769067360745243,
+          "contact_atom_pairs_5A": 0
+        },
+        "target1:target2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 3.4257553020967038,
+          "minimum_heavy_atom_distance_angstrom": 6.465755263949731,
+          "contact_atom_pairs_5A": 0
+        },
+        "key1:target2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 23.611381338029908,
+          "minimum_heavy_atom_distance_angstrom": 26.651381299882935,
+          "contact_atom_pairs_5A": 0
+        },
+        "key2:target1": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 2.460192128877737,
+          "minimum_heavy_atom_distance_angstrom": 5.530192062120535,
+          "contact_atom_pairs_5A": 0
+        }
+      },
+      "compactness": {
+        "key_ca_radius_of_gyration_angstrom": 28.401390888075365,
+        "key_ca_bounding_box_extents_angstrom": [
+          79.6149039665971,
+          31.142000000000003,
+          37.474000000000004
+        ]
+      },
+      "connection": {
+        "anchor_distance_angstrom": 56.547849361205195,
+        "contour_upper_bound_angstrom": 60.8,
+        "extension_fraction": 0.9300633118619276,
+        "status": "unmodeled",
+        "linker_sequence": "GGGGSGGGGSGGGGS"
+      },
+      "required_interfaces": {
+        "key1:target1": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        },
+        "key2:target2": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        }
+      },
+      "confidence": null,
+      "function": null,
+      "id": "layout_3d0fb349de611036",
+      "kind": "sampled"
+    },
+    {
+      "status": "rejected",
+      "failed_checks": [
+        "key1:target2",
+        "linker_contour_upper_bound"
+      ],
+      "transform": {
+        "rotation": [
+          [
+            1.0,
+            -0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "translation": [
+          -50.0,
+          0.0,
+          0.0
+        ]
+      },
+      "forbidden_pairs": {
+        "key1:key2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 15.182079147395942,
+          "minimum_heavy_atom_distance_angstrom": 18.402079176006172,
+          "contact_atom_pairs_5A": 0
+        },
+        "target1:target2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 7.910664949466286,
+          "minimum_heavy_atom_distance_angstrom": 10.950664911319313,
+          "contact_atom_pairs_5A": 0
+        },
+        "key1:target2": {
+          "vdw_overlap_pairs": 3,
+          "minimum_vdw_gap_angstrom": -1.9342120706895138,
+          "minimum_heavy_atom_distance_angstrom": 1.3689054021370524,
+          "contact_atom_pairs_5A": 19
+        },
+        "key2:target1": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 30.612605568774164,
+          "minimum_heavy_atom_distance_angstrom": 33.65260553062719,
+          "contact_atom_pairs_5A": 0
+        }
+      },
+      "compactness": {
+        "key_ca_radius_of_gyration_angstrom": 28.357594322833727,
+        "key_ca_bounding_box_extents_angstrom": [
+          81.142,
+          25.383000000000003,
+          37.474000000000004
+        ]
+      },
+      "connection": {
+        "anchor_distance_angstrom": 71.53314544321395,
+        "contour_upper_bound_angstrom": 60.8,
+        "extension_fraction": 1.1765319974212822,
+        "status": "unmodeled",
+        "linker_sequence": "GGGGSGGGGSGGGGS"
+      },
+      "required_interfaces": {
+        "key1:target1": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        },
+        "key2:target2": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        }
+      },
+      "confidence": null,
+      "function": null,
+      "id": "layout_e924173ffbee532a",
+      "kind": "sampled"
+    },
+    {
+      "status": "rejected",
+      "failed_checks": [
+        "linker_contour_upper_bound"
+      ],
+      "transform": {
+        "rotation": [
+          [
+            6.123233995736766e-17,
+            -1.0,
+            0.0
+          ],
+          [
+            1.0,
+            6.123233995736766e-17,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "translation": [
+          -83.8060960334029,
+          -60.23289352818373,
+          0.0
+        ]
+      },
+      "forbidden_pairs": {
+        "key1:key2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 14.606718739201273,
+          "minimum_heavy_atom_distance_angstrom": 17.67671867244407,
+          "contact_atom_pairs_5A": 0
+        },
+        "target1:target2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 18.352825994149473,
+          "minimum_heavy_atom_distance_angstrom": 21.3928259560025,
+          "contact_atom_pairs_5A": 0
+        },
+        "key1:target2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 12.278064478173635,
+          "minimum_heavy_atom_distance_angstrom": 15.678064573541066,
+          "contact_atom_pairs_5A": 0
+        },
+        "key2:target1": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 29.954200936570174,
+          "minimum_heavy_atom_distance_angstrom": 33.174200965180404,
+          "contact_atom_pairs_5A": 0
+        }
+      },
+      "compactness": {
+        "key_ca_radius_of_gyration_angstrom": 28.31444129017831,
+        "key_ca_bounding_box_extents_angstrom": [
+          76.9100960334029,
+          31.142000000000003,
+          37.474000000000004
+        ]
+      },
+      "connection": {
+        "anchor_distance_angstrom": 73.43622045052518,
+        "contour_upper_bound_angstrom": 60.8,
+        "extension_fraction": 1.2078325731994275,
+        "status": "unmodeled",
+        "linker_sequence": "GGGGSGGGGSGGGGS"
+      },
+      "required_interfaces": {
+        "key1:target1": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        },
+        "key2:target2": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        }
+      },
+      "confidence": null,
+      "function": null,
+      "id": "layout_28f98fb303d3d0f6",
+      "kind": "sampled"
+    },
+    {
+      "status": "rejected",
+      "failed_checks": [
+        "linker_contour_upper_bound"
+      ],
+      "transform": {
+        "rotation": [
+          [
+            1.0,
+            -0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "translation": [
+          0.0,
+          50.0,
+          0.0
+        ]
+      },
+      "forbidden_pairs": {
+        "key1:key2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 19.9451888762962,
+          "minimum_heavy_atom_distance_angstrom": 23.16518890490643,
+          "contact_atom_pairs_5A": 0
+        },
+        "target1:target2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 13.57690606785058,
+          "minimum_heavy_atom_distance_angstrom": 16.616906029703607,
+          "contact_atom_pairs_5A": 0
+        },
+        "key1:target2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 15.003111503363797,
+          "minimum_heavy_atom_distance_angstrom": 18.073111436606595,
+          "contact_atom_pairs_5A": 0
+        },
+        "key2:target1": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 23.10315031476622,
+          "minimum_heavy_atom_distance_angstrom": 26.32315034337645,
+          "contact_atom_pairs_5A": 0
+        }
+      },
+      "compactness": {
+        "key_ca_radius_of_gyration_angstrom": 28.357594322833727,
+        "key_ca_bounding_box_extents_angstrom": [
+          31.142,
+          75.38300000000001,
+          37.474000000000004
+        ]
+      },
+      "connection": {
+        "anchor_distance_angstrom": 63.45148459256095,
+        "contour_upper_bound_angstrom": 60.8,
+        "extension_fraction": 1.0436099439565947,
+        "status": "unmodeled",
+        "linker_sequence": "GGGGSGGGGSGGGGS"
+      },
+      "required_interfaces": {
+        "key1:target1": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        },
+        "key2:target2": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        }
+      },
+      "confidence": null,
+      "function": null,
+      "id": "layout_44af977f096677e5",
+      "kind": "sampled"
+    },
+    {
+      "status": "passes_geometry_screen",
+      "failed_checks": [],
+      "transform": {
+        "rotation": [
+          [
+            6.123233995736766e-17,
+            -1.0,
+            0.0
+          ],
+          [
+            1.0,
+            6.123233995736766e-17,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "translation": [
+          -33.806096033402895,
+          -10.23289352818373,
+          0.0
+        ]
+      },
+      "forbidden_pairs": {
+        "key1:key2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 17.636762045091675,
+          "minimum_heavy_atom_distance_angstrom": 20.777508942800566,
+          "contact_atom_pairs_5A": 0
+        },
+        "target1:target2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 30.575233172670544,
+          "minimum_heavy_atom_distance_angstrom": 33.64523310591334,
+          "contact_atom_pairs_5A": 0
+        },
+        "key1:target2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 32.592240241272556,
+          "minimum_heavy_atom_distance_angstrom": 35.662240174515354,
+          "contact_atom_pairs_5A": 0
+        },
+        "key2:target1": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 21.836841645685116,
+          "minimum_heavy_atom_distance_angstrom": 25.056841674295345,
+          "contact_atom_pairs_5A": 0
+        }
+      },
+      "compactness": {
+        "key_ca_radius_of_gyration_angstrom": 28.24039402007883,
+        "key_ca_bounding_box_extents_angstrom": [
+          31.142,
+          78.62810647181627,
+          37.474000000000004
+        ]
+      },
+      "connection": {
+        "anchor_distance_angstrom": 52.66003719994387,
+        "contour_upper_bound_angstrom": 60.8,
+        "extension_fraction": 0.8661190328938138,
+        "status": "unmodeled",
+        "linker_sequence": "GGGGSGGGGSGGGGS"
+      },
+      "required_interfaces": {
+        "key1:target1": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        },
+        "key2:target2": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        }
+      },
+      "confidence": null,
+      "function": null,
+      "id": "layout_9b9d5ee2dd198053",
+      "kind": "sampled"
+    },
+    {
+      "status": "rejected",
+      "failed_checks": [
+        "linker_contour_upper_bound"
+      ],
+      "transform": {
+        "rotation": [
+          [
+            1.0,
+            -0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "translation": [
+          0.0,
+          -50.0,
+          0.0
+        ]
+      },
+      "forbidden_pairs": {
+        "key1:key2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 19.945188876296207,
+          "minimum_heavy_atom_distance_angstrom": 23.165188904906437,
+          "contact_atom_pairs_5A": 0
+        },
+        "target1:target2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 13.57690606785058,
+          "minimum_heavy_atom_distance_angstrom": 16.616906029703607,
+          "contact_atom_pairs_5A": 0
+        },
+        "key1:target2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 23.10315031476622,
+          "minimum_heavy_atom_distance_angstrom": 26.32315034337645,
+          "contact_atom_pairs_5A": 0
+        },
+        "key2:target1": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 15.00311150336379,
+          "minimum_heavy_atom_distance_angstrom": 18.073111436606588,
+          "contact_atom_pairs_5A": 0
+        }
+      },
+      "compactness": {
+        "key_ca_radius_of_gyration_angstrom": 28.357594322833727,
+        "key_ca_bounding_box_extents_angstrom": [
+          31.142,
+          75.383,
+          37.474000000000004
+        ]
+      },
+      "connection": {
+        "anchor_distance_angstrom": 63.91784490265609,
+        "contour_upper_bound_angstrom": 60.8,
+        "extension_fraction": 1.0512803437936857,
+        "status": "unmodeled",
+        "linker_sequence": "GGGGSGGGGSGGGGS"
+      },
+      "required_interfaces": {
+        "key1:target1": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        },
+        "key2:target2": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        }
+      },
+      "confidence": null,
+      "function": null,
+      "id": "layout_52fb801443993e19",
+      "kind": "sampled"
+    },
+    {
+      "status": "rejected",
+      "failed_checks": [
+        "target1:target2",
+        "key1:target2",
+        "linker_contour_upper_bound"
+      ],
+      "transform": {
+        "rotation": [
+          [
+            6.123233995736766e-17,
+            -1.0,
+            0.0
+          ],
+          [
+            1.0,
+            6.123233995736766e-17,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "translation": [
+          -33.806096033402895,
+          -110.23289352818372,
+          0.0
+        ]
+      },
+      "forbidden_pairs": {
+        "key1:key2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 15.476014065046993,
+          "minimum_heavy_atom_distance_angstrom": 18.51601402690002,
+          "contact_atom_pairs_5A": 0
+        },
+        "target1:target2": {
+          "vdw_overlap_pairs": 39,
+          "minimum_vdw_gap_angstrom": -1.768844470168376,
+          "minimum_heavy_atom_distance_angstrom": 1.4511555584418534,
+          "contact_atom_pairs_5A": 310
+        },
+        "key1:target2": {
+          "vdw_overlap_pairs": 3,
+          "minimum_vdw_gap_angstrom": -2.086109965604636,
+          "minimum_heavy_atom_distance_angstrom": 0.9538899962483917,
+          "contact_atom_pairs_5A": 34
+        },
+        "key2:target1": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 15.090509224614195,
+          "minimum_heavy_atom_distance_angstrom": 18.310509253224424,
+          "contact_atom_pairs_5A": 0
+        }
+      },
+      "compactness": {
+        "key_ca_radius_of_gyration_angstrom": 28.475019500307635,
+        "key_ca_bounding_box_extents_angstrom": [
+          31.142,
+          77.89689352818372,
+          37.474000000000004
+        ]
+      },
+      "connection": {
+        "anchor_distance_angstrom": 76.27226378924529,
+        "contour_upper_bound_angstrom": 60.8,
+        "extension_fraction": 1.2544780228494292,
+        "status": "unmodeled",
+        "linker_sequence": "GGGGSGGGGSGGGGS"
+      },
+      "required_interfaces": {
+        "key1:target1": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        },
+        "key2:target2": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        }
+      },
+      "confidence": null,
+      "function": null,
+      "id": "layout_68acebda7c539e04",
+      "kind": "sampled"
+    },
+    {
+      "status": "rejected",
+      "failed_checks": [
+        "key1:target2"
+      ],
+      "transform": {
+        "rotation": [
+          [
+            1.0,
+            -0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "translation": [
+          0.0,
+          0.0,
+          50.0
+        ]
+      },
+      "forbidden_pairs": {
+        "key1:key2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 3.2934913254924565,
+          "minimum_heavy_atom_distance_angstrom": 6.363491258735254,
+          "contact_atom_pairs_5A": 0
+        },
+        "target1:target2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 9.51116209590083,
+          "minimum_heavy_atom_distance_angstrom": 12.551162057753857,
+          "contact_atom_pairs_5A": 0
+        },
+        "key1:target2": {
+          "vdw_overlap_pairs": 892,
+          "minimum_vdw_gap_angstrom": -3.033688752381714,
+          "minimum_heavy_atom_distance_angstrom": 0.03801315561750068,
+          "contact_atom_pairs_5A": 4303
+        },
+        "key2:target1": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 38.04548802445996,
+          "minimum_heavy_atom_distance_angstrom": 41.115487957702754,
+          "contact_atom_pairs_5A": 0
+        }
+      },
+      "compactness": {
+        "key_ca_radius_of_gyration_angstrom": 28.357594322833727,
+        "key_ca_bounding_box_extents_angstrom": [
+          31.142,
+          25.383000000000003,
+          87.474
+        ]
+      },
+      "connection": {
+        "anchor_distance_angstrom": 16.030935624597838,
+        "contour_upper_bound_angstrom": 60.8,
+        "extension_fraction": 0.2636667043519381,
+        "status": "unmodeled",
+        "linker_sequence": "GGGGSGGGGSGGGGS"
+      },
+      "required_interfaces": {
+        "key1:target1": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        },
+        "key2:target2": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        }
+      },
+      "confidence": null,
+      "function": null,
+      "id": "layout_fcb227a8df8a32c9",
+      "kind": "sampled"
+    },
+    {
+      "status": "rejected",
+      "failed_checks": [
+        "key1:target2"
+      ],
+      "transform": {
+        "rotation": [
+          [
+            6.123233995736766e-17,
+            -1.0,
+            0.0
+          ],
+          [
+            1.0,
+            6.123233995736766e-17,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "translation": [
+          -33.806096033402895,
+          -60.23289352818373,
+          50.0
+        ]
+      },
+      "forbidden_pairs": {
+        "key1:key2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 6.783969283288149,
+          "minimum_heavy_atom_distance_angstrom": 9.990689346259385,
+          "contact_atom_pairs_5A": 0
+        },
+        "target1:target2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 11.874230192101262,
+          "minimum_heavy_atom_distance_angstrom": 15.094230220711491,
+          "contact_atom_pairs_5A": 0
+        },
+        "key1:target2": {
+          "vdw_overlap_pairs": 966,
+          "minimum_vdw_gap_angstrom": -3.0823303017091184,
+          "minimum_heavy_atom_distance_angstrom": 0.3176697936583134,
+          "contact_atom_pairs_5A": 4858
+        },
+        "key2:target1": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 35.28479355957252,
+          "minimum_heavy_atom_distance_angstrom": 38.35479349281532,
+          "contact_atom_pairs_5A": 0
+        }
+      },
+      "compactness": {
+        "key_ca_radius_of_gyration_angstrom": 28.35794941416079,
+        "key_ca_bounding_box_extents_angstrom": [
+          31.142,
+          31.142000000000003,
+          87.474
+        ]
+      },
+      "connection": {
+        "anchor_distance_angstrom": 22.281581423180995,
+        "contour_upper_bound_angstrom": 60.8,
+        "extension_fraction": 0.3664733786707401,
+        "status": "unmodeled",
+        "linker_sequence": "GGGGSGGGGSGGGGS"
+      },
+      "required_interfaces": {
+        "key1:target1": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        },
+        "key2:target2": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        }
+      },
+      "confidence": null,
+      "function": null,
+      "id": "layout_6b215ebbc5b8b83e",
+      "kind": "sampled"
+    },
+    {
+      "status": "rejected",
+      "failed_checks": [
+        "key2:target1",
+        "linker_contour_upper_bound"
+      ],
+      "transform": {
+        "rotation": [
+          [
+            1.0,
+            -0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "translation": [
+          0.0,
+          0.0,
+          -50.0
+        ]
+      },
+      "forbidden_pairs": {
+        "key1:key2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 3.2934913254924556,
+          "minimum_heavy_atom_distance_angstrom": 6.3634912587352535,
+          "contact_atom_pairs_5A": 0
+        },
+        "target1:target2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 9.51116209590083,
+          "minimum_heavy_atom_distance_angstrom": 12.551162057753857,
+          "contact_atom_pairs_5A": 0
+        },
+        "key1:target2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 38.04548802445996,
+          "minimum_heavy_atom_distance_angstrom": 41.115487957702754,
+          "contact_atom_pairs_5A": 0
+        },
+        "key2:target1": {
+          "vdw_overlap_pairs": 892,
+          "minimum_vdw_gap_angstrom": -3.033688752381715,
+          "minimum_heavy_atom_distance_angstrom": 0.03801315561750097,
+          "contact_atom_pairs_5A": 4303
+        }
+      },
+      "compactness": {
+        "key_ca_radius_of_gyration_angstrom": 28.357594322833727,
+        "key_ca_bounding_box_extents_angstrom": [
+          31.142,
+          25.383000000000003,
+          87.474
+        ]
+      },
+      "connection": {
+        "anchor_distance_angstrom": 88.62612987714176,
+        "contour_upper_bound_angstrom": 60.8,
+        "extension_fraction": 1.4576666098214106,
+        "status": "unmodeled",
+        "linker_sequence": "GGGGSGGGGSGGGGS"
+      },
+      "required_interfaces": {
+        "key1:target1": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        },
+        "key2:target2": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890675,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        }
+      },
+      "confidence": null,
+      "function": null,
+      "id": "layout_2d73e73c4ebc4f3e",
+      "kind": "sampled"
+    },
+    {
+      "status": "rejected",
+      "failed_checks": [
+        "key2:target1",
+        "linker_contour_upper_bound"
+      ],
+      "transform": {
+        "rotation": [
+          [
+            6.123233995736766e-17,
+            -1.0,
+            0.0
+          ],
+          [
+            1.0,
+            6.123233995736766e-17,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "translation": [
+          -33.806096033402895,
+          -60.23289352818373,
+          -50.0
+        ]
+      },
+      "forbidden_pairs": {
+        "key1:key2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 0.2998226686722836,
+          "minimum_heavy_atom_distance_angstrom": 3.399822573304852,
+          "contact_atom_pairs_5A": 4
+        },
+        "target1:target2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 14.116849867607588,
+          "minimum_heavy_atom_distance_angstrom": 17.156849829460615,
+          "contact_atom_pairs_5A": 0
+        },
+        "key1:target2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 36.70912242416697,
+          "minimum_heavy_atom_distance_angstrom": 39.77912235740977,
+          "contact_atom_pairs_5A": 0
+        },
+        "key2:target1": {
+          "vdw_overlap_pairs": 647,
+          "minimum_vdw_gap_angstrom": -3.0052398080515337,
+          "minimum_heavy_atom_distance_angstrom": 0.394760287315898,
+          "contact_atom_pairs_5A": 3333
+        }
+      },
+      "compactness": {
+        "key_ca_radius_of_gyration_angstrom": 28.35794941416079,
+        "key_ca_bounding_box_extents_angstrom": [
+          31.142,
+          31.142000000000003,
+          87.474
+        ]
+      },
+      "connection": {
+        "anchor_distance_angstrom": 89.96704324761286,
+        "contour_upper_bound_angstrom": 60.8,
+        "extension_fraction": 1.4797211060462643,
+        "status": "unmodeled",
+        "linker_sequence": "GGGGSGGGGSGGGGS"
+      },
+      "required_interfaces": {
+        "key1:target1": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        },
+        "key2:target2": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890675,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        }
+      },
+      "confidence": null,
+      "function": null,
+      "id": "layout_bd991475afb52882",
+      "kind": "sampled"
+    },
+    {
+      "status": "rejected",
+      "failed_checks": [
+        "linker_contour_upper_bound"
+      ],
+      "transform": {
+        "rotation": [
+          [
+            1.0,
+            -0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "translation": [
+          65.0,
+          0.0,
+          0.0
+        ]
+      },
+      "forbidden_pairs": {
+        "key1:key2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 28.892092989441394,
+          "minimum_heavy_atom_distance_angstrom": 32.112093018051624,
+          "contact_atom_pairs_5A": 0
+        },
+        "target1:target2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 21.86676743176914,
+          "minimum_heavy_atom_distance_angstrom": 24.906767393622168,
+          "contact_atom_pairs_5A": 0
+        },
+        "key1:target2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 43.88129434041446,
+          "minimum_heavy_atom_distance_angstrom": 46.92129430226749,
+          "contact_atom_pairs_5A": 0
+        },
+        "key2:target1": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 10.12814722110199,
+          "minimum_heavy_atom_distance_angstrom": 13.34814724971222,
+          "contact_atom_pairs_5A": 0
+        }
+      },
+      "compactness": {
+        "key_ca_radius_of_gyration_angstrom": 35.14830231715909,
+        "key_ca_bounding_box_extents_angstrom": [
+          96.142,
+          25.383000000000003,
+          37.474000000000004
+        ]
+      },
+      "connection": {
+        "anchor_distance_angstrom": 66.34177339354142,
+        "contour_upper_bound_angstrom": 60.8,
+        "extension_fraction": 1.0911475887095627,
+        "status": "unmodeled",
+        "linker_sequence": "GGGGSGGGGSGGGGS"
+      },
+      "required_interfaces": {
+        "key1:target1": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        },
+        "key2:target2": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        }
+      },
+      "confidence": null,
+      "function": null,
+      "id": "layout_76ce6420f939064e",
+      "kind": "sampled"
+    },
+    {
+      "status": "rejected",
+      "failed_checks": [
+        "linker_contour_upper_bound"
+      ],
+      "transform": {
+        "rotation": [
+          [
+            6.123233995736766e-17,
+            -1.0,
+            0.0
+          ],
+          [
+            1.0,
+            6.123233995736766e-17,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "translation": [
+          31.193903966597105,
+          -60.23289352818373,
+          0.0
+        ]
+      },
+      "forbidden_pairs": {
+        "key1:key2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 32.38783792998084,
+          "minimum_heavy_atom_distance_angstrom": 35.525518224109575,
+          "contact_atom_pairs_5A": 0
+        },
+        "target1:target2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 16.677909458146306,
+          "minimum_heavy_atom_distance_angstrom": 19.717909419999334,
+          "contact_atom_pairs_5A": 0
+        },
+        "key1:target2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 37.04133290258229,
+          "minimum_heavy_atom_distance_angstrom": 40.08133286443532,
+          "contact_atom_pairs_5A": 0
+        },
+        "key2:target1": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 14.24820272297572,
+          "minimum_heavy_atom_distance_angstrom": 17.318202656218517,
+          "contact_atom_pairs_5A": 0
+        }
+      },
+      "compactness": {
+        "key_ca_radius_of_gyration_angstrom": 35.19415742985751,
+        "key_ca_bounding_box_extents_angstrom": [
+          94.6149039665971,
+          31.142000000000003,
+          37.474000000000004
+        ]
+      },
+      "connection": {
+        "anchor_distance_angstrom": 67.77445231335675,
+        "contour_upper_bound_angstrom": 60.8,
+        "extension_fraction": 1.1147113867328413,
+        "status": "unmodeled",
+        "linker_sequence": "GGGGSGGGGSGGGGS"
+      },
+      "required_interfaces": {
+        "key1:target1": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        },
+        "key2:target2": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        }
+      },
+      "confidence": null,
+      "function": null,
+      "id": "layout_b17250ada3359f14",
+      "kind": "sampled"
+    },
+    {
+      "status": "rejected",
+      "failed_checks": [
+        "linker_contour_upper_bound"
+      ],
+      "transform": {
+        "rotation": [
+          [
+            1.0,
+            -0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "translation": [
+          -65.0,
+          0.0,
+          0.0
+        ]
+      },
+      "forbidden_pairs": {
+        "key1:key2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 28.892092989441394,
+          "minimum_heavy_atom_distance_angstrom": 32.112093018051624,
+          "contact_atom_pairs_5A": 0
+        },
+        "target1:target2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 21.866767431769134,
+          "minimum_heavy_atom_distance_angstrom": 24.90676739362216,
+          "contact_atom_pairs_5A": 0
+        },
+        "key1:target2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 10.128147221101992,
+          "minimum_heavy_atom_distance_angstrom": 13.348147249712222,
+          "contact_atom_pairs_5A": 0
+        },
+        "key2:target1": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 43.881294340414456,
+          "minimum_heavy_atom_distance_angstrom": 46.92129430226748,
+          "contact_atom_pairs_5A": 0
+        }
+      },
+      "compactness": {
+        "key_ca_radius_of_gyration_angstrom": 35.14830231715909,
+        "key_ca_bounding_box_extents_angstrom": [
+          96.142,
+          25.383000000000003,
+          37.474000000000004
+        ]
+      },
+      "connection": {
+        "anchor_distance_angstrom": 84.61885662782261,
+        "contour_upper_bound_angstrom": 60.8,
+        "extension_fraction": 1.3917575103260298,
+        "status": "unmodeled",
+        "linker_sequence": "GGGGSGGGGSGGGGS"
+      },
+      "required_interfaces": {
+        "key1:target1": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        },
+        "key2:target2": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        }
+      },
+      "confidence": null,
+      "function": null,
+      "id": "layout_ed5c1326217241b2",
+      "kind": "sampled"
+    },
+    {
+      "status": "rejected",
+      "failed_checks": [
+        "linker_contour_upper_bound"
+      ],
+      "transform": {
+        "rotation": [
+          [
+            6.123233995736766e-17,
+            -1.0,
+            0.0
+          ],
+          [
+            1.0,
+            6.123233995736766e-17,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "translation": [
+          -98.8060960334029,
+          -60.23289352818373,
+          0.0
+        ]
+      },
+      "forbidden_pairs": {
+        "key1:key2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 29.299264254050982,
+          "minimum_heavy_atom_distance_angstrom": 32.36926418729378,
+          "contact_atom_pairs_5A": 0
+        },
+        "target1:target2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 33.252229005047056,
+          "minimum_heavy_atom_distance_angstrom": 36.29222896690008,
+          "contact_atom_pairs_5A": 0
+        },
+        "key1:target2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 25.532725913685365,
+          "minimum_heavy_atom_distance_angstrom": 28.932726009052796,
+          "contact_atom_pairs_5A": 0
+        },
+        "key2:target1": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 44.38261593424402,
+          "minimum_heavy_atom_distance_angstrom": 47.48252808307947,
+          "contact_atom_pairs_5A": 0
+        }
+      },
+      "compactness": {
+        "key_ca_radius_of_gyration_angstrom": 35.10296102545496,
+        "key_ca_bounding_box_extents_angstrom": [
+          91.9100960334029,
+          31.142000000000003,
+          37.474000000000004
+        ]
+      },
+      "connection": {
+        "anchor_distance_angstrom": 86.29693711285599,
+        "contour_upper_bound_angstrom": 60.8,
+        "extension_fraction": 1.4193575183035525,
+        "status": "unmodeled",
+        "linker_sequence": "GGGGSGGGGSGGGGS"
+      },
+      "required_interfaces": {
+        "key1:target1": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        },
+        "key2:target2": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        }
+      },
+      "confidence": null,
+      "function": null,
+      "id": "layout_d5b5db556232fb48",
+      "kind": "sampled"
+    },
+    {
+      "status": "rejected",
+      "failed_checks": [
+        "linker_contour_upper_bound"
+      ],
+      "transform": {
+        "rotation": [
+          [
+            1.0,
+            -0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "translation": [
+          0.0,
+          65.0,
+          0.0
+        ]
+      },
+      "forbidden_pairs": {
+        "key1:key2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 34.86721537236126,
+          "minimum_heavy_atom_distance_angstrom": 38.08721540097149,
+          "contact_atom_pairs_5A": 0
+        },
+        "target1:target2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 28.447764054128537,
+          "minimum_heavy_atom_distance_angstrom": 31.5984424616151,
+          "contact_atom_pairs_5A": 0
+        },
+        "key1:target2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 28.718111806840163,
+          "minimum_heavy_atom_distance_angstrom": 31.78811174008296,
+          "contact_atom_pairs_5A": 0
+        },
+        "key2:target1": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 37.98641020086741,
+          "minimum_heavy_atom_distance_angstrom": 41.20641022947764,
+          "contact_atom_pairs_5A": 0
+        }
+      },
+      "compactness": {
+        "key_ca_radius_of_gyration_angstrom": 35.14830231715909,
+        "key_ca_bounding_box_extents_angstrom": [
+          31.142,
+          90.38300000000001,
+          37.474000000000004
+        ]
+      },
+      "connection": {
+        "anchor_distance_angstrom": 75.77717926262498,
+        "contour_upper_bound_angstrom": 60.8,
+        "extension_fraction": 1.2463351852405427,
+        "status": "unmodeled",
+        "linker_sequence": "GGGGSGGGGSGGGGS"
+      },
+      "required_interfaces": {
+        "key1:target1": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        },
+        "key2:target2": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        }
+      },
+      "confidence": null,
+      "function": null,
+      "id": "layout_3b9e97dfa11d13c1",
+      "kind": "sampled"
+    },
+    {
+      "status": "rejected",
+      "failed_checks": [
+        "linker_contour_upper_bound"
+      ],
+      "transform": {
+        "rotation": [
+          [
+            6.123233995736766e-17,
+            -1.0,
+            0.0
+          ],
+          [
+            1.0,
+            6.123233995736766e-17,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "translation": [
+          -33.806096033402895,
+          4.76710647181627,
+          0.0
+        ]
+      },
+      "forbidden_pairs": {
+        "key1:key2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 31.60297724560658,
+          "minimum_heavy_atom_distance_angstrom": 34.85297724560658,
+          "contact_atom_pairs_5A": 0
+        },
+        "target1:target2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 45.46962207708743,
+          "minimum_heavy_atom_distance_angstrom": 48.53962201033023,
+          "contact_atom_pairs_5A": 0
+        },
+        "key1:target2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 46.99174762334281,
+          "minimum_heavy_atom_distance_angstrom": 50.06174755658561,
+          "contact_atom_pairs_5A": 0
+        },
+        "key2:target1": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 36.072092163651455,
+          "minimum_heavy_atom_distance_angstrom": 39.292092192261684,
+          "contact_atom_pairs_5A": 0
+        }
+      },
+      "compactness": {
+        "key_ca_radius_of_gyration_angstrom": 35.02533115102931,
+        "key_ca_bounding_box_extents_angstrom": [
+          31.142,
+          93.62810647181627,
+          37.474000000000004
+        ]
+      },
+      "connection": {
+        "anchor_distance_angstrom": 63.57218505017709,
+        "contour_upper_bound_angstrom": 60.8,
+        "extension_fraction": 1.0455951488515969,
+        "status": "unmodeled",
+        "linker_sequence": "GGGGSGGGGSGGGGS"
+      },
+      "required_interfaces": {
+        "key1:target1": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        },
+        "key2:target2": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        }
+      },
+      "confidence": null,
+      "function": null,
+      "id": "layout_9f29bf47342e2d01",
+      "kind": "sampled"
+    },
+    {
+      "status": "rejected",
+      "failed_checks": [
+        "linker_contour_upper_bound"
+      ],
+      "transform": {
+        "rotation": [
+          [
+            1.0,
+            -0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "translation": [
+          0.0,
+          -65.0,
+          0.0
+        ]
+      },
+      "forbidden_pairs": {
+        "key1:key2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 34.86721537236127,
+          "minimum_heavy_atom_distance_angstrom": 38.0872154009715,
+          "contact_atom_pairs_5A": 0
+        },
+        "target1:target2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 28.447764054128537,
+          "minimum_heavy_atom_distance_angstrom": 31.5984424616151,
+          "contact_atom_pairs_5A": 0
+        },
+        "key1:target2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 37.98641020086741,
+          "minimum_heavy_atom_distance_angstrom": 41.20641022947764,
+          "contact_atom_pairs_5A": 0
+        },
+        "key2:target1": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 28.718111806840163,
+          "minimum_heavy_atom_distance_angstrom": 31.78811174008296,
+          "contact_atom_pairs_5A": 0
+        }
+      },
+      "compactness": {
+        "key_ca_radius_of_gyration_angstrom": 35.14830231715909,
+        "key_ca_bounding_box_extents_angstrom": [
+          31.142,
+          90.383,
+          37.474000000000004
+        ]
+      },
+      "connection": {
+        "anchor_distance_angstrom": 76.2849978501671,
+        "contour_upper_bound_angstrom": 60.8,
+        "extension_fraction": 1.2546874646409063,
+        "status": "unmodeled",
+        "linker_sequence": "GGGGSGGGGSGGGGS"
+      },
+      "required_interfaces": {
+        "key1:target1": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        },
+        "key2:target2": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        }
+      },
+      "confidence": null,
+      "function": null,
+      "id": "layout_27599d451fe48979",
+      "kind": "sampled"
+    },
+    {
+      "status": "rejected",
+      "failed_checks": [
+        "linker_contour_upper_bound"
+      ],
+      "transform": {
+        "rotation": [
+          [
+            6.123233995736766e-17,
+            -1.0,
+            0.0
+          ],
+          [
+            1.0,
+            6.123233995736766e-17,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "translation": [
+          -33.806096033402895,
+          -125.23289352818372,
+          0.0
+        ]
+      },
+      "forbidden_pairs": {
+        "key1:key2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 30.25458790599525,
+          "minimum_heavy_atom_distance_angstrom": 33.29458786784828,
+          "contact_atom_pairs_5A": 0
+        },
+        "target1:target2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 5.86048968460636,
+          "minimum_heavy_atom_distance_angstrom": 9.08048971321659,
+          "contact_atom_pairs_5A": 0
+        },
+        "key1:target2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 11.735047941447851,
+          "minimum_heavy_atom_distance_angstrom": 14.95504797005808,
+          "contact_atom_pairs_5A": 0
+        },
+        "key2:target1": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 28.107109317863863,
+          "minimum_heavy_atom_distance_angstrom": 31.327109346474092,
+          "contact_atom_pairs_5A": 0
+        }
+      },
+      "compactness": {
+        "key_ca_radius_of_gyration_angstrom": 35.27141573162239,
+        "key_ca_bounding_box_extents_angstrom": [
+          31.142,
+          92.89689352818372,
+          37.474000000000004
+        ]
+      },
+      "connection": {
+        "anchor_distance_angstrom": 89.43777182701797,
+        "contour_upper_bound_angstrom": 60.8,
+        "extension_fraction": 1.471015983997006,
+        "status": "unmodeled",
+        "linker_sequence": "GGGGSGGGGSGGGGS"
+      },
+      "required_interfaces": {
+        "key1:target1": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        },
+        "key2:target2": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        }
+      },
+      "confidence": null,
+      "function": null,
+      "id": "layout_e87371332b187772",
+      "kind": "sampled"
+    },
+    {
+      "status": "rejected",
+      "failed_checks": [
+        "key1:target2"
+      ],
+      "transform": {
+        "rotation": [
+          [
+            1.0,
+            -0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "translation": [
+          0.0,
+          0.0,
+          65.0
+        ]
+      },
+      "forbidden_pairs": {
+        "key1:key2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 17.269671128548108,
+          "minimum_heavy_atom_distance_angstrom": 20.369671033180676,
+          "contact_atom_pairs_5A": 0
+        },
+        "target1:target2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 23.672005185645727,
+          "minimum_heavy_atom_distance_angstrom": 26.712005147498754,
+          "contact_atom_pairs_5A": 0
+        },
+        "key1:target2": {
+          "vdw_overlap_pairs": 78,
+          "minimum_vdw_gap_angstrom": -2.499870677816154,
+          "minimum_heavy_atom_distance_angstrom": 0.7501293221838462,
+          "contact_atom_pairs_5A": 295
+        },
+        "key2:target1": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 51.72537715278518,
+          "minimum_heavy_atom_distance_angstrom": 54.795377086027976,
+          "contact_atom_pairs_5A": 0
+        }
+      },
+      "compactness": {
+        "key_ca_radius_of_gyration_angstrom": 35.14830231715909,
+        "key_ca_bounding_box_extents_angstrom": [
+          31.142,
+          25.383000000000003,
+          102.474
+        ]
+      },
+      "connection": {
+        "anchor_distance_angstrom": 29.02328198188482,
+        "contour_upper_bound_angstrom": 60.8,
+        "extension_fraction": 0.47735661154415826,
+        "status": "unmodeled",
+        "linker_sequence": "GGGGSGGGGSGGGGS"
+      },
+      "required_interfaces": {
+        "key1:target1": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        },
+        "key2:target2": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890675,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        }
+      },
+      "confidence": null,
+      "function": null,
+      "id": "layout_2f8130bd25b33bd5",
+      "kind": "sampled"
+    },
+    {
+      "status": "rejected",
+      "failed_checks": [
+        "key1:target2"
+      ],
+      "transform": {
+        "rotation": [
+          [
+            6.123233995736766e-17,
+            -1.0,
+            0.0
+          ],
+          [
+            1.0,
+            6.123233995736766e-17,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "translation": [
+          -33.806096033402895,
+          -60.23289352818373,
+          65.0
+        ]
+      },
+      "forbidden_pairs": {
+        "key1:key2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 19.201874874474257,
+          "minimum_heavy_atom_distance_angstrom": 22.271874807717055,
+          "contact_atom_pairs_5A": 0
+        },
+        "target1:target2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 25.290585620888795,
+          "minimum_heavy_atom_distance_angstrom": 28.330585582741822,
+          "contact_atom_pairs_5A": 0
+        },
+        "key1:target2": {
+          "vdw_overlap_pairs": 131,
+          "minimum_vdw_gap_angstrom": -2.8350609209684,
+          "minimum_heavy_atom_distance_angstrom": 0.36380781893486663,
+          "contact_atom_pairs_5A": 668
+        },
+        "key2:target1": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 49.685475459141905,
+          "minimum_heavy_atom_distance_angstrom": 52.7554753923847,
+          "contact_atom_pairs_5A": 0
+        }
+      },
+      "compactness": {
+        "key_ca_radius_of_gyration_angstrom": 35.14858880490228,
+        "key_ca_bounding_box_extents_angstrom": [
+          31.142,
+          31.142000000000003,
+          102.474
+        ]
+      },
+      "connection": {
+        "anchor_distance_angstrom": 32.89116706226528,
+        "contour_upper_bound_angstrom": 60.8,
+        "extension_fraction": 0.5409731424714684,
+        "status": "unmodeled",
+        "linker_sequence": "GGGGSGGGGSGGGGS"
+      },
+      "required_interfaces": {
+        "key1:target1": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        },
+        "key2:target2": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890675,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        }
+      },
+      "confidence": null,
+      "function": null,
+      "id": "layout_b614907e3cf460ee",
+      "kind": "sampled"
+    },
+    {
+      "status": "rejected",
+      "failed_checks": [
+        "key2:target1",
+        "linker_contour_upper_bound"
+      ],
+      "transform": {
+        "rotation": [
+          [
+            1.0,
+            -0.0,
+            0.0
+          ],
+          [
+            0.0,
+            1.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "translation": [
+          0.0,
+          0.0,
+          -65.0
+        ]
+      },
+      "forbidden_pairs": {
+        "key1:key2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 17.269671128548108,
+          "minimum_heavy_atom_distance_angstrom": 20.369671033180676,
+          "contact_atom_pairs_5A": 0
+        },
+        "target1:target2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 23.672005185645727,
+          "minimum_heavy_atom_distance_angstrom": 26.712005147498754,
+          "contact_atom_pairs_5A": 0
+        },
+        "key1:target2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 51.72537715278518,
+          "minimum_heavy_atom_distance_angstrom": 54.795377086027976,
+          "contact_atom_pairs_5A": 0
+        },
+        "key2:target1": {
+          "vdw_overlap_pairs": 78,
+          "minimum_vdw_gap_angstrom": -2.4998706778161566,
+          "minimum_heavy_atom_distance_angstrom": 0.7501293221838435,
+          "contact_atom_pairs_5A": 295
+        }
+      },
+      "compactness": {
+        "key_ca_radius_of_gyration_angstrom": 35.14830231715909,
+        "key_ca_bounding_box_extents_angstrom": [
+          31.142,
+          25.383000000000003,
+          102.474
+        ]
+      },
+      "connection": {
+        "anchor_distance_angstrom": 103.53371864759808,
+        "contour_upper_bound_angstrom": 60.8,
+        "extension_fraction": 1.7028572145986527,
+        "status": "unmodeled",
+        "linker_sequence": "GGGGSGGGGSGGGGS"
+      },
+      "required_interfaces": {
+        "key1:target1": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        },
+        "key2:target2": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890675,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        }
+      },
+      "confidence": null,
+      "function": null,
+      "id": "layout_f371029029cff5c7",
+      "kind": "sampled"
+    },
+    {
+      "status": "rejected",
+      "failed_checks": [
+        "key2:target1",
+        "linker_contour_upper_bound"
+      ],
+      "transform": {
+        "rotation": [
+          [
+            6.123233995736766e-17,
+            -1.0,
+            0.0
+          ],
+          [
+            1.0,
+            6.123233995736766e-17,
+            0.0
+          ],
+          [
+            0.0,
+            0.0,
+            1.0
+          ]
+        ],
+        "translation": [
+          -33.806096033402895,
+          -60.23289352818373,
+          -65.0
+        ]
+      },
+      "forbidden_pairs": {
+        "key1:key2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 15.175633970282774,
+          "minimum_heavy_atom_distance_angstrom": 18.275633874915343,
+          "contact_atom_pairs_5A": 0
+        },
+        "target1:target2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 26.12819820348836,
+          "minimum_heavy_atom_distance_angstrom": 29.168198165341387,
+          "contact_atom_pairs_5A": 0
+        },
+        "key1:target2": {
+          "vdw_overlap_pairs": 0,
+          "minimum_vdw_gap_angstrom": 50.729893891241446,
+          "minimum_heavy_atom_distance_angstrom": 53.79989382448424,
+          "contact_atom_pairs_5A": 0
+        },
+        "key2:target1": {
+          "vdw_overlap_pairs": 44,
+          "minimum_vdw_gap_angstrom": -2.615462427599221,
+          "minimum_heavy_atom_distance_angstrom": 0.634537572400779,
+          "contact_atom_pairs_5A": 217
+        }
+      },
+      "compactness": {
+        "key_ca_radius_of_gyration_angstrom": 35.14858880490229,
+        "key_ca_bounding_box_extents_angstrom": [
+          31.142,
+          31.142000000000003,
+          102.474
+        ]
+      },
+      "connection": {
+        "anchor_distance_angstrom": 104.6838520055402,
+        "contour_upper_bound_angstrom": 60.8,
+        "extension_fraction": 1.7217738816700692,
+        "status": "unmodeled",
+        "linker_sequence": "GGGGSGGGGSGGGGS"
+      },
+      "required_interfaces": {
+        "key1:target1": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890671,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        },
+        "key2:target2": {
+          "status": "pose_preserved",
+          "metrics": {
+            "min_heavy_atom_distance": 2.559668337890675,
+            "severe_clash_pairs": 0,
+            "contact_atom_pairs": 456
+          }
+        }
+      },
+      "confidence": null,
+      "function": null,
+      "id": "layout_ffc17018ef8652b3",
+      "kind": "sampled"
+    }
+  ],
+  "spread_out_reference": {
+    "status": "rejected",
+    "failed_checks": [
+      "linker_contour_upper_bound"
+    ],
+    "transform": {
+      "rotation": [
+        [
+          1.0,
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "translation": [
+        0.0,
+        100.0,
+        0.0
+      ]
+    },
+    "forbidden_pairs": {
+      "key1:key2": {
+        "vdw_overlap_pairs": 0,
+        "minimum_vdw_gap_angstrom": 69.77175045046789,
+        "minimum_heavy_atom_distance_angstrom": 72.99175047907812,
+        "contact_atom_pairs_5A": 0
+      },
+      "target1:target2": {
+        "vdw_overlap_pairs": 0,
+        "minimum_vdw_gap_angstrom": 62.851487143842206,
+        "minimum_heavy_atom_distance_angstrom": 65.89148710569523,
+        "contact_atom_pairs_5A": 0
+      },
+      "key1:target2": {
+        "vdw_overlap_pairs": 0,
+        "minimum_vdw_gap_angstrom": 61.93556942815884,
+        "minimum_heavy_atom_distance_angstrom": 65.00556936140164,
+        "contact_atom_pairs_5A": 0
+      },
+      "key2:target1": {
+        "vdw_overlap_pairs": 0,
+        "minimum_vdw_gap_angstrom": 72.89247098632923,
+        "minimum_heavy_atom_distance_angstrom": 76.11247101493946,
+        "contact_atom_pairs_5A": 0
+      }
+    },
+    "compactness": {
+      "key_ca_radius_of_gyration_angstrom": 51.760536664319964,
+      "key_ca_bounding_box_extents_angstrom": [
+        31.142,
+        125.38300000000001,
+        37.474000000000004
+      ]
+    },
+    "connection": {
+      "anchor_distance_angstrom": 107.22122409765709,
+      "contour_upper_bound_angstrom": 60.8,
+      "extension_fraction": 1.7635069752904127,
+      "status": "unmodeled",
+      "linker_sequence": "GGGGSGGGGSGGGGS"
+    },
+    "required_interfaces": {
+      "key1:target1": {
+        "status": "pose_preserved",
+        "metrics": {
+          "min_heavy_atom_distance": 2.559668337890671,
+          "severe_clash_pairs": 0,
+          "contact_atom_pairs": 456
+        }
+      },
+      "key2:target2": {
+        "status": "pose_preserved",
+        "metrics": {
+          "min_heavy_atom_distance": 2.559668337890671,
+          "severe_clash_pairs": 0,
+          "contact_atom_pairs": 456
+        }
+      }
+    },
+    "confidence": null,
+    "function": null,
+    "kind": "spread_out_reference",
+    "artifact": "spread_out_reference.cif"
+  },
+  "elapsed_seconds": 4.489223207812756,
+  "device": "CPU",
+  "python": "3.12.9"
+}

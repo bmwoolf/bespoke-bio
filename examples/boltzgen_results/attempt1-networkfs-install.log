@@ -1,0 +1,45 @@
+Using CPython 3.12.3 interpreter at: /usr/local/bin/python
+Creating virtual environment at: /workspace/boltzgen-env
+Activate with: source /workspace/boltzgen-env/bin/activate
+Using Python 3.12.3 environment at: /workspace/boltzgen-env
+Resolved 29 packages in 1.66s
+Downloading setuptools (1.2MiB)
+Downloading nvidia-cuda-nvrtc-cu12 (84.0MiB)
+Downloading networkx (2.0MiB)
+Downloading triton (179.6MiB)
+Downloading torch (782.3MiB)
+Downloading sympy (6.0MiB)
+Downloading cuda-bindings (7.3MiB)
+Downloading nvidia-cublas-cu12 (566.8MiB)
+Downloading nvidia-cusparse-cu12 (274.9MiB)
+Downloading nvidia-nccl-cu12 (283.0MiB)
+Downloading nvidia-cufile-cu12 (1.1MiB)
+Downloading nvidia-cusparselt-cu12 (273.9MiB)
+Downloading nvidia-nvjitlink-cu12 (37.4MiB)
+Downloading nvidia-nvshmem-cu12 (132.7MiB)
+Downloading nvidia-cudnn-cu12 (627.4MiB)
+Downloading nvidia-cuda-cupti-cu12 (9.8MiB)
+Downloading nvidia-cusolver-cu12 (255.1MiB)
+Downloading nvidia-curand-cu12 (60.7MiB)
+Downloading nvidia-cufft-cu12 (184.2MiB)
+ Downloading nvidia-cufile-cu12
+ Downloading nvidia-cuda-cupti-cu12
+ Downloading cuda-bindings
+ Downloading nvidia-nvjitlink-cu12
+ Downloading nvidia-cuda-nvrtc-cu12
+ Downloading setuptools
+ Downloading networkx
+ Downloading triton
+ Downloading nvidia-curand-cu12
+ Downloading nvidia-nccl-cu12
+ Downloading nvidia-cusparse-cu12
+ Downloading nvidia-nvshmem-cu12
+ Downloading nvidia-cusparselt-cu12
+ Downloading nvidia-cufft-cu12
+ Downloading nvidia-cusolver-cu12
+ Downloading nvidia-cublas-cu12
+ Downloading sympy
+ Downloading nvidia-cudnn-cu12
+ Downloading torch
+Prepared 29 packages in 4m 28s
+Terminated

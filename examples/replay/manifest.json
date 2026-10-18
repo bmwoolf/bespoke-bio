@@ -1,0 +1,29 @@
+{
+  "schema_version": "0.1.0",
+  "python": "3.12.9",
+  "packages": {
+    "gemmi": "0.7.3",
+    "numpy": "2.2.6",
+    "pydantic": "2.12.3"
+  },
+  "elapsed_seconds": 0.7291987081989646,
+  "files": {
+    "request.json": "7d79f4c9285661524ee3f60c26bc9a99dd674419a713d6ca89588bc12060e68e",
+    "component.cif": "9cdc406a928cd1a273a49afe25b1e50a27d8ebe9547e8b55c9abb8037efb0e37",
+    "review.html": "28b005364b3838418670e7ba4d3ed42598a82b7df8fcfb999c964c13ee586dd5",
+    "5J89.cif": "321a604f520452820ef9333fd2710b25d1529f92c5c736d500aac454bdbbbfe3",
+    "transferred_complex.cif": "f574079e6c292955828ee6ea79e9f58c1ae49dfe0b224dc998b28721847fe8f5",
+    "proposed.cif": "a84c181aa2ca3a4caa73dfda44cc6c3a0283f8551fcfdcff3f33baaabc504acb",
+    "deliberate_overlap.cif": "f9355203a280d65170f37824a96674633c149ab5837cc5e3f93fb2235c1b7c11",
+    "scene.json": "dfc21cd0d8866eb9ff86027e14cadf94f6342c022b421f1da0dc34866c4b06ec",
+    "alternate.cif": "420c92c462d0d67aaee5189561cf749b2e2dd17d506b7b8920178ebbc27ee59c",
+    "5JDS.cif": "e3a5d004be09a985d049521179227b97834376a8fc56f48adf1d916f7521f324",
+    "response.json": "c0d3024e5796b0236c1a347e3db3d2309a6a1e20af7579194b62fa32cebbcec8",
+    "chains.fasta": "efec7a87f2615f60cdbacc9d08cdc65d069c30bc6faa6410e8cd3641fbe72307",
+    "target.cif": "dc55b765f884753b4ee189d3ed987bed8ec6be6186abde89d6732b5a254d0e5b",
+    "transferred_pose.json": "eb95e45e63ed346e67e6dade5bda776621bb5f60cfd86cad6cfedd90ff932c9a",
+    "retrieval.json": "bf2af7debfb2bc06bd62534670001dc489b910df07b3acc04bfb985175bbb386"
+  },
+  "foldseek_version": "463739e0014a1549a527de589102cde98f802f37",
+  "evidence": "experimental fixture replay plus live geometry/retrieval; no binder model run"
+}

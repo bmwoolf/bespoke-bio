@@ -15,6 +15,35 @@ The implementation is intentionally small. It:
 
 Binding-surface selection and key generation belong to Step 3.
 
+## Binder design demo and teammate integration
+
+The active Step 3 engine is **BoltzGen**, with no required epitope. Its full seven-stage
+PD-L1 smoke test completed: two candidates, one native-filter pass, both with weak
+interface confidence. These are computational candidates; binding has not been measured.
+Start the teammate API with `uv run uvicorn biocad.service:app --host 127.0.0.1 --port 8000`;
+open `/docs` for interactive requests. See [the teammate handoff](docs/HACKATHON_HANDOFF.md).
+Inspect [the real results](examples/boltzgen_results/review.html),
+[the delivery punchlist](docs/PUNCHLIST.md), and [current status](docs/STATUS.md).
+
+Prepare a new structure or a single-sequence FASTA locally:
+
+```bash
+uv sync --extra design --extra dev --locked
+uv run biocad boltzgen-prepare --source examples/5JDS.cif --chain A --output outputs/my-target
+# For FASTA, omit --chain. New inputs are prepared; this command does not run inference.
+```
+
+Export the completed smoke test as reusable target-linked molecular parts:
+
+```bash
+uv run biocad export-binders examples/boltzgen_results outputs/my-target/target_state.json --output outputs/my-binders
+```
+
+Optional local structural retrieval uses a declared catalog, independent of generation;
+see [retrieval integration](docs/RETRIEVAL_DEMO.md). Persistent GPU caches are documented
+in [warm compute](docs/WARM_COMPUTE.md). Production catalog UI and interdigitated assembly
+are deferred so the upstream-to-binder handoff can ship first.
+
 ## Run the translation API
 
 ```bash
@@ -75,3 +104,18 @@ uv run ruff check .
 This software produces research predictions, not clinical results.
 
 See [docs/architecture.md](docs/architecture.md) for the system contracts and step boundaries.
+
+## Molecular design and compact assembly (Step 3 prototype)
+
+The optional `biocad` package adds offline target/site preparation, structural retrieval,
+component export and compact rigid assembly searches. Install with
+`uv sync --extra design --extra dev`, then run:
+
+```bash
+uv run --extra design biocad placements --bundle examples/replay --output outputs/compact-assembly
+```
+
+This command uses the supplied public PD-L1/nanobody replay and needs no GPU, weights,
+network connection or Foldseek installation. It screens rigid layouts; it does not generate
+new binders or validate a connected protein. See [docs/ASSEMBLY.md](docs/ASSEMBLY.md)
+for results, the shrinking/scaffold-redesign distinction, and the next experiment.

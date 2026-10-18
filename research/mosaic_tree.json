@@ -1,0 +1,1230 @@
+{
+  "sha": "1eb4af64655870b45a715a5a7e61570e8b098701",
+  "url": "https://api.github.com/repos/escalante-bio/mosaic/git/trees/1eb4af64655870b45a715a5a7e61570e8b098701",
+  "tree": [
+    {
+      "path": ".gitignore",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1d2257321fb3218f9c8f0c697a46e50b8da3a1ab",
+      "size": 124,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/1d2257321fb3218f9c8f0c697a46e50b8da3a1ab"
+    },
+    {
+      "path": "7opb.pdb",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9ff10a747c842eb19ee64fa1a77c6ce4237e1a19",
+      "size": 189783,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/9ff10a747c842eb19ee64fa1a77c6ce4237e1a19"
+    },
+    {
+      "path": "CITATION.cff",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "01880ace61a575df05a39a0203b2e4c73457f21f",
+      "size": 572,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/01880ace61a575df05a39a0203b2e4c73457f21f"
+    },
+    {
+      "path": "IL7RA.cif",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b4ae3307d8e8f5874a414abad601ebec2c95cac7",
+      "size": 117079,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/b4ae3307d8e8f5874a414abad601ebec2c95cac7"
+    },
+    {
+      "path": "LICENSE",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "89a53d385966b8d813a558a0c5ea0421103de6f7",
+      "size": 1066,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/89a53d385966b8d813a558a0c5ea0421103de6f7"
+    },
+    {
+      "path": "PDL1.pdb",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "66c3d6ae29b36f4f4314f4476b504c7d4590e94f",
+      "size": 74686,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/66c3d6ae29b36f4f4314f4476b504c7d4590e94f"
+    },
+    {
+      "path": "README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0c1d49fbd331ad5240953079f5bb71eeb625bca9",
+      "size": 28622,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/0c1d49fbd331ad5240953079f5bb71eeb625bca9"
+    },
+    {
+      "path": "examples",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "d0ad420439335589aef93b64ab89f6280d12dc96",
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/trees/d0ad420439335589aef93b64ab89f6280d12dc96"
+    },
+    {
+      "path": "examples/batched_protenix.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "22dfb23ada5d0af4d0b5ca2812bb62e91992d3e3",
+      "size": 5573,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/22dfb23ada5d0af4d0b5ca2812bb62e91992d3e3"
+    },
+    {
+      "path": "examples/boltz_notebook.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "51709fd606969cd5462727a131b2504f4c1a5540",
+      "size": 8906,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/51709fd606969cd5462727a131b2504f4c1a5540"
+    },
+    {
+      "path": "examples/boltzgen_example.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2c0e6e81de180558995372d20c1b8566fc887272",
+      "size": 6080,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/2c0e6e81de180558995372d20c1b8566fc887272"
+    },
+    {
+      "path": "examples/boltzgen_pipeline.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1cf4a65048e870cd1417a3e9a2926a9a67bac905",
+      "size": 17806,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/1cf4a65048e870cd1417a3e9a2926a9a67bac905"
+    },
+    {
+      "path": "examples/esmfold_minibinder.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "456d671737741eb668fed463fbb54efacd3db9ec",
+      "size": 6567,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/456d671737741eb668fed463fbb54efacd3db9ec"
+    },
+    {
+      "path": "examples/esmfold_vhh.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "dbac5cf3eb2ea982b08e16fc64c7cfc26d41540b",
+      "size": 20843,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/dbac5cf3eb2ea982b08e16fc64c7cfc26d41540b"
+    },
+    {
+      "path": "examples/example_notebook.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5f9c119b19b93b7322e68fe1dc1aef459b88517d",
+      "size": 13755,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/5f9c119b19b93b7322e68fe1dc1aef459b88517d"
+    },
+    {
+      "path": "examples/of3.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "723d371b5ba92b83054d9cfcdfc27beaed6ff261",
+      "size": 4528,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/723d371b5ba92b83054d9cfcdfc27beaed6ff261"
+    },
+    {
+      "path": "examples/promera_design.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e9483392f7b557f5bc625500285eae6c23e49286",
+      "size": 15973,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/e9483392f7b557f5bc625500285eae6c23e49286"
+    },
+    {
+      "path": "examples/proteina.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e175f3bc640480758f0bc5a823c0c163379f382c",
+      "size": 16763,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/e175f3bc640480758f0bc5a823c0c163379f382c"
+    },
+    {
+      "path": "examples/protenij.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3208190812570577aab8f572b4e1705501ad417d",
+      "size": 5119,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/3208190812570577aab8f572b4e1705501ad417d"
+    },
+    {
+      "path": "examples/protenij_vhh.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "71fb29d0704576ce7e562aff6a7dd0fe22df91e8",
+      "size": 9963,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/71fb29d0704576ce7e562aff6a7dd0fe22df91e8"
+    },
+    {
+      "path": "pyproject.toml",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0f19981d0f68a8ff6d239badb861076ed2e5ebad",
+      "size": 3025,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/0f19981d0f68a8ff6d239badb861076ed2e5ebad"
+    },
+    {
+      "path": "src",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "a9a2e63169f01f0e04ce455345f0265801cc26f4",
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/trees/a9a2e63169f01f0e04ce455345f0265801cc26f4"
+    },
+    {
+      "path": "src/mosaic",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "0d128f93ffe9c91a3359353b875784b3eb5fd3cf",
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/trees/0d128f93ffe9c91a3359353b875784b3eb5fd3cf"
+    },
+    {
+      "path": "src/mosaic/__init__.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "size": 0,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+    },
+    {
+      "path": "src/mosaic/alphafold",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "2918c2b014993866941870e9d124dd18852d5903",
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/trees/2918c2b014993866941870e9d124dd18852d5903"
+    },
+    {
+      "path": "src/mosaic/alphafold/LICENSE",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d645695673349e3947e8e5ae42332d0ac3164cd7",
+      "size": 11358,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/d645695673349e3947e8e5ae42332d0ac3164cd7"
+    },
+    {
+      "path": "src/mosaic/alphafold/NOTICE",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f1e23bb8cc699449618d98b15c1cbfd614801370",
+      "size": 780,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/f1e23bb8cc699449618d98b15c1cbfd614801370"
+    },
+    {
+      "path": "src/mosaic/alphafold/__init__.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a0fd7f8294b9d7be770127c356f0b6564f1baa6c",
+      "size": 663,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/a0fd7f8294b9d7be770127c356f0b6564f1baa6c"
+    },
+    {
+      "path": "src/mosaic/alphafold/common",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "9c9d9bd010e0fbdb41f4418d9bf3b9188a81cc23",
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/trees/9c9d9bd010e0fbdb41f4418d9bf3b9188a81cc23"
+    },
+    {
+      "path": "src/mosaic/alphafold/common/__init__.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d3c65d69d5f61b7b9547153c47d84e7f545e2636",
+      "size": 655,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/d3c65d69d5f61b7b9547153c47d84e7f545e2636"
+    },
+    {
+      "path": "src/mosaic/alphafold/common/confidence.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8745fdf6dd5d13cf3bfaee07d6915dd6c0500031",
+      "size": 7973,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/8745fdf6dd5d13cf3bfaee07d6915dd6c0500031"
+    },
+    {
+      "path": "src/mosaic/alphafold/common/mmcif_metadata.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ca8a6973c05ebb262d2dd52fb31bda01a314354f",
+      "size": 7554,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/ca8a6973c05ebb262d2dd52fb31bda01a314354f"
+    },
+    {
+      "path": "src/mosaic/alphafold/common/protein.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d84e1ab4ff37c80fc81142bc81ada845d2c97230",
+      "size": 20709,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/d84e1ab4ff37c80fc81142bc81ada845d2c97230"
+    },
+    {
+      "path": "src/mosaic/alphafold/common/residue_constants.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "826629e218956c4c55a4198228a1f54df4c3c78e",
+      "size": 35625,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/826629e218956c4c55a4198228a1f54df4c3c78e"
+    },
+    {
+      "path": "src/mosaic/alphafold/data",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "c0a6db1cd09db71e0b57c461b761638f2e81f220",
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/trees/c0a6db1cd09db71e0b57c461b761638f2e81f220"
+    },
+    {
+      "path": "src/mosaic/alphafold/data/__init__.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9821d212c3c7781e601ea8d2137493942d0937d4",
+      "size": 634,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/9821d212c3c7781e601ea8d2137493942d0937d4"
+    },
+    {
+      "path": "src/mosaic/alphafold/data/feature_processing.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9f725e244cebf2aecdf2967fb1acf2756f903608",
+      "size": 8551,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/9f725e244cebf2aecdf2967fb1acf2756f903608"
+    },
+    {
+      "path": "src/mosaic/alphafold/data/mmcif_parsing.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6de1cc690c2385acdff9c22454de9853d18adbe1",
+      "size": 14222,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/6de1cc690c2385acdff9c22454de9853d18adbe1"
+    },
+    {
+      "path": "src/mosaic/alphafold/data/msa_identifiers.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "def169f67ba496f3ee13aff57915f0271a4f2a1f",
+      "size": 2966,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/def169f67ba496f3ee13aff57915f0271a4f2a1f"
+    },
+    {
+      "path": "src/mosaic/alphafold/data/msa_pairing.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c87b61b157bae07e3b57073c2986a8bc3cd34b82",
+      "size": 17186,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/c87b61b157bae07e3b57073c2986a8bc3cd34b82"
+    },
+    {
+      "path": "src/mosaic/alphafold/data/parsers.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0d865fab8c91f575e2c45c986170a0b65197534c",
+      "size": 21397,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/0d865fab8c91f575e2c45c986170a0b65197534c"
+    },
+    {
+      "path": "src/mosaic/alphafold/data/pipeline.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6a2ec0d75967198976b2089b2f3ab3344a6e83d2",
+      "size": 10133,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/6a2ec0d75967198976b2089b2f3ab3344a6e83d2"
+    },
+    {
+      "path": "src/mosaic/alphafold/data/pipeline_multimer.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e6dd226e4e263983476d76d79fd1c9f02415d534",
+      "size": 11018,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/e6dd226e4e263983476d76d79fd1c9f02415d534"
+    },
+    {
+      "path": "src/mosaic/alphafold/data/templates.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2ca074de363fa0e8a2e5088bc5729f868cc8d792",
+      "size": 40645,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/2ca074de363fa0e8a2e5088bc5729f868cc8d792"
+    },
+    {
+      "path": "src/mosaic/alphafold/model",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "f143ee93443174ca230bd6fd67ce4fc3dfd51e2c",
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/trees/f143ee93443174ca230bd6fd67ce4fc3dfd51e2c"
+    },
+    {
+      "path": "src/mosaic/alphafold/model/__init__.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fc2efc8d3e1439f8d264268adcde82231f784636",
+      "size": 617,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/fc2efc8d3e1439f8d264268adcde82231f784636"
+    },
+    {
+      "path": "src/mosaic/alphafold/model/all_atom.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cc819e5b498c93806d8d9ce6c296dbf98e940d6f",
+      "size": 47494,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/cc819e5b498c93806d8d9ce6c296dbf98e940d6f"
+    },
+    {
+      "path": "src/mosaic/alphafold/model/all_atom_multimer.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cc9cb2e9f05885c222edc2f74d5dee13d2a2f34d",
+      "size": 40121,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/cc9cb2e9f05885c222edc2f74d5dee13d2a2f34d"
+    },
+    {
+      "path": "src/mosaic/alphafold/model/all_atom_test.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "36ba45fe3d828d22614b021ad0deefe3e99bdcca",
+      "size": 4706,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/36ba45fe3d828d22614b021ad0deefe3e99bdcca"
+    },
+    {
+      "path": "src/mosaic/alphafold/model/common_modules.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "13c15553dc2338f3af55f45a33326923415a040c",
+      "size": 6395,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/13c15553dc2338f3af55f45a33326923415a040c"
+    },
+    {
+      "path": "src/mosaic/alphafold/model/config.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ec2795aa6c1e7647b325e64321ec3ed731b19390",
+      "size": 26806,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/ec2795aa6c1e7647b325e64321ec3ed731b19390"
+    },
+    {
+      "path": "src/mosaic/alphafold/model/data.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "907bcc8db47bf7f11cf290d011de09afd7f4e8d0",
+      "size": 1089,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/907bcc8db47bf7f11cf290d011de09afd7f4e8d0"
+    },
+    {
+      "path": "src/mosaic/alphafold/model/features.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c261cef1970407881a0b3e3106e448006648d607",
+      "size": 3692,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/c261cef1970407881a0b3e3106e448006648d607"
+    },
+    {
+      "path": "src/mosaic/alphafold/model/folding.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9a09a2841ff07d3702acc03156e074b523f06bdd",
+      "size": 37448,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/9a09a2841ff07d3702acc03156e074b523f06bdd"
+    },
+    {
+      "path": "src/mosaic/alphafold/model/folding_multimer.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a7c55f65475a3e0c99068071b7fbfd22a3972b41",
+      "size": 42370,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/a7c55f65475a3e0c99068071b7fbfd22a3972b41"
+    },
+    {
+      "path": "src/mosaic/alphafold/model/geometry",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "085c666ad55d4ac73574e3e68c9aab6bd9446cb4",
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/trees/085c666ad55d4ac73574e3e68c9aab6bd9446cb4"
+    },
+    {
+      "path": "src/mosaic/alphafold/model/geometry/__init__.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ceb89b725f9d2206f7b04c8d57a70f86ce211cc7",
+      "size": 1080,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/ceb89b725f9d2206f7b04c8d57a70f86ce211cc7"
+    },
+    {
+      "path": "src/mosaic/alphafold/model/geometry/rigid_matrix_vector.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "186996835aac5e3392da7f3893dc4c38ed1981c8",
+      "size": 4053,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/186996835aac5e3392da7f3893dc4c38ed1981c8"
+    },
+    {
+      "path": "src/mosaic/alphafold/model/geometry/rotation_matrix.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ea158bdb1f3392cc738201922a299426571f99e3",
+      "size": 5656,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/ea158bdb1f3392cc738201922a299426571f99e3"
+    },
+    {
+      "path": "src/mosaic/alphafold/model/geometry/struct_of_array.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "562743b327dcd6872d60df202e8862967674b915",
+      "size": 7745,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/562743b327dcd6872d60df202e8862967674b915"
+    },
+    {
+      "path": "src/mosaic/alphafold/model/geometry/utils.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "64c4a649dc0bc07353726f271150dd1a9c593c72",
+      "size": 853,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/64c4a649dc0bc07353726f271150dd1a9c593c72"
+    },
+    {
+      "path": "src/mosaic/alphafold/model/geometry/vector.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "35e4c146aea6eff8abfcd605c70158b252a975fe",
+      "size": 6837,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/35e4c146aea6eff8abfcd605c70158b252a975fe"
+    },
+    {
+      "path": "src/mosaic/alphafold/model/layer_stack.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cbbb0dcb26445ec8ce57149f31aba9fc4de2863c",
+      "size": 9134,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/cbbb0dcb26445ec8ce57149f31aba9fc4de2863c"
+    },
+    {
+      "path": "src/mosaic/alphafold/model/layer_stack_test.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ab92ea5ae53b328ffb5e4875ae6aab83ca9f6b05",
+      "size": 10315,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/ab92ea5ae53b328ffb5e4875ae6aab83ca9f6b05"
+    },
+    {
+      "path": "src/mosaic/alphafold/model/lddt.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6b2a3f9c9c427b8da547cabf75ff48a7b9fc1844",
+      "size": 3505,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/6b2a3f9c9c427b8da547cabf75ff48a7b9fc1844"
+    },
+    {
+      "path": "src/mosaic/alphafold/model/lddt_test.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8b4f050f05e3c786987d0151de0acb0ec2c54fee",
+      "size": 2384,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/8b4f050f05e3c786987d0151de0acb0ec2c54fee"
+    },
+    {
+      "path": "src/mosaic/alphafold/model/mapping.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "307651b338925e3862b2289cdc4678b0015563ff",
+      "size": 7925,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/307651b338925e3862b2289cdc4678b0015563ff"
+    },
+    {
+      "path": "src/mosaic/alphafold/model/modules.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "81a1d175774dc4b10242deee739c0e420dbaa454",
+      "size": 67893,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/81a1d175774dc4b10242deee739c0e420dbaa454"
+    },
+    {
+      "path": "src/mosaic/alphafold/model/modules_multimer.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fe096d520941f48eff6bcba6bd60131e3748632d",
+      "size": 33696,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/fe096d520941f48eff6bcba6bd60131e3748632d"
+    },
+    {
+      "path": "src/mosaic/alphafold/model/prng.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1229b9bf6f7f1b18cf067dd368c838bac46ab8b5",
+      "size": 1978,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/1229b9bf6f7f1b18cf067dd368c838bac46ab8b5"
+    },
+    {
+      "path": "src/mosaic/alphafold/model/quat_affine.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b508d96b317012691a7106d3d7eaa35953014a4d",
+      "size": 17388,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/b508d96b317012691a7106d3d7eaa35953014a4d"
+    },
+    {
+      "path": "src/mosaic/alphafold/model/r3.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ee15b24a610fc167138b521669cc7f288521f237",
+      "size": 10921,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/ee15b24a610fc167138b521669cc7f288521f237"
+    },
+    {
+      "path": "src/mosaic/alphafold/model/state.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "bd88e93fe42408de80e48dc2c239312d83a29761",
+      "size": 281,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/bd88e93fe42408de80e48dc2c239312d83a29761"
+    },
+    {
+      "path": "src/mosaic/alphafold/model/tf",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "7e7d32180d619ad57b1e3e626cb5e0430d988efe",
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/trees/7e7d32180d619ad57b1e3e626cb5e0430d988efe"
+    },
+    {
+      "path": "src/mosaic/alphafold/model/tf/__init__.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6c520687f67754b0488690287f941854c8cf6133",
+      "size": 633,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/6c520687f67754b0488690287f941854c8cf6133"
+    },
+    {
+      "path": "src/mosaic/alphafold/model/tf/data_transforms.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5602071bf86a22894d1168d5b8d5947af2848d5f",
+      "size": 21354,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/5602071bf86a22894d1168d5b8d5947af2848d5f"
+    },
+    {
+      "path": "src/mosaic/alphafold/model/tf/input_pipeline.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e9a9bc3a8aa15316aa88c3947120883be869331e",
+      "size": 5357,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/e9a9bc3a8aa15316aa88c3947120883be869331e"
+    },
+    {
+      "path": "src/mosaic/alphafold/model/tf/protein_features.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c78cfa5ea50baa63f9fabcb3bc7c7b66d10a1fa0",
+      "size": 5051,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/c78cfa5ea50baa63f9fabcb3bc7c7b66d10a1fa0"
+    },
+    {
+      "path": "src/mosaic/alphafold/model/tf/protein_features_test.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f5a351ba863584222272318f10304e9707fe3edf",
+      "size": 1822,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/f5a351ba863584222272318f10304e9707fe3edf"
+    },
+    {
+      "path": "src/mosaic/alphafold/model/tf/proteins_dataset.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e0b1c038a41c6e276275a7904e748ea9e31e6083",
+      "size": 6344,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/e0b1c038a41c6e276275a7904e748ea9e31e6083"
+    },
+    {
+      "path": "src/mosaic/alphafold/model/tf/shape_helpers.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "be2926a63bce7ca5db3effe63d5264620aa1dcf8",
+      "size": 1415,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/be2926a63bce7ca5db3effe63d5264620aa1dcf8"
+    },
+    {
+      "path": "src/mosaic/alphafold/model/tf/shape_helpers_test.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "16c032bae89db6320f27920f1715159f2319231d",
+      "size": 1318,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/16c032bae89db6320f27920f1715159f2319231d"
+    },
+    {
+      "path": "src/mosaic/alphafold/model/tf/shape_placeholders.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cffdeb5e1fa9691eb74680b8c9aeb8bab6123fa8",
+      "size": 812,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/cffdeb5e1fa9691eb74680b8c9aeb8bab6123fa8"
+    },
+    {
+      "path": "src/mosaic/alphafold/model/tf/utils.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fc40a2ceb2de1c2d56c17697393713804d7da350",
+      "size": 1276,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/fc40a2ceb2de1c2d56c17697393713804d7da350"
+    },
+    {
+      "path": "src/mosaic/alphafold/model/utils.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "634f0388ae6e944f300dac05af7d7747144122aa",
+      "size": 5461,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/634f0388ae6e944f300dac05af7d7747144122aa"
+    },
+    {
+      "path": "src/mosaic/alphafold/version.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a42052b3266ce692de15a2b562579cc2c4c077f0",
+      "size": 674,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/a42052b3266ce692de15a2b562579cc2c4c077f0"
+    },
+    {
+      "path": "src/mosaic/biohub.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "87ea408aeac2c52d3003c0bfdfc316f58bbf130c",
+      "size": 10374,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/87ea408aeac2c52d3003c0bfdfc316f58bbf130c"
+    },
+    {
+      "path": "src/mosaic/cache.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "be71a1fcf6f27ea9eafe2434c9e6bde6bf34e1ff",
+      "size": 866,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/be71a1fcf6f27ea9eafe2434c9e6bde6bf34e1ff"
+    },
+    {
+      "path": "src/mosaic/common.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "05a9375790d33e08810fee42e531d3070eddfa53",
+      "size": 2023,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/05a9375790d33e08810fee42e531d3070eddfa53"
+    },
+    {
+      "path": "src/mosaic/data",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "222b2b3c8f0f2ea59e4bac91c3b765c420a1ce10",
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/trees/222b2b3c8f0f2ea59e4bac91c3b765c420a1ce10"
+    },
+    {
+      "path": "src/mosaic/data/NOTICE",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9cfe703d3c5f152b1b6f67058fe3b8f3594a012f",
+      "size": 368,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/9cfe703d3c5f152b1b6f67058fe3b8f3594a012f"
+    },
+    {
+      "path": "src/mosaic/data/__init__.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ad589aef84f6631ea1f4c60064dd8d619930d673",
+      "size": 83,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/ad589aef84f6631ea1f4c60064dd8d619930d673"
+    },
+    {
+      "path": "src/mosaic/data/trigram_seg.pkl",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "79c7de9c72b22002fa9d9a41750c4e2e19b2b5c1",
+      "size": 196247,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/79c7de9c72b22002fa9d9a41750c4e2e19b2b5c1"
+    },
+    {
+      "path": "src/mosaic/losses",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "7961446090e27ea874d5b09c4fd10eda62a75b7b",
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/trees/7961446090e27ea874d5b09c4fd10eda62a75b7b"
+    },
+    {
+      "path": "src/mosaic/losses/ablang.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fc740d581cd60ff9e33e23b2998462b081e2b294",
+      "size": 2277,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/fc740d581cd60ff9e33e23b2998462b081e2b294"
+    },
+    {
+      "path": "src/mosaic/losses/ablang2.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b2a9dbb432c6c1bf7f6357d06382da7aa1ecf628",
+      "size": 4603,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/b2a9dbb432c6c1bf7f6357d06382da7aa1ecf628"
+    },
+    {
+      "path": "src/mosaic/losses/atom37.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "71aec96d0238e0c37bb06dffc388bd4736b0a4de",
+      "size": 2168,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/71aec96d0238e0c37bb06dffc388bd4736b0a4de"
+    },
+    {
+      "path": "src/mosaic/losses/boltz.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2c45773579e016bbe3647ff7a7e4c1f7f6944d4e",
+      "size": 16763,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/2c45773579e016bbe3647ff7a7e4c1f7f6944d4e"
+    },
+    {
+      "path": "src/mosaic/losses/boltz2.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "05c7e276572e052809266e6e969c8a2e1ea0cc32",
+      "size": 16164,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/05c7e276572e052809266e6e969c8a2e1ea0cc32"
+    },
+    {
+      "path": "src/mosaic/losses/confidence_metrics.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d32cee17a324a07ea97c9a641fc0fc320239a0e6",
+      "size": 3490,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/d32cee17a324a07ea97c9a641fc0fc320239a0e6"
+    },
+    {
+      "path": "src/mosaic/losses/esm.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c4c64e2663bfa27a237a490d419e81a948415b91",
+      "size": 3502,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/c4c64e2663bfa27a237a490d419e81a948415b91"
+    },
+    {
+      "path": "src/mosaic/losses/esmc.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9703d9c3e7aa9474a2115aec71fa6020bdb12d97",
+      "size": 8861,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/9703d9c3e7aa9474a2115aec71fa6020bdb12d97"
+    },
+    {
+      "path": "src/mosaic/losses/esmfold2.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "109c3167c07396e55430b96a4dd789df90e94d70",
+      "size": 39648,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/109c3167c07396e55430b96a4dd789df90e94d70"
+    },
+    {
+      "path": "src/mosaic/losses/of3.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "afc582da426a1fb828013813790ac17cca4058a5",
+      "size": 7888,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/afc582da426a1fb828013813790ac17cca4058a5"
+    },
+    {
+      "path": "src/mosaic/losses/opendde.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "13ab68e45e7ed61b68c094d41e1c13b774e2a99a",
+      "size": 26448,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/13ab68e45e7ed61b68c094d41e1c13b774e2a99a"
+    },
+    {
+      "path": "src/mosaic/losses/promera.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ed58f68fce7586a304234c44174d73e40e8022ef",
+      "size": 17263,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/ed58f68fce7586a304234c44174d73e40e8022ef"
+    },
+    {
+      "path": "src/mosaic/losses/protein_mpnn.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "81ee7cadd772089830419d5fc66c66d575058246",
+      "size": 13911,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/81ee7cadd772089830419d5fc66c66d575058246"
+    },
+    {
+      "path": "src/mosaic/losses/proteina.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8a3110455afa7d5cd4ab11784ae682cd037589fa",
+      "size": 9361,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/8a3110455afa7d5cd4ab11784ae682cd037589fa"
+    },
+    {
+      "path": "src/mosaic/losses/protenix.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c52c87e91de25c84195fc313866b2bc2b031f7c5",
+      "size": 10676,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/c52c87e91de25c84195fc313866b2bc2b031f7c5"
+    },
+    {
+      "path": "src/mosaic/losses/stability.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fe4b39fb1710a8ebccf69424e325461ec7ee4708",
+      "size": 1965,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/fe4b39fb1710a8ebccf69424e325461ec7ee4708"
+    },
+    {
+      "path": "src/mosaic/losses/structure_prediction.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3b0048b0148736e78086c90c5bdc08b40182df88",
+      "size": 26634,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/3b0048b0148736e78086c90c5bdc08b40182df88"
+    },
+    {
+      "path": "src/mosaic/losses/transformations.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d3b59115c407148feb7cf6cd141a8fd847212e4e",
+      "size": 9706,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/d3b59115c407148feb7cf6cd141a8fd847212e4e"
+    },
+    {
+      "path": "src/mosaic/losses/trigram.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2637ff26cceaa2d4eece722e30ffae098ac765ae",
+      "size": 4921,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/2637ff26cceaa2d4eece722e30ffae098ac765ae"
+    },
+    {
+      "path": "src/mosaic/models",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "0a59bf895d6cfa4eca4884ab7322a85e1933c269",
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/trees/0a59bf895d6cfa4eca4884ab7322a85e1933c269"
+    },
+    {
+      "path": "src/mosaic/models/af2.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "83ebae71144ee15a37d555a55789996e6d999c77",
+      "size": 19195,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/83ebae71144ee15a37d555a55789996e6d999c77"
+    },
+    {
+      "path": "src/mosaic/models/boltz1.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0117a7df63ff6f3951b87d0ddbaa5269cf9529fc",
+      "size": 4101,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/0117a7df63ff6f3951b87d0ddbaa5269cf9529fc"
+    },
+    {
+      "path": "src/mosaic/models/boltz2.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4dd1ed09b5c65ef45c6bc5eaaae0d4ca5cfaff28",
+      "size": 6185,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/4dd1ed09b5c65ef45c6bc5eaaae0d4ca5cfaff28"
+    },
+    {
+      "path": "src/mosaic/models/boltzgen.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4aed30b74fce0a689775cfb700e95349d464a65a",
+      "size": 17769,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/4aed30b74fce0a689775cfb700e95349d464a65a"
+    },
+    {
+      "path": "src/mosaic/models/esmc.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3c6aac282883d3e24e6de20f60f8c2f73e7a2fe4",
+      "size": 4935,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/3c6aac282883d3e24e6de20f60f8c2f73e7a2fe4"
+    },
+    {
+      "path": "src/mosaic/models/esmfold2.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c7ee54761ce625c962f68a5f11cfb16d54e6c6fe",
+      "size": 28167,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/c7ee54761ce625c962f68a5f11cfb16d54e6c6fe"
+    },
+    {
+      "path": "src/mosaic/models/of3.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e93738e2a4412d9e77b9d9fb3f7f917888ed7991",
+      "size": 22322,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/e93738e2a4412d9e77b9d9fb3f7f917888ed7991"
+    },
+    {
+      "path": "src/mosaic/models/opendde.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c9af1eb6398983e18bb53794051e287e7897c647",
+      "size": 23484,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/c9af1eb6398983e18bb53794051e287e7897c647"
+    },
+    {
+      "path": "src/mosaic/models/promera.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0c3aea49012fac89b3fbd88e0ea9ff63ad5b75bd",
+      "size": 6211,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/0c3aea49012fac89b3fbd88e0ea9ff63ad5b75bd"
+    },
+    {
+      "path": "src/mosaic/models/proteina.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "65ff30d160951e02634b97bd2932ed8a0c7985c7",
+      "size": 6477,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/65ff30d160951e02634b97bd2932ed8a0c7985c7"
+    },
+    {
+      "path": "src/mosaic/models/protenix.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "02b93c6e45bc99c4c2a4eda967e435ca92db4bca",
+      "size": 5972,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/02b93c6e45bc99c4c2a4eda967e435ca92db4bca"
+    },
+    {
+      "path": "src/mosaic/notebook_utils.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7e190017b93f9eb66a983f91da5c0cd7b03022d6",
+      "size": 1365,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/7e190017b93f9eb66a983f91da5c0cd7b03022d6"
+    },
+    {
+      "path": "src/mosaic/optimizers.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "88abc94cc2c9bcb04a776b8e6eca41feb0416acf",
+      "size": 30687,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/88abc94cc2c9bcb04a776b8e6eca41feb0416acf"
+    },
+    {
+      "path": "src/mosaic/proteinmpnn",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "587613d45a62b8eb9a3d7d0d5ebc8f64f1a5f1b6",
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/trees/587613d45a62b8eb9a3d7d0d5ebc8f64f1a5f1b6"
+    },
+    {
+      "path": "src/mosaic/proteinmpnn/NOTICE",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8a4c7dfce69d1ac13530d9df07f1e2cc34f3be2e",
+      "size": 2169,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/8a4c7dfce69d1ac13530d9df07f1e2cc34f3be2e"
+    },
+    {
+      "path": "src/mosaic/proteinmpnn/mpnn.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0f515951fa8b4e7ec01cb074875b1c0230be1b8e",
+      "size": 19841,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/0f515951fa8b4e7ec01cb074875b1c0230be1b8e"
+    },
+    {
+      "path": "src/mosaic/proteinmpnn/torch_mpnn.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f2c9cf877fff3008f33f9fea33aa70edbc4210b1",
+      "size": 21144,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/f2c9cf877fff3008f33f9fea33aa70edbc4210b1"
+    },
+    {
+      "path": "src/mosaic/proteinmpnn/weights",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "3f3256201ca76e2d78c0ef338eb6899a1a366281",
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/trees/3f3256201ca76e2d78c0ef338eb6899a1a366281"
+    },
+    {
+      "path": "src/mosaic/proteinmpnn/weights/abmpnn.pt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2ba0da4ba0c929e8272d428e13508d8d5279731d",
+      "size": 20060943,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/2ba0da4ba0c929e8272d428e13508d8d5279731d"
+    },
+    {
+      "path": "src/mosaic/proteinmpnn/weights/soluble_v_48_020.pt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7bdbd0522fae78a889b55b91925183338adeaebf",
+      "size": 6681301,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/7bdbd0522fae78a889b55b91925183338adeaebf"
+    },
+    {
+      "path": "src/mosaic/proteinmpnn/weights/v_48_020.pt",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "66f81553eea491dfc1307582c679ef029511937b",
+      "size": 6681301,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/66f81553eea491dfc1307582c679ef029511937b"
+    },
+    {
+      "path": "src/mosaic/stability_model",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "8db91c3f28012580c51e28a42d01f4e2f915c04f",
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/trees/8db91c3f28012580c51e28a42d01f4e2f915c04f"
+    },
+    {
+      "path": "src/mosaic/stability_model/NOTICE",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "784c2fe7e814733f2fc510dc7b1cfc4d881eaa89",
+      "size": 540,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/784c2fe7e814733f2fc510dc7b1cfc4d881eaa89"
+    },
+    {
+      "path": "src/mosaic/stability_model/train.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d328562c5d0594709bfaa44e762c4b8cd7b110b4",
+      "size": 4336,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/d328562c5d0594709bfaa44e762c4b8cd7b110b4"
+    },
+    {
+      "path": "src/mosaic/structure_prediction.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "145fc9a0b20a798b6fca476a49048948afe6b6fd",
+      "size": 2899,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/145fc9a0b20a798b6fca476a49048948afe6b6fd"
+    },
+    {
+      "path": "src/mosaic/util.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c119a5fefb213a976a3a4569a560312e6a6b5f8b",
+      "size": 6461,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/c119a5fefb213a976a3a4569a560312e6a6b5f8b"
+    },
+    {
+      "path": "stability.eqx",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7101e0195957c155fc8c79fb970d24786f983ee2",
+      "size": 7388676,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/7101e0195957c155fc8c79fb970d24786f983ee2"
+    },
+    {
+      "path": "tests",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "79e055eee8ded682f8819f577e235bef3a29b060",
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/trees/79e055eee8ded682f8819f577e235bef3a29b060"
+    },
+    {
+      "path": "tests/README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e98915bf216d99a8c374cf24da0f01b00afdeea0",
+      "size": 38,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/e98915bf216d99a8c374cf24da0f01b00afdeea0"
+    },
+    {
+      "path": "tests/data",
+      "mode": "040000",
+      "type": "tree",
+      "sha": "d9aeee1c39176e2e83f2b1f4814e87d11c5a9aaf",
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/trees/d9aeee1c39176e2e83f2b1f4814e87d11c5a9aaf"
+    },
+    {
+      "path": "tests/data/1ubq.cif",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b80a3510c7e2a9fee016dc0598951e14d481c8a1",
+      "size": 103220,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/b80a3510c7e2a9fee016dc0598951e14d481c8a1"
+    },
+    {
+      "path": "tests/test_ablang2_loss.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "49e9cf3fff10db012ace243f38d484a804c82515",
+      "size": 12205,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/49e9cf3fff10db012ace243f38d484a804c82515"
+    },
+    {
+      "path": "tests/test_cache.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5e0528b82c2d5bd207e8ea47514521d17b971a58",
+      "size": 1514,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/5e0528b82c2d5bd207e8ea47514521d17b971a58"
+    },
+    {
+      "path": "tests/test_esmfold2_multisample.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2cd252ec41878fa61f6ac01c2787e02c92b91b4a",
+      "size": 2447,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/2cd252ec41878fa61f6ac01c2787e02c92b91b4a"
+    },
+    {
+      "path": "tests/test_model_smoke.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "99e8ced8caf37304426c4772323b324f84dec459",
+      "size": 17096,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/99e8ced8caf37304426c4772323b324f84dec459"
+    },
+    {
+      "path": "tests/test_native_esm.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e8c040cb8c08805e365ca93fc9c205c2c2fcacc9",
+      "size": 5752,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/e8c040cb8c08805e365ca93fc9c205c2c2fcacc9"
+    },
+    {
+      "path": "tests/test_opendde.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ef79891625f400e9f01132b594a169daf0bab65e",
+      "size": 4936,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/ef79891625f400e9f01132b594a169daf0bab65e"
+    },
+    {
+      "path": "tests/test_opendde_contracts.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f3c3d181289b8aee819739e07025c612f8608a36",
+      "size": 8785,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/f3c3d181289b8aee819739e07025c612f8608a36"
+    },
+    {
+      "path": "tests/test_optimizers.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "dd021eb8102f55c0e63df78e62e2346bb23384c9",
+      "size": 1525,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/dd021eb8102f55c0e63df78e62e2346bb23384c9"
+    },
+    {
+      "path": "tests/test_promera.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8f78c4bcc4781f0956f340f14accd246281017eb",
+      "size": 1167,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/8f78c4bcc4781f0956f340f14accd246281017eb"
+    },
+    {
+      "path": "tests/test_structure_prediction.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1592198b8bcb771441d8871205cc6cf76f39fe7f",
+      "size": 1084,
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/blobs/1592198b8bcb771441d8871205cc6cf76f39fe7f"
+    }
+  ],
+  "truncated": false
+}

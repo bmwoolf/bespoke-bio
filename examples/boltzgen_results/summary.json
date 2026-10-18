@@ -1,0 +1,104 @@
+{
+  "status": "pipeline_completed",
+  "total": 2,
+  "passed": 1,
+  "candidates": [
+    {
+      "id": "pdl1_1",
+      "file_name": "pdl1_1.cif",
+      "passed": true,
+      "failed_filters": [],
+      "upstream_filter_flags": {
+        "pass_has_x_filter": "True",
+        "pass_filter_rmsd_filter": "True",
+        "pass_filter_rmsd_design_filter": "True",
+        "pass_designfolding-filter_rmsd_filter": "True",
+        "pass_ALA_fraction_filter": "True",
+        "pass_GLY_fraction_filter": "True",
+        "pass_GLU_fraction_filter": "True",
+        "pass_LEU_fraction_filter": "True",
+        "pass_VAL_fraction_filter": "True"
+      },
+      "sequence": "MKVFVELDNGEVIEVEVELSDTVGELKKKLGEKAGIPSERIVLIHHGKVLDGSLTLEENGVKENDVLKAIIAKEN",
+      "metrics": {
+        "design_ptm": "0.7633793354034423",
+        "design_to_target_iptm": "0.3045559227466583",
+        "filter_rmsd": "1.120567798614502",
+        "filter_rmsd_design": "0.6228972077369689",
+        "designfolding-filter_rmsd": "1.783248782157898",
+        "esmfold2_ipsae_min": "0.0540625678435278",
+        "quality_score": "1.0"
+      }
+    },
+    {
+      "id": "pdl1_0",
+      "file_name": "pdl1_0.cif",
+      "passed": false,
+      "failed_filters": [
+        "pass_filter_rmsd_filter"
+      ],
+      "upstream_filter_flags": {
+        "pass_has_x_filter": "True",
+        "pass_filter_rmsd_filter": "False",
+        "pass_filter_rmsd_design_filter": "True",
+        "pass_designfolding-filter_rmsd_filter": "True",
+        "pass_ALA_fraction_filter": "True",
+        "pass_GLY_fraction_filter": "True",
+        "pass_GLU_fraction_filter": "True",
+        "pass_LEU_fraction_filter": "True",
+        "pass_VAL_fraction_filter": "True"
+      },
+      "sequence": "MTIYVVKEDGTVITLEVEKSDTILDVKKKIEEKTGIPPSQQKLYYQGVELEDSKTLEDYNIKDKSVLSLKLVPAK",
+      "metrics": {
+        "design_ptm": "0.7791382074356079",
+        "design_to_target_iptm": "0.2925449907779693",
+        "filter_rmsd": "2.611707925796509",
+        "filter_rmsd_design": "0.649728238582611",
+        "designfolding-filter_rmsd": "0.8337035775184631",
+        "esmfold2_ipsae_min": "0.0403843171706243",
+        "quality_score": "0.0"
+      }
+    }
+  ],
+  "evidence": "computational pipeline filters only; no measured binding",
+  "stages": [
+    {
+      "name": "design",
+      "status": "passed",
+      "seconds": 79.6
+    },
+    {
+      "name": "inverse_folding",
+      "status": "passed",
+      "seconds": 10.9
+    },
+    {
+      "name": "folding",
+      "status": "passed",
+      "seconds": 69.0
+    },
+    {
+      "name": "design_folding",
+      "status": "passed",
+      "seconds": 55.1
+    },
+    {
+      "name": "esmfold2_scoring",
+      "status": "passed",
+      "seconds": 116.2
+    },
+    {
+      "name": "analysis",
+      "status": "passed",
+      "seconds": 19.0
+    },
+    {
+      "name": "filtering",
+      "status": "passed",
+      "seconds": 14.0
+    }
+  ],
+  "target": "Human PD-L1, 115 observed residues from 5JDS",
+  "specified_epitope": null,
+  "interpretation": "One candidate passes default geometry/composition filters, but both have low interface confidence. No experimental binding or affinity established."
+}

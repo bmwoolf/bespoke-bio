@@ -1,0 +1,172 @@
+Using dataset artifact: /workspace/cache/boltzgen/datasets--boltzgen--inference-data/snapshots/c3d36fd276e9caf098c75d4113c6d5eb320b1a4c/mols.zip
+Creating output directory: checked_unconstrained
+************** Checking design spec: pdl1.yaml **************
+Total designed residues: 75
+Design specification visualization is written to checked_unconstrained/pdl1.cif
+*************************************************************
+
+=== Configuring pipeline ===
+Using dataset artifact: /workspace/cache/boltzgen/datasets--boltzgen--inference-data/snapshots/c3d36fd276e9caf098c75d4113c6d5eb320b1a4c/mols.zip
+Creating output directory: results_unconstrained
+************** Checking design spec: pdl1.yaml **************
+Total designed residues: 75
+Design specification visualization is written to results_unconstrained/pdl1.cif
+*************************************************************
+Using kernels: True [device capability: (8, 0)]
+Config overrides for protocol protein-anything: {}
+Using 1 devices
+Raw designs will be saved to: results_unconstrained/intermediate_designs
+Using diffusion batch size: 1
+Number of diffusion batches: 2
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Using model artifact: /workspace/cache/boltzgen/models--boltzgen--boltzgen-1/snapshots/c1be29e1f82ffcc72264f64b993c43fb4e0d17f0/boltzgen1_diverse.ckpt
+Using model artifact: /workspace/cache/boltzgen/models--boltzgen--boltzgen-1/snapshots/c1be29e1f82ffcc72264f64b993c43fb4e0d17f0/boltzgen1_adherence.ckpt
+Using model artifact: /workspace/cache/boltzgen/boltzgen/solublempnn_v_48_020.pt
+Inverse-folded designs will be saved to: results_unconstrained/intermediate_designs_inverse_folded
+Using model artifact: /workspace/cache/boltzgen/models--boltzgen--boltzgen-1/snapshots/c1be29e1f82ffcc72264f64b993c43fb4e0d17f0/boltz2_conf_final.ckpt
+Using model artifact: /workspace/cache/boltzgen/models--boltzgen--boltzgen-1/snapshots/c1be29e1f82ffcc72264f64b993c43fb4e0d17f0/boltz2_conf_final.ckpt
+Final ranked designs will be saved to: results_unconstrained/final_ranked_designs
+[1] design                   
+[2] inverse_folding          
+[3] folding                  
+[4] design_folding           
+[5] esmfold2_scoring         
+[6] analysis                 
+[7] filtering                
+Configuration complete. Configs written to results_unconstrained/config
+Steps manifest written to results_unconstrained/steps.yaml
+
+=== Executing pipeline ===
+**************************************************
+Pipeline step 1 of 7: design
+Running command: /opt/boltzgen-env/bin/python /opt/boltzgen-env/lib/python3.12/site-packages/boltzgen/resources/main.py results_unconstrained/config/design.yaml
+/opt/boltzgen-env/lib/python3.12/site-packages/lightning_fabric/plugins/environments/slurm.py:204: The `srun` command is available on your system but is not used. HINT: If your intention is to run Lightning on SLURM, prepend your python command with `srun` like so: srun python /opt/boltzgen-env/lib/python3.12/site-packages/boltz ...
+Predicting: |          | 0/? [00:00<?, ?it/s][Step 1/7] design - Predicting: |          | 0/? [00:00<?, ?it/s][Step 1/7] design - Predicting: |          | 0/? [00:00<?, ?it/s]Predicting DataLoader 0:   0%|          | 0/2 [00:00<?, ?it/s]   [Step 1/7] design - Predicting DataLoader 0: :   0%|          | 0/2 [00:00<?, ?it/s]Switched step_scale to 2.0
+Switched noise_scale to 0.88
+Traceback (most recent call last):
+  File "/opt/boltzgen-env/lib/python3.12/site-packages/boltzgen/resources/main.py", line 53, in <module>
+    main(config, args)
+  File "/opt/boltzgen-env/lib/python3.12/site-packages/boltzgen/resources/main.py", line 47, in main
+    task.run(config)
+  File "/opt/boltzgen-env/lib/python3.12/site-packages/boltzgen/task/predict/predict.py", line 191, in run
+    self.lightning_trainer.predict(
+  File "/opt/boltzgen-env/lib/python3.12/site-packages/pytorch_lightning/trainer/trainer.py", line 941, in predict
+    return call._call_and_handle_interrupt(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/boltzgen-env/lib/python3.12/site-packages/pytorch_lightning/trainer/call.py", line 49, in _call_and_handle_interrupt
+    return trainer_fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/boltzgen-env/lib/python3.12/site-packages/pytorch_lightning/trainer/trainer.py", line 990, in _predict_impl
+    results = self._run(model, ckpt_path=ckpt_path, weights_only=weights_only)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/boltzgen-env/lib/python3.12/site-packages/pytorch_lightning/trainer/trainer.py", line 1079, in _run
+    results = self._run_stage()
+              ^^^^^^^^^^^^^^^^^
+  File "/opt/boltzgen-env/lib/python3.12/site-packages/pytorch_lightning/trainer/trainer.py", line 1118, in _run_stage
+    return self.predict_loop.run()
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/boltzgen-env/lib/python3.12/site-packages/pytorch_lightning/loops/utilities.py", line 179, in _decorator
+    return loop_run(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/boltzgen-env/lib/python3.12/site-packages/pytorch_lightning/loops/prediction_loop.py", line 125, in run
+    self._predict_step(batch, batch_idx, dataloader_idx, dataloader_iter)
+  File "/opt/boltzgen-env/lib/python3.12/site-packages/pytorch_lightning/loops/prediction_loop.py", line 255, in _predict_step
+    predictions = call._call_strategy_hook(trainer, "predict_step", *step_args)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/boltzgen-env/lib/python3.12/site-packages/pytorch_lightning/trainer/call.py", line 329, in _call_strategy_hook
+    output = fn(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^
+  File "/opt/boltzgen-env/lib/python3.12/site-packages/pytorch_lightning/strategies/strategy.py", line 438, in predict_step
+    return self.lightning_module.predict_step(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/boltzgen-env/lib/python3.12/site-packages/boltzgen/model/models/boltz.py", line 1283, in predict_step
+    out = self(
+          ^^^^^
+  File "/opt/boltzgen-env/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/boltzgen-env/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/boltzgen-env/lib/python3.12/site-packages/boltzgen/model/models/boltz.py", line 586, in forward
+    z = z + self.template_module(
+            ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/boltzgen-env/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/boltzgen-env/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/boltzgen-env/lib/python3.12/site-packages/boltzgen/model/modules/trunk.py", line 396, in forward
+    v = v + self.pairformer(v, pair_mask, use_kernels=use_kernels)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/boltzgen-env/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/boltzgen-env/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/boltzgen-env/lib/python3.12/site-packages/boltzgen/model/layers/pairformer.py", line 246, in forward
+    z = layer(
+        ^^^^^^
+  File "/opt/boltzgen-env/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/boltzgen-env/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/boltzgen-env/lib/python3.12/site-packages/boltzgen/model/layers/pairformer.py", line 294, in forward
+    z = z + dropout * self.tri_mul_out(
+                      ^^^^^^^^^^^^^^^^^
+  File "/opt/boltzgen-env/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/boltzgen-env/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/boltzgen-env/lib/python3.12/site-packages/boltzgen/model/layers/triangular.py", line 187, in forward
+    return _kernel_triangular_mult(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/boltzgen-env/lib/python3.12/site-packages/torch/_dynamo/eval_frame.py", line 929, in _fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/opt/boltzgen-env/lib/python3.12/site-packages/boltzgen/model/layers/triangular.py", line 32, in _kernel_triangular_mult
+    return _triangle_multiplicative_update(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/boltzgen-env/lib/python3.12/site-packages/cuequivariance_torch/primitives/triangle.py", line 320, in triangle_multiplicative_update
+    return f(
+           ^^
+  File "/opt/boltzgen-env/lib/python3.12/site-packages/cuequivariance_ops_torch/__init__.py", line 97, in triangle_multiplicative_update
+    _raise_triton_import_error("triangle_multiplicative_update")
+  File "/opt/boltzgen-env/lib/python3.12/site-packages/cuequivariance_ops_torch/__init__.py", line 91, in _raise_triton_import_error
+    raise Exception(
+Exception: Failed to import Triton-based component: triangle_multiplicative_update:
+Traceback (most recent call last):
+  File "/opt/boltzgen-env/lib/python3.12/site-packages/cuequivariance_ops_torch/attention_pair_bias.py", line 27, in <module>
+    from torch.fx._symbolic_trace import is_fx_symbolic_tracing
+ImportError: cannot import name 'is_fx_symbolic_tracing' from 'torch.fx._symbolic_trace' (/opt/boltzgen-env/lib/python3.12/site-packages/torch/fx/_symbolic_trace.py)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/opt/boltzgen-env/lib/python3.12/site-packages/cuequivariance_ops_torch/__init__.py", line 64, in <module>
+    from cuequivariance_ops_torch.attention_pair_bias import (
+  File "/opt/boltzgen-env/lib/python3.12/site-packages/cuequivariance_ops_torch/attention_pair_bias.py", line 29, in <module>
+    from torch.fx._symbolic_trace import (
+ImportError: cannot import name 'is_fx_tracing_symbolic_tracing' from 'torch.fx._symbolic_trace' (/opt/boltzgen-env/lib/python3.12/site-packages/torch/fx/_symbolic_trace.py)
+
+Please make sure to install triton==3.3.0. Other versions may not work!
+[Step 1/7] design - Predicting DataLoader 0: :   0%|          | 0/2 [00:02<?, ?it/s]
+Traceback (most recent call last):
+  File "/opt/boltzgen-env/bin/boltzgen", line 10, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/opt/boltzgen-env/lib/python3.12/site-packages/boltzgen/cli/boltzgen.py", line 1992, in main
+    run_command(args)
+  File "/opt/boltzgen-env/lib/python3.12/site-packages/boltzgen/cli/boltzgen.py", line 629, in run_command
+    execute_command(args)
+  File "/opt/boltzgen-env/lib/python3.12/site-packages/boltzgen/cli/boltzgen.py", line 925, in execute_command
+    subprocess.check_call(command)
+  File "/usr/lib/python3.12/subprocess.py", line 413, in check_call
+    raise CalledProcessError(retcode, cmd)
+subprocess.CalledProcessError: Command '['/opt/boltzgen-env/bin/python', '/opt/boltzgen-env/lib/python3.12/site-packages/boltzgen/resources/main.py', 'results_unconstrained/config/design.yaml']' returned non-zero exit status 1.

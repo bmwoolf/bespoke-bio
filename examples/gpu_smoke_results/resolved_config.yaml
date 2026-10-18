@@ -1,0 +1,91 @@
+ckpt_path: rfd3
+num_nodes: 1
+devices_per_node: 1
+verbose: false
+seed: 7
+inputs: rfd3_inputs.draft.json
+out_dir: gpu_smoke
+_target_: rfd3.engine.RFD3InferenceEngine
+json_keys_subset: null
+skip_existing: true
+inference_mode: legacy
+specification: {}
+diffusion_batch_size: 1
+inference_batch_size: 1
+inference_num_workers: 2
+atom_padding_multiple: 128
+token_padding_multiple: 16
+compile_shape_policy: buckets
+compile_atom_buckets:
+- 256
+- 512
+- 768
+- 1024
+- 1536
+- 2048
+- 3072
+- 4096
+- 6144
+- 8192
+- 12288
+- 16384
+- 24576
+- 32768
+compile_token_buckets:
+- 128
+- 256
+- 384
+- 512
+- 768
+- 1024
+- 1536
+- 2048
+- 3072
+- 4096
+compile_slot_buckets:
+- 1
+- 4
+- 8
+- 14
+- 24
+- 32
+- 64
+- 128
+n_batches: 1
+inference_sampler:
+  kind: default
+  cfg_features:
+  - active_donor
+  - active_acceptor
+  - ref_atomwise_rasa
+  use_classifier_free_guidance: false
+  cfg_t_max: null
+  cfg_scale: 1.5
+  center_option: all
+  s_trans: 1.0
+  inference_noise_scaling_factor: 1.0
+  allow_realignment: false
+  n_recycle: null
+  num_timesteps: 200
+  step_scale: 1.5
+  noise_scale: 1.003
+  p: 7
+  gamma_0: 0.6
+  gamma_min: 1.0
+  s_jitter_origin: 0.0
+cleanup_guideposts: true
+cleanup_virtual_atoms: true
+read_sequence_from_sequence_head: true
+output_full_json: true
+global_prefix: null
+dump_prediction_metadata_json: true
+dump_trajectories: false
+align_trajectory_structures: false
+prevalidate_inputs: true
+low_memory_mode: false
+compile_model: true
+compile_cuda_graphs: true
+compile_cache_dir: ${oc.env:RFD3_COMPILE_CACHE_DIR,null}
+dense_attention_backend: vanilla
+inference_kernel_backend: auto
+inference_cuda_graph: false

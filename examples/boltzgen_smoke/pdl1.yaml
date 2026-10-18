@@ -1,0 +1,22 @@
+{
+  "entities": [
+    {
+      "protein": {
+        "id": "B",
+        "sequence": 75
+      }
+    },
+    {
+      "file": {
+        "path": "target.cif",
+        "include": [
+          {
+            "chain": {
+              "id": "A"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

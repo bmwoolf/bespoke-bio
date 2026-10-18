@@ -1,0 +1,10 @@
+{
+  "pdl1_baseline": {
+    "input": "target.cif",
+    "contig": "75,/0,A1-115",
+    "dialect": 2,
+    "select_fixed_atoms": true,
+    "select_hotspots": "A37,A41,A44",
+    "infer_ori_strategy": "hotspots"
+  }
+}

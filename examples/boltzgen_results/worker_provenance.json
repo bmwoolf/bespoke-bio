@@ -1,0 +1,71 @@
+{
+  "boltzgen_commit": "a07fea1153111ef453aaea7a15697ee05de9291f",
+  "packages": {
+    "boltzgen": "0.3.2",
+    "torch": "2.8.0",
+    "numpy": "2.4.6",
+    "biotite": "1.8.0",
+    "gemmi": "0.7.5"
+  },
+  "cuda": "12.8",
+  "gpu": "NVIDIA A100-SXM4-80GB",
+  "hardware": "NVIDIA A100-SXM4-80GB, 580.126.20, 81920 MiB",
+  "model_cache_references": [
+    {
+      "path": "/workspace/cache/boltzgen/boltzgen/solublempnn_v_48_020.pt",
+      "cache_blob_reference": "solublempnn_v_48_020.pt",
+      "bytes": 6681301
+    },
+    {
+      "path": "/workspace/cache/boltzgen/models--boltzgen--boltzgen-1/snapshots/c1be29e1f82ffcc72264f64b993c43fb4e0d17f0/boltz2_conf_final.ckpt",
+      "cache_blob_reference": "a68324f6f871d849002d0eaaa89abc0881926ecef8ee668a26b8013cd3e6286a",
+      "bytes": 2087255089
+    },
+    {
+      "path": "/workspace/cache/boltzgen/models--boltzgen--boltzgen-1/snapshots/c1be29e1f82ffcc72264f64b993c43fb4e0d17f0/boltzgen1_adherence.ckpt",
+      "cache_blob_reference": "f35cf095e4536707be6f712fa53787951db4542c395baa7b501ebc106c03bb40",
+      "bytes": 1930858014
+    },
+    {
+      "path": "/workspace/cache/boltzgen/models--boltzgen--boltzgen-1/snapshots/c1be29e1f82ffcc72264f64b993c43fb4e0d17f0/boltzgen1_diverse.ckpt",
+      "cache_blob_reference": "b29126b2b53b89135a89d53cf28bd1a2609947a5861e8b6cc91c66a3c6ee3ed7",
+      "bytes": 1930847192
+    },
+    {
+      "path": "/workspace/cache/huggingface/hub/models--biohub--ESMC-6B/snapshots/af1602ba7406f521b11bf8f81d52af378cde09e4/model-00002-of-00006.safetensors",
+      "cache_blob_reference": "273740475dcd0cab8b9b591f5458679a5a9cc96cd1e8108fb856b1ec5d581c06",
+      "bytes": 4979100240
+    },
+    {
+      "path": "/workspace/cache/huggingface/hub/models--biohub--ESMC-6B/snapshots/af1602ba7406f521b11bf8f81d52af378cde09e4/model-00001-of-00006.safetensors",
+      "cache_blob_reference": "80cc4a51f218de3bbe06aa56fe55bc695f0b7707159c01f3e4d8aa49c8cf38b4",
+      "bytes": 4935170376
+    },
+    {
+      "path": "/workspace/cache/huggingface/hub/models--biohub--ESMC-6B/snapshots/af1602ba7406f521b11bf8f81d52af378cde09e4/model-00005-of-00006.safetensors",
+      "cache_blob_reference": "fef715f2b9f0bc52f846f07fba9d5183ff8eef20edadc3e6bfb67070ebcbf4b2",
+      "bytes": 4979100240
+    },
+    {
+      "path": "/workspace/cache/huggingface/hub/models--biohub--ESMC-6B/snapshots/af1602ba7406f521b11bf8f81d52af378cde09e4/model-00003-of-00006.safetensors",
+      "cache_blob_reference": "00769f0e680aeae99c4ea877f61c5c6532faf9a0726e6a7cb449d3ef9953d993",
+      "bytes": 4997470904
+    },
+    {
+      "path": "/workspace/cache/huggingface/hub/models--biohub--ESMC-6B/snapshots/af1602ba7406f521b11bf8f81d52af378cde09e4/model-00004-of-00006.safetensors",
+      "cache_blob_reference": "1287dd34cb55f2d9730b81d961c8a693bec4cc3d0c3c13adb6a91e950f6de933",
+      "bytes": 4934515048
+    },
+    {
+      "path": "/workspace/cache/huggingface/hub/models--biohub--ESMC-6B/snapshots/af1602ba7406f521b11bf8f81d52af378cde09e4/model-00006-of-00006.safetensors",
+      "cache_blob_reference": "7f88f2e9a88439be6672f5dfa6ae369c7ae87fb533e0a25a073f706cd9ac5ddd",
+      "bytes": 582782360
+    },
+    {
+      "path": "/workspace/cache/huggingface/hub/models--biohub--ESMFold2/snapshots/8fc3ff471022fdce52c77030685eb775de0c00a3/model.safetensors",
+      "cache_blob_reference": "138fd4350d6892b81ce6be7ff9bf5a93ae9d4d3751f46a27438a3f9f0dcefa0e",
+      "bytes": 939505228
+    }
+  ],
+  "note": "Cache blob references are provenance, not separately rehashed weight verification."
+}

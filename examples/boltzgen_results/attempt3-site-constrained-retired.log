@@ -1,0 +1,42 @@
+Using dataset artifact: /workspace/cache/boltzgen/datasets--boltzgen--inference-data/snapshots/c3d36fd276e9caf098c75d4113c6d5eb320b1a4c/mols.zip
+************** Checking design spec: pdl1.yaml **************
+Total designed residues: 75
+Design specification visualization is written to checked_on_worker/pdl1.cif
+*************************************************************
+
+=== Configuring pipeline ===
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Using dataset artifact: /workspace/cache/boltzgen/datasets--boltzgen--inference-data/snapshots/c3d36fd276e9caf098c75d4113c6d5eb320b1a4c/mols.zip
+************** Checking design spec: pdl1.yaml **************
+Total designed residues: 75
+Design specification visualization is written to results/pdl1.cif
+*************************************************************
+Using kernels: True [device capability: (8, 0)]
+Config overrides for protocol protein-anything: {}
+Using 1 devices
+Raw designs will be saved to: results/intermediate_designs
+Using diffusion batch size: 1
+Number of diffusion batches: 2
+Using model artifact: /workspace/cache/boltzgen/models--boltzgen--boltzgen-1/snapshots/c1be29e1f82ffcc72264f64b993c43fb4e0d17f0/boltzgen1_diverse.ckpt
+Using model artifact: /workspace/cache/boltzgen/models--boltzgen--boltzgen-1/snapshots/c1be29e1f82ffcc72264f64b993c43fb4e0d17f0/boltzgen1_adherence.ckpt
+Using model artifact: /workspace/cache/boltzgen/boltzgen/solublempnn_v_48_020.pt
+Inverse-folded designs will be saved to: results/intermediate_designs_inverse_folded
+Using model artifact: /workspace/cache/boltzgen/models--boltzgen--boltzgen-1/snapshots/c1be29e1f82ffcc72264f64b993c43fb4e0d17f0/boltz2_conf_final.ckpt
+Using model artifact: /workspace/cache/boltzgen/models--boltzgen--boltzgen-1/snapshots/c1be29e1f82ffcc72264f64b993c43fb4e0d17f0/boltz2_conf_final.ckpt
+Final ranked designs will be saved to: results/final_ranked_designs
+[1] design                   
+[2] inverse_folding          
+[3] folding                  
+[4] design_folding           
+[5] esmfold2_scoring         
+[6] analysis                 
+[7] filtering                
+Renaming existing config directory to results/previous-config-1
+Configuration complete. Configs written to results/config
+Steps manifest written to results/steps.yaml
+
+=== Executing pipeline ===
+**************************************************
+Pipeline step 1 of 7: design
+Running command: /opt/boltzgen-env/bin/python /opt/boltzgen-env/lib/python3.12/site-packages/boltzgen/resources/main.py results/config/design.yaml
+Terminated

@@ -1,0 +1,23 @@
+{
+  "pod_id": "02l2bw7tyfpw7n",
+  "created_at": "2026-10-18 00:15:06.179 +0000 UTC",
+  "gpu_hourly_rate_usd": 1.79,
+  "budget_cap_usd": 100,
+  "three_hour_gpu_allowance_usd": 5.37,
+  "termination_policy": "Download and verify results, then delete task pod; fallback stop around 3h retains files.",
+  "credentials_uploaded": false,
+  "template": "runpod/pytorch:1.0.2-cu1281-torch280-ubuntu2404",
+  "smoke_cases": [
+    "topology_K1_L1_L2_K2",
+    "topology_K1_K2_L1_L2"
+  ],
+  "status": "completed_pod_deleted",
+  "updated_at": "2026-10-18T00:21:32.529340+00:00",
+  "deletion_verified": true,
+  "temporary_ssh_key_removed": {
+    "removed": true
+  },
+  "gpu_charge_upper_estimate_usd": 0.192,
+  "cost_note": "Elapsed-time GPU estimate through post-deletion review, not finalized invoice; excludes small storage charges.",
+  "billing_status": "No posted records immediately after deletion; elapsed-time GPU estimate only."
+}

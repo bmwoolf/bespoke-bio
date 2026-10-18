@@ -1,0 +1,4842 @@
+[
+  {
+    "input_chain": "K",
+    "input_number": 1,
+    "source": {
+      "chain": "K",
+      "number": 1,
+      "insertion": ""
+    },
+    "residue_name": "GLN"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 2,
+    "source": {
+      "chain": "K",
+      "number": 2,
+      "insertion": ""
+    },
+    "residue_name": "VAL"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 3,
+    "source": {
+      "chain": "K",
+      "number": 3,
+      "insertion": ""
+    },
+    "residue_name": "GLN"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 4,
+    "source": {
+      "chain": "K",
+      "number": 4,
+      "insertion": ""
+    },
+    "residue_name": "LEU"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 5,
+    "source": {
+      "chain": "K",
+      "number": 5,
+      "insertion": ""
+    },
+    "residue_name": "GLN"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 6,
+    "source": {
+      "chain": "K",
+      "number": 6,
+      "insertion": ""
+    },
+    "residue_name": "GLU"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 7,
+    "source": {
+      "chain": "K",
+      "number": 7,
+      "insertion": ""
+    },
+    "residue_name": "SER"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 8,
+    "source": {
+      "chain": "K",
+      "number": 8,
+      "insertion": ""
+    },
+    "residue_name": "GLY"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 9,
+    "source": {
+      "chain": "K",
+      "number": 9,
+      "insertion": ""
+    },
+    "residue_name": "GLY"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 10,
+    "source": {
+      "chain": "K",
+      "number": 10,
+      "insertion": ""
+    },
+    "residue_name": "GLY"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 11,
+    "source": {
+      "chain": "K",
+      "number": 11,
+      "insertion": ""
+    },
+    "residue_name": "LEU"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 12,
+    "source": {
+      "chain": "K",
+      "number": 12,
+      "insertion": ""
+    },
+    "residue_name": "VAL"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 13,
+    "source": {
+      "chain": "K",
+      "number": 13,
+      "insertion": ""
+    },
+    "residue_name": "GLN"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 14,
+    "source": {
+      "chain": "K",
+      "number": 14,
+      "insertion": ""
+    },
+    "residue_name": "PRO"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 15,
+    "source": {
+      "chain": "K",
+      "number": 15,
+      "insertion": ""
+    },
+    "residue_name": "GLY"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 16,
+    "source": {
+      "chain": "K",
+      "number": 16,
+      "insertion": ""
+    },
+    "residue_name": "GLY"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 17,
+    "source": {
+      "chain": "K",
+      "number": 17,
+      "insertion": ""
+    },
+    "residue_name": "SER"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 18,
+    "source": {
+      "chain": "K",
+      "number": 18,
+      "insertion": ""
+    },
+    "residue_name": "LEU"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 19,
+    "source": {
+      "chain": "K",
+      "number": 19,
+      "insertion": ""
+    },
+    "residue_name": "ARG"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 20,
+    "source": {
+      "chain": "K",
+      "number": 20,
+      "insertion": ""
+    },
+    "residue_name": "LEU"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 21,
+    "source": {
+      "chain": "K",
+      "number": 21,
+      "insertion": ""
+    },
+    "residue_name": "SER"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 22,
+    "source": {
+      "chain": "K",
+      "number": 22,
+      "insertion": ""
+    },
+    "residue_name": "CYS"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 23,
+    "source": {
+      "chain": "K",
+      "number": 23,
+      "insertion": ""
+    },
+    "residue_name": "ALA"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 24,
+    "source": {
+      "chain": "K",
+      "number": 24,
+      "insertion": ""
+    },
+    "residue_name": "ALA"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 25,
+    "source": {
+      "chain": "K",
+      "number": 25,
+      "insertion": ""
+    },
+    "residue_name": "SER"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 26,
+    "source": {
+      "chain": "K",
+      "number": 26,
+      "insertion": ""
+    },
+    "residue_name": "GLY"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 27,
+    "source": {
+      "chain": "K",
+      "number": 27,
+      "insertion": ""
+    },
+    "residue_name": "LYS"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 28,
+    "source": {
+      "chain": "K",
+      "number": 28,
+      "insertion": ""
+    },
+    "residue_name": "MET"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 29,
+    "source": {
+      "chain": "K",
+      "number": 29,
+      "insertion": ""
+    },
+    "residue_name": "SER"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 30,
+    "source": {
+      "chain": "K",
+      "number": 30,
+      "insertion": ""
+    },
+    "residue_name": "SER"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 31,
+    "source": {
+      "chain": "K",
+      "number": 31,
+      "insertion": ""
+    },
+    "residue_name": "ARG"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 32,
+    "source": {
+      "chain": "K",
+      "number": 32,
+      "insertion": ""
+    },
+    "residue_name": "ARG"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 33,
+    "source": {
+      "chain": "K",
+      "number": 33,
+      "insertion": ""
+    },
+    "residue_name": "CYS"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 34,
+    "source": {
+      "chain": "K",
+      "number": 34,
+      "insertion": ""
+    },
+    "residue_name": "MET"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 35,
+    "source": {
+      "chain": "K",
+      "number": 35,
+      "insertion": ""
+    },
+    "residue_name": "ALA"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 36,
+    "source": {
+      "chain": "K",
+      "number": 36,
+      "insertion": ""
+    },
+    "residue_name": "TRP"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 37,
+    "source": {
+      "chain": "K",
+      "number": 37,
+      "insertion": ""
+    },
+    "residue_name": "PHE"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 38,
+    "source": {
+      "chain": "K",
+      "number": 38,
+      "insertion": ""
+    },
+    "residue_name": "ARG"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 39,
+    "source": {
+      "chain": "K",
+      "number": 39,
+      "insertion": ""
+    },
+    "residue_name": "GLN"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 40,
+    "source": {
+      "chain": "K",
+      "number": 40,
+      "insertion": ""
+    },
+    "residue_name": "ALA"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 41,
+    "source": {
+      "chain": "K",
+      "number": 41,
+      "insertion": ""
+    },
+    "residue_name": "PRO"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 42,
+    "source": {
+      "chain": "K",
+      "number": 42,
+      "insertion": ""
+    },
+    "residue_name": "GLY"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 43,
+    "source": {
+      "chain": "K",
+      "number": 43,
+      "insertion": ""
+    },
+    "residue_name": "LYS"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 44,
+    "source": {
+      "chain": "K",
+      "number": 44,
+      "insertion": ""
+    },
+    "residue_name": "GLU"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 45,
+    "source": {
+      "chain": "K",
+      "number": 45,
+      "insertion": ""
+    },
+    "residue_name": "ARG"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 46,
+    "source": {
+      "chain": "K",
+      "number": 46,
+      "insertion": ""
+    },
+    "residue_name": "GLU"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 47,
+    "source": {
+      "chain": "K",
+      "number": 47,
+      "insertion": ""
+    },
+    "residue_name": "ARG"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 48,
+    "source": {
+      "chain": "K",
+      "number": 48,
+      "insertion": ""
+    },
+    "residue_name": "VAL"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 49,
+    "source": {
+      "chain": "K",
+      "number": 49,
+      "insertion": ""
+    },
+    "residue_name": "ALA"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 50,
+    "source": {
+      "chain": "K",
+      "number": 50,
+      "insertion": ""
+    },
+    "residue_name": "LYS"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 51,
+    "source": {
+      "chain": "K",
+      "number": 51,
+      "insertion": ""
+    },
+    "residue_name": "LEU"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 52,
+    "source": {
+      "chain": "K",
+      "number": 52,
+      "insertion": ""
+    },
+    "residue_name": "LEU"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 53,
+    "source": {
+      "chain": "K",
+      "number": 53,
+      "insertion": ""
+    },
+    "residue_name": "THR"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 54,
+    "source": {
+      "chain": "K",
+      "number": 54,
+      "insertion": ""
+    },
+    "residue_name": "THR"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 55,
+    "source": {
+      "chain": "K",
+      "number": 55,
+      "insertion": ""
+    },
+    "residue_name": "SER"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 56,
+    "source": {
+      "chain": "K",
+      "number": 56,
+      "insertion": ""
+    },
+    "residue_name": "GLY"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 57,
+    "source": {
+      "chain": "K",
+      "number": 57,
+      "insertion": ""
+    },
+    "residue_name": "SER"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 58,
+    "source": {
+      "chain": "K",
+      "number": 58,
+      "insertion": ""
+    },
+    "residue_name": "THR"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 59,
+    "source": {
+      "chain": "K",
+      "number": 59,
+      "insertion": ""
+    },
+    "residue_name": "TYR"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 60,
+    "source": {
+      "chain": "K",
+      "number": 60,
+      "insertion": ""
+    },
+    "residue_name": "LEU"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 61,
+    "source": {
+      "chain": "K",
+      "number": 61,
+      "insertion": ""
+    },
+    "residue_name": "ALA"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 62,
+    "source": {
+      "chain": "K",
+      "number": 62,
+      "insertion": ""
+    },
+    "residue_name": "ASP"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 63,
+    "source": {
+      "chain": "K",
+      "number": 63,
+      "insertion": ""
+    },
+    "residue_name": "SER"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 64,
+    "source": {
+      "chain": "K",
+      "number": 64,
+      "insertion": ""
+    },
+    "residue_name": "VAL"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 65,
+    "source": {
+      "chain": "K",
+      "number": 65,
+      "insertion": ""
+    },
+    "residue_name": "LYS"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 66,
+    "source": {
+      "chain": "K",
+      "number": 66,
+      "insertion": ""
+    },
+    "residue_name": "GLY"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 67,
+    "source": {
+      "chain": "K",
+      "number": 67,
+      "insertion": ""
+    },
+    "residue_name": "ARG"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 68,
+    "source": {
+      "chain": "K",
+      "number": 68,
+      "insertion": ""
+    },
+    "residue_name": "PHE"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 69,
+    "source": {
+      "chain": "K",
+      "number": 69,
+      "insertion": ""
+    },
+    "residue_name": "THR"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 70,
+    "source": {
+      "chain": "K",
+      "number": 70,
+      "insertion": ""
+    },
+    "residue_name": "ILE"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 71,
+    "source": {
+      "chain": "K",
+      "number": 71,
+      "insertion": ""
+    },
+    "residue_name": "SER"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 72,
+    "source": {
+      "chain": "K",
+      "number": 72,
+      "insertion": ""
+    },
+    "residue_name": "GLN"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 73,
+    "source": {
+      "chain": "K",
+      "number": 73,
+      "insertion": ""
+    },
+    "residue_name": "ASN"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 74,
+    "source": {
+      "chain": "K",
+      "number": 74,
+      "insertion": ""
+    },
+    "residue_name": "ASN"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 75,
+    "source": {
+      "chain": "K",
+      "number": 75,
+      "insertion": ""
+    },
+    "residue_name": "ALA"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 76,
+    "source": {
+      "chain": "K",
+      "number": 76,
+      "insertion": ""
+    },
+    "residue_name": "LYS"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 77,
+    "source": {
+      "chain": "K",
+      "number": 77,
+      "insertion": ""
+    },
+    "residue_name": "SER"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 78,
+    "source": {
+      "chain": "K",
+      "number": 78,
+      "insertion": ""
+    },
+    "residue_name": "THR"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 79,
+    "source": {
+      "chain": "K",
+      "number": 79,
+      "insertion": ""
+    },
+    "residue_name": "VAL"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 80,
+    "source": {
+      "chain": "K",
+      "number": 80,
+      "insertion": ""
+    },
+    "residue_name": "TYR"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 81,
+    "source": {
+      "chain": "K",
+      "number": 81,
+      "insertion": ""
+    },
+    "residue_name": "LEU"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 82,
+    "source": {
+      "chain": "K",
+      "number": 82,
+      "insertion": ""
+    },
+    "residue_name": "GLN"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 83,
+    "source": {
+      "chain": "K",
+      "number": 83,
+      "insertion": ""
+    },
+    "residue_name": "MET"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 84,
+    "source": {
+      "chain": "K",
+      "number": 84,
+      "insertion": ""
+    },
+    "residue_name": "ASN"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 85,
+    "source": {
+      "chain": "K",
+      "number": 85,
+      "insertion": ""
+    },
+    "residue_name": "SER"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 86,
+    "source": {
+      "chain": "K",
+      "number": 86,
+      "insertion": ""
+    },
+    "residue_name": "LEU"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 87,
+    "source": {
+      "chain": "K",
+      "number": 87,
+      "insertion": ""
+    },
+    "residue_name": "LYS"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 88,
+    "source": {
+      "chain": "K",
+      "number": 88,
+      "insertion": ""
+    },
+    "residue_name": "PRO"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 89,
+    "source": {
+      "chain": "K",
+      "number": 89,
+      "insertion": ""
+    },
+    "residue_name": "GLU"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 90,
+    "source": {
+      "chain": "K",
+      "number": 90,
+      "insertion": ""
+    },
+    "residue_name": "ASP"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 91,
+    "source": {
+      "chain": "K",
+      "number": 91,
+      "insertion": ""
+    },
+    "residue_name": "THR"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 92,
+    "source": {
+      "chain": "K",
+      "number": 92,
+      "insertion": ""
+    },
+    "residue_name": "ALA"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 93,
+    "source": {
+      "chain": "K",
+      "number": 93,
+      "insertion": ""
+    },
+    "residue_name": "MET"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 94,
+    "source": {
+      "chain": "K",
+      "number": 94,
+      "insertion": ""
+    },
+    "residue_name": "TYR"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 95,
+    "source": {
+      "chain": "K",
+      "number": 95,
+      "insertion": ""
+    },
+    "residue_name": "TYR"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 96,
+    "source": {
+      "chain": "K",
+      "number": 96,
+      "insertion": ""
+    },
+    "residue_name": "CYS"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 97,
+    "source": {
+      "chain": "K",
+      "number": 97,
+      "insertion": ""
+    },
+    "residue_name": "ALA"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 98,
+    "source": {
+      "chain": "K",
+      "number": 98,
+      "insertion": ""
+    },
+    "residue_name": "ALA"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 99,
+    "source": {
+      "chain": "K",
+      "number": 99,
+      "insertion": ""
+    },
+    "residue_name": "ASP"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 100,
+    "source": {
+      "chain": "K",
+      "number": 100,
+      "insertion": ""
+    },
+    "residue_name": "SER"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 101,
+    "source": {
+      "chain": "K",
+      "number": 101,
+      "insertion": ""
+    },
+    "residue_name": "PHE"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 102,
+    "source": {
+      "chain": "K",
+      "number": 102,
+      "insertion": ""
+    },
+    "residue_name": "GLU"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 103,
+    "source": {
+      "chain": "K",
+      "number": 103,
+      "insertion": ""
+    },
+    "residue_name": "ASP"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 104,
+    "source": {
+      "chain": "K",
+      "number": 104,
+      "insertion": ""
+    },
+    "residue_name": "PRO"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 105,
+    "source": {
+      "chain": "K",
+      "number": 105,
+      "insertion": ""
+    },
+    "residue_name": "THR"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 106,
+    "source": {
+      "chain": "K",
+      "number": 106,
+      "insertion": ""
+    },
+    "residue_name": "CYS"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 107,
+    "source": {
+      "chain": "K",
+      "number": 107,
+      "insertion": ""
+    },
+    "residue_name": "THR"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 108,
+    "source": {
+      "chain": "K",
+      "number": 108,
+      "insertion": ""
+    },
+    "residue_name": "LEU"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 109,
+    "source": {
+      "chain": "K",
+      "number": 109,
+      "insertion": ""
+    },
+    "residue_name": "VAL"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 110,
+    "source": {
+      "chain": "K",
+      "number": 110,
+      "insertion": ""
+    },
+    "residue_name": "THR"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 111,
+    "source": {
+      "chain": "K",
+      "number": 111,
+      "insertion": ""
+    },
+    "residue_name": "SER"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 112,
+    "source": {
+      "chain": "K",
+      "number": 112,
+      "insertion": ""
+    },
+    "residue_name": "SER"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 113,
+    "source": {
+      "chain": "K",
+      "number": 113,
+      "insertion": ""
+    },
+    "residue_name": "GLY"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 114,
+    "source": {
+      "chain": "K",
+      "number": 114,
+      "insertion": ""
+    },
+    "residue_name": "ALA"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 115,
+    "source": {
+      "chain": "K",
+      "number": 115,
+      "insertion": ""
+    },
+    "residue_name": "PHE"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 116,
+    "source": {
+      "chain": "K",
+      "number": 116,
+      "insertion": ""
+    },
+    "residue_name": "GLN"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 117,
+    "source": {
+      "chain": "K",
+      "number": 117,
+      "insertion": ""
+    },
+    "residue_name": "TYR"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 118,
+    "source": {
+      "chain": "K",
+      "number": 118,
+      "insertion": ""
+    },
+    "residue_name": "TRP"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 119,
+    "source": {
+      "chain": "K",
+      "number": 119,
+      "insertion": ""
+    },
+    "residue_name": "GLY"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 120,
+    "source": {
+      "chain": "K",
+      "number": 120,
+      "insertion": ""
+    },
+    "residue_name": "GLN"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 121,
+    "source": {
+      "chain": "K",
+      "number": 121,
+      "insertion": ""
+    },
+    "residue_name": "GLY"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 122,
+    "source": {
+      "chain": "K",
+      "number": 122,
+      "insertion": ""
+    },
+    "residue_name": "THR"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 123,
+    "source": {
+      "chain": "K",
+      "number": 123,
+      "insertion": ""
+    },
+    "residue_name": "GLN"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 124,
+    "source": {
+      "chain": "K",
+      "number": 124,
+      "insertion": ""
+    },
+    "residue_name": "VAL"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 125,
+    "source": {
+      "chain": "K",
+      "number": 125,
+      "insertion": ""
+    },
+    "residue_name": "THR"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 126,
+    "source": {
+      "chain": "K",
+      "number": 126,
+      "insertion": ""
+    },
+    "residue_name": "VAL"
+  },
+  {
+    "input_chain": "K",
+    "input_number": 127,
+    "source": {
+      "chain": "K",
+      "number": 127,
+      "insertion": ""
+    },
+    "residue_name": "SER"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 1,
+    "source": {
+      "chain": "L",
+      "number": 1,
+      "insertion": ""
+    },
+    "residue_name": "GLN"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 2,
+    "source": {
+      "chain": "L",
+      "number": 2,
+      "insertion": ""
+    },
+    "residue_name": "VAL"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 3,
+    "source": {
+      "chain": "L",
+      "number": 3,
+      "insertion": ""
+    },
+    "residue_name": "GLN"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 4,
+    "source": {
+      "chain": "L",
+      "number": 4,
+      "insertion": ""
+    },
+    "residue_name": "LEU"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 5,
+    "source": {
+      "chain": "L",
+      "number": 5,
+      "insertion": ""
+    },
+    "residue_name": "GLN"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 6,
+    "source": {
+      "chain": "L",
+      "number": 6,
+      "insertion": ""
+    },
+    "residue_name": "GLU"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 7,
+    "source": {
+      "chain": "L",
+      "number": 7,
+      "insertion": ""
+    },
+    "residue_name": "SER"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 8,
+    "source": {
+      "chain": "L",
+      "number": 8,
+      "insertion": ""
+    },
+    "residue_name": "GLY"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 9,
+    "source": {
+      "chain": "L",
+      "number": 9,
+      "insertion": ""
+    },
+    "residue_name": "GLY"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 10,
+    "source": {
+      "chain": "L",
+      "number": 10,
+      "insertion": ""
+    },
+    "residue_name": "GLY"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 11,
+    "source": {
+      "chain": "L",
+      "number": 11,
+      "insertion": ""
+    },
+    "residue_name": "LEU"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 12,
+    "source": {
+      "chain": "L",
+      "number": 12,
+      "insertion": ""
+    },
+    "residue_name": "VAL"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 13,
+    "source": {
+      "chain": "L",
+      "number": 13,
+      "insertion": ""
+    },
+    "residue_name": "GLN"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 14,
+    "source": {
+      "chain": "L",
+      "number": 14,
+      "insertion": ""
+    },
+    "residue_name": "PRO"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 15,
+    "source": {
+      "chain": "L",
+      "number": 15,
+      "insertion": ""
+    },
+    "residue_name": "GLY"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 16,
+    "source": {
+      "chain": "L",
+      "number": 16,
+      "insertion": ""
+    },
+    "residue_name": "GLY"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 17,
+    "source": {
+      "chain": "L",
+      "number": 17,
+      "insertion": ""
+    },
+    "residue_name": "SER"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 18,
+    "source": {
+      "chain": "L",
+      "number": 18,
+      "insertion": ""
+    },
+    "residue_name": "LEU"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 19,
+    "source": {
+      "chain": "L",
+      "number": 19,
+      "insertion": ""
+    },
+    "residue_name": "ARG"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 20,
+    "source": {
+      "chain": "L",
+      "number": 20,
+      "insertion": ""
+    },
+    "residue_name": "LEU"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 21,
+    "source": {
+      "chain": "L",
+      "number": 21,
+      "insertion": ""
+    },
+    "residue_name": "SER"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 22,
+    "source": {
+      "chain": "L",
+      "number": 22,
+      "insertion": ""
+    },
+    "residue_name": "CYS"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 23,
+    "source": {
+      "chain": "L",
+      "number": 23,
+      "insertion": ""
+    },
+    "residue_name": "ALA"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 24,
+    "source": {
+      "chain": "L",
+      "number": 24,
+      "insertion": ""
+    },
+    "residue_name": "ALA"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 25,
+    "source": {
+      "chain": "L",
+      "number": 25,
+      "insertion": ""
+    },
+    "residue_name": "SER"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 26,
+    "source": {
+      "chain": "L",
+      "number": 26,
+      "insertion": ""
+    },
+    "residue_name": "GLY"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 27,
+    "source": {
+      "chain": "L",
+      "number": 27,
+      "insertion": ""
+    },
+    "residue_name": "LYS"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 28,
+    "source": {
+      "chain": "L",
+      "number": 28,
+      "insertion": ""
+    },
+    "residue_name": "MET"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 29,
+    "source": {
+      "chain": "L",
+      "number": 29,
+      "insertion": ""
+    },
+    "residue_name": "SER"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 30,
+    "source": {
+      "chain": "L",
+      "number": 30,
+      "insertion": ""
+    },
+    "residue_name": "SER"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 31,
+    "source": {
+      "chain": "L",
+      "number": 31,
+      "insertion": ""
+    },
+    "residue_name": "ARG"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 32,
+    "source": {
+      "chain": "L",
+      "number": 32,
+      "insertion": ""
+    },
+    "residue_name": "ARG"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 33,
+    "source": {
+      "chain": "L",
+      "number": 33,
+      "insertion": ""
+    },
+    "residue_name": "CYS"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 34,
+    "source": {
+      "chain": "L",
+      "number": 34,
+      "insertion": ""
+    },
+    "residue_name": "MET"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 35,
+    "source": {
+      "chain": "L",
+      "number": 35,
+      "insertion": ""
+    },
+    "residue_name": "ALA"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 36,
+    "source": {
+      "chain": "L",
+      "number": 36,
+      "insertion": ""
+    },
+    "residue_name": "TRP"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 37,
+    "source": {
+      "chain": "L",
+      "number": 37,
+      "insertion": ""
+    },
+    "residue_name": "PHE"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 38,
+    "source": {
+      "chain": "L",
+      "number": 38,
+      "insertion": ""
+    },
+    "residue_name": "ARG"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 39,
+    "source": {
+      "chain": "L",
+      "number": 39,
+      "insertion": ""
+    },
+    "residue_name": "GLN"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 40,
+    "source": {
+      "chain": "L",
+      "number": 40,
+      "insertion": ""
+    },
+    "residue_name": "ALA"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 41,
+    "source": {
+      "chain": "L",
+      "number": 41,
+      "insertion": ""
+    },
+    "residue_name": "PRO"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 42,
+    "source": {
+      "chain": "L",
+      "number": 42,
+      "insertion": ""
+    },
+    "residue_name": "GLY"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 43,
+    "source": {
+      "chain": "L",
+      "number": 43,
+      "insertion": ""
+    },
+    "residue_name": "LYS"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 44,
+    "source": {
+      "chain": "L",
+      "number": 44,
+      "insertion": ""
+    },
+    "residue_name": "GLU"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 45,
+    "source": {
+      "chain": "L",
+      "number": 45,
+      "insertion": ""
+    },
+    "residue_name": "ARG"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 46,
+    "source": {
+      "chain": "L",
+      "number": 46,
+      "insertion": ""
+    },
+    "residue_name": "GLU"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 47,
+    "source": {
+      "chain": "L",
+      "number": 47,
+      "insertion": ""
+    },
+    "residue_name": "ARG"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 48,
+    "source": {
+      "chain": "L",
+      "number": 48,
+      "insertion": ""
+    },
+    "residue_name": "VAL"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 49,
+    "source": {
+      "chain": "L",
+      "number": 49,
+      "insertion": ""
+    },
+    "residue_name": "ALA"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 50,
+    "source": {
+      "chain": "L",
+      "number": 50,
+      "insertion": ""
+    },
+    "residue_name": "LYS"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 51,
+    "source": {
+      "chain": "L",
+      "number": 51,
+      "insertion": ""
+    },
+    "residue_name": "LEU"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 52,
+    "source": {
+      "chain": "L",
+      "number": 52,
+      "insertion": ""
+    },
+    "residue_name": "LEU"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 53,
+    "source": {
+      "chain": "L",
+      "number": 53,
+      "insertion": ""
+    },
+    "residue_name": "THR"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 54,
+    "source": {
+      "chain": "L",
+      "number": 54,
+      "insertion": ""
+    },
+    "residue_name": "THR"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 55,
+    "source": {
+      "chain": "L",
+      "number": 55,
+      "insertion": ""
+    },
+    "residue_name": "SER"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 56,
+    "source": {
+      "chain": "L",
+      "number": 56,
+      "insertion": ""
+    },
+    "residue_name": "GLY"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 57,
+    "source": {
+      "chain": "L",
+      "number": 57,
+      "insertion": ""
+    },
+    "residue_name": "SER"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 58,
+    "source": {
+      "chain": "L",
+      "number": 58,
+      "insertion": ""
+    },
+    "residue_name": "THR"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 59,
+    "source": {
+      "chain": "L",
+      "number": 59,
+      "insertion": ""
+    },
+    "residue_name": "TYR"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 60,
+    "source": {
+      "chain": "L",
+      "number": 60,
+      "insertion": ""
+    },
+    "residue_name": "LEU"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 61,
+    "source": {
+      "chain": "L",
+      "number": 61,
+      "insertion": ""
+    },
+    "residue_name": "ALA"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 62,
+    "source": {
+      "chain": "L",
+      "number": 62,
+      "insertion": ""
+    },
+    "residue_name": "ASP"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 63,
+    "source": {
+      "chain": "L",
+      "number": 63,
+      "insertion": ""
+    },
+    "residue_name": "SER"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 64,
+    "source": {
+      "chain": "L",
+      "number": 64,
+      "insertion": ""
+    },
+    "residue_name": "VAL"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 65,
+    "source": {
+      "chain": "L",
+      "number": 65,
+      "insertion": ""
+    },
+    "residue_name": "LYS"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 66,
+    "source": {
+      "chain": "L",
+      "number": 66,
+      "insertion": ""
+    },
+    "residue_name": "GLY"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 67,
+    "source": {
+      "chain": "L",
+      "number": 67,
+      "insertion": ""
+    },
+    "residue_name": "ARG"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 68,
+    "source": {
+      "chain": "L",
+      "number": 68,
+      "insertion": ""
+    },
+    "residue_name": "PHE"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 69,
+    "source": {
+      "chain": "L",
+      "number": 69,
+      "insertion": ""
+    },
+    "residue_name": "THR"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 70,
+    "source": {
+      "chain": "L",
+      "number": 70,
+      "insertion": ""
+    },
+    "residue_name": "ILE"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 71,
+    "source": {
+      "chain": "L",
+      "number": 71,
+      "insertion": ""
+    },
+    "residue_name": "SER"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 72,
+    "source": {
+      "chain": "L",
+      "number": 72,
+      "insertion": ""
+    },
+    "residue_name": "GLN"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 73,
+    "source": {
+      "chain": "L",
+      "number": 73,
+      "insertion": ""
+    },
+    "residue_name": "ASN"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 74,
+    "source": {
+      "chain": "L",
+      "number": 74,
+      "insertion": ""
+    },
+    "residue_name": "ASN"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 75,
+    "source": {
+      "chain": "L",
+      "number": 75,
+      "insertion": ""
+    },
+    "residue_name": "ALA"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 76,
+    "source": {
+      "chain": "L",
+      "number": 76,
+      "insertion": ""
+    },
+    "residue_name": "LYS"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 77,
+    "source": {
+      "chain": "L",
+      "number": 77,
+      "insertion": ""
+    },
+    "residue_name": "SER"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 78,
+    "source": {
+      "chain": "L",
+      "number": 78,
+      "insertion": ""
+    },
+    "residue_name": "THR"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 79,
+    "source": {
+      "chain": "L",
+      "number": 79,
+      "insertion": ""
+    },
+    "residue_name": "VAL"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 80,
+    "source": {
+      "chain": "L",
+      "number": 80,
+      "insertion": ""
+    },
+    "residue_name": "TYR"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 81,
+    "source": {
+      "chain": "L",
+      "number": 81,
+      "insertion": ""
+    },
+    "residue_name": "LEU"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 82,
+    "source": {
+      "chain": "L",
+      "number": 82,
+      "insertion": ""
+    },
+    "residue_name": "GLN"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 83,
+    "source": {
+      "chain": "L",
+      "number": 83,
+      "insertion": ""
+    },
+    "residue_name": "MET"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 84,
+    "source": {
+      "chain": "L",
+      "number": 84,
+      "insertion": ""
+    },
+    "residue_name": "ASN"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 85,
+    "source": {
+      "chain": "L",
+      "number": 85,
+      "insertion": ""
+    },
+    "residue_name": "SER"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 86,
+    "source": {
+      "chain": "L",
+      "number": 86,
+      "insertion": ""
+    },
+    "residue_name": "LEU"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 87,
+    "source": {
+      "chain": "L",
+      "number": 87,
+      "insertion": ""
+    },
+    "residue_name": "LYS"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 88,
+    "source": {
+      "chain": "L",
+      "number": 88,
+      "insertion": ""
+    },
+    "residue_name": "PRO"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 89,
+    "source": {
+      "chain": "L",
+      "number": 89,
+      "insertion": ""
+    },
+    "residue_name": "GLU"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 90,
+    "source": {
+      "chain": "L",
+      "number": 90,
+      "insertion": ""
+    },
+    "residue_name": "ASP"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 91,
+    "source": {
+      "chain": "L",
+      "number": 91,
+      "insertion": ""
+    },
+    "residue_name": "THR"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 92,
+    "source": {
+      "chain": "L",
+      "number": 92,
+      "insertion": ""
+    },
+    "residue_name": "ALA"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 93,
+    "source": {
+      "chain": "L",
+      "number": 93,
+      "insertion": ""
+    },
+    "residue_name": "MET"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 94,
+    "source": {
+      "chain": "L",
+      "number": 94,
+      "insertion": ""
+    },
+    "residue_name": "TYR"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 95,
+    "source": {
+      "chain": "L",
+      "number": 95,
+      "insertion": ""
+    },
+    "residue_name": "TYR"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 96,
+    "source": {
+      "chain": "L",
+      "number": 96,
+      "insertion": ""
+    },
+    "residue_name": "CYS"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 97,
+    "source": {
+      "chain": "L",
+      "number": 97,
+      "insertion": ""
+    },
+    "residue_name": "ALA"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 98,
+    "source": {
+      "chain": "L",
+      "number": 98,
+      "insertion": ""
+    },
+    "residue_name": "ALA"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 99,
+    "source": {
+      "chain": "L",
+      "number": 99,
+      "insertion": ""
+    },
+    "residue_name": "ASP"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 100,
+    "source": {
+      "chain": "L",
+      "number": 100,
+      "insertion": ""
+    },
+    "residue_name": "SER"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 101,
+    "source": {
+      "chain": "L",
+      "number": 101,
+      "insertion": ""
+    },
+    "residue_name": "PHE"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 102,
+    "source": {
+      "chain": "L",
+      "number": 102,
+      "insertion": ""
+    },
+    "residue_name": "GLU"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 103,
+    "source": {
+      "chain": "L",
+      "number": 103,
+      "insertion": ""
+    },
+    "residue_name": "ASP"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 104,
+    "source": {
+      "chain": "L",
+      "number": 104,
+      "insertion": ""
+    },
+    "residue_name": "PRO"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 105,
+    "source": {
+      "chain": "L",
+      "number": 105,
+      "insertion": ""
+    },
+    "residue_name": "THR"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 106,
+    "source": {
+      "chain": "L",
+      "number": 106,
+      "insertion": ""
+    },
+    "residue_name": "CYS"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 107,
+    "source": {
+      "chain": "L",
+      "number": 107,
+      "insertion": ""
+    },
+    "residue_name": "THR"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 108,
+    "source": {
+      "chain": "L",
+      "number": 108,
+      "insertion": ""
+    },
+    "residue_name": "LEU"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 109,
+    "source": {
+      "chain": "L",
+      "number": 109,
+      "insertion": ""
+    },
+    "residue_name": "VAL"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 110,
+    "source": {
+      "chain": "L",
+      "number": 110,
+      "insertion": ""
+    },
+    "residue_name": "THR"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 111,
+    "source": {
+      "chain": "L",
+      "number": 111,
+      "insertion": ""
+    },
+    "residue_name": "SER"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 112,
+    "source": {
+      "chain": "L",
+      "number": 112,
+      "insertion": ""
+    },
+    "residue_name": "SER"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 113,
+    "source": {
+      "chain": "L",
+      "number": 113,
+      "insertion": ""
+    },
+    "residue_name": "GLY"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 114,
+    "source": {
+      "chain": "L",
+      "number": 114,
+      "insertion": ""
+    },
+    "residue_name": "ALA"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 115,
+    "source": {
+      "chain": "L",
+      "number": 115,
+      "insertion": ""
+    },
+    "residue_name": "PHE"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 116,
+    "source": {
+      "chain": "L",
+      "number": 116,
+      "insertion": ""
+    },
+    "residue_name": "GLN"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 117,
+    "source": {
+      "chain": "L",
+      "number": 117,
+      "insertion": ""
+    },
+    "residue_name": "TYR"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 118,
+    "source": {
+      "chain": "L",
+      "number": 118,
+      "insertion": ""
+    },
+    "residue_name": "TRP"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 119,
+    "source": {
+      "chain": "L",
+      "number": 119,
+      "insertion": ""
+    },
+    "residue_name": "GLY"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 120,
+    "source": {
+      "chain": "L",
+      "number": 120,
+      "insertion": ""
+    },
+    "residue_name": "GLN"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 121,
+    "source": {
+      "chain": "L",
+      "number": 121,
+      "insertion": ""
+    },
+    "residue_name": "GLY"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 122,
+    "source": {
+      "chain": "L",
+      "number": 122,
+      "insertion": ""
+    },
+    "residue_name": "THR"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 123,
+    "source": {
+      "chain": "L",
+      "number": 123,
+      "insertion": ""
+    },
+    "residue_name": "GLN"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 124,
+    "source": {
+      "chain": "L",
+      "number": 124,
+      "insertion": ""
+    },
+    "residue_name": "VAL"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 125,
+    "source": {
+      "chain": "L",
+      "number": 125,
+      "insertion": ""
+    },
+    "residue_name": "THR"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 126,
+    "source": {
+      "chain": "L",
+      "number": 126,
+      "insertion": ""
+    },
+    "residue_name": "VAL"
+  },
+  {
+    "input_chain": "L",
+    "input_number": 127,
+    "source": {
+      "chain": "L",
+      "number": 127,
+      "insertion": ""
+    },
+    "residue_name": "SER"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 1,
+    "source": {
+      "chain": "T",
+      "number": 18,
+      "insertion": ""
+    },
+    "residue_name": "ALA"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 2,
+    "source": {
+      "chain": "T",
+      "number": 19,
+      "insertion": ""
+    },
+    "residue_name": "PHE"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 3,
+    "source": {
+      "chain": "T",
+      "number": 20,
+      "insertion": ""
+    },
+    "residue_name": "THR"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 4,
+    "source": {
+      "chain": "T",
+      "number": 21,
+      "insertion": ""
+    },
+    "residue_name": "VAL"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 5,
+    "source": {
+      "chain": "T",
+      "number": 22,
+      "insertion": ""
+    },
+    "residue_name": "THR"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 6,
+    "source": {
+      "chain": "T",
+      "number": 23,
+      "insertion": ""
+    },
+    "residue_name": "VAL"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 7,
+    "source": {
+      "chain": "T",
+      "number": 24,
+      "insertion": ""
+    },
+    "residue_name": "PRO"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 8,
+    "source": {
+      "chain": "T",
+      "number": 25,
+      "insertion": ""
+    },
+    "residue_name": "LYS"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 9,
+    "source": {
+      "chain": "T",
+      "number": 26,
+      "insertion": ""
+    },
+    "residue_name": "ASP"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 10,
+    "source": {
+      "chain": "T",
+      "number": 27,
+      "insertion": ""
+    },
+    "residue_name": "LEU"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 11,
+    "source": {
+      "chain": "T",
+      "number": 28,
+      "insertion": ""
+    },
+    "residue_name": "TYR"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 12,
+    "source": {
+      "chain": "T",
+      "number": 29,
+      "insertion": ""
+    },
+    "residue_name": "VAL"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 13,
+    "source": {
+      "chain": "T",
+      "number": 30,
+      "insertion": ""
+    },
+    "residue_name": "VAL"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 14,
+    "source": {
+      "chain": "T",
+      "number": 31,
+      "insertion": ""
+    },
+    "residue_name": "GLU"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 15,
+    "source": {
+      "chain": "T",
+      "number": 32,
+      "insertion": ""
+    },
+    "residue_name": "TYR"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 16,
+    "source": {
+      "chain": "T",
+      "number": 33,
+      "insertion": ""
+    },
+    "residue_name": "GLY"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 17,
+    "source": {
+      "chain": "T",
+      "number": 34,
+      "insertion": ""
+    },
+    "residue_name": "SER"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 18,
+    "source": {
+      "chain": "T",
+      "number": 35,
+      "insertion": ""
+    },
+    "residue_name": "ASN"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 19,
+    "source": {
+      "chain": "T",
+      "number": 36,
+      "insertion": ""
+    },
+    "residue_name": "MET"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 20,
+    "source": {
+      "chain": "T",
+      "number": 37,
+      "insertion": ""
+    },
+    "residue_name": "THR"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 21,
+    "source": {
+      "chain": "T",
+      "number": 38,
+      "insertion": ""
+    },
+    "residue_name": "ILE"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 22,
+    "source": {
+      "chain": "T",
+      "number": 39,
+      "insertion": ""
+    },
+    "residue_name": "GLU"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 23,
+    "source": {
+      "chain": "T",
+      "number": 40,
+      "insertion": ""
+    },
+    "residue_name": "CYS"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 24,
+    "source": {
+      "chain": "T",
+      "number": 41,
+      "insertion": ""
+    },
+    "residue_name": "LYS"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 25,
+    "source": {
+      "chain": "T",
+      "number": 42,
+      "insertion": ""
+    },
+    "residue_name": "PHE"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 26,
+    "source": {
+      "chain": "T",
+      "number": 43,
+      "insertion": ""
+    },
+    "residue_name": "PRO"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 27,
+    "source": {
+      "chain": "T",
+      "number": 44,
+      "insertion": ""
+    },
+    "residue_name": "VAL"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 28,
+    "source": {
+      "chain": "T",
+      "number": 45,
+      "insertion": ""
+    },
+    "residue_name": "GLU"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 29,
+    "source": {
+      "chain": "T",
+      "number": 46,
+      "insertion": ""
+    },
+    "residue_name": "LYS"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 30,
+    "source": {
+      "chain": "T",
+      "number": 47,
+      "insertion": ""
+    },
+    "residue_name": "GLN"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 31,
+    "source": {
+      "chain": "T",
+      "number": 48,
+      "insertion": ""
+    },
+    "residue_name": "LEU"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 32,
+    "source": {
+      "chain": "T",
+      "number": 49,
+      "insertion": ""
+    },
+    "residue_name": "ASP"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 33,
+    "source": {
+      "chain": "T",
+      "number": 50,
+      "insertion": ""
+    },
+    "residue_name": "LEU"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 34,
+    "source": {
+      "chain": "T",
+      "number": 51,
+      "insertion": ""
+    },
+    "residue_name": "ALA"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 35,
+    "source": {
+      "chain": "T",
+      "number": 52,
+      "insertion": ""
+    },
+    "residue_name": "ALA"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 36,
+    "source": {
+      "chain": "T",
+      "number": 53,
+      "insertion": ""
+    },
+    "residue_name": "LEU"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 37,
+    "source": {
+      "chain": "T",
+      "number": 54,
+      "insertion": ""
+    },
+    "residue_name": "ILE"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 38,
+    "source": {
+      "chain": "T",
+      "number": 55,
+      "insertion": ""
+    },
+    "residue_name": "VAL"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 39,
+    "source": {
+      "chain": "T",
+      "number": 56,
+      "insertion": ""
+    },
+    "residue_name": "TYR"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 40,
+    "source": {
+      "chain": "T",
+      "number": 57,
+      "insertion": ""
+    },
+    "residue_name": "TRP"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 41,
+    "source": {
+      "chain": "T",
+      "number": 58,
+      "insertion": ""
+    },
+    "residue_name": "GLU"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 42,
+    "source": {
+      "chain": "T",
+      "number": 59,
+      "insertion": ""
+    },
+    "residue_name": "MET"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 43,
+    "source": {
+      "chain": "T",
+      "number": 60,
+      "insertion": ""
+    },
+    "residue_name": "GLU"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 44,
+    "source": {
+      "chain": "T",
+      "number": 61,
+      "insertion": ""
+    },
+    "residue_name": "ASP"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 45,
+    "source": {
+      "chain": "T",
+      "number": 62,
+      "insertion": ""
+    },
+    "residue_name": "LYS"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 46,
+    "source": {
+      "chain": "T",
+      "number": 63,
+      "insertion": ""
+    },
+    "residue_name": "ASN"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 47,
+    "source": {
+      "chain": "T",
+      "number": 64,
+      "insertion": ""
+    },
+    "residue_name": "ILE"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 48,
+    "source": {
+      "chain": "T",
+      "number": 65,
+      "insertion": ""
+    },
+    "residue_name": "ILE"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 49,
+    "source": {
+      "chain": "T",
+      "number": 66,
+      "insertion": ""
+    },
+    "residue_name": "GLN"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 50,
+    "source": {
+      "chain": "T",
+      "number": 67,
+      "insertion": ""
+    },
+    "residue_name": "PHE"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 51,
+    "source": {
+      "chain": "T",
+      "number": 68,
+      "insertion": ""
+    },
+    "residue_name": "VAL"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 52,
+    "source": {
+      "chain": "T",
+      "number": 69,
+      "insertion": ""
+    },
+    "residue_name": "HIS"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 53,
+    "source": {
+      "chain": "T",
+      "number": 70,
+      "insertion": ""
+    },
+    "residue_name": "GLY"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 54,
+    "source": {
+      "chain": "T",
+      "number": 71,
+      "insertion": ""
+    },
+    "residue_name": "GLU"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 55,
+    "source": {
+      "chain": "T",
+      "number": 72,
+      "insertion": ""
+    },
+    "residue_name": "GLU"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 56,
+    "source": {
+      "chain": "T",
+      "number": 73,
+      "insertion": ""
+    },
+    "residue_name": "ASP"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 57,
+    "source": {
+      "chain": "T",
+      "number": 74,
+      "insertion": ""
+    },
+    "residue_name": "LEU"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 58,
+    "source": {
+      "chain": "T",
+      "number": 75,
+      "insertion": ""
+    },
+    "residue_name": "LYS"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 59,
+    "source": {
+      "chain": "T",
+      "number": 76,
+      "insertion": ""
+    },
+    "residue_name": "VAL"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 60,
+    "source": {
+      "chain": "T",
+      "number": 77,
+      "insertion": ""
+    },
+    "residue_name": "GLN"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 61,
+    "source": {
+      "chain": "T",
+      "number": 78,
+      "insertion": ""
+    },
+    "residue_name": "HIS"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 62,
+    "source": {
+      "chain": "T",
+      "number": 79,
+      "insertion": ""
+    },
+    "residue_name": "SER"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 63,
+    "source": {
+      "chain": "T",
+      "number": 80,
+      "insertion": ""
+    },
+    "residue_name": "SER"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 64,
+    "source": {
+      "chain": "T",
+      "number": 81,
+      "insertion": ""
+    },
+    "residue_name": "TYR"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 65,
+    "source": {
+      "chain": "T",
+      "number": 82,
+      "insertion": ""
+    },
+    "residue_name": "ARG"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 66,
+    "source": {
+      "chain": "T",
+      "number": 83,
+      "insertion": ""
+    },
+    "residue_name": "GLN"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 67,
+    "source": {
+      "chain": "T",
+      "number": 84,
+      "insertion": ""
+    },
+    "residue_name": "ARG"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 68,
+    "source": {
+      "chain": "T",
+      "number": 85,
+      "insertion": ""
+    },
+    "residue_name": "ALA"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 69,
+    "source": {
+      "chain": "T",
+      "number": 86,
+      "insertion": ""
+    },
+    "residue_name": "ARG"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 70,
+    "source": {
+      "chain": "T",
+      "number": 87,
+      "insertion": ""
+    },
+    "residue_name": "LEU"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 71,
+    "source": {
+      "chain": "T",
+      "number": 88,
+      "insertion": ""
+    },
+    "residue_name": "LEU"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 72,
+    "source": {
+      "chain": "T",
+      "number": 89,
+      "insertion": ""
+    },
+    "residue_name": "LYS"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 73,
+    "source": {
+      "chain": "T",
+      "number": 90,
+      "insertion": ""
+    },
+    "residue_name": "ASP"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 74,
+    "source": {
+      "chain": "T",
+      "number": 91,
+      "insertion": ""
+    },
+    "residue_name": "GLN"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 75,
+    "source": {
+      "chain": "T",
+      "number": 92,
+      "insertion": ""
+    },
+    "residue_name": "LEU"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 76,
+    "source": {
+      "chain": "T",
+      "number": 93,
+      "insertion": ""
+    },
+    "residue_name": "SER"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 77,
+    "source": {
+      "chain": "T",
+      "number": 94,
+      "insertion": ""
+    },
+    "residue_name": "LEU"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 78,
+    "source": {
+      "chain": "T",
+      "number": 95,
+      "insertion": ""
+    },
+    "residue_name": "GLY"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 79,
+    "source": {
+      "chain": "T",
+      "number": 96,
+      "insertion": ""
+    },
+    "residue_name": "ASN"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 80,
+    "source": {
+      "chain": "T",
+      "number": 97,
+      "insertion": ""
+    },
+    "residue_name": "ALA"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 81,
+    "source": {
+      "chain": "T",
+      "number": 98,
+      "insertion": ""
+    },
+    "residue_name": "ALA"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 82,
+    "source": {
+      "chain": "T",
+      "number": 99,
+      "insertion": ""
+    },
+    "residue_name": "LEU"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 83,
+    "source": {
+      "chain": "T",
+      "number": 100,
+      "insertion": ""
+    },
+    "residue_name": "GLN"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 84,
+    "source": {
+      "chain": "T",
+      "number": 101,
+      "insertion": ""
+    },
+    "residue_name": "ILE"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 85,
+    "source": {
+      "chain": "T",
+      "number": 102,
+      "insertion": ""
+    },
+    "residue_name": "THR"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 86,
+    "source": {
+      "chain": "T",
+      "number": 103,
+      "insertion": ""
+    },
+    "residue_name": "ASP"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 87,
+    "source": {
+      "chain": "T",
+      "number": 104,
+      "insertion": ""
+    },
+    "residue_name": "VAL"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 88,
+    "source": {
+      "chain": "T",
+      "number": 105,
+      "insertion": ""
+    },
+    "residue_name": "LYS"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 89,
+    "source": {
+      "chain": "T",
+      "number": 106,
+      "insertion": ""
+    },
+    "residue_name": "LEU"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 90,
+    "source": {
+      "chain": "T",
+      "number": 107,
+      "insertion": ""
+    },
+    "residue_name": "GLN"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 91,
+    "source": {
+      "chain": "T",
+      "number": 108,
+      "insertion": ""
+    },
+    "residue_name": "ASP"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 92,
+    "source": {
+      "chain": "T",
+      "number": 109,
+      "insertion": ""
+    },
+    "residue_name": "ALA"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 93,
+    "source": {
+      "chain": "T",
+      "number": 110,
+      "insertion": ""
+    },
+    "residue_name": "GLY"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 94,
+    "source": {
+      "chain": "T",
+      "number": 111,
+      "insertion": ""
+    },
+    "residue_name": "VAL"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 95,
+    "source": {
+      "chain": "T",
+      "number": 112,
+      "insertion": ""
+    },
+    "residue_name": "TYR"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 96,
+    "source": {
+      "chain": "T",
+      "number": 113,
+      "insertion": ""
+    },
+    "residue_name": "ARG"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 97,
+    "source": {
+      "chain": "T",
+      "number": 114,
+      "insertion": ""
+    },
+    "residue_name": "CYS"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 98,
+    "source": {
+      "chain": "T",
+      "number": 115,
+      "insertion": ""
+    },
+    "residue_name": "MET"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 99,
+    "source": {
+      "chain": "T",
+      "number": 116,
+      "insertion": ""
+    },
+    "residue_name": "ILE"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 100,
+    "source": {
+      "chain": "T",
+      "number": 117,
+      "insertion": ""
+    },
+    "residue_name": "SER"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 101,
+    "source": {
+      "chain": "T",
+      "number": 118,
+      "insertion": ""
+    },
+    "residue_name": "TYR"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 102,
+    "source": {
+      "chain": "T",
+      "number": 119,
+      "insertion": ""
+    },
+    "residue_name": "GLY"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 103,
+    "source": {
+      "chain": "T",
+      "number": 120,
+      "insertion": ""
+    },
+    "residue_name": "GLY"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 104,
+    "source": {
+      "chain": "T",
+      "number": 121,
+      "insertion": ""
+    },
+    "residue_name": "ALA"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 105,
+    "source": {
+      "chain": "T",
+      "number": 122,
+      "insertion": ""
+    },
+    "residue_name": "ASP"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 106,
+    "source": {
+      "chain": "T",
+      "number": 123,
+      "insertion": ""
+    },
+    "residue_name": "TYR"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 107,
+    "source": {
+      "chain": "T",
+      "number": 124,
+      "insertion": ""
+    },
+    "residue_name": "LYS"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 108,
+    "source": {
+      "chain": "T",
+      "number": 125,
+      "insertion": ""
+    },
+    "residue_name": "ARG"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 109,
+    "source": {
+      "chain": "T",
+      "number": 126,
+      "insertion": ""
+    },
+    "residue_name": "ILE"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 110,
+    "source": {
+      "chain": "T",
+      "number": 127,
+      "insertion": ""
+    },
+    "residue_name": "THR"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 111,
+    "source": {
+      "chain": "T",
+      "number": 128,
+      "insertion": ""
+    },
+    "residue_name": "VAL"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 112,
+    "source": {
+      "chain": "T",
+      "number": 129,
+      "insertion": ""
+    },
+    "residue_name": "LYS"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 113,
+    "source": {
+      "chain": "T",
+      "number": 130,
+      "insertion": ""
+    },
+    "residue_name": "VAL"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 114,
+    "source": {
+      "chain": "T",
+      "number": 131,
+      "insertion": ""
+    },
+    "residue_name": "ASN"
+  },
+  {
+    "input_chain": "T",
+    "input_number": 115,
+    "source": {
+      "chain": "T",
+      "number": 132,
+      "insertion": ""
+    },
+    "residue_name": "ALA"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 1,
+    "source": {
+      "chain": "U",
+      "number": 18,
+      "insertion": ""
+    },
+    "residue_name": "ALA"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 2,
+    "source": {
+      "chain": "U",
+      "number": 19,
+      "insertion": ""
+    },
+    "residue_name": "PHE"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 3,
+    "source": {
+      "chain": "U",
+      "number": 20,
+      "insertion": ""
+    },
+    "residue_name": "THR"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 4,
+    "source": {
+      "chain": "U",
+      "number": 21,
+      "insertion": ""
+    },
+    "residue_name": "VAL"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 5,
+    "source": {
+      "chain": "U",
+      "number": 22,
+      "insertion": ""
+    },
+    "residue_name": "THR"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 6,
+    "source": {
+      "chain": "U",
+      "number": 23,
+      "insertion": ""
+    },
+    "residue_name": "VAL"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 7,
+    "source": {
+      "chain": "U",
+      "number": 24,
+      "insertion": ""
+    },
+    "residue_name": "PRO"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 8,
+    "source": {
+      "chain": "U",
+      "number": 25,
+      "insertion": ""
+    },
+    "residue_name": "LYS"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 9,
+    "source": {
+      "chain": "U",
+      "number": 26,
+      "insertion": ""
+    },
+    "residue_name": "ASP"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 10,
+    "source": {
+      "chain": "U",
+      "number": 27,
+      "insertion": ""
+    },
+    "residue_name": "LEU"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 11,
+    "source": {
+      "chain": "U",
+      "number": 28,
+      "insertion": ""
+    },
+    "residue_name": "TYR"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 12,
+    "source": {
+      "chain": "U",
+      "number": 29,
+      "insertion": ""
+    },
+    "residue_name": "VAL"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 13,
+    "source": {
+      "chain": "U",
+      "number": 30,
+      "insertion": ""
+    },
+    "residue_name": "VAL"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 14,
+    "source": {
+      "chain": "U",
+      "number": 31,
+      "insertion": ""
+    },
+    "residue_name": "GLU"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 15,
+    "source": {
+      "chain": "U",
+      "number": 32,
+      "insertion": ""
+    },
+    "residue_name": "TYR"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 16,
+    "source": {
+      "chain": "U",
+      "number": 33,
+      "insertion": ""
+    },
+    "residue_name": "GLY"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 17,
+    "source": {
+      "chain": "U",
+      "number": 34,
+      "insertion": ""
+    },
+    "residue_name": "SER"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 18,
+    "source": {
+      "chain": "U",
+      "number": 35,
+      "insertion": ""
+    },
+    "residue_name": "ASN"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 19,
+    "source": {
+      "chain": "U",
+      "number": 36,
+      "insertion": ""
+    },
+    "residue_name": "MET"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 20,
+    "source": {
+      "chain": "U",
+      "number": 37,
+      "insertion": ""
+    },
+    "residue_name": "THR"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 21,
+    "source": {
+      "chain": "U",
+      "number": 38,
+      "insertion": ""
+    },
+    "residue_name": "ILE"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 22,
+    "source": {
+      "chain": "U",
+      "number": 39,
+      "insertion": ""
+    },
+    "residue_name": "GLU"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 23,
+    "source": {
+      "chain": "U",
+      "number": 40,
+      "insertion": ""
+    },
+    "residue_name": "CYS"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 24,
+    "source": {
+      "chain": "U",
+      "number": 41,
+      "insertion": ""
+    },
+    "residue_name": "LYS"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 25,
+    "source": {
+      "chain": "U",
+      "number": 42,
+      "insertion": ""
+    },
+    "residue_name": "PHE"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 26,
+    "source": {
+      "chain": "U",
+      "number": 43,
+      "insertion": ""
+    },
+    "residue_name": "PRO"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 27,
+    "source": {
+      "chain": "U",
+      "number": 44,
+      "insertion": ""
+    },
+    "residue_name": "VAL"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 28,
+    "source": {
+      "chain": "U",
+      "number": 45,
+      "insertion": ""
+    },
+    "residue_name": "GLU"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 29,
+    "source": {
+      "chain": "U",
+      "number": 46,
+      "insertion": ""
+    },
+    "residue_name": "LYS"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 30,
+    "source": {
+      "chain": "U",
+      "number": 47,
+      "insertion": ""
+    },
+    "residue_name": "GLN"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 31,
+    "source": {
+      "chain": "U",
+      "number": 48,
+      "insertion": ""
+    },
+    "residue_name": "LEU"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 32,
+    "source": {
+      "chain": "U",
+      "number": 49,
+      "insertion": ""
+    },
+    "residue_name": "ASP"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 33,
+    "source": {
+      "chain": "U",
+      "number": 50,
+      "insertion": ""
+    },
+    "residue_name": "LEU"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 34,
+    "source": {
+      "chain": "U",
+      "number": 51,
+      "insertion": ""
+    },
+    "residue_name": "ALA"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 35,
+    "source": {
+      "chain": "U",
+      "number": 52,
+      "insertion": ""
+    },
+    "residue_name": "ALA"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 36,
+    "source": {
+      "chain": "U",
+      "number": 53,
+      "insertion": ""
+    },
+    "residue_name": "LEU"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 37,
+    "source": {
+      "chain": "U",
+      "number": 54,
+      "insertion": ""
+    },
+    "residue_name": "ILE"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 38,
+    "source": {
+      "chain": "U",
+      "number": 55,
+      "insertion": ""
+    },
+    "residue_name": "VAL"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 39,
+    "source": {
+      "chain": "U",
+      "number": 56,
+      "insertion": ""
+    },
+    "residue_name": "TYR"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 40,
+    "source": {
+      "chain": "U",
+      "number": 57,
+      "insertion": ""
+    },
+    "residue_name": "TRP"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 41,
+    "source": {
+      "chain": "U",
+      "number": 58,
+      "insertion": ""
+    },
+    "residue_name": "GLU"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 42,
+    "source": {
+      "chain": "U",
+      "number": 59,
+      "insertion": ""
+    },
+    "residue_name": "MET"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 43,
+    "source": {
+      "chain": "U",
+      "number": 60,
+      "insertion": ""
+    },
+    "residue_name": "GLU"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 44,
+    "source": {
+      "chain": "U",
+      "number": 61,
+      "insertion": ""
+    },
+    "residue_name": "ASP"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 45,
+    "source": {
+      "chain": "U",
+      "number": 62,
+      "insertion": ""
+    },
+    "residue_name": "LYS"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 46,
+    "source": {
+      "chain": "U",
+      "number": 63,
+      "insertion": ""
+    },
+    "residue_name": "ASN"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 47,
+    "source": {
+      "chain": "U",
+      "number": 64,
+      "insertion": ""
+    },
+    "residue_name": "ILE"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 48,
+    "source": {
+      "chain": "U",
+      "number": 65,
+      "insertion": ""
+    },
+    "residue_name": "ILE"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 49,
+    "source": {
+      "chain": "U",
+      "number": 66,
+      "insertion": ""
+    },
+    "residue_name": "GLN"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 50,
+    "source": {
+      "chain": "U",
+      "number": 67,
+      "insertion": ""
+    },
+    "residue_name": "PHE"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 51,
+    "source": {
+      "chain": "U",
+      "number": 68,
+      "insertion": ""
+    },
+    "residue_name": "VAL"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 52,
+    "source": {
+      "chain": "U",
+      "number": 69,
+      "insertion": ""
+    },
+    "residue_name": "HIS"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 53,
+    "source": {
+      "chain": "U",
+      "number": 70,
+      "insertion": ""
+    },
+    "residue_name": "GLY"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 54,
+    "source": {
+      "chain": "U",
+      "number": 71,
+      "insertion": ""
+    },
+    "residue_name": "GLU"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 55,
+    "source": {
+      "chain": "U",
+      "number": 72,
+      "insertion": ""
+    },
+    "residue_name": "GLU"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 56,
+    "source": {
+      "chain": "U",
+      "number": 73,
+      "insertion": ""
+    },
+    "residue_name": "ASP"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 57,
+    "source": {
+      "chain": "U",
+      "number": 74,
+      "insertion": ""
+    },
+    "residue_name": "LEU"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 58,
+    "source": {
+      "chain": "U",
+      "number": 75,
+      "insertion": ""
+    },
+    "residue_name": "LYS"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 59,
+    "source": {
+      "chain": "U",
+      "number": 76,
+      "insertion": ""
+    },
+    "residue_name": "VAL"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 60,
+    "source": {
+      "chain": "U",
+      "number": 77,
+      "insertion": ""
+    },
+    "residue_name": "GLN"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 61,
+    "source": {
+      "chain": "U",
+      "number": 78,
+      "insertion": ""
+    },
+    "residue_name": "HIS"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 62,
+    "source": {
+      "chain": "U",
+      "number": 79,
+      "insertion": ""
+    },
+    "residue_name": "SER"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 63,
+    "source": {
+      "chain": "U",
+      "number": 80,
+      "insertion": ""
+    },
+    "residue_name": "SER"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 64,
+    "source": {
+      "chain": "U",
+      "number": 81,
+      "insertion": ""
+    },
+    "residue_name": "TYR"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 65,
+    "source": {
+      "chain": "U",
+      "number": 82,
+      "insertion": ""
+    },
+    "residue_name": "ARG"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 66,
+    "source": {
+      "chain": "U",
+      "number": 83,
+      "insertion": ""
+    },
+    "residue_name": "GLN"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 67,
+    "source": {
+      "chain": "U",
+      "number": 84,
+      "insertion": ""
+    },
+    "residue_name": "ARG"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 68,
+    "source": {
+      "chain": "U",
+      "number": 85,
+      "insertion": ""
+    },
+    "residue_name": "ALA"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 69,
+    "source": {
+      "chain": "U",
+      "number": 86,
+      "insertion": ""
+    },
+    "residue_name": "ARG"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 70,
+    "source": {
+      "chain": "U",
+      "number": 87,
+      "insertion": ""
+    },
+    "residue_name": "LEU"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 71,
+    "source": {
+      "chain": "U",
+      "number": 88,
+      "insertion": ""
+    },
+    "residue_name": "LEU"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 72,
+    "source": {
+      "chain": "U",
+      "number": 89,
+      "insertion": ""
+    },
+    "residue_name": "LYS"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 73,
+    "source": {
+      "chain": "U",
+      "number": 90,
+      "insertion": ""
+    },
+    "residue_name": "ASP"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 74,
+    "source": {
+      "chain": "U",
+      "number": 91,
+      "insertion": ""
+    },
+    "residue_name": "GLN"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 75,
+    "source": {
+      "chain": "U",
+      "number": 92,
+      "insertion": ""
+    },
+    "residue_name": "LEU"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 76,
+    "source": {
+      "chain": "U",
+      "number": 93,
+      "insertion": ""
+    },
+    "residue_name": "SER"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 77,
+    "source": {
+      "chain": "U",
+      "number": 94,
+      "insertion": ""
+    },
+    "residue_name": "LEU"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 78,
+    "source": {
+      "chain": "U",
+      "number": 95,
+      "insertion": ""
+    },
+    "residue_name": "GLY"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 79,
+    "source": {
+      "chain": "U",
+      "number": 96,
+      "insertion": ""
+    },
+    "residue_name": "ASN"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 80,
+    "source": {
+      "chain": "U",
+      "number": 97,
+      "insertion": ""
+    },
+    "residue_name": "ALA"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 81,
+    "source": {
+      "chain": "U",
+      "number": 98,
+      "insertion": ""
+    },
+    "residue_name": "ALA"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 82,
+    "source": {
+      "chain": "U",
+      "number": 99,
+      "insertion": ""
+    },
+    "residue_name": "LEU"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 83,
+    "source": {
+      "chain": "U",
+      "number": 100,
+      "insertion": ""
+    },
+    "residue_name": "GLN"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 84,
+    "source": {
+      "chain": "U",
+      "number": 101,
+      "insertion": ""
+    },
+    "residue_name": "ILE"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 85,
+    "source": {
+      "chain": "U",
+      "number": 102,
+      "insertion": ""
+    },
+    "residue_name": "THR"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 86,
+    "source": {
+      "chain": "U",
+      "number": 103,
+      "insertion": ""
+    },
+    "residue_name": "ASP"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 87,
+    "source": {
+      "chain": "U",
+      "number": 104,
+      "insertion": ""
+    },
+    "residue_name": "VAL"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 88,
+    "source": {
+      "chain": "U",
+      "number": 105,
+      "insertion": ""
+    },
+    "residue_name": "LYS"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 89,
+    "source": {
+      "chain": "U",
+      "number": 106,
+      "insertion": ""
+    },
+    "residue_name": "LEU"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 90,
+    "source": {
+      "chain": "U",
+      "number": 107,
+      "insertion": ""
+    },
+    "residue_name": "GLN"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 91,
+    "source": {
+      "chain": "U",
+      "number": 108,
+      "insertion": ""
+    },
+    "residue_name": "ASP"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 92,
+    "source": {
+      "chain": "U",
+      "number": 109,
+      "insertion": ""
+    },
+    "residue_name": "ALA"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 93,
+    "source": {
+      "chain": "U",
+      "number": 110,
+      "insertion": ""
+    },
+    "residue_name": "GLY"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 94,
+    "source": {
+      "chain": "U",
+      "number": 111,
+      "insertion": ""
+    },
+    "residue_name": "VAL"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 95,
+    "source": {
+      "chain": "U",
+      "number": 112,
+      "insertion": ""
+    },
+    "residue_name": "TYR"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 96,
+    "source": {
+      "chain": "U",
+      "number": 113,
+      "insertion": ""
+    },
+    "residue_name": "ARG"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 97,
+    "source": {
+      "chain": "U",
+      "number": 114,
+      "insertion": ""
+    },
+    "residue_name": "CYS"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 98,
+    "source": {
+      "chain": "U",
+      "number": 115,
+      "insertion": ""
+    },
+    "residue_name": "MET"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 99,
+    "source": {
+      "chain": "U",
+      "number": 116,
+      "insertion": ""
+    },
+    "residue_name": "ILE"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 100,
+    "source": {
+      "chain": "U",
+      "number": 117,
+      "insertion": ""
+    },
+    "residue_name": "SER"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 101,
+    "source": {
+      "chain": "U",
+      "number": 118,
+      "insertion": ""
+    },
+    "residue_name": "TYR"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 102,
+    "source": {
+      "chain": "U",
+      "number": 119,
+      "insertion": ""
+    },
+    "residue_name": "GLY"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 103,
+    "source": {
+      "chain": "U",
+      "number": 120,
+      "insertion": ""
+    },
+    "residue_name": "GLY"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 104,
+    "source": {
+      "chain": "U",
+      "number": 121,
+      "insertion": ""
+    },
+    "residue_name": "ALA"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 105,
+    "source": {
+      "chain": "U",
+      "number": 122,
+      "insertion": ""
+    },
+    "residue_name": "ASP"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 106,
+    "source": {
+      "chain": "U",
+      "number": 123,
+      "insertion": ""
+    },
+    "residue_name": "TYR"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 107,
+    "source": {
+      "chain": "U",
+      "number": 124,
+      "insertion": ""
+    },
+    "residue_name": "LYS"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 108,
+    "source": {
+      "chain": "U",
+      "number": 125,
+      "insertion": ""
+    },
+    "residue_name": "ARG"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 109,
+    "source": {
+      "chain": "U",
+      "number": 126,
+      "insertion": ""
+    },
+    "residue_name": "ILE"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 110,
+    "source": {
+      "chain": "U",
+      "number": 127,
+      "insertion": ""
+    },
+    "residue_name": "THR"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 111,
+    "source": {
+      "chain": "U",
+      "number": 128,
+      "insertion": ""
+    },
+    "residue_name": "VAL"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 112,
+    "source": {
+      "chain": "U",
+      "number": 129,
+      "insertion": ""
+    },
+    "residue_name": "LYS"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 113,
+    "source": {
+      "chain": "U",
+      "number": 130,
+      "insertion": ""
+    },
+    "residue_name": "VAL"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 114,
+    "source": {
+      "chain": "U",
+      "number": 131,
+      "insertion": ""
+    },
+    "residue_name": "ASN"
+  },
+  {
+    "input_chain": "U",
+    "input_number": 115,
+    "source": {
+      "chain": "U",
+      "number": 132,
+      "insertion": ""
+    },
+    "residue_name": "ALA"
+  }
+]

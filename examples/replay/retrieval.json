@@ -1,0 +1,53 @@
+{
+  "version": "463739e0014a1549a527de589102cde98f802f37",
+  "commands": [
+    [
+      "vendor/foldseek/bin/foldseek",
+      "createdb",
+      "outputs/assembly-benchmark-v2/library",
+      "outputs/assembly-benchmark-v2/retrieval/db",
+      "--chain-name-mode",
+      "1"
+    ],
+    [
+      "vendor/foldseek/bin/foldseek",
+      "easy-search",
+      "outputs/assembly-benchmark-v2/alternate.cif",
+      "outputs/assembly-benchmark-v2/retrieval/db",
+      "outputs/assembly-benchmark-v2/retrieval/hits.tsv",
+      "outputs/assembly-benchmark-v2/retrieval/tmp",
+      "--format-output",
+      "query,target,qstart,qend,tstart,tend,qaln,taln,qcov,tcov,alntmscore,qtmscore,ttmscore,evalue",
+      "--alignment-type",
+      "1",
+      "--exhaustive-search",
+      "1",
+      "--max-seqs",
+      "5",
+      "--threads",
+      "1",
+      "-e",
+      "10"
+    ]
+  ],
+  "mode": "TMalign; exhaustive bounded library",
+  "score_semantics": "q/t TM scores normalized by respective chain lengths; evalue retained raw, not ranked",
+  "hits": [
+    {
+      "query": "alternate",
+      "target": "5JDS_target_A",
+      "qstart": "1",
+      "qend": "115",
+      "tstart": "1",
+      "tend": "115",
+      "qaln": "AFTVTVPKDLYVVEYGSNMTIECKFPVEKQLDLAALIVYWEMEDKNIIQFVHGEEDLKVQHSSYRQRARLLKDQLSLGNAALQITDVKLQDAGVYRCMISYGGADYKRITVKVNA",
+      "taln": "AFTVTVPKDLYVVEYGSNMTIECKFPVEKQLDLAALIVYWEMEDKNIIQFVHGEEDLKVQHSSYRQRARLLKDQLSLGNAALQITDVKLQDAGVYRCMISYGGADYKRITVKVNA",
+      "qcov": "0.906",
+      "tcov": "1.000",
+      "alntmscore": "9.679E-01",
+      "qtmscore": "8.708E-01",
+      "ttmscore": "9.596E-01",
+      "evalue": "9.069E-01"
+    }
+  ]
+}

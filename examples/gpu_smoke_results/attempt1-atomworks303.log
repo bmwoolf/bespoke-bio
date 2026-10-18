@@ -1,0 +1,496 @@
+Cloning into '/workspace/foundry'...
+Updating files:  94% (1153/1224)Updating files:  95% (1163/1224)Updating files:  96% (1176/1224)Updating files:  97% (1188/1224)Updating files:  98% (1200/1224)Updating files:  99% (1212/1224)Updating files: 100% (1224/1224)Updating files: 100% (1224/1224), done.
+Note: switching to 'd078b24d6d0e6f8607e9a0311128f4a897f83953'.
+
+You are in 'detached HEAD' state. You can look around, make experimental
+changes and commit them, and you can discard any commits you make in this
+state without impacting any branches by switching back to a branch.
+
+If you want to create a new branch to retain commits you create, you may
+do so (now or later) by using -c with the switch command. Example:
+
+  git switch -c <new-branch-name>
+
+Or undo this operation with:
+
+  git switch -
+
+Turn off this advice by setting config variable advice.detachedHead to false
+
+HEAD is now at d078b24 fix(mpnn): honor parser overrides for AtomArray inputs (#389)
+Using CPython 3.12.3 interpreter at: /usr/local/bin/python
+Creating virtual environment at: /workspace/rfd3-env
+Activate with: source /workspace/rfd3-env/bin/activate
+Using Python 3.12.3 environment at: /workspace/rfd3-env
+Resolved 29 packages in 521ms
+Downloading setuptools (1.2MiB)
+Downloading cuda-bindings (7.3MiB)
+Downloading networkx (2.0MiB)
+Downloading sympy (6.0MiB)
+Downloading triton (179.6MiB)
+Downloading torch (782.3MiB)
+Downloading nvidia-cuda-nvrtc-cu12 (84.0MiB)
+Downloading nvidia-cusparse-cu12 (274.9MiB)
+Downloading nvidia-nccl-cu12 (283.0MiB)
+Downloading nvidia-cublas-cu12 (566.8MiB)
+Downloading nvidia-cufile-cu12 (1.1MiB)
+Downloading nvidia-cusparselt-cu12 (273.9MiB)
+Downloading nvidia-nvjitlink-cu12 (37.4MiB)
+Downloading nvidia-cudnn-cu12 (627.4MiB)
+Downloading nvidia-cufft-cu12 (184.2MiB)
+Downloading nvidia-nvshmem-cu12 (132.7MiB)
+Downloading nvidia-cuda-cupti-cu12 (9.8MiB)
+Downloading nvidia-cusolver-cu12 (255.1MiB)
+Downloading nvidia-curand-cu12 (60.7MiB)
+ Downloading nvidia-cufile-cu12
+ Downloading cuda-bindings
+ Downloading nvidia-cuda-cupti-cu12
+ Downloading setuptools
+ Downloading networkx
+ Downloading triton
+ Downloading sympy
+ Downloading nvidia-nvjitlink-cu12
+ Downloading nvidia-curand-cu12
+ Downloading nvidia-cuda-nvrtc-cu12
+ Downloading nvidia-nvshmem-cu12
+ Downloading torch
+ Downloading nvidia-nccl-cu12
+ Downloading nvidia-cusparse-cu12
+ Downloading nvidia-cufft-cu12
+ Downloading nvidia-cusparselt-cu12
+ Downloading nvidia-cusolver-cu12
+ Downloading nvidia-cublas-cu12
+ Downloading nvidia-cudnn-cu12
+Prepared 29 packages in 40.71s
+warning: Failed to hardlink files; falling back to full copy. This may lead to degraded performance.
+         If the cache and target directories are on different filesystems, hardlinking may not be supported.
+         If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.
+Installed 29 packages in 881ms
+ + cuda-bindings==12.9.7
+ + cuda-pathfinder==1.6.0
+ + cuda-toolkit==12.8.1
+ + filelock==3.32.3
+ + fsspec==2026.7.0
+ + jinja2==3.1.6
+ + markupsafe==3.0.3
+ + mpmath==1.3.0
+ + networkx==3.6.1
+ + nvidia-cublas-cu12==12.8.4.1
+ + nvidia-cuda-cupti-cu12==12.8.90
+ + nvidia-cuda-nvrtc-cu12==12.8.93
+ + nvidia-cuda-runtime-cu12==12.8.90
+ + nvidia-cudnn-cu12==9.19.0.56
+ + nvidia-cufft-cu12==11.3.3.83
+ + nvidia-cufile-cu12==1.13.1.3
+ + nvidia-curand-cu12==10.3.9.90
+ + nvidia-cusolver-cu12==11.7.3.90
+ + nvidia-cusparse-cu12==12.5.8.93
+ + nvidia-cusparselt-cu12==0.7.1
+ + nvidia-nccl-cu12==2.28.9
+ + nvidia-nvjitlink-cu12==12.8.93
+ + nvidia-nvshmem-cu12==3.4.5
+ + nvidia-nvtx-cu12==12.8.90
+ + setuptools==78.1.0
+ + sympy==1.14.0
+ + torch==2.11.0+cu128
+ + triton==3.6.0
+ + typing-extensions==4.16.0
+Using Python 3.12.3 environment at: /workspace/rfd3-env
+Resolved 144 packages in 1.49s
+   Building rc-foundry @ file:///workspace/foundry
+Downloading pygments (1.2MiB)
+Downloading zstandard (5.3MiB)
+Downloading wandb (19.4MiB)
+Downloading pydantic-core (2.1MiB)
+Downloading numpy (16.0MiB)
+Downloading pyarrow (51.4MiB)
+Downloading aiohttp (1.8MiB)
+Downloading debugpy (3.8MiB)
+Downloading jedi (4.7MiB)
+Downloading scipy (33.7MiB)
+Downloading biotraj (2.1MiB)
+Downloading biotite (54.5MiB)
+Downloading beartype (1.5MiB)
+Downloading cython (3.3MiB)
+Downloading pandas (10.3MiB)
+Downloading pillow (6.8MiB)
+Downloading rdkit (30.3MiB)
+Downloading numba (3.7MiB)
+Downloading cytoolz (3.0MiB)
+Downloading llvmlite (56.9MiB)
+   Building antlr4-python3-runtime==4.9.3
+   Building assertpy==1.1
+      Built rc-foundry @ file:///workspace/foundry
+      Built assertpy==1.1
+      Built antlr4-python3-runtime==4.9.3
+ Downloading aiohttp
+ Downloading pydantic-core
+ Downloading biotraj
+ Downloading pygments
+ Downloading cytoolz
+ Downloading beartype
+ Downloading cython
+ Downloading debugpy
+ Downloading zstandard
+ Downloading numba
+ Downloading pillow
+ Downloading numpy
+ Downloading pandas
+ Downloading scipy
+ Downloading biotite
+ Downloading rdkit
+ Downloading wandb
+ Downloading llvmlite
+ Downloading pyarrow
+ Downloading jedi
+Prepared 115 packages in 4.91s
+warning: Failed to hardlink files; falling back to full copy. This may lead to degraded performance.
+         If the cache and target directories are on different filesystems, hardlinking may not be supported.
+         If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.
+Installed 115 packages in 496ms
+ + absl-py==2.5.1
+ + aiohappyeyeballs==2.7.1
+ + aiohttp==3.14.5
+ + aiosignal==1.4.0
+ + annotated-doc==0.0.5
+ + annotated-types==0.8.0
+ + antlr4-python3-runtime==4.9.3
+ + anyio==4.15.1
+ + assertpy==1.1
+ + asttokens==3.0.2
+ + atomworks==3.0.3
+ + attrs==26.1.0
+ + beartype==0.23.1
+ + biotite==1.6.0
+ + biotraj==1.2.2
+ + certifi==2026.7.22
+ + charset-normalizer==3.5.2
+ + click==8.5.0
+ + comm==0.2.3
+ + cwevals==0.0.1b1
+ + cython==3.3.0
+ + cytoolz==1.2.0
+ + debugpy==1.8.22
+ + distro==1.9.0
+ + dm-tree==0.1.10
+ + einops==0.8.2
+ + einx==0.4.3
+ + environs==15.2.0
+ + executing==2.3.0
+ + frozendict==2.4.7
+ + frozenlist==1.8.0
+ + googleapis-common-protos==1.75.5
+ + h11==0.16.0
+ + httpcore==1.0.9
+ + httpx==0.28.1
+ + hydra-core==1.3.7
+ + idna==3.20
+ + ipykernel==7.4.0
+ + ipython==9.17.1
+ + ipython-pygments-lexers==1.1.1
+ + jaxtyping==0.3.11
+ + jedi==0.20.1
+ + jupyter-client==8.10.0
+ + jupyter-core==5.9.1
+ + lightning==2.6.6
+ + lightning-utilities==0.15.3
+ + llvmlite==0.50.0
+ + loralib==0.1.2
+ + markdown-it-py==4.2.0
+ + marshmallow==4.3.1
+ + matplotlib-inline==0.2.2
+ + mdurl==0.1.2
+ + msgpack==1.2.3
+ + multidict==7.1.0
+ + nest-asyncio2==1.7.4
+ + numba==0.68.0
+ + numpy==2.5.4
+ + omegaconf==2.3.1
+ + opentelemetry-api==1.45.1
+ + opentelemetry-exporter-http-transport==0.66b1
+ + opentelemetry-exporter-otlp-common==0.66b1
+ + opentelemetry-exporter-otlp-proto-common==1.45.1
+ + opentelemetry-exporter-otlp-proto-http==1.45.1
+ + opentelemetry-proto==1.45.1
+ + opentelemetry-sdk==1.45.1
+ + opentelemetry-semantic-conventions==0.66b1
+ + opt-einsum==3.4.0
+ + packaging==26.3
+ + pandas==3.0.6
+ + parso==0.8.7
+ + pexpect==4.9.0
+ + pillow==13.0.0
+ + platformdirs==4.13.4
+ + prompt-toolkit==3.0.53
+ + propcache==0.5.4
+ + protobuf==7.36.2
+ + psutil==7.2.2
+ + ptyprocess==0.7.0
+ + pure-eval==0.2.4
+ + py3dmol==2.5.5
+ + pyarrow==26.0.0
+ + pydantic==2.14.1
+ + pydantic-core==2.50.1
+ + pygments==2.21.0
+ + pymol-remote==1.1.0
+ + python-dateutil==2.9.0.post0
+ + python-dotenv==1.2.4
+ + pytorch-lightning==2.6.6
+ + pyyaml==6.0.3
+ + pyzmq==27.2.0
+ + rc-foundry==1.0.0 (from file:///workspace/foundry)
+ + rdkit==2026.9.1
+ + requests==2.34.2
+ + rich==15.0.0
+ + rootutils==1.0.7
+ + scipy==1.18.1
+ + shellingham==1.5.4
+ + six==1.17.0
+ + sniffio==1.3.1
+ + stack-data==0.6.3
+ + toolz==1.2.0
+ + torchmetrics==1.9.0
+ + tornado==6.5.10
+ + tqdm==4.70.1
+ + traitlets==5.16.1
+ + typer==0.27.3
+ + typing-inspection==0.4.4
+ + urllib3==2.8.0
+ + wadler-lindig==0.1.7
+ + wandb==0.31.0
+ + wcwidth==0.9.2
+ + wrapt==2.5.1
+ + xxhash==4.0.1
+ + yarl==1.25.1
+ + zstandard==0.25.0
+2.11.0+cu128 NVIDIA A100-SXM4-80GB
+Install target: /workspace/checkpoints
+
+Installing rfd3: RFdiffusion3 checkpoint
+  Downloading rfd3_latest.ckpt ━━━━━━━━━━━━━━━━━━━━ 2.7/2.7 GB 49.6 MB/s 0:00:00
+✓ Successfully installed rfd3 to /workspace/checkpoints/rfd3_latest.ckpt
+
+Installation complete!
+Using Python 3.12.3 environment at: /workspace/rfd3-env
+/workspace/rfd3-env/lib/python3.12/site-packages/hydra/_internal/config_loader_impl.py:216: UserWarning: provider=hydra.searchpath in main, path=configs is not available.
+  warnings.warn(
+{"status": "passed", "scope": "CLI configuration composition; no model loaded"}
+Environment variable CCD_MIRROR_PATH not set. Will not be able to use function requiring this variable. To set it you may:
+  (1) add the line 'export VAR_NAME=path/to/variable' to your .bashrc or .zshrc file
+  (2) set it in your current shell with 'export VAR_NAME=path/to/variable'
+  (3) write it to a .env file in the root of the atomworks.io repository
+Environment variable PDB_MIRROR_PATH not set. Will not be able to use function requiring this variable. To set it you may:
+  (1) add the line 'export VAR_NAME=path/to/variable' to your .bashrc or .zshrc file
+  (2) set it in your current shell with 'export VAR_NAME=path/to/variable'
+  (3) write it to a .env file in the root of the atomworks.io repository
+INFO:rfd3.utils.inference:[rank: 0] No ori_token or infer_ori_strategy provided. Setting origin as COM of fixed motif ([ 19.344488 -25.285692 -33.38111 ]).
+/workspace/rfd3-env/lib/python3.12/site-packages/rfd3/transforms/conditioning_base.py:164: DeprecationWarning: Setting the dtype on a NumPy array has been deprecated in NumPy 2.5.
+Instead of changing the dtype on an array x, create a new array with x.view(new_dtype)
+  atom_array.get_annotation(annotation).dtype = bool
+INFO:rfd3.utils.inference:[rank: 0] No ori_token or infer_ori_strategy provided. Setting origin as COM of fixed motif ([ 19.344488 -25.285692 -33.381115]).
+{"status": "passed", "cases": 2, "checkpoint_loaded": false}
+/workspace/rfd3-env/lib/python3.12/site-packages/hydra/_internal/config_loader_impl.py:216: UserWarning: provider=hydra.searchpath in main, path=configs is not available.
+  warnings.warn(
+Environment variable CCD_MIRROR_PATH not set. Will not be able to use function requiring this variable. To set it you may:
+  (1) add the line 'export VAR_NAME=path/to/variable' to your .bashrc or .zshrc file
+  (2) set it in your current shell with 'export VAR_NAME=path/to/variable'
+  (3) write it to a .env file in the root of the atomworks.io repository
+Environment variable PDB_MIRROR_PATH not set. Will not be able to use function requiring this variable. To set it you may:
+  (1) add the line 'export VAR_NAME=path/to/variable' to your .bashrc or .zshrc file
+  (2) set it in your current shell with 'export VAR_NAME=path/to/variable'
+  (3) write it to a .env file in the root of the atomworks.io repository
+Seed set to 7
+00:18:30 INFO rfd3.engine: [rank: 0] Outputs will be written to /workspace/gpu_smoke/gpu_smoke.
+00:18:30 INFO rfd3.engine: [rank: 0] Prevalidating design specification for example: rfd3_inputs.draft_topology_K1_L1_L2_K2
+00:18:32 INFO rfd3.engine: [rank: 0] Prevalidating design specification for example: rfd3_inputs.draft_topology_K1_K2_L1_L2
+00:18:33 INFO rfd3.engine: [rank: 0] Found 0 existing example IDs in the output directory (0 total).
+╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+│ /workspace/rfd3-env/lib/python3.12/site-packages/hydra/_internal/instantiate │
+│ /_instantiate2.py:129 in _call_target                                        │
+│                                                                              │
+│   126 │   │   │   deferred._hydra_resolved_from = discovery_path or          │
+│       resolved_target_name                                                   │
+│   127 │   │   │   deferred._hydra_full_key = full_key                        │
+│   128 │   │   │   return deferred                                            │
+│ ❱ 129 │   │   result = _target_(*args, **kwargs)                             │
+│   130 │   except Exception as e:                                             │
+│   131 │   │   if _partial_:                                                  │
+│   132 │   │   │   msg = (                                                    │
+│                                                                              │
+│ /workspace/rfd3-env/lib/python3.12/site-packages/rfd3/transforms/pipelines.p │
+│ y:634 in build_atom14_base_pipeline                                          │
+│                                                                              │
+│   631 │   │   kwargs.setdefault("provide_elements_for_unindexed_components", │
+│       False)                                                                 │
+│   632 │   │   kwargs.setdefault("center_option", "all")                      │
+│   633 │                                                                      │
+│ ❱ 634 │   return build_atom14_base_pipeline_(                                │
+│   635 │   │   is_inference=is_inference,                                     │
+│   636 │   │   **kwargs,                                                      │
+│   637 │   )                                                                  │
+│                                                                              │
+│ /workspace/rfd3-env/lib/python3.12/site-packages/rfd3/transforms/pipelines.p │
+│ y:391 in build_atom14_base_pipeline_                                         │
+│                                                                              │
+│   388 │   ]                                                                  │
+│   389 │                                                                      │
+│   390 │   # Pre-crop transforms                                              │
+│ ❱ 391 │   transforms += get_pre_crop_transforms(                             │
+│   392 │   │   central_atom=central_atom,                                     │
+│   393 │   │   b_factor_min=b_factor_min,                                     │
+│   394 │   )                                                                  │
+│                                                                              │
+│ /workspace/rfd3-env/lib/python3.12/site-packages/rfd3/transforms/pipelines.p │
+│ y:169 in get_pre_crop_transforms                                             │
+│                                                                              │
+│   166 │   │   TrainingRoute(                                                 │
+│   167 │   │   │                                                              │
+│       RemoveTokensWithoutCorrespondingCentralAtom(central_atom=central_atom) │
+│       ,                                                                      │
+│   168 │   │   ),                                                             │
+│ ❱ 169 │   │   AnnotateCovalentModifications(                                 │
+│   170 │   │   │   p_reassign_modified_residue=1.0,                           │
+│       atomize_backbone_modifications=True                                    │
+│   171 │   │   ),                                                             │
+│   172 │   │   FlagNonPolymersForAtomization(),                               │
+╰──────────────────────────────────────────────────────────────────────────────╯
+TypeError: AnnotateCovalentModifications.__init__() got an unexpected keyword 
+argument 'p_reassign_modified_residue'
+
+The above exception was the direct cause of the following exception:
+
+╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+│ /workspace/rfd3-env/lib/python3.12/site-packages/rfd3/cli.py:43 in design    │
+│                                                                              │
+│   40 │   │   from rfd3.run_inference import run_inference                    │
+│   41 │   │                                                                   │
+│   42 │   │   with suppress_warnings(is_inference=True):                      │
+│ ❱ 43 │   │   │   run_inference(cfg)                                          │
+│   44                                                                         │
+│   45                                                                         │
+│   46 if __name__ == "__main__":                                              │
+│                                                                              │
+│ /workspace/rfd3-env/lib/python3.12/site-packages/hydra/main.py:83 in         │
+│ decorated_main                                                               │
+│                                                                              │
+│    80 │   │   @functools.wraps(task_function)                                │
+│    81 │   │   def decorated_main(cfg_passthrough: Optional[DictConfig] =     │
+│       None) -> Any:                                                          │
+│    82 │   │   │   if cfg_passthrough is not None:                            │
+│ ❱  83 │   │   │   │   return task_function(cfg_passthrough)                  │
+│    84 │   │   │   else:                                                      │
+│    85 │   │   │   │   args_parser = get_args_parser()                        │
+│    86 │   │   │   │   args = args_parser.parse_args()                        │
+│                                                                              │
+│ /workspace/rfd3-env/lib/python3.12/site-packages/rfd3/run_inference.py:43 in │
+│ run_inference                                                                │
+│                                                                              │
+│   40 │                                                                       │
+│   41 │   # Run                                                               │
+│   42 │   engine =                                                            │
+│      RFD3InferenceEngine(**RFD3InferenceConfig(**init_cfg_dict))             │
+│ ❱ 43 │   engine.run(**run_params)                                            │
+│   44                                                                         │
+│   45                                                                         │
+│   46 if __name__ == "__main__":                                              │
+│                                                                              │
+│ /workspace/rfd3-env/lib/python3.12/site-packages/rfd3/engine.py:432 in run   │
+│                                                                              │
+│   429 │   │   │   design_specifications, self.inference_sampler_overrides    │
+│   430 │   │   )                                                              │
+│   431 │   │   # init before                                                  │
+│ ❱ 432 │   │   self.initialize()                                              │
+│   433 │   │   outputs = self._run_multi(design_specifications)               │
+│   434 │   │   return outputs                                                 │
+│   435                                                                        │
+│                                                                              │
+│ /workspace/rfd3-env/lib/python3.12/site-packages/rfd3/engine.py:315 in       │
+│ initialize                                                                   │
+│                                                                              │
+│   312 │   │   │   │   "compile_model=true requires torch.compile to be       │
+│       enabled; "                                                             │
+│   313 │   │   │   │   "set TORCH_COMPILE_DISABLE=0 before importing PyTorch" │
+│   314 │   │   │   )                                                          │
+│ ❱ 315 │   │   cfg = super().initialize()                                     │
+│   316 │   │   if first_initialize and self.inference_num_workers:            │
+│   317 │   │   │   from omegaconf import OmegaConf                            │
+│   318                                                                        │
+│                                                                              │
+│ /workspace/rfd3-env/lib/python3.12/site-packages/rfd3/_core/inference_engine │
+│ s/base.py:141 in initialize                                                  │
+│                                                                              │
+│   138 │   │   cfg =                                                          │
+│       self._override_checkpoint_config(checkpoint["train_cfg"])              │
+│   139 │   │                                                                  │
+│   140 │   │   # Load pipeline first before trainer/model                     │
+│ ❱ 141 │   │   self._construct_pipeline(cfg)                                  │
+│   142 │   │   self._construct_trainer(cfg, checkpoint=checkpoint)            │
+│   143 │   │                                                                  │
+│   144 │   │   ranked_logger.info("Model loaded and ready for inference.")    │
+│                                                                              │
+│ /workspace/rfd3-env/lib/python3.12/site-packages/rfd3/_core/inference_engine │
+│ s/base.py:233 in _construct_pipeline                                         │
+│                                                                              │
+│   230 │   │   │   │   title="INFERENCE TRANSFORM PIPELINE",                  │
+│   231 │   │   │   )                                                          │
+│   232 │   │                                                                  │
+│ ❱ 233 │   │   self.pipeline = hydra.utils.instantiate(transform)             │
+│   234 │                                                                      │
+│   235 │   # aliases for run                                                  │
+│   236 │   def forward(self, *args: Any, **kwargs: Any) -> dict[str, dict] |  │
+│       None:                                                                  │
+│                                                                              │
+│ /workspace/rfd3-env/lib/python3.12/site-packages/hydra/_internal/instantiate │
+│ /_instantiate2.py:251 in instantiate                                         │
+│                                                                              │
+│   248 │                                                                      │
+│   249 │   policy = _validated_target_policy(_EXPECTED_TARGET_POLICY_DIGEST)  │
+│   250 │   with _target_policy_context(policy):                               │
+│ ❱ 251 │   │   return _instantiate_impl(config, args, kwargs)                 │
+│   252                                                                        │
+│   253                                                                        │
+│   254 def _instantiate_impl(                                                 │
+│                                                                              │
+│ /workspace/rfd3-env/lib/python3.12/site-packages/hydra/_internal/instantiate │
+│ /_instantiate2.py:299 in _instantiate_impl                                   │
+│                                                                              │
+│   296 │   │   _convert_ = config.pop(_Keys.CONVERT, ConvertMode.NONE)        │
+│   297 │   │   _partial_ = config.pop(_Keys.PARTIAL, False)                   │
+│   298 │   │                                                                  │
+│ ❱ 299 │   │   return instantiate_node(                                       │
+│   300 │   │   │   config, *args, recursive=_recursive_, convert=_convert_,   │
+│       partial=_partial_                                                      │
+│   301 │   │   )                                                              │
+│   302 │   elif OmegaConf.is_list(config):                                    │
+│                                                                              │
+│ /workspace/rfd3-env/lib/python3.12/site-packages/hydra/_internal/instantiate │
+│ /_instantiate2.py:420 in instantiate_node                                    │
+│                                                                              │
+│   417 │   │   │   │   │   │   )                                              │
+│   418 │   │   │   │   │   kwargs[key] = _convert_node(value, convert)        │
+│   419 │   │   │                                                              │
+│ ❱ 420 │   │   │   return _call_target(_target_, partial, args, kwargs,       │
+│       full_key)                                                              │
+│   421 │   │   else:                                                          │
+│   422 │   │   │   # If ALL or PARTIAL non structured or OBJECT non           │
+│       structured,                                                            │
+│   423 │   │   │   # instantiate in dict and resolve interpolations eagerly.  │
+│                                                                              │
+│ /workspace/rfd3-env/lib/python3.12/site-packages/hydra/_internal/instantiate │
+│ /_instantiate2.py:138 in _call_target                                        │
+│                                                                              │
+│   135 │   │   │   )                                                          │
+│   136 │   │   else:                                                          │
+│   137 │   │   │   msg = f"Error in call to target                            │
+│       '{_convert_target_to_string(_target_)}':\n{repr(e)}"                   │
+│ ❱ 138 │   │   raise InstantiationException(_with_full_key(msg, full_key))    │
+│       from e                                                                 │
+│   139 │                                                                      │
+│   140 │   return _mediate_target_result(                                     │
+│   141 │   │   result,                                                        │
+╰──────────────────────────────────────────────────────────────────────────────╯
+InstantiationException: Error in call to target 
+'rfd3.transforms.pipelines.build_atom14_base_pipeline':
+TypeError("AnnotateCovalentModifications.__init__() got an unexpected keyword 
+argument 'p_reassign_modified_residue'")
+full_key: datasets.val.unconditional.dataset.transform

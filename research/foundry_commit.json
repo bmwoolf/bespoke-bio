@@ -1,0 +1,113 @@
+{
+  "sha": "d078b24d6d0e6f8607e9a0311128f4a897f83953",
+  "node_id": "C_kwDOPdrkGtoAKGQwNzhiMjRkNmQwZTZmODYwN2U5YTAzMTExMjhmNGE4OTdmODM5NTM",
+  "commit": {
+    "author": {
+      "name": "David Hyunyoo Jang",
+      "email": "hwjang00@outlook.com",
+      "date": "2026-10-16T12:53:11Z"
+    },
+    "committer": {
+      "name": "GitHub",
+      "email": "noreply@github.com",
+      "date": "2026-10-16T12:53:11Z"
+    },
+    "message": "fix(mpnn): honor parser overrides for AtomArray inputs (#389)\n\n* fix(mpnn): honor parser overrides for AtomArray inputs\n\n`MPNNInferenceInput.from_atom_array_and_dict()` parsed an AtomArray with the parser defaults and ignored `remove_ccds` / `remove_waters`, so a ligand whose label is the CCD code of another molecule (phenytoin labelled `PHT`) was rebuilt from that template.\n\n- Forward the parser fields the caller set to `parse_atom_array()` through a helper that `build_atom_array()` now shares; unset fields keep the parser defaults.\n- Add `add_missing_atoms` (JSON field and `--add_missing_atoms`, unset by default) so the atoms of an input can be kept as given.\n- Test that `add_missing_atoms=False` keeps all 19 phenytoin atoms, that the AtomArray defaults are unchanged, that both routes forward the overrides, and that an input without an assembly still needs `structure_path`.\n\n* test(mpnn): keep the AtomArray defaults check valid on AtomWorks 3\n\nAtomWorks 3 rejects a ligand whose atom names do not match its CCD template, so the defaults check can no longer carry the mislabelled phenytoin.\n\n- Check the defaults on glycerol and water only; the phenytoin case stays in the `add_missing_atoms=False` test.\n- Build the expected array with the CCD charges that `from_atom_array_and_dict()` now adds before parsing.",
+    "tree": {
+      "sha": "1cfb7e83059e17d1e9717487f1adb7646d2ff255",
+      "url": "https://api.github.com/repos/RosettaCommons/foundry/git/trees/1cfb7e83059e17d1e9717487f1adb7646d2ff255"
+    },
+    "url": "https://api.github.com/repos/RosettaCommons/foundry/git/commits/d078b24d6d0e6f8607e9a0311128f4a897f83953",
+    "comment_count": 0,
+    "verification": {
+      "verified": true,
+      "reason": "valid",
+      "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsFcBAABCAAQBQJq0h43CRC1aQ7uu5UhlAAAnYUQAH00giW7NxwwmqcPdMJjR04I\n6foe0+WwcgxbEMMcj3taciyvcgZFdzghkg97eRgC3vfDXfS+G14fcPbhCzhN3fso\nyLWfZpfCV1oDXMDEds5KPimHoz3Gp4JPjiYrCc91/VkOejHnSv5iOn3kdOFidGi4\n8tsFHdqYq6nUnV+GWlCFsOnMZaYSFploiPCSJtsou0Ik5+UUw45zeptfMRHzZ33j\nOvU7KqCsa0o1ag55Dl5c4yKaBQvkaYwjSp8+9wEeopsCGTCZfP6opfy7KzZG6WWt\nIuT4VoYReafqz+0XpjJkWqrxUEDIARExqGmL46jBM3T8YG8dZmzWjXgtqVTazUjL\nH73ZYXoc9dHSoz9dxWTL9Z9ShILE8EKQjNCa6KwK/jemcOgAxHK+HXpSgnVG83+i\n08o5bSrMdK28Y6zj8c7p8fNUwglgOullQiVPbSmtJozmR1PXuURcDoOXvqNRjb5X\n9vdmDBQ9th7E/snbwE8Mai+UPdf0C6K8ZSsH8PNWWDROi7akLuIKF/LqoOEHrvPX\nZrRk78K8bmUDOUuZRxDvAuzz2vvI1LntcOXUUl/gjpodRosolEVgiz6hgc0SCg36\nESLPhMUZLpp4MCh2R01TSFzX/Udf1hJ0ijxauN2Q3PsVdRojwzmWVfnDIZhIm+U4\nZht3UF0Vf0Yu3tx7myIF\n=Ht0I\n-----END PGP SIGNATURE-----\n",
+      "payload": "tree 1cfb7e83059e17d1e9717487f1adb7646d2ff255\nparent fbb4dc3aa32f5fa8450f885573fcb24fb7129eb5\nauthor David Hyunyoo Jang <hwjang00@outlook.com> 1792155191 +0900\ncommitter GitHub <noreply@github.com> 1792155191 -0700\n\nfix(mpnn): honor parser overrides for AtomArray inputs (#389)\n\n* fix(mpnn): honor parser overrides for AtomArray inputs\n\n`MPNNInferenceInput.from_atom_array_and_dict()` parsed an AtomArray with the parser defaults and ignored `remove_ccds` / `remove_waters`, so a ligand whose label is the CCD code of another molecule (phenytoin labelled `PHT`) was rebuilt from that template.\n\n- Forward the parser fields the caller set to `parse_atom_array()` through a helper that `build_atom_array()` now shares; unset fields keep the parser defaults.\n- Add `add_missing_atoms` (JSON field and `--add_missing_atoms`, unset by default) so the atoms of an input can be kept as given.\n- Test that `add_missing_atoms=False` keeps all 19 phenytoin atoms, that the AtomArray defaults are unchanged, that both routes forward the overrides, and that an input without an assembly still needs `structure_path`.\n\n* test(mpnn): keep the AtomArray defaults check valid on AtomWorks 3\n\nAtomWorks 3 rejects a ligand whose atom names do not match its CCD template, so the defaults check can no longer carry the mislabelled phenytoin.\n\n- Check the defaults on glycerol and water only; the phenytoin case stays in the `add_missing_atoms=False` test.\n- Build the expected array with the CCD charges that `from_atom_array_and_dict()` now adds before parsing.",
+      "verified_at": "2026-10-16T12:53:11Z"
+    }
+  },
+  "url": "https://api.github.com/repos/RosettaCommons/foundry/commits/d078b24d6d0e6f8607e9a0311128f4a897f83953",
+  "html_url": "https://github.com/RosettaCommons/foundry/commit/d078b24d6d0e6f8607e9a0311128f4a897f83953",
+  "comments_url": "https://api.github.com/repos/RosettaCommons/foundry/commits/d078b24d6d0e6f8607e9a0311128f4a897f83953/comments",
+  "author": {
+    "login": "daylight-00",
+    "id": 81155627,
+    "node_id": "MDQ6VXNlcjgxMTU1NjI3",
+    "avatar_url": "https://avatars.githubusercontent.com/u/81155627?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/daylight-00",
+    "html_url": "https://github.com/daylight-00",
+    "followers_url": "https://api.github.com/users/daylight-00/followers",
+    "following_url": "https://api.github.com/users/daylight-00/following{/other_user}",
+    "gists_url": "https://api.github.com/users/daylight-00/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/daylight-00/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/daylight-00/subscriptions",
+    "organizations_url": "https://api.github.com/users/daylight-00/orgs",
+    "repos_url": "https://api.github.com/users/daylight-00/repos",
+    "events_url": "https://api.github.com/users/daylight-00/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/daylight-00/received_events",
+    "type": "User",
+    "user_view_type": "public",
+    "site_admin": false
+  },
+  "committer": {
+    "login": "web-flow",
+    "id": 19864447,
+    "node_id": "MDQ6VXNlcjE5ODY0NDQ3",
+    "avatar_url": "https://avatars.githubusercontent.com/u/19864447?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/web-flow",
+    "html_url": "https://github.com/web-flow",
+    "followers_url": "https://api.github.com/users/web-flow/followers",
+    "following_url": "https://api.github.com/users/web-flow/following{/other_user}",
+    "gists_url": "https://api.github.com/users/web-flow/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/web-flow/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/web-flow/subscriptions",
+    "organizations_url": "https://api.github.com/users/web-flow/orgs",
+    "repos_url": "https://api.github.com/users/web-flow/repos",
+    "events_url": "https://api.github.com/users/web-flow/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/web-flow/received_events",
+    "type": "User",
+    "user_view_type": "public",
+    "site_admin": false
+  },
+  "parents": [
+    {
+      "sha": "fbb4dc3aa32f5fa8450f885573fcb24fb7129eb5",
+      "url": "https://api.github.com/repos/RosettaCommons/foundry/commits/fbb4dc3aa32f5fa8450f885573fcb24fb7129eb5",
+      "html_url": "https://github.com/RosettaCommons/foundry/commit/fbb4dc3aa32f5fa8450f885573fcb24fb7129eb5"
+    }
+  ],
+  "stats": {
+    "total": 216,
+    "additions": 210,
+    "deletions": 6
+  },
+  "files": [
+    {
+      "sha": "75fa8c3d1b6e37378745f3fa589925b9487e7759",
+      "filename": "models/mpnn/src/mpnn/utils/inference.py",
+      "status": "modified",
+      "additions": 39,
+      "deletions": 6,
+      "changes": 45,
+      "blob_url": "https://github.com/RosettaCommons/foundry/blob/d078b24d6d0e6f8607e9a0311128f4a897f83953/models%2Fmpnn%2Fsrc%2Fmpnn%2Futils%2Finference.py",
+      "raw_url": "https://github.com/RosettaCommons/foundry/raw/d078b24d6d0e6f8607e9a0311128f4a897f83953/models%2Fmpnn%2Fsrc%2Fmpnn%2Futils%2Finference.py",
+      "contents_url": "https://api.github.com/repos/RosettaCommons/foundry/contents/models%2Fmpnn%2Fsrc%2Fmpnn%2Futils%2Finference.py?ref=d078b24d6d0e6f8607e9a0311128f4a897f83953",
+      "patch": "@@ -58,6 +58,7 @@\n     # Parser Overrides\n     \"remove_ccds\": [],\n     \"remove_waters\": None,\n+    \"add_missing_atoms\": None,\n     # Pipeline Setup Overrides\n     \"occupancy_threshold_sidechain\": 0.0,\n     \"occupancy_threshold_backbone\": 0.0,\n@@ -240,6 +241,18 @@ def build_arg_parser() -> argparse.ArgumentParser:\n         ),\n         default=MPNN_PER_INPUT_INFERENCE_DEFAULTS[\"remove_waters\"],\n     )\n+    parser.add_argument(\n+        \"--add_missing_atoms\",\n+        type=lambda v: none_or_type(v, str2bool),\n+        choices=[True, False, None],\n+        help=(\n+            \"If set, override the parser default for adding missing atoms from \"\n+            \"the CCD (overrides STANDARD_PARSER_ARGS). False keeps only the atoms \"\n+            \"present in the input. 'None' has special behavior: use the parser \"\n+            \"default behavior.\"\n+        ),\n+        default=MPNN_PER_INPUT_INFERENCE_DEFAULTS[\"add_missing_atoms\"],\n+    )\n \n     # ---------------- Pipeline Setup Overrides ---------------- #\n     parser.add_argument(\n@@ -629,6 +642,7 @@ def cli_to_json(args: argparse.Namespace) -> dict[str, Any]:\n                 # Parser Overrides\n                 \"remove_ccds\": parse_list_like(args.remove_ccds),\n                 \"remove_waters\": args.remove_waters,\n+                \"add_missing_atoms\": args.add_missing_atoms,\n                 # Pipeline Setup Overrides\n                 \"occupancy_threshold_sidechain\": args.occupancy_threshold_sidechain,\n                 \"occupancy_threshold_backbone\": args.occupancy_threshold_backbone,\n@@ -708,6 +722,10 @@ def from_atom_array_and_dict(\n         fields from the input dictionary will be ignored. If you would like\n         to override those annotations, please either do so in the atom array\n         or delete the annotations from the atom array before passing it in.\n+\n+        The parser override fields (remove_ccds, remove_waters,\n+        add_missing_atoms) apply to the atom array as they do to a structure\n+        file; fields left unset keep the parser defaults.\n         \"\"\"\n         # Copy input dictionary.\n         input_dict = copy.deepcopy(input_dict) if input_dict is not None else dict()\n@@ -721,7 +739,12 @@ def from_atom_array_and_dict(\n             # AtomWorks 3 requires charges before template/bond preparation.\n             # Derive absent charges from chemistry, preserving supplied charges.\n             add_annotations_from_ccd(atom_array, annotations=[\"charge\"])\n-        parser_output = parse_atom_array(atom_array) if atom_array is not None else {}\n+        # The overrides feed the parser, so validate them first.\n+        MPNNInferenceInput._validate_parser_overrides(input_dict)\n+        overrides = MPNNInferenceInput._parser_overrides(input_dict)\n+        parser_output = (\n+            parse_atom_array(atom_array, **overrides) if atom_array is not None else {}\n+        )\n         atom_array = (\n             parser_output[\"assemblies\"][\"1\"][0]\n             if len(parser_output.get(\"assemblies\", {})) > 0\n@@ -976,7 +999,7 @@ def _validate_sampling_parameters(input_dict: dict[str, Any]) -> None:\n \n     @staticmethod\n     def _validate_parser_overrides(input_dict: dict[str, Any]) -> None:\n-        \"\"\"Validate parser override fields: remove_ccds, remove_waters.\"\"\"\n+        \"\"\"Validate override fields: remove_ccds, remove_waters, add_missing_atoms.\"\"\"\n \n         # Check that remove_ccds is a list of strings if provided.\n         remove_ccds = input_dict.get(\"remove_ccds\")\n@@ -994,6 +1017,19 @@ def _validate_parser_overrides(input_dict: dict[str, Any]) -> None:\n         if remove_waters is not None and not isinstance(remove_waters, bool):\n             raise TypeError(\"remove_waters must be a bool when provided.\")\n \n+        add_missing_atoms = input_dict.get(\"add_missing_atoms\")\n+        if add_missing_atoms is not None and not isinstance(add_missing_atoms, bool):\n+            raise TypeError(\"add_missing_atoms must be a bool when provided.\")\n+\n+    @staticmethod\n+    def _parser_overrides(input_dict: dict[str, Any]) -> dict[str, Any]:\n+        \"\"\"Parser keywords the caller set; unset or None keeps the parser default.\"\"\"\n+        return {\n+            key: input_dict[key]\n+            for key in (\"remove_ccds\", \"remove_waters\", \"add_missing_atoms\")\n+            if input_dict.get(key) is not None\n+        }\n+\n     @staticmethod\n     def _validate_pipeline_override_fields(input_dict: dict[str, Any]) -> None:\n         \"\"\"\n@@ -1560,10 +1596,7 @@ def build_atom_array(input_dict: dict[str, Any]) -> AtomArray:\n         \"\"\"Build AtomArray from structure_path and parser overrides.\"\"\"\n         # Override parser args if specified.\n         parser_args = dict(STANDARD_PARSER_ARGS)\n-        if input_dict[\"remove_ccds\"] is not None:\n-            parser_args[\"remove_ccds\"] = input_dict[\"remove_ccds\"]\n-        if input_dict[\"remove_waters\"] is not None:\n-            parser_args[\"remove_waters\"] = input_dict[\"remove_waters\"]\n+        parser_args.update(MPNNInferenceInput._parser_overrides(input_dict))\n \n         # Parse with the standard processing options and user overrides.\n         data = parse("
+    },
+    {
+      "sha": "e75e7c87a1deae3bb427275f86df3d5093c85378",
+      "filename": "models/mpnn/tests/test_inference_utils.py",
+      "status": "modified",
+      "additions": 171,
+      "deletions": 0,
+      "changes": 171,
+      "blob_url": "https://github.com/RosettaCommons/foundry/blob/d078b24d6d0e6f8607e9a0311128f4a897f83953/models%2Fmpnn%2Ftests%2Ftest_inference_utils.py",
+      "raw_url": "https://github.com/RosettaCommons/foundry/raw/d078b24d6d0e6f8607e9a0311128f4a897f83953/models%2Fmpnn%2Ftests%2Ftest_inference_utils.py",
+      "contents_url": "https://api.github.com/repos/RosettaCommons/foundry/contents/models%2Fmpnn%2Ftests%2Ftest_inference_utils.py?ref=d078b24d6d0e6f8607e9a0311128f4a897f83953",
+      "patch": "@@ -16,8 +16,11 @@\n from pathlib import Path\n from typing import Any\n \n+import biotite.structure as struc\n import numpy as np\n import pytest\n+from atomworks.io.parser import parse_atom_array\n+from atomworks.io.utils.ccd import add_annotations_from_ccd\n from biotite.structure import AtomArray\n from mpnn.transforms.feature_aggregation.token_encodings import (\n     MPNN_TOKEN_ENCODING,\n@@ -272,6 +275,8 @@ def test_cli_to_json_builds_single_input_and_parses_fields() -> None:\n             \"A,B\",\n             \"--remove_waters\",\n             \"True\",\n+            \"--add_missing_atoms\",\n+            \"False\",\n             \"--occupancy_threshold_sidechain\",\n             \"0.5\",\n             \"--occupancy_threshold_backbone\",\n@@ -326,6 +331,7 @@ def test_cli_to_json_builds_single_input_and_parses_fields() -> None:\n     assert inp[\"number_of_batches\"] == 2\n     assert inp[\"remove_ccds\"] == [\"A\", \"B\"]\n     assert inp[\"remove_waters\"] is True\n+    assert inp[\"add_missing_atoms\"] is False\n     assert inp[\"occupancy_threshold_sidechain\"] == 0.5\n     assert inp[\"occupancy_threshold_backbone\"] == 0.6\n     assert inp[\"undesired_res_names\"] == [\"UNK\", \"HOH\"]\n@@ -491,6 +497,171 @@ def test_from_atom_array_and_dict_invalid_scalar_settings_raise() -> None:\n         )\n \n \n+###############################################################################\n+# MPNNInferenceInput: parser overrides for an AtomArray input\n+###############################################################################\n+\n+\n+def _atom_array_with_ligands(ligands: dict[str, str]) -> AtomArray:\n+    \"\"\"CA-only ALA/GLY/SER on chain A, plus one chain per ``{res_name: smiles}``.\"\"\"\n+    from rdkit import Chem\n+    from rdkit.Chem import AllChem\n+\n+    atoms = [\n+        struc.Atom(\n+            [3.8 * i, 0.0, 0.0],\n+            chain_id=\"A\",\n+            res_id=i + 1,\n+            ins_code=\"\",\n+            res_name=res_name,\n+            atom_name=\"CA\",\n+            element=\"C\",\n+        )\n+        for i, res_name in enumerate([\"ALA\", \"GLY\", \"SER\"])\n+    ]\n+    for i, (res_name, smiles) in enumerate(ligands.items()):\n+        mol = Chem.AddHs(Chem.MolFromSmiles(smiles))\n+        AllChem.EmbedMolecule(mol, randomSeed=7)\n+        mol = Chem.RemoveHs(mol)\n+        conf = mol.GetConformer()\n+        counts: dict[str, int] = {}\n+        for atom in mol.GetAtoms():\n+            element = atom.GetSymbol()\n+            counts[element] = counts.get(element, 0) + 1\n+            xyz = conf.GetAtomPosition(atom.GetIdx())\n+            atoms.append(\n+                struc.Atom(\n+                    [xyz.x, xyz.y, xyz.z],\n+                    chain_id=chr(ord(\"B\") + i),\n+                    res_id=1,\n+                    ins_code=\"\",\n+                    res_name=res_name,\n+                    atom_name=f\"{element}{counts[element]}\",\n+                    element=element,\n+                    hetero=True,\n+                )\n+            )\n+    atom_array = struc.array(atoms)\n+    atom_array.set_annotation(\"occupancy\", np.ones(len(atom_array)))\n+    return atom_array\n+\n+\n+# PHT is the CCD code of phthalate, not phenytoin.\n+PHENYTOIN = \"O=C1NC(=O)C(N1)(c1ccccc1)c1ccccc1\"\n+\n+\n+def test_add_missing_atoms_false_keeps_ligand_atoms_as_given() -> None:\n+    atom_array = _atom_array_with_ligands({\"PHT\": PHENYTOIN})\n+\n+    kept = MPNNInferenceInput.from_atom_array_and_dict(\n+        atom_array=atom_array, input_dict={\"add_missing_atoms\": False}\n+    ).atom_array\n+\n+    ligand = kept[kept.res_name == \"PHT\"]\n+    assert len(ligand) == 19\n+    assert set(ligand.element) == {\"C\", \"N\", \"O\"}\n+    assert not np.isnan(ligand.coord).any()\n+\n+\n+def test_atom_array_defaults_are_unchanged() -> None:\n+    atom_array = _atom_array_with_ligands({\"GOL\": \"OCC(O)CO\", \"HOH\": \"O\"})\n+\n+    result = MPNNInferenceInput.from_atom_array_and_dict(\n+        atom_array=atom_array, input_dict={}\n+    ).atom_array\n+\n+    expected = atom_array.copy()\n+    add_annotations_from_ccd(expected, annotations=[\"charge\"])\n+    expected = parse_atom_array(expected)[\"assemblies\"][\"1\"][0]\n+    assert list(result.res_name) == list(expected.res_name)\n+    assert list(result.atom_name) == list(expected.atom_name)\n+    # The parser defaults still remove crystallization aids and waters.\n+    assert {\"GOL\", \"HOH\"}.isdisjoint(result.res_name)\n+\n+\n+def test_atom_array_route_applies_remove_ccds_and_remove_waters() -> None:\n+    atom_array = _atom_array_with_ligands({\"GOL\": \"OCC(O)CO\", \"HOH\": \"O\"})\n+\n+    kept = MPNNInferenceInput.from_atom_array_and_dict(\n+        atom_array=atom_array,\n+        input_dict={\"remove_ccds\": [], \"remove_waters\": False},\n+    ).atom_array\n+\n+    assert {\"GOL\", \"HOH\"} <= set(kept.res_name)\n+\n+\n+def test_atom_array_route_forwards_only_the_fields_the_caller_set(\n+    monkeypatch,\n+) -> None:\n+    seen: dict[str, Any] = {}\n+\n+    def fake_parse_atom_array(atom_array, **kwargs):\n+        seen.clear()\n+        seen.update(kwargs)\n+        return {\"assemblies\": {\"1\": [atom_array]}}\n+\n+    monkeypatch.setattr(\"mpnn.utils.inference.parse_atom_array\", fake_parse_atom_array)\n+\n+    MPNNInferenceInput.from_atom_array_and_dict(\n+        atom_array=_make_simple_atom_array(), input_dict={}\n+    )\n+    assert seen == {}\n+\n+    overrides = {\n+        \"remove_ccds\": [\"GOL\"],\n+        \"remove_waters\": False,\n+        \"add_missing_atoms\": False,\n+    }\n+    MPNNInferenceInput.from_atom_array_and_dict(\n+        atom_array=_make_simple_atom_array(), input_dict=overrides\n+    )\n+    assert seen == overrides\n+\n+\n+def test_atom_array_without_assembly_still_needs_structure_path(monkeypatch) -> None:\n+    monkeypatch.setattr(\n+        \"mpnn.utils.inference.parse_atom_array\", lambda atom_array, **kwargs: {}\n+    )\n+\n+    with pytest.raises(ValueError, match=\"structure_path\"):\n+        MPNNInferenceInput.from_atom_array_and_dict(\n+            atom_array=_make_simple_atom_array(), input_dict={}\n+        )\n+\n+\n+def test_structure_path_route_forwards_parser_overrides(monkeypatch) -> None:\n+    seen: dict[str, Any] = {}\n+\n+    def fake_parse(filename, **kwargs):\n+        seen.clear()\n+        seen.update(kwargs)\n+        return {\"asym_unit\": [_make_simple_atom_array()]}\n+\n+    monkeypatch.setattr(\"mpnn.utils.inference.parse\", fake_parse)\n+\n+    input_dict: dict[str, Any] = {\"structure_path\": \"structure.cif\"}\n+    MPNNInferenceInput.apply_defaults(input_dict)\n+    MPNNInferenceInput.build_atom_array(input_dict)\n+    assert seen[\"add_missing_atoms\"] is True\n+    assert seen[\"remove_ccds\"] == []\n+\n+    input_dict.update(add_missing_atoms=False, remove_waters=False)\n+    MPNNInferenceInput.build_atom_array(input_dict)\n+    assert seen[\"add_missing_atoms\"] is False\n+    assert seen[\"remove_waters\"] is False\n+\n+\n+@pytest.mark.parametrize(\n+    \"field, value\",\n+    [(\"add_missing_atoms\", \"no\"), (\"remove_waters\", \"yes\"), (\"remove_ccds\", \"GOL\")],\n+)\n+def test_parser_overrides_are_validated(field: str, value: Any) -> None:\n+    with pytest.raises(TypeError, match=field):\n+        MPNNInferenceInput.from_atom_array_and_dict(\n+            atom_array=_make_simple_atom_array(), input_dict={field: value}\n+        )\n+\n+\n ###############################################################################\n # MPNNInferenceInput: annotation behaviour\n ###############################################################################"
+    }
+  ]
+}

@@ -1,0 +1,118 @@
+{
+  "target_state_ids": [
+    "state_90542838916fed98",
+    "state_a5dec57f6534b7fe"
+  ],
+  "recognition_mode": "evaluate_existing",
+  "exclusion_state_ids": [],
+  "binder_length": 75,
+  "site": [
+    {
+      "chain": "A",
+      "number": 54,
+      "insertion": ""
+    },
+    {
+      "chain": "A",
+      "number": 56,
+      "insertion": ""
+    },
+    {
+      "chain": "A",
+      "number": 58,
+      "insertion": ""
+    },
+    {
+      "chain": "A",
+      "number": 60,
+      "insertion": ""
+    },
+    {
+      "chain": "A",
+      "number": 61,
+      "insertion": ""
+    },
+    {
+      "chain": "A",
+      "number": 62,
+      "insertion": ""
+    },
+    {
+      "chain": "A",
+      "number": 63,
+      "insertion": ""
+    },
+    {
+      "chain": "A",
+      "number": 66,
+      "insertion": ""
+    },
+    {
+      "chain": "A",
+      "number": 68,
+      "insertion": ""
+    },
+    {
+      "chain": "A",
+      "number": 69,
+      "insertion": ""
+    },
+    {
+      "chain": "A",
+      "number": 73,
+      "insertion": ""
+    },
+    {
+      "chain": "A",
+      "number": 113,
+      "insertion": ""
+    },
+    {
+      "chain": "A",
+      "number": 115,
+      "insertion": ""
+    },
+    {
+      "chain": "A",
+      "number": 117,
+      "insertion": ""
+    },
+    {
+      "chain": "A",
+      "number": 119,
+      "insertion": ""
+    },
+    {
+      "chain": "A",
+      "number": 120,
+      "insertion": ""
+    },
+    {
+      "chain": "A",
+      "number": 121,
+      "insertion": ""
+    },
+    {
+      "chain": "A",
+      "number": 122,
+      "insertion": ""
+    },
+    {
+      "chain": "A",
+      "number": 123,
+      "insertion": ""
+    },
+    {
+      "chain": "A",
+      "number": 125,
+      "insertion": ""
+    }
+  ],
+  "attachment": "C",
+  "terminal_clearance_angstrom": 8.0,
+  "linker_sequence": "GGGGSGGGGSGGGGS",
+  "second_module_offset_angstrom": 45.0,
+  "second_module_axis": "y",
+  "seed": 7,
+  "steps": 50
+}

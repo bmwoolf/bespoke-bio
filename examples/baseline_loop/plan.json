@@ -1,0 +1,45 @@
+{
+  "status": "prepared_not_executed",
+  "interleaving": false,
+  "assembly_redesign": false,
+  "benchmark": "5JDS observed KN035/PD-L1 constructs; observed-only truncations",
+  "source_sha256": "e3a5d004be09a985d049521179227b97834376a8fc56f48adf1d916f7521f324",
+  "fold_control": {
+    "sequence": "QVQLQESGGGLVQPGGSLRLSCAASGKMSSRRCMAWFRQAPGKERERVAKLLTTSGSTYLADSVKGRFTISQNNAKSTVYLQMNSLKPEDTAMYYCAADSFEDPTCTLVTSSGAFQYWGQGTQVTVS",
+    "length": 127,
+    "sequence_sha256": "af56e4a3f5a171720a2efe50e01a45f14aca70d601cdb3ac0abc6779efa81bea",
+    "template_free": true,
+    "msa": "single_sequence",
+    "reference_chain": "B"
+  },
+  "target": {
+    "sequence": "AFTVTVPKDLYVVEYGSNMTIECKFPVEKQLDLAALIVYWEMEDKNIIQFVHGEEDLKVQHSSYRQRARLLKDQLSLGNAALQITDVKLQDAGVYRCMISYGGADYKRITVKVNA",
+    "length": 115,
+    "author_chain": "A",
+    "hotspots": [
+      37,
+      41,
+      44
+    ]
+  },
+  "stages": [
+    "RF3 sequence-only folding control",
+    "RFD3 ordinary single-target binder generation",
+    "ProteinMPNN sequence design with target fixed",
+    "RF3 sequence-only binder refolding",
+    "RF3 target+binder cofolding",
+    "geometry/confidence review and bounded next batch"
+  ],
+  "round_limits": {
+    "backbones": 2,
+    "sequences_per_backbone": 2,
+    "maximum_rounds": 1
+  },
+  "gate_policy": "Missing/early-stopped predictions fail readiness. Confidence and structural recovery must be reported separately; neither establishes binding. No automatic score-driven iteration until this baseline is calibrated.",
+  "remaining": [
+    "GPU folding control",
+    "ProteinMPNN adapter/output ingestion",
+    "RF3 output ingestion and calibrated selection",
+    "complete design/refold/cofold execution"
+  ]
+}

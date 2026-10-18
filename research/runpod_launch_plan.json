@@ -1,0 +1,56 @@
+{
+  "status": "prepared_not_launched",
+  "checked_at_utc": "2026-10-18T00:09:29.221548+00:00",
+  "budget_usd": 100,
+  "gpu": {
+    "available": true,
+    "communityCloud": true,
+    "communityPricePerHr": 1.39,
+    "dataCenterAvailability": [
+      {
+        "dataCenterId": "EUR-IS-1",
+        "stockStatus": "Low"
+      },
+      {
+        "dataCenterId": "US-KS-2",
+        "stockStatus": "Low"
+      },
+      {
+        "dataCenterId": "US-MD-1",
+        "stockStatus": "Medium"
+      },
+      {
+        "dataCenterId": "US-MO-1",
+        "stockStatus": "Low"
+      },
+      {
+        "dataCenterId": "US-WA-1",
+        "stockStatus": "Low"
+      }
+    ],
+    "displayName": "A100 SXM",
+    "gpuId": "NVIDIA A100-SXM4-80GB",
+    "memoryInGb": 80,
+    "secureCloud": true,
+    "securePricePerHr": 1.79,
+    "stockStatus": "High"
+  },
+  "template_id": "runpod-torch-v280",
+  "image": "runpod/pytorch:1.0.2-cu1281-torch280-ubuntu2404",
+  "cloud_type": "SECURE",
+  "gpu_count": 1,
+  "min_cuda_version": "12.8",
+  "container_disk_gb": 80,
+  "volume_gb": 100,
+  "ports": [
+    "22/tcp"
+  ],
+  "planned_initial_timebox_hours": 3,
+  "gpu_only_estimate_usd": 5.37,
+  "exclusions": "Disk, transfer and setup charges not included in GPU-only estimate; verify final all-in quote before create. Local controller must terminate the task-created pod after results download; process timeout alone does not end billing.",
+  "tests": [
+    "one interleaved scaffold generation",
+    "one matched-length tandem control generation"
+  ],
+  "source": "Live read-only Runpod CLI gpu list"
+}

@@ -1,0 +1,14 @@
+{
+  "topology_K1_L1_L2_K2": {
+    "input": "model_input.cif",
+    "contig": "8,K20-35,12,L20-35,5,L94-118,12,K94-118,8,/0,T1-115,/0,U1-115",
+    "select_fixed_atoms": true,
+    "dialect": 2
+  },
+  "topology_K1_K2_L1_L2": {
+    "input": "model_input.cif",
+    "contig": "8,K20-35,10,K94-118,10,L20-35,9,L94-118,8,/0,T1-115,/0,U1-115",
+    "select_fixed_atoms": true,
+    "dialect": 2
+  }
+}

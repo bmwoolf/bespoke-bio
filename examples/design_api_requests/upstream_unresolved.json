@@ -1,0 +1,41 @@
+{
+  "case_id": "demo-unresolved-feed",
+  "reference": {
+    "genome_build": "synthetic-fixture",
+    "annotation": "5JDS observed author chain A"
+  },
+  "targets": [
+    {
+      "target_id": "fixture-pdl1-observed",
+      "gene_id": "CD274",
+      "gene_symbol": "CD274",
+      "transcript_id": "synthetic-observed-construct",
+      "haplotype": "reference",
+      "source_variant_ids": [],
+      "expression": {
+        "tpm": 10
+      },
+      "reference_amino_acid_sequence": "AFTVTVPKDLYVVEYGSNMTIECKFPVEKQLDLAALIVYWEMEDKNIIQFVHGEEDLKVQHSSYRQRARLLKDQLSLGNAALQITDVKLQDAGVYRCMISYGGADYKRITVKVNA",
+      "amino_acid_sequence": "AFTVTVPKDLYVVEYGSNMTIECKFPVEKQLDLAALIVYWEMEDKNIIQFVHGEEDLKVQHSSYRQRARLLKDQLSLGNAALQITDVKLQDAGVYRCMISYGGADYKRITVKVNA",
+      "amino_acid_length": 115,
+      "sequence_hash": "sha256:c434254957dd7a7d80ce4ca859f9a6d101a1205f4ff822177dd0b3c31f02e968",
+      "first_changed_residue": null,
+      "translation_status": "complete",
+      "warnings": [
+        "Synthetic integration fixture: observed 5JDS construct, not a patient transcript."
+      ],
+      "structure": {
+        "status": "unresolved",
+        "error": "Sequence-only intake fixture; target folding pending."
+      }
+    }
+  ],
+  "target_count": 1,
+  "unique_sequence_count": 1,
+  "artifact_texts": {},
+  "provenance": {
+    "scope": "Synthetic integration fixture; RNA value illustrative, no protein abundance inferred"
+  },
+  "binder_length": 75,
+  "num_designs": 2
+}

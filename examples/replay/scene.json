@@ -1,0 +1,174 @@
+{
+  "structures": [
+    {
+      "path": "component.cif",
+      "purpose": "component"
+    },
+    {
+      "path": "transferred_complex.cif",
+      "purpose": "transferred_complex"
+    },
+    {
+      "path": "proposed.cif",
+      "purpose": "proposed"
+    },
+    {
+      "path": "deliberate_overlap.cif",
+      "purpose": "deliberate_overlap"
+    }
+  ],
+  "site": {
+    "id": "site_8085daaf46d7eb3a",
+    "target_state_id": "state_90542838916fed98",
+    "residues": [
+      {
+        "chain": "A",
+        "number": 54,
+        "insertion": ""
+      },
+      {
+        "chain": "A",
+        "number": 56,
+        "insertion": ""
+      },
+      {
+        "chain": "A",
+        "number": 58,
+        "insertion": ""
+      },
+      {
+        "chain": "A",
+        "number": 60,
+        "insertion": ""
+      },
+      {
+        "chain": "A",
+        "number": 61,
+        "insertion": ""
+      },
+      {
+        "chain": "A",
+        "number": 62,
+        "insertion": ""
+      },
+      {
+        "chain": "A",
+        "number": 63,
+        "insertion": ""
+      },
+      {
+        "chain": "A",
+        "number": 66,
+        "insertion": ""
+      },
+      {
+        "chain": "A",
+        "number": 68,
+        "insertion": ""
+      },
+      {
+        "chain": "A",
+        "number": 69,
+        "insertion": ""
+      },
+      {
+        "chain": "A",
+        "number": 73,
+        "insertion": ""
+      },
+      {
+        "chain": "A",
+        "number": 113,
+        "insertion": ""
+      },
+      {
+        "chain": "A",
+        "number": 115,
+        "insertion": ""
+      },
+      {
+        "chain": "A",
+        "number": 117,
+        "insertion": ""
+      },
+      {
+        "chain": "A",
+        "number": 119,
+        "insertion": ""
+      },
+      {
+        "chain": "A",
+        "number": 120,
+        "insertion": ""
+      },
+      {
+        "chain": "A",
+        "number": 121,
+        "insertion": ""
+      },
+      {
+        "chain": "A",
+        "number": 122,
+        "insertion": ""
+      },
+      {
+        "chain": "A",
+        "number": 123,
+        "insertion": ""
+      },
+      {
+        "chain": "A",
+        "number": 125,
+        "insertion": ""
+      }
+    ],
+    "origin": "observed_interface",
+    "frame": {
+      "rotation": [
+        [
+          -0.72779061489299,
+          -0.6779785426512976,
+          -0.10327592448439371
+        ],
+        [
+          0.22766391293606297,
+          -0.3809004485470492,
+          0.8961495360950076
+        ],
+        [
+          -0.6469080024395465,
+          0.6286970208304469,
+          0.4315670195677566
+        ]
+      ],
+      "translation": [
+        26.876,
+        -54.957,
+        -26.764
+      ]
+    },
+    "evidence": {
+      "source": "5JDS A/B",
+      "definition": "target residues with any heavy atom within 5 \u00c5 of nanobody",
+      "frame_anchors": [
+        {
+          "chain": "A",
+          "number": 54,
+          "insertion": ""
+        },
+        {
+          "chain": "A",
+          "number": 56,
+          "insertion": ""
+        },
+        {
+          "chain": "A",
+          "number": 58,
+          "insertion": ""
+        }
+      ],
+      "surface_accessibility": "not computed"
+    }
+  },
+  "units": "angstrom"
+}

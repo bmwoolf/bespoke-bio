@@ -1,0 +1,9 @@
+{
+  "sha256": "9459720491e8f70631147c86f766e1212b304b839f6733ad049e7946c9ff9d44",
+  "outputs": [
+    "outputs/rfd3_smoke/downloaded/gpu_smoke/gpu_smoke/rfd3_inputs.draft_topology_K1_K2_L1_L2_0_model_0.cif.gz",
+    "outputs/rfd3_smoke/downloaded/gpu_smoke/gpu_smoke/rfd3_inputs.draft_topology_K1_L1_L2_K2_0_model_0.cif.gz"
+  ],
+  "native_validation": "passed",
+  "worker_exit": 0
+}

@@ -1,0 +1,113 @@
+{
+  "sha": "1eb4af64655870b45a715a5a7e61570e8b098701",
+  "node_id": "C_kwDONpZ7RNoAKDFlYjRhZjY0NjU1ODcwYjQ1YTcxNWE1YTdlNjE1NzBlOGIwOTg3MDE",
+  "commit": {
+    "author": {
+      "name": "Nick Boyd",
+      "email": "nickboyd@gmail.com",
+      "date": "2026-10-06T16:37:15Z"
+    },
+    "committer": {
+      "name": "GitHub",
+      "email": "noreply@github.com",
+      "date": "2026-10-06T16:37:15Z"
+    },
+    "message": "Add Zenodo DOI badge and citation identifier (#90)\n\n* Add Zenodo DOI badge and citation identifier\n\n* Preserve README trailing whitespace",
+    "tree": {
+      "sha": "4b32f7c4bbfb902453786a35e5cf797e5bfb2e74",
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/git/trees/4b32f7c4bbfb902453786a35e5cf797e5bfb2e74"
+    },
+    "url": "https://api.github.com/repos/escalante-bio/mosaic/git/commits/1eb4af64655870b45a715a5a7e61570e8b098701",
+    "comment_count": 0,
+    "verification": {
+      "verified": true,
+      "reason": "valid",
+      "signature": "-----BEGIN PGP SIGNATURE-----\n\nwsFcBAABCAAQBQJqxSO7CRC1aQ7uu5UhlAAABDoQADTpxx+JP6FSzbcfvcj0+M+z\nZ5tE0pN4QYvdXiuAb8oIdaMmO103VTRMKd4m25zZWo5Jyxr+J4YAipGWimXNlqUM\ni8lcgL0rHAC+kBSVnYnvvMkY8Fm7RVlD4fGmy8bk5KVjMgp6r2mDJ3DkC0TeO3hP\nXremiNIjCWhm6p9fIiEg6XIrd4jFDz7PqZfHOlk7xuBz0y6/gbV28bFWa7UM/Ios\ncnjBrA52btpo6mwbHBQ1uiM+X3W/qcxQbi4JHAr8Hcepio8NP7YptG1YEvPjMxyd\nab9MAivg0adJud1l/hDJT7DGuAdui9rk5JAAaEs4rmmW2u9SCKUBvKkw0CXTzYnJ\n0C2fBxzl6mTYDLMg0Kr89AXHRZOwxE/VfJ7Nh4aIy0GuXSC9Qw1hK+zTPGMpd+0e\nMcyTGm5Hd61JsUvifcmpuBlMUJatEtCe/8oN0u54N/3+/hOvzdcq3niwzF49ChLP\nkCjluLhmxCltUVeBEIecw4eO/lKh303DNpwvVypqV9rAS83Ds+Xvo78ZNwWbH1+k\nWdGHsIcycfjeZrctfY1njvs+ACKkXqHEtDt0NNvmau4QwGnCnoXuSuLlY2Xe9nBx\nkzhXESuuLJNdeyyfvr+HiIkELW19bOemQ9LTC+s+X3j7gTBLdHP4dVAc7RDEZKgM\neihwwSGR3Xvv+h+pgzI9\n=THQ9\n-----END PGP SIGNATURE-----\n",
+      "payload": "tree 4b32f7c4bbfb902453786a35e5cf797e5bfb2e74\nparent 59492d4b733f1c895a7dea8fd33640e0a63aa551\nauthor Nick Boyd <nickboyd@gmail.com> 1791304635 -0700\ncommitter GitHub <noreply@github.com> 1791304635 -0700\n\nAdd Zenodo DOI badge and citation identifier (#90)\n\n* Add Zenodo DOI badge and citation identifier\n\n* Preserve README trailing whitespace",
+      "verified_at": "2026-10-06T16:37:16Z"
+    }
+  },
+  "url": "https://api.github.com/repos/escalante-bio/mosaic/commits/1eb4af64655870b45a715a5a7e61570e8b098701",
+  "html_url": "https://github.com/escalante-bio/mosaic/commit/1eb4af64655870b45a715a5a7e61570e8b098701",
+  "comments_url": "https://api.github.com/repos/escalante-bio/mosaic/commits/1eb4af64655870b45a715a5a7e61570e8b098701/comments",
+  "author": {
+    "login": "nboyd",
+    "id": 2887099,
+    "node_id": "MDQ6VXNlcjI4ODcwOTk=",
+    "avatar_url": "https://avatars.githubusercontent.com/u/2887099?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/nboyd",
+    "html_url": "https://github.com/nboyd",
+    "followers_url": "https://api.github.com/users/nboyd/followers",
+    "following_url": "https://api.github.com/users/nboyd/following{/other_user}",
+    "gists_url": "https://api.github.com/users/nboyd/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/nboyd/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/nboyd/subscriptions",
+    "organizations_url": "https://api.github.com/users/nboyd/orgs",
+    "repos_url": "https://api.github.com/users/nboyd/repos",
+    "events_url": "https://api.github.com/users/nboyd/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/nboyd/received_events",
+    "type": "User",
+    "user_view_type": "public",
+    "site_admin": false
+  },
+  "committer": {
+    "login": "web-flow",
+    "id": 19864447,
+    "node_id": "MDQ6VXNlcjE5ODY0NDQ3",
+    "avatar_url": "https://avatars.githubusercontent.com/u/19864447?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/web-flow",
+    "html_url": "https://github.com/web-flow",
+    "followers_url": "https://api.github.com/users/web-flow/followers",
+    "following_url": "https://api.github.com/users/web-flow/following{/other_user}",
+    "gists_url": "https://api.github.com/users/web-flow/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/web-flow/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/web-flow/subscriptions",
+    "organizations_url": "https://api.github.com/users/web-flow/orgs",
+    "repos_url": "https://api.github.com/users/web-flow/repos",
+    "events_url": "https://api.github.com/users/web-flow/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/web-flow/received_events",
+    "type": "User",
+    "user_view_type": "public",
+    "site_admin": false
+  },
+  "parents": [
+    {
+      "sha": "59492d4b733f1c895a7dea8fd33640e0a63aa551",
+      "url": "https://api.github.com/repos/escalante-bio/mosaic/commits/59492d4b733f1c895a7dea8fd33640e0a63aa551",
+      "html_url": "https://github.com/escalante-bio/mosaic/commit/59492d4b733f1c895a7dea8fd33640e0a63aa551"
+    }
+  ],
+  "stats": {
+    "total": 2,
+    "additions": 2,
+    "deletions": 0
+  },
+  "files": [
+    {
+      "sha": "01880ace61a575df05a39a0203b2e4c73457f21f",
+      "filename": "CITATION.cff",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 0,
+      "changes": 1,
+      "blob_url": "https://github.com/escalante-bio/mosaic/blob/1eb4af64655870b45a715a5a7e61570e8b098701/CITATION.cff",
+      "raw_url": "https://github.com/escalante-bio/mosaic/raw/1eb4af64655870b45a715a5a7e61570e8b098701/CITATION.cff",
+      "contents_url": "https://api.github.com/repos/escalante-bio/mosaic/contents/CITATION.cff?ref=1eb4af64655870b45a715a5a7e61570e8b098701",
+      "patch": "@@ -10,6 +10,7 @@ authors:\n     given-names: \"Sam\"\n   - name: \"Escalante Bio\"\n version: \"0.1.0\"\n+doi: \"10.5281/zenodo.23193038\"\n license: MIT\n repository-code: \"https://github.com/escalante-bio/mosaic\"\n url: \"https://github.com/escalante-bio/mosaic\""
+    },
+    {
+      "sha": "0c1d49fbd331ad5240953079f5bb71eeb625bca9",
+      "filename": "README.md",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 0,
+      "changes": 1,
+      "blob_url": "https://github.com/escalante-bio/mosaic/blob/1eb4af64655870b45a715a5a7e61570e8b098701/README.md",
+      "raw_url": "https://github.com/escalante-bio/mosaic/raw/1eb4af64655870b45a715a5a7e61570e8b098701/README.md",
+      "contents_url": "https://api.github.com/repos/escalante-bio/mosaic/contents/README.md?ref=1eb4af64655870b45a715a5a7e61570e8b098701",
+      "patch": "@@ -1,5 +1,6 @@\n ## Functional, multi-objective protein design using continuous relaxation.\n \n+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23193038.svg)](https://doi.org/10.5281/zenodo.23193038)\n \n > **WARNING**: Unlike [BindCraft](https://www.nature.com/articles/s41586-025-09429-6) (which is a well-tested and well-tuned method for generic binder design), `mosaic` may require substantial hand-holding (tuning learning rates, etc), often produces proteins that fail simple in-silico tests, should be combined with standard filtering methods, etc. This is not for the faint of heart: the intent is to provide a framework in which to implement custom objective functions and optimization algorithms for your application. You can read about some applications in [our blog](https://blog.escalante.bio).\n "
+    }
+  ]
+}

@@ -1,0 +1,302 @@
+# Implementation prompt for the BioCAD molecular design layer
+
+You are the implementation agent for my scientific contribution to a defense-bio hackathon. Build a working first pass of the molecular design layer described below. Deliver runnable code, an inspectable example, and clear integration contracts. Continue beyond architecture recommendations into implementation.
+
+## 1. Context and ownership
+
+Our overall concept is a McMaster-like catalog and configurator for case-specific molecular designs. An upstream system converts sensor and omics information into identified protein sequences, variants, expression observations, and 3D structures. The molecular design layer creates binding components and combines them into proposed molecular assemblies. A downstream system receives the design package.
+
+Two engineers own the website, database, sensor-data ingestion, and general infrastructure. My contribution is the scientific machinery between supplied structures and a coherent molecular design:
+
+- Prepare target structures and binding sites.
+- Run a reproducible binder-design loop, particularly an Escalante Bio Mosaic-style workflow.
+- Represent binders and other modules as reusable molecular CAD components.
+- Use structural retrieval to find target sites, binding templates, and reusable components.
+- Place, connect, redesign, and assess components together as an integrated assembly, which we call a co-key.
+
+Provide a small Python package, CLI, typed request/result objects, and portable artifacts that the engineers can call and display. Use the existing repository's conventions. Keep the public interface small; these functions do not need separate services.
+
+Assume upstream variant calling and downstream synthesis are external interfaces. Start with supplied human-target structures or well-characterized nonpathogenic structural fixtures. Keep the initial demonstration computational. Build no additional production website, database, scheduler, clinical decision system, or model-training platform.
+
+## 2. Scientific model and vocabulary
+
+Use these distinctions consistently:
+
+- Target state, or lock: an exact molecular form, including sequence/construct, structure, and relevant context.
+- Binding site, or lockhole: a residue/atom-defined interaction surface on a target state. It may be flat or convex; the term does not imply a literal pocket.
+- Component, or key: a recognition, recruitment, spacer, reporting, or other functional module with explicit molecular interfaces.
+- Assembly, or co-key: component instances in a specified architecture, with connectivity, placements, intended interactions, and states.
+- Design request: the desired interaction and constraints that determine generation and evaluation.
+- Evaluation: a named result attached to an exact component or assembly, target state, method, and run.
+
+Separate three problems:
+1. One component recognizing alternative target forms in separate encounters.
+2. Multiple recognition units engaging their partners simultaneously.
+3. An assembled system producing a downstream biological effect.
+
+Support requests to cover selected variants, prefer one form over named exclusions, and evaluate or adapt an existing component. Preserve both relevant allelic forms when supplied. Keep measured RNA, measured protein, and predicted abundance distinguishable.
+
+Implement a candidate-by-target-state evaluation matrix. An appropriate existing component may be retained when the available evaluation does not justify redesign.
+
+## 3. First inspect, then implement
+
+Inspect the repository, instructions, existing structures, prior code, runtime, and available compute. Reuse useful components after checking the correctness relevant to their new role. Preserve original structures.
+
+Read current primary documentation and inspect the versions actually installed. Pin the versions or commits used. The references at the end are starting points; verify APIs and executable capabilities before relying on them.
+
+Make reasonable implementation decisions and record them. Build a small end-to-end example early. Fix scientific correctness defects and workflow blockers promptly. Avoid wholesale rewrites, broad abstractions, unbounded structural searches, extensive hyperparameter optimization, or large benchmark campaigns.
+
+Use available authorized compute. If weights or GPU execution are unavailable, complete the local geometry/retrieval/export path with clearly identified real cached results, implement the live adapter and invocation, and report the exact remaining blocker. Mock scores must never silently replace model output.
+
+## 4. Molecular CAD representation
+
+Define molecular CAD as atomistic geometry plus sequence, connectivity, interfaces, constraints, and provenance.
+
+The authoritative portable bundle should include:
+- mmCIF coordinates.
+- FASTA for exact polypeptide chains.
+- JSON for components, sites, assembly connectivity, states, transforms, and constraints.
+- JSON or tabular evaluations and a run manifest.
+
+Meshes, thumbnails, and viewer annotations are derived artifacts. Mechanical CAD formats such as STEP are optional only if a concrete downstream requirement exists.
+
+Implement the following objects with stable IDs and clear references:
+
+TargetState:
+- Exact sequence/construct and hashes.
+- Original and prepared structures.
+- Protein/sequence positions mapped to structure chain IDs, residue IDs, insertion codes, and model input indices.
+- Known missing residues and unresolved regions.
+- Relevant partner chains, biological-assembly and chain-instance identity, modifications, compartment, and confidence/provenance.
+- Variant and measurement references where supplied.
+
+BindingSite:
+- Parent target-state ID.
+- Residue/atom selections, allowing discontinuous sites.
+- Supporting context and accessible-surface annotations when computed.
+- A reproducible local frame anchored to identified atoms when geometry is sufficient.
+- Origin: observed interface, mapped analogy, operator selection, or proposed patch.
+- Evidence and uncertainty.
+
+Component:
+- Immutable component revision, sequence, structure, and role.
+- Binding surfaces and known/proposed partner poses.
+- Fixed and editable regions.
+- Typed attachment interfaces.
+- Evidence attached to the exact construct.
+
+Assembly:
+- Instances of component revisions and their roles.
+- Explicit source-to-destination transforms.
+- Typed connections: peptide fusion, other covalent connection, noncovalent interaction, spatial restraint, or separate molecule.
+- Exact chain definitions and stoichiometry.
+- State-specific coordinates and required interaction edges.
+- Connection/linker status and assembly evaluations.
+
+Start with terminal attachment ports. A port should identify its anchoring atoms, position/orientation, allowable connection type, and preserved regions. Leave arbitrary loop insertions as an extension.
+
+Use Angstrom units and a documented rigid-transform convention. Preserve original coordinate frames. Reject malformed/reflected transforms and flag underdetermined frames. A geometric placement creates an assembly hypothesis; a connected construct requires valid sequence/connectivity and an assessed connection.
+
+## 5. Binder-design workflow
+
+Prefer Mosaic for the custom-objective adapter because I want assembly and interface requirements to influence design. Inspect its current working examples and choose one supported model configuration. Mosaic is a flexible optimization framework and needs an explicit surrounding workflow [S1, S2].
+
+Implement:
+1. Prepare the selected target state, surface, and optional starting component.
+2. Compile the request into supported conditioning, fixed/editable regions, objective terms, and evaluation requirements.
+3. Generate or optimize candidate sequences using the verified Mosaic configuration.
+4. Apply sequence redesign/inverse folding and discrete refinement where appropriate to that workflow.
+5. Re-predict the final discrete sequences with complete atom representations.
+6. Evaluate monomer/complex structures, selected surfaces, named variants/exclusions, and essential component constraints.
+7. Filter, retain diversity, and export surviving candidates with intermediate artifacts and provenance.
+
+A documented BindCraft or BoltzGen baseline may be used as a fallback or comparison when it materially accelerates the first pass. Explain the choice and any unsupported requirements; do not turn the project into a many-engine framework.
+
+Preserve objective components and their weights, not only their sum. Add one concrete CAD-related requirement to the first working request, such as preserving an existing binding module or assessing whether a chosen terminus remains usable after binding.
+
+Mosaic-specific checks:
+- Verify chain ordering and binder/target residue-index assumptions.
+- Determine whether design-phase coordinates omit sidechains, and require final full-atom reprediction before atomistic assembly checks.
+- Inspect existing per-chain/per-interface metric support. A pooled binder-versus-target score must not stand in for every required interaction in a multichain assembly [S1, S3].
+
+For every requested constraint, return how it is enforced: during generation, after generation, or unsupported. Record named confidence and geometry metrics with units/scales. Keep affinity and functional measurements separate from structural confidence.
+
+## 6. Foldseek on the lock side and the key side
+
+Foldseek supplies structural analogy and alignment information. Complementary binding and productive function require additional evidence or modeling.
+
+Implement three bounded retrieval routes.
+
+### A. Find and map lockholes
+
+Search a small declared structure collection for related target domains or structures. Retain alignments, residue mappings, coverage, query- and target-normalized scores where supported, local agreement, and source metadata.
+
+Map known interaction sites from retrieved structures onto the supplied target. Overlay the mapped residues, uncertainty, surrounding structure, and any available variant or PARSEC annotations. Proposed exposed patches can also be represented, with their origin distinguished from observed interfaces.
+
+For several lockholes, build a site-layout representation containing relative site-frame transforms, distances, orientations, and target-state membership. Use this to constrain co-key placements. Preserve the distinction between sites on one observed assembly, sites in alternative states, and sites on separate targets whose relative placement is only a hypothesis.
+
+Search whole structures or coherent domains first, then rerank with local site information. Do not concatenate spatially adjacent but sequence-discontinuous residues into a fictitious continuous chain.
+
+Inspect the installed Foldseek executable before using interface features. Current source documents easy-interfacesearch and easy-interfacecluster, which extract interfaces from input multimers. They do not identify an observed interface from a lone unbound monomer [S4].
+
+For discontinuous side-chain motifs, define an optional Folddisco adapter; its documented purpose fits that search better [S5]. Keep it out of the first milestone unless straightforward to integrate.
+
+### B. Retrieve a known binding template and transfer its partner pose
+
+Implement this explicit hypothesis-generating route:
+1. Find a structurally related target or interface in an actual complex.
+2. Recover the associated partner and complex/biological-assembly metadata.
+3. Use the aligned coordinates to establish a transform from the template target into the supplied target frame.
+4. Apply that same transform to the observed partner.
+5. Assess the transferred partner against the full target context.
+6. Keep it as a proposed pose, then evaluate or adapt/redesign the component.
+
+Preserve provenance and distinguish experimentally observed interfaces, predicted complexes, and transferred analogies. Include assembly identity where available; do not treat every crystal contact as a biological interaction.
+
+If using Foldseek rotation/translation outputs, verify their direction and convention with a known-transform fixture. Alternatively refit a proper rigid transform from the aligned coordinates and record the mapping and fit quality.
+
+### C. Retrieve key components and assembly templates
+
+Search for reusable binding folds, compatible scaffolds, and known multidomain or interaction arrangements. Use Foldseek for structural retrieval, then assess attachment positions, orientations, preserved surfaces, clashes, and construct constraints separately.
+
+Allow both directions:
+- Choose a component, then retrieve compatible assembly templates.
+- Choose an assembly template, then retrieve or design a component for its available position.
+
+Represent graph relationships explicitly: structural analogy, observed interaction, transferred pose, designed interaction, and covalent attachment are different edge types.
+
+Use bounded top-K retrieval and capped graph expansion. Record database identity/version and search settings. Avoid whole-universe downloads or all-pairs searches as prerequisites.
+
+Keep score semantics tied to the search/alignment mode and scope. Do not assume that a similarly named output field has the same statistical interpretation in every mode.
+
+## 7. Interdigitate components into one supported co-key architecture
+
+Build one two-module architecture family first:
+a target-recognition component plus an existing second recognition or functional module, joined through a specified connection or supported assembly template.
+
+Demonstrate composition at two levels:
+- Rigid component placement with preserved interfaces.
+- A proposed connected construct with an explicit sequence/connectivity and connection assessment.
+
+If the connection has not been structurally modeled, export that state clearly. Reach estimates and a drawn linker do not establish a folded connection. Assess the complete connected construct where the available workflow supports it.
+
+Evaluate:
+- Each required binding interface separately.
+- The joint complex when simultaneous occupancy is required.
+- Component-component and target-target clashes.
+- Obstruction of binding or attachment surfaces.
+- Connection feasibility and preserved motifs.
+- Changes after whole-assembly reprediction.
+- Compatibility across the selected target states.
+
+Treat shared-surface dual recognition, tandem binding domains, and a mixture of molecules as separate architectures.
+
+Use degradation/recruitment as one mechanism template, not as an automatically achieved property. Distinguish intracellular E3-associated architectures from extracellular target capture linked to a trafficking receptor; they have different compartment and machinery requirements [S6, S7]. A supplied recruiter can carry existing evidence, while the new combined design receives its own evaluations.
+
+The first implementation may return a proposed recruitment assembly with geometry assessed and degradation untested. Do not make the vertical slice depend on inventing both a new recognition module and a new effector mechanism.
+
+Provide extension points for capture, blocking, bridging, reporting, localization, and state-dependent action. A claimed molecular switch or machine must name its intended states and transition; one static structure is insufficient evidence for that behavior. Keep new machine mechanisms and model training/RL outside this first implementation.
+
+## 8. Integration contract for the two engineers
+
+Expose a small callable surface for:
+- Preparing target states and sites.
+- Retrieving structures, interfaces, or templates.
+- Designing or adapting candidates.
+- Proposing an assembly.
+- Evaluating and exporting a design package.
+
+These may be ordinary Python functions behind a single CLI; avoid unnecessary service boundaries.
+
+Deliver one example request and response that the site team can use directly. Include stable artifact references, stage states, progress summaries, selected residues, component transforms, and per-interface evaluations.
+
+Show precisely how catalog choices map into computation: site, recognition mode, scaffold/format, fixed regions, size, attachment choice, assembly template, and evidence requirement. At least one selection change must change the actual request or evaluation, not only a displayed label.
+
+A candidate can be evaluated against multiple target states. Keep components, assemblies, and evaluations linked by IDs rather than nesting every key under one target.
+
+Provide a minimal review notebook, viewer scene, or equivalent inspectable output for the scientific geometry. Let the engineers own the production UI and persistence.
+
+## 9. First working vertical slice and priority order
+
+Choose a well-characterized target/complex with available coordinates and a binder benchmark. Include reference and alternate forms when usable data exist; a synthetic control must be labeled as such. Use the same candidate across the required forms and let actual results determine whether their evaluations differ.
+
+Build in this order:
+1. Import real structures, preserve residue mappings, annotate a site, and export a molecular component.
+2. Demonstrate the end-to-end path with clearly labeled real cached binder outputs.
+3. Implement and exercise the live binder adapter where resources permit.
+4. Run bounded Foldseek retrieval and transfer one inspectable template pose.
+5. Place two modules in the supported assembly, evaluate the geometry, and export the combined package.
+6. Complete the engineer handoff.
+
+These steps should produce an early runnable result, followed by scientific additions. Keep the live adapter and Foldseek path as deliverables even if a resource-dependent execution remains blocked.
+
+Demonstrate at least:
+- A component with usable interfaces.
+- A retrieved structural/template hit with preserved mapping.
+- A co-key whose required interfaces are assessed separately.
+- An incompatible placement or connection that the geometry checks reject.
+- A configuration change with a real computational consequence.
+
+## 10. Verification and evidence
+
+Write a small set of meaningful checks:
+- Residue selections survive cropping and model-input conversion correctly.
+- Required variants remain associated with the same candidate.
+- Known rigid transforms round-trip and retain the correct partner pose.
+- Reflected transforms and underdetermined alignments are handled explicitly.
+- Exported polypeptide identities and atom records agree, with missing atoms/residues explicitly tracked.
+- Impossible attachments or deliberate clashes yield visible failures.
+- A placement that fits a cropped domain but clashes with its full parent context is visibly flagged.
+- Reusing the same components in a different arrangement changes assembly evaluation without changing their underlying identities.
+- Every required assembly interface is evaluated or explicitly missing.
+- Missing results remain missing rather than becoming zero or passed.
+- Geometry-only, transferred, predicted, cached, synthetic, and experimentally measured evidence remain distinguishable.
+
+Preserve a compact score vector per component, interface, and assembly. Document normalization and ranking policy. Report off-target results against the actual named panel. Report runtime and resource use only for jobs actually measured.
+
+Stop optional testing when the vertical slice is adequately verified. Avoid exhaustive edge-case hunts or broad scientific benchmarking at this stage.
+
+## 11. Required final handoff
+
+Deliver:
+1. Runnable package and exact setup/run commands.
+2. A complete example design bundle containing structures, sequences, sites, components, assembly, evaluations, and run manifest.
+3. The live binder configuration plus an identified replay path.
+4. Foldseek database-building/search configuration and the demonstrated alignment/pose-transfer artifacts.
+5. Typed input/output contracts and one request/response pair.
+6. A short integration guide for the two engineers and a compact architecture diagram.
+7. A brief scientific note explaining the matching, design, geometry, and evidence semantics.
+8. A status table identifying what executed live, what used cached results, what remains hypothetical, and any specific blockers.
+9. The next two implementation priorities.
+
+Package the code, examples, and implementer instructions together. If working in an existing repository, make the change set reviewable and provide an archive for handoff when practical.
+
+Begin by inspecting the environment, selecting the smallest viable target/workflow, and implementing the first runnable path. State choices briefly, then keep building. The success criterion is a working conversion from target structures and an interaction request to reusable molecular parts and one explicitly evaluated co-key.
+
+## Primary references to verify
+
+[S1] Escalante Bio Mosaic repository:
+https://github.com/escalante-bio/mosaic
+
+[S2] Escalante human-target binder workflow:
+https://blog.escalante.bio/minibinder-design-is-just-not-that-hard/
+
+[S3] Mosaic structure and interface losses:
+https://github.com/escalante-bio/mosaic/blob/main/src/mosaic/losses/structure_prediction.py
+
+[S4] Foldseek official repository and documentation:
+https://github.com/steineggerlab/foldseek
+
+[S5] Folddisco discontinuous-motif retrieval:
+https://github.com/steineggerlab/folddisco
+
+[S6] Intracellular bioPROTAC architecture:
+https://pubmed.ncbi.nlm.nih.gov/32123106/
+
+[S7] Extracellular lysosomal targeting architecture:
+https://www.nature.com/articles/s41586-020-2545-9
+
+Optional baseline adapters:
+https://github.com/martinpacesa/BindCraft
+https://github.com/HannesStark/boltzgen
+

@@ -15,14 +15,22 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+design = [
+  "numpy==2.2.6",
+  "gemmi==0.7.3",
+  "pydantic==2.12.3",
+]
 dev = [
   "httpx>=0.28,<1",
   "pytest>=8.3,<10",
   "ruff>=0.11,<1",
 ]
 
+[project.scripts]
+biocad = "biocad.cli:main"
+
 [tool.hatch.build.targets.wheel]
-packages = ["src/bespoke_bio"]
+packages = ["src/bespoke_bio", "src/biocad"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

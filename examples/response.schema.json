@@ -1,0 +1,659 @@
+{
+  "$defs": {
+    "Assembly": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "instances": {
+          "items": {
+            "$ref": "#/$defs/Instance"
+          },
+          "title": "Instances",
+          "type": "array"
+        },
+        "connections": {
+          "items": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "title": "Connections",
+          "type": "array"
+        },
+        "required_interfaces": {
+          "items": {
+            "maxItems": 2,
+            "minItems": 2,
+            "prefixItems": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "string"
+              }
+            ],
+            "type": "array"
+          },
+          "title": "Required Interfaces",
+          "type": "array"
+        },
+        "state": {
+          "title": "State",
+          "type": "string"
+        },
+        "structure": {
+          "title": "Structure",
+          "type": "string"
+        },
+        "hypothesis": {
+          "title": "Hypothesis",
+          "type": "string"
+        },
+        "target_placements": {
+          "default": [],
+          "items": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "title": "Target Placements",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "instances",
+        "connections",
+        "required_interfaces",
+        "state",
+        "structure",
+        "hypothesis"
+      ],
+      "title": "Assembly",
+      "type": "object"
+    },
+    "BindingSite": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "target_state_id": {
+          "title": "Target State Id",
+          "type": "string"
+        },
+        "residues": {
+          "items": {
+            "$ref": "#/$defs/ResidueRef"
+          },
+          "title": "Residues",
+          "type": "array"
+        },
+        "origin": {
+          "enum": [
+            "observed_interface",
+            "mapped_analogy",
+            "operator_selection",
+            "proposed_patch"
+          ],
+          "title": "Origin",
+          "type": "string"
+        },
+        "frame": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Transform"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "evidence": {
+          "additionalProperties": true,
+          "title": "Evidence",
+          "type": "object"
+        }
+      },
+      "required": [
+        "id",
+        "target_state_id",
+        "residues",
+        "origin",
+        "evidence"
+      ],
+      "title": "BindingSite",
+      "type": "object"
+    },
+    "Component": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "structure": {
+          "title": "Structure",
+          "type": "string"
+        },
+        "sequence": {
+          "title": "Sequence",
+          "type": "string"
+        },
+        "sequence_sha256": {
+          "title": "Sequence Sha256",
+          "type": "string"
+        },
+        "role": {
+          "title": "Role",
+          "type": "string"
+        },
+        "ports": {
+          "items": {
+            "$ref": "#/$defs/Port"
+          },
+          "title": "Ports",
+          "type": "array"
+        },
+        "fixed_residues": {
+          "items": {
+            "$ref": "#/$defs/ResidueRef"
+          },
+          "title": "Fixed Residues",
+          "type": "array"
+        },
+        "evidence": {
+          "additionalProperties": true,
+          "title": "Evidence",
+          "type": "object"
+        }
+      },
+      "required": [
+        "id",
+        "structure",
+        "sequence",
+        "sequence_sha256",
+        "role",
+        "ports",
+        "fixed_residues",
+        "evidence"
+      ],
+      "title": "Component",
+      "type": "object"
+    },
+    "DesignRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "target_state_ids": {
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "title": "Target State Ids",
+          "type": "array"
+        },
+        "recognition_mode": {
+          "default": "evaluate_existing",
+          "enum": [
+            "cover",
+            "selective",
+            "evaluate_existing"
+          ],
+          "title": "Recognition Mode",
+          "type": "string"
+        },
+        "exclusion_state_ids": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Exclusion State Ids",
+          "type": "array"
+        },
+        "binder_length": {
+          "default": 75,
+          "maximum": 200,
+          "minimum": 25,
+          "title": "Binder Length",
+          "type": "integer"
+        },
+        "site": {
+          "items": {
+            "$ref": "#/$defs/ResidueRef"
+          },
+          "minItems": 1,
+          "title": "Site",
+          "type": "array"
+        },
+        "attachment": {
+          "default": "C",
+          "enum": [
+            "N",
+            "C"
+          ],
+          "title": "Attachment",
+          "type": "string"
+        },
+        "terminal_clearance_angstrom": {
+          "default": 8.0,
+          "exclusiveMinimum": 0,
+          "title": "Terminal Clearance Angstrom",
+          "type": "number"
+        },
+        "linker_sequence": {
+          "default": "GGGGSGGGGSGGGGS",
+          "title": "Linker Sequence",
+          "type": "string"
+        },
+        "second_module_offset_angstrom": {
+          "default": 45.0,
+          "exclusiveMinimum": 0,
+          "title": "Second Module Offset Angstrom",
+          "type": "number"
+        },
+        "second_module_axis": {
+          "default": "y",
+          "enum": [
+            "x",
+            "y",
+            "z"
+          ],
+          "title": "Second Module Axis",
+          "type": "string"
+        },
+        "seed": {
+          "default": 7,
+          "minimum": 0,
+          "title": "Seed",
+          "type": "integer"
+        },
+        "steps": {
+          "default": 50,
+          "maximum": 500,
+          "minimum": 1,
+          "title": "Steps",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "target_state_ids",
+        "site"
+      ],
+      "title": "DesignRequest",
+      "type": "object"
+    },
+    "Evaluation": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "subject_id": {
+          "title": "Subject Id",
+          "type": "string"
+        },
+        "target_state_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Target State Id"
+        },
+        "method": {
+          "title": "Method",
+          "type": "string"
+        },
+        "evidence": {
+          "title": "Evidence",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "pass",
+            "fail",
+            "missing",
+            "assessed",
+            "unsupported"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "metrics": {
+          "additionalProperties": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "title": "Metrics",
+          "type": "object"
+        },
+        "units": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Units",
+          "type": "object"
+        },
+        "details": {
+          "additionalProperties": true,
+          "default": {},
+          "title": "Details",
+          "type": "object"
+        }
+      },
+      "required": [
+        "id",
+        "subject_id",
+        "method",
+        "evidence",
+        "status",
+        "metrics",
+        "units"
+      ],
+      "title": "Evaluation",
+      "type": "object"
+    },
+    "Instance": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "component_id": {
+          "title": "Component Id",
+          "type": "string"
+        },
+        "output_chain": {
+          "title": "Output Chain",
+          "type": "string"
+        },
+        "transform": {
+          "$ref": "#/$defs/Transform"
+        }
+      },
+      "required": [
+        "id",
+        "component_id",
+        "output_chain",
+        "transform"
+      ],
+      "title": "Instance",
+      "type": "object"
+    },
+    "Port": {
+      "additionalProperties": false,
+      "properties": {
+        "terminus": {
+          "enum": [
+            "N",
+            "C"
+          ],
+          "title": "Terminus",
+          "type": "string"
+        },
+        "residue": {
+          "$ref": "#/$defs/ResidueRef"
+        },
+        "anchors": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Anchors",
+          "type": "array"
+        },
+        "frame": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Transform"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "connection_type": {
+          "const": "peptide_fusion",
+          "default": "peptide_fusion",
+          "title": "Connection Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "terminus",
+        "residue",
+        "anchors",
+        "frame"
+      ],
+      "title": "Port",
+      "type": "object"
+    },
+    "ResidueRef": {
+      "additionalProperties": false,
+      "properties": {
+        "chain": {
+          "title": "Chain",
+          "type": "string"
+        },
+        "number": {
+          "title": "Number",
+          "type": "integer"
+        },
+        "insertion": {
+          "default": "",
+          "title": "Insertion",
+          "type": "string"
+        }
+      },
+      "required": [
+        "chain",
+        "number"
+      ],
+      "title": "ResidueRef",
+      "type": "object"
+    },
+    "TargetState": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "source": {
+          "title": "Source",
+          "type": "string"
+        },
+        "prepared": {
+          "title": "Prepared",
+          "type": "string"
+        },
+        "source_sha256": {
+          "title": "Source Sha256",
+          "type": "string"
+        },
+        "chains": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Chains",
+          "type": "object"
+        },
+        "residue_mapping": {
+          "items": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "title": "Residue Mapping",
+          "type": "array"
+        },
+        "unresolved": {
+          "items": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "title": "Unresolved",
+          "type": "array"
+        },
+        "context": {
+          "additionalProperties": true,
+          "title": "Context",
+          "type": "object"
+        },
+        "evidence": {
+          "enum": [
+            "experimental",
+            "predicted",
+            "synthetic"
+          ],
+          "title": "Evidence",
+          "type": "string"
+        },
+        "variants": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Variants",
+          "type": "array"
+        },
+        "measurements": {
+          "default": [],
+          "items": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "title": "Measurements",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "source",
+        "prepared",
+        "source_sha256",
+        "chains",
+        "residue_mapping",
+        "unresolved",
+        "context",
+        "evidence"
+      ],
+      "title": "TargetState",
+      "type": "object"
+    },
+    "Transform": {
+      "additionalProperties": false,
+      "description": "Column-vector convention: destination = rotation @ source + translation, \u00c5.",
+      "properties": {
+        "rotation": {
+          "items": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array"
+          },
+          "title": "Rotation",
+          "type": "array"
+        },
+        "translation": {
+          "items": {
+            "type": "number"
+          },
+          "title": "Translation",
+          "type": "array"
+        }
+      },
+      "title": "Transform",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "default": "0.1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "request": {
+      "$ref": "#/$defs/DesignRequest"
+    },
+    "target_states": {
+      "items": {
+        "$ref": "#/$defs/TargetState"
+      },
+      "title": "Target States",
+      "type": "array"
+    },
+    "sites": {
+      "items": {
+        "$ref": "#/$defs/BindingSite"
+      },
+      "title": "Sites",
+      "type": "array"
+    },
+    "components": {
+      "items": {
+        "$ref": "#/$defs/Component"
+      },
+      "title": "Components",
+      "type": "array"
+    },
+    "assemblies": {
+      "items": {
+        "$ref": "#/$defs/Assembly"
+      },
+      "title": "Assemblies",
+      "type": "array"
+    },
+    "evaluations": {
+      "items": {
+        "$ref": "#/$defs/Evaluation"
+      },
+      "title": "Evaluations",
+      "type": "array"
+    },
+    "stages": {
+      "additionalProperties": {
+        "additionalProperties": true,
+        "type": "object"
+      },
+      "title": "Stages",
+      "type": "object"
+    },
+    "artifacts": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "title": "Artifacts",
+      "type": "object"
+    }
+  },
+  "required": [
+    "request",
+    "target_states",
+    "sites",
+    "components",
+    "assemblies",
+    "evaluations",
+    "stages",
+    "artifacts"
+  ],
+  "title": "DesignResponse",
+  "type": "object"
+}

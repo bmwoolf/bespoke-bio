@@ -1,0 +1,13 @@
+{
+  "files": {
+    "boltzgen_plan.json": "eb1206b0245fa77519eb32a0d8e102b71b0a8f3b3fb6bdfb52603f840aaa161d",
+    "bootstrap.sh": "edeef588947dc25edc42b16e176bccbcb95fe3a16a72348fa79fb1e754ce9b1c",
+    "checked_unconstrained/pdl1.cif": "585c18586e0356fea38921915947258c43421bd24f9875f22ddb0843d0b11849",
+    "collect_provenance.py": "391af907f167edfdfcf7372f0b106ffef7fc48f235b855bfddaac4e176b6ef34",
+    "pdl1.yaml": "4c0daa12e7fa78302d5cf8cd74abdd6d6d3b79546b7feb01181d8565d6c5eb5e",
+    "run.sh": "6a4e517fea7a2c74e934dac1e7dd38e8e5bf0fdbb50f8ef96e505d53ae80e06a",
+    "target.cif": "db423c169b220340d32609b145898f6811bf9b2c4759f25587e914873c9d265b",
+    "target_residue_mapping.json": "95a215e02482299da84851548966a6eaf403e5a6543cb76ef4dfd00b07c33239"
+  },
+  "evidence": "full_seven_stage_GPU_pipeline_completed_unconstrained"
+}

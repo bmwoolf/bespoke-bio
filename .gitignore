@@ -13,3 +13,12 @@ build/
 outputs/
 work/
 
+
+# Molecular design local dependencies and handoff archive
+/vendor/
+/biocad_handoff.zip
+
+/rfd3_smoke_bundle.zip
+/rfd3_smoke_results.zip
+
+/boltzgen_results.zip

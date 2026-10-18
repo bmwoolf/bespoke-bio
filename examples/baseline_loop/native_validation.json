@@ -1,0 +1,6 @@
+{
+  "status": "passed",
+  "RF3_sequence_only_input_atoms": 1909,
+  "RFD3_binder_input_atoms": 1296,
+  "scope": "native input construction only; no inference"
+}

@@ -1,0 +1,16 @@
+{
+  "topology_K1_L1_L2_K2": {
+    "input": "model_input.cif",
+    "contig": "8,K20-35,24,L20-35,24,L94-118,24,K94-118,8,/0,T1-115,/0,U1-115",
+    "select_fixed_atoms": true,
+    "dialect": 2,
+    "select_buried": "K20,K22,K24,K33,K34,K35,K94,K96,K97,K98,K106,L20,L22,L24,L33,L34,L35,L94,L96,L97,L98,L106"
+  },
+  "topology_K1_K2_L1_L2": {
+    "input": "model_input.cif",
+    "contig": "8,K20-35,24,K94-118,24,L20-35,24,L94-118,8,/0,T1-115,/0,U1-115",
+    "select_fixed_atoms": true,
+    "dialect": 2,
+    "select_buried": "K20,K22,K24,K33,K34,K35,K94,K96,K97,K98,K106,L20,L22,L24,L33,L34,L35,L94,L96,L97,L98,L106"
+  }
+}
