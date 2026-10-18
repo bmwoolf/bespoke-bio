@@ -161,9 +161,21 @@ export default function MolecularViewer({
         <div className="viewer-bottomline">
           <div className="chain-legend" aria-label="Chain colors">
             {info?.colors.map((entry) => (
-              <span key={entry.label}>
+              <span
+                key={
+                  selection.chainRoles?.target.includes(entry.label)
+                    ? `Target · ${entry.label}`
+                    : selection.chainRoles?.binder.includes(entry.label)
+                      ? `Key · ${entry.label}`
+                      : entry.label
+                }
+              >
                 <i style={{ background: entry.color }} />
-                {entry.label}
+                {selection.chainRoles?.target.includes(entry.label)
+                  ? `Target · ${entry.label}`
+                  : selection.chainRoles?.binder.includes(entry.label)
+                    ? `Key · ${entry.label}`
+                    : entry.label}
               </span>
             ))}
           </div>

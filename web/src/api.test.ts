@@ -75,6 +75,8 @@ describe("typed handoff boundary", () => {
     expect(candidateSchema.parse(candidate)).toEqual({
       ...candidate,
       predictions: [],
+      comparison_scores: [],
+      assembly_assessment: null,
     });
     expect(
       candidateSchema.safeParse({

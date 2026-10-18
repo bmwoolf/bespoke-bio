@@ -332,6 +332,10 @@ def create_app(
             "length": len(metadata.get("amino_acid_sequence", ""))
             or (len(record["amino_acid_sequence"]) if record else None),
             "candidate_count": len(result["candidates"]),
+            "structured_candidates": sum(
+                bool(c.get("complex_structure_url") and c.get("binder_structure_url"))
+                for c in result["candidates"]
+            ),
             "passed_count": sum(
                 c.get("native_filter_passed") is True for c in result["candidates"]
             ),
@@ -359,6 +363,8 @@ def create_app(
         ]
         return {
             "total": len(records),
+            "candidate_total": sum(r["candidate_count"] for r in records),
+            "structured_candidates": sum(r["structured_candidates"] for r in records),
             "offset": offset,
             "limit": limit,
             "records": records[offset : offset + limit],

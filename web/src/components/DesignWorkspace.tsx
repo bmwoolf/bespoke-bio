@@ -46,7 +46,42 @@ export function DesignWorkspace({ jobId }: { jobId?: string }) {
           {Object.keys(data.provenance).length > 0 && (
             <details className="workspace-details">
               <summary>Target provenance</summary>
-              <pre>{JSON.stringify(data.provenance, null, 2)}</pre>
+              <dl>
+                {[
+                  ["Target state", data.provenance.state],
+                  ["Sequence SHA-256", data.provenance.sequence_sha256],
+                  ["Structure context", data.provenance.target_view],
+                ]
+                  .filter(([, value]) => typeof value === "string")
+                  .map(([label, value]) => (
+                    <div className="metadata-row" key={String(label)}>
+                      <dt>{String(label)}</dt>
+                      <dd>{String(value)}</dd>
+                    </div>
+                  ))}
+              </dl>
+              {typeof data.provenance.amino_acid_sequence === "string" && (
+                <>
+                  <h3>Target sequence · {data.length} aa</h3>
+                  <pre>{data.provenance.amino_acid_sequence}</pre>
+                </>
+              )}
+              {data.provenance.complete_study_url ===
+                "https://github.com/bmwoolf/bespoke-bio/releases/tag/protein-results-2026-10-18" && (
+                <p>
+                  <a
+                    href={data.provenance.complete_study_url}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Complete study, controls and source archives ↗
+                  </a>
+                </p>
+              )}
+              <details>
+                <summary>Complete source record</summary>
+                <pre>{JSON.stringify(data.provenance, null, 2)}</pre>
+              </details>
             </details>
           )}
         </>

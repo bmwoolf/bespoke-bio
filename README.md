@@ -41,8 +41,8 @@ variants; direct protein ingestion requires a separate interface update.
 The public catalog and saved models work without a tunnel or service token.
 
 The Vite/React/TypeScript [protein demo](docs/protein-demo.md), with a Mol* viewer, browses
-a complete verified Step 1 export and sends one unchanged protein record to the separate
-design service. It opens on **Saved keys**, showing published candidate batches and a large
+a complete verified Step 1 export and displays saved results from the separate
+design service. The public deployment is read-only; generation and operator login are disabled. It opens on **Saved keys**, showing published candidate batches and a large
 molecular viewer showing the target and key together. Switch between Target, Key and Complex,
 or use **Proteins** to browse the original donor catalog. Selecting a donor protein switches the entire workspace to that
 record; sequences, provenance and metrics remain available in Details. GPU inference is disabled by default.

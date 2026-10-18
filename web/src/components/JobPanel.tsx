@@ -75,7 +75,18 @@ export function JobPanel({
       ? (candidate?.predictions.find((p) => p.seed === seed) ??
         candidate?.predictions[0])
       : undefined;
-  const model = prediction ?? candidate;
+  const comparisons =
+    candidate?.comparison_scores.filter(
+      (p) => evaluation === `comparison:${p.scored_on}`,
+    ) ?? [];
+  const comparison = comparisons.find((p) => p.seed === seed) ?? comparisons[0];
+  const model = prediction ?? comparison ?? candidate;
+  const context = prediction
+    ? "evaluated"
+    : comparison
+      ? `comparison:${comparison.scored_on}`
+      : "native";
+  const seeds = prediction ? candidate!.predictions : comparisons;
   const structure =
     candidate &&
     model &&
@@ -155,28 +166,40 @@ export function JobPanel({
             )}
             {candidate && (
               <Popover className="prediction-popover" label="Prediction">
-                {candidate.predictions.length > 0 ? (
+                {candidate.predictions.length > 0 ||
+                candidate.comparison_scores.length > 0 ? (
                   <>
                     <label>
                       Prediction context
                       <select
-                        value={evaluation}
+                        value={context}
                         onChange={(event) => setEvaluation(event.target.value)}
                       >
-                        <option value="evaluated">Standard refold</option>
+                        {candidate.predictions.length > 0 && (
+                          <option value="evaluated">Standard refold</option>
+                        )}
                         <option value="native">Original design</option>
+                        {[
+                          ...new Set(
+                            candidate.comparison_scores.map((p) => p.scored_on),
+                          ),
+                        ].map((state) => (
+                          <option key={state} value={`comparison:${state}`}>
+                            Fixed key · {state}
+                          </option>
+                        ))}
                       </select>
                     </label>
-                    {prediction && (
+                    {(prediction || comparison) && (
                       <label>
                         Prediction seed
                         <select
-                          value={prediction.seed}
+                          value={(prediction ?? comparison)!.seed}
                           onChange={(event) =>
                             setSeed(Number(event.target.value))
                           }
                         >
-                          {candidate.predictions.map((p) => (
+                          {seeds.map((p) => (
                             <option key={p.id} value={p.seed}>
                               Seed {p.seed}
                             </option>
@@ -191,7 +214,9 @@ export function JobPanel({
                 <p className="prediction-note">
                   {prediction
                     ? `${prediction.context}. Target and Key show independent folds; Complex shows their separately predicted binding pose.`
-                    : "Complex shows the original predicted pose. Target and Key are displayed separately."}
+                    : comparison
+                      ? `Fixed key scored against ${comparison.scored_on}, seed ${comparison.seed}. Target and Key are extracted from this complex. Scores across prediction protocols are not directly comparable.`
+                      : "Complex shows the original predicted pose. Target and Key are displayed separately."}
                 </p>
               </Popover>
             )}
@@ -240,6 +265,11 @@ export function JobPanel({
                         Complex structure
                       </a>
                       <a href={model?.binder_structure_url}>Binder structure</a>
+                      {model?.target_structure_url && (
+                        <a href={model.target_structure_url}>
+                          Target structure
+                        </a>
+                      )}
                       {prediction && (
                         <a href={prediction.evidence_url}>
                           Refolding evidence (.json)
@@ -363,6 +393,66 @@ export function JobPanel({
                 </span>
               )}
             </div>
+          )}
+          {candidate && !prediction && (
+            <div
+              className="prediction-metrics"
+              aria-label="Computational confidence"
+            >
+              <span>
+                {comparison
+                  ? `Fixed key · ${comparison.scored_on} · seed ${comparison.seed}`
+                  : "Original design confidence"}
+              </span>
+              <span title="Predicted interface confidence, not binding probability">
+                Interface{" "}
+                <strong>
+                  {(
+                    comparison?.metrics ?? candidate.confidence_metrics
+                  ).design_to_target_iptm?.toFixed(3) ?? "Not available"}
+                </strong>{" "}
+                ipTM
+              </span>
+              {!comparison && (
+                <span title="Minimum interface predicted aligned-error score">
+                  <strong>
+                    {candidate.confidence_metrics.esmfold2_ipsae_min?.toFixed(
+                      3,
+                    ) ?? "Not available"}
+                  </strong>{" "}
+                  ipSAE
+                </span>
+              )}
+              <span
+                title={
+                  comparison
+                    ? "Predicted global confidence of the designed key"
+                    : "Original pipeline's filter RMSD"
+                }
+              >
+                {comparison ? "Key pTM" : "Filter RMSD"}{" "}
+                <strong>
+                  {(comparison
+                    ? comparison.metrics.design_ptm
+                    : candidate.confidence_metrics.filter_rmsd
+                  )?.toFixed(3) ?? "Not available"}
+                </strong>
+                {comparison ? "" : " Å"}
+              </span>
+            </div>
+          )}
+          {candidate?.assembly_assessment && (
+            <p className="assembly-note">
+              Assembly check:{" "}
+              {{
+                intact_tetramer_incompatible_rigid_pose:
+                  "the predicted key overlaps the intact tetramer",
+                substantial_overlap_all_placements:
+                  "the predicted key overlaps the native assembly in every tested placement",
+              }[candidate.assembly_assessment] ??
+                candidate.assembly_assessment.replaceAll("_", " ")}
+              . Native filter status is unchanged.
+            </p>
           )}
           <div className="workspace-footer">
             <details className="workspace-details">

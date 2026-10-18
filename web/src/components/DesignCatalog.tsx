@@ -48,7 +48,7 @@ export function DesignCatalog({
       <div className="catalog-count" role="status">
         {isFetching
           ? "Loading…"
-          : `${formatCount(data?.total ?? 0)} saved jobs`}
+          : `${formatCount(data?.total ?? 0)} saved jobs · ${formatCount(data?.candidate_total ?? 0)} keys`}
       </div>
       <div
         className="target-list"

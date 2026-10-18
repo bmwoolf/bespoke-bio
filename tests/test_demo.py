@@ -630,6 +630,8 @@ def test_design_catalog_keeps_distinct_jobs_and_native_failures(index, published
         a = client.get("/api/designs?q=fgf2&limit=25").json()
         b = client.get("/api/designs?q=fgf2&limit=25&offset=25").json()
         assert a["total"] == b["total"] == 27
+        assert a["candidate_total"] == b["candidate_total"] == 27
+        assert a["structured_candidates"] == b["structured_candidates"] == 27
         assert len(a["records"]) == 25 and len(b["records"]) == 2
         assert len({r["job_id"] for r in a["records"] + b["records"]}) == 27
         assert all(r["candidate_count"] == 1 and r["passed_count"] == 0 for r in a["records"])
@@ -641,3 +643,65 @@ def test_design_catalog_keeps_distinct_jobs_and_native_failures(index, published
     (root / "manifest.json").write_text(json.dumps(manifest))
     with pytest.raises(ValueError, match="sequence checksum"):
         PublishedSnapshot(root, manifest["catalog_sha256"])
+
+
+def test_campaign_import_rejects_sequence_and_chain_role_mismatches(structure_source):
+    from io import StringIO
+
+    from Bio.PDB import MMCIFIO
+
+    from bespoke_bio.demo.import_campaigns import complex_roles
+    from bespoke_bio.demo.import_science import read_structure
+
+    data = (structure_source.parent / "target.cif").read_bytes()
+    model, _ = read_structure(data)
+    key = model[0]["A"].copy()
+    key.id = "Z"
+    key[(" ", 2, " ")].resname = "GLU"
+    model[0].add(key)
+    stream = StringIO()
+    writer = MMCIFIO()
+    writer.set_structure(model)
+    writer.save(stream)
+    data = stream.getvalue().encode()
+    _, roles = complex_roles(data, "MQ", "ME")
+    assert roles == {"target": ["A"], "binder": ["Z"]}
+    with pytest.raises(ValueError, match="sequences or chain roles"):
+        complex_roles(data, "MM", "ME")
+    with pytest.raises(ValueError, match="sequences or chain roles"):
+        complex_roles(data, "MQ", "MQ")
+
+
+def test_campaign_bundle_requires_hashes_for_every_structure(tmp_path):
+    from bespoke_bio.demo.import_campaigns import verified_bundle, within
+
+    (tmp_path / "binder.cif").write_bytes(b"synthetic coordinates")
+    (tmp_path / "complex.cif").write_bytes(b"synthetic complex")
+    hashes = {
+        name: sha256((tmp_path / name).read_bytes()).hexdigest()
+        for name in ("binder.cif", "complex.cif")
+    }
+    (tmp_path / "manifest.json").write_text(json.dumps(hashes))
+    bundle = {
+        "target_states": [{"chains": {"A": "MQ"}}],
+        "components": [
+            {
+                "id": "binder_abc",
+                "sequence": "ME",
+                "sequence_sha256": sha256(b"ME").hexdigest(),
+                "structure": "binder.cif",
+                "evidence": {"complex_structure": "complex.cif"},
+            }
+        ],
+    }
+    (tmp_path / "bundle.json").write_text(json.dumps(bundle))
+    assert verified_bundle(tmp_path)[1] == "MQ"
+    bundle["components"][0]["sequence"] = "MM"
+    (tmp_path / "bundle.json").write_text(json.dumps(bundle))
+    with pytest.raises(ValueError, match="sequence checksum"):
+        verified_bundle(tmp_path)
+    (tmp_path / "complex.cif").write_bytes(b"corrupted coordinates")
+    with pytest.raises(ValueError, match="checksum mismatch"):
+        verified_bundle(tmp_path)
+    with pytest.raises(ValueError, match="escapes"):
+        within(tmp_path, "../escape")

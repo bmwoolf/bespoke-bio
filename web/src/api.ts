@@ -113,6 +113,21 @@ export const candidateSchema = z.object({
   target_structure_url: artifactUrl.optional(),
   complex_chains: chainRoles.optional(),
   predictions: z.array(predictionSchema).default([]),
+  assembly_assessment: z.string().nullable().default(null),
+  comparison_scores: z
+    .array(
+      z.object({
+        id: z.string(),
+        seed: count,
+        scored_on: z.string(),
+        metrics,
+        complex_chains: chainRoles,
+        target_structure_url: artifactUrl,
+        binder_structure_url: artifactUrl,
+        complex_structure_url: artifactUrl,
+      }),
+    )
+    .default([]),
 });
 export const designSchema = z.object({
   job_id: jobId,
@@ -122,10 +137,13 @@ export const designSchema = z.object({
   source: z.string(),
   length: count.nullable(),
   candidate_count: count,
+  structured_candidates: count.default(0),
   passed_count: count,
 });
 export const designPageSchema = z.object({
   total: count,
+  candidate_total: count.default(0),
+  structured_candidates: count.default(0),
   offset: count,
   limit: count,
   records: z.array(designSchema),

@@ -51,12 +51,11 @@ to the service that created them.
 
 The demo is available at [bespoke-bio-demo.westus2.cloudapp.azure.com](https://bespoke-bio-demo.westus2.cloudapp.azure.com/).
 It serves the full public HG002 catalog and explicitly published completed results from the
-VM. Browsing needs no token or tunnel. **Generate keys** opens `/operator/` with the selected
-protein. The browser asks for a separate operator username/password; Jacob's service token
-never enters the browser. After signing in, **Generate keys** asks for confirmation, prepares
-the selected record, and starts its design job. Progress and returned key/complex models
-appear in the same workspace. The public process remains read-only and is not configured
-with service credentials or private receipts. Operator jobs are not automatically published to visitors.
+VM. Browsing needs no token or tunnel. The deployed site is read-only: generation controls
+are hidden, every write request returns 403, and the retired `/operator` routes return 410.
+Private gateway services are stopped. The public process has no service credentials, its
+Vault secret-read role has been removed, and its network access is restricted to loopback.
+Saved targets, keys, complexes and evidence downloads remain available.
 
 To publish saved results, export selected completed job IDs from the private gateway:
 
@@ -87,10 +86,12 @@ schema contains only reads. GET requests support cross-origin access without cre
 | `/api/structures/{file}` | Published coordinates, full confidence data or provenance |
 | `/api/jobs` | Explicitly published jobs only |
 | `/api/jobs/{job_id}/results` | All exported candidates and artifact/download links |
+| `/api/designs?q=FGF2&limit=25&offset=0` | Saved batches and candidate/structure totals across all matching pages |
+| `/api/designs/{job_id}` | Exact target sequence, construct provenance and source study |
 | `/docs`, `/openapi.json` | Executable API documentation and schema |
 
 Run the public process as a persistent systemd service, with the data mount available,
-automatic restart and bounded CPU/memory. Keep both Python services on loopback. Put an
+automatic restart and bounded CPU/memory. Keep the public Python service on loopback. Put an
 HTTPS reverse proxy in front of port 8789, permit public TCP 80/443, and retain private SSH
 access. The deployed VM uses an [Azure public DNS label](https://learn.microsoft.com/en-us/azure/virtual-network/ip-services/public-ip-addresses)
 and [Caddy automatic HTTPS](https://caddyserver.com/docs/automatic-https); certificates renew
@@ -99,32 +100,24 @@ automatically while the domain resolves and the service is reachable. A minimal 
 ```caddyfile
 demo.example.org {
     encode zstd gzip
-    redir /operator /operator/ 308
-    handle_path /operator/* {
-        basic_auth {
-            operator REPLACE_WITH_CADDY_PASSWORD_HASH
-        }
-        header {
-            Cache-Control no-store
-            defer
-        }
-        reverse_proxy 127.0.0.1:8787 {
-            header_up -Authorization
-        }
+    @operator path /operator /operator/*
+    handle @operator {
+        header Cache-Control no-store
+        respond "Generation is disabled. Browse saved results at /." 410
     }
     handle {
-        reverse_proxy 127.0.0.1:8789
+        @writes not method GET HEAD OPTIONS
+        respond @writes "This demo is read-only." 403
+        reverse_proxy 127.0.0.1:8789 {
+            header_up -Authorization
+        }
     }
 }
 ```
 
-Use [Caddy's password hashing](https://caddyserver.com/docs/caddyfile/directives/basic_auth)
-and HTTPS. Protect the entire `/operator/*` path, including APIs, artifacts and documentation;
-never expose the gateway port directly. The operator client prefixes all requests and
-download links. Enable `BESPOKE_DEMO_OPERATOR_ACCESS=1` on the public instance only after
-the protected route exists. Configure the public hostname on both processes. Browser Basic
-authentication is suitable for this shared demo; per-person access and audit require an
-identity provider for broader use. Browsers may remember the operator login until closed.
+Keep `BESPOKE_DEMO_OPERATOR_ACCESS=0` and `BESPOKE_DEMO_ALLOW_RUN=0`. Do not configure
+`BIOCAD_*` or `BESPOKE_DEMO_RUNS` on the public process. The optional private integration
+below is retained for a separately authorized deployment; it is disabled on the public VM.
 
 ### Key Vault credentials
 
@@ -346,3 +339,38 @@ view-specific computational confidence; the complete evidence JSON retains all m
 Study IDs such as FGF2 and IL1RN are benchmark constructs, not HG002 target IDs. The importer
 checks exact sequences across native and evaluated structures and rejects ambiguous or
 unmatched prediction joins. It does not attach a benchmark to a donor based on gene name.
+
+### Complete campaign import
+
+Jacob's [result release](https://github.com/bmwoolf/bespoke-bio/releases/tag/protein-results-2026-10-18)
+contains three archives and SHA-256 checksums; downloading requires no Runpod credentials.
+Verify checksums before extracting. Keep downloads and generated snapshots outside Git.
+`bespoke_bio.demo.import_campaigns` adds the 28 original/expanded cohorts to the existing
+focused-study snapshot. It checks bundle manifests, complete sequences, chain roles, native
+filter identities, every indexed candidate count and every fixed-key comparison join. It
+fails atomically on inconsistency. Original scores and failed candidates remain intact.
+
+With the `stage1` extra installed, extract each release archive under a directory named for
+that archive without `.tar.gz`. `--source` is the pinned Git checkout containing the index
+and exported metadata; `--snapshot` is the existing focused-study snapshot:
+
+```bash
+uv run python -m bespoke_bio.demo.import_campaigns \
+  --source /data/jacob-source --archives /data/result-archives \
+  --snapshot /data/published-focused --output /data/published-complete \
+  --revision PINNED_GIT_COMMIT --shared-bundle /data/shared-smoke/live/bundle
+```
+
+`--shared-bundle` is optional. It imports the separately saved shared-service PD-L1 result.
+Keep the source snapshot for rollback and restart public workers against the new output.
+
+Each sidebar row is one generation batch, including distinct reference/variant states.
+`/api/designs` includes candidate and structure totals across all matching pages. The viewer
+starts with the existing focused FGF2 study. **Prediction** selects original design or a
+fixed-key comparison state and seed; Target/Key views of comparisons are extracted from that
+complex, while focused standard refolds retain their independently folded structures.
+Comparison scores are computational confidence, not binding probability or affinity; three
+seeds are exploratory and do not establish statistical significance. Native filters and
+assembly-overlap assessments are separate. **Download** retains the bundle and candidate
+comparisons; **Target provenance** links the complete archives, controls and source reports.
+Prepared-but-unrun targets are not presented as generated jobs.

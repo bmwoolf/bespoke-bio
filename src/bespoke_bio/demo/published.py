@@ -39,6 +39,15 @@ def result_urls(result):
         urls.extend(candidate[field] for field in ("binder_structure_url", "complex_structure_url"))
         if candidate.get("target_structure_url"):
             urls.append(candidate["target_structure_url"])
+        for comparison in candidate.get("comparison_scores", []):
+            urls.extend(
+                comparison[field]
+                for field in (
+                    "target_structure_url",
+                    "binder_structure_url",
+                    "complex_structure_url",
+                )
+            )
         for prediction in candidate.get("predictions", []):
             urls.extend(
                 prediction[field]

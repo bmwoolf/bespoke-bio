@@ -849,7 +849,10 @@ summary:focus-visible {
     grid-template-columns: 1fr auto;
   }
   .chain-legend {
-    display: none;
+    display: flex;
+    position: absolute;
+    bottom: calc(100% + 12px);
+    left: 4px;
   }
   .segmented {
     justify-self: start;
@@ -1041,4 +1044,39 @@ summary:focus-visible {
   display: block;
   width: 100%;
   margin-top: 6px;
+}
+
+.assembly-note {
+  margin: 0;
+  padding: 12px 16px;
+  border-left: 3px solid #ad8646;
+  background: #ad86460d;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.6;
+}
+.comparison-table {
+  overflow-x: auto;
+  margin: 12px 0;
+}
+.comparison-table table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+.comparison-table th,
+.comparison-table td {
+  text-align: left;
+  padding: 9px 12px;
+  border-bottom: 1px solid var(--line);
+  white-space: nowrap;
+}
+.metadata-row dd {
+  overflow-wrap: anywhere;
+}
+
+@media (min-width: 861px) {
+  .workspace:has(.prediction-metrics) .molstar-viewport {
+    height: clamp(320px, calc(100dvh - 490px), 800px);
+  }
 }

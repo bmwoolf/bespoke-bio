@@ -56,7 +56,7 @@ test("saved keys open first and every view stays associated with its target", as
     .getByRole("combobox", { name: "Prediction context" })
     .selectOption("native");
   await ready(page, "199 residues · 2 chains");
-  await expect(scores).toHaveCount(0);
+  await expect(scores).toContainText("Original design confidence");
   await page
     .getByRole("combobox", { name: "Prediction context" })
     .selectOption("evaluated");
@@ -77,6 +77,7 @@ test("saved keys open first and every view stays associated with its target", as
   await page
     .getByRole("button")
     .filter({ hasText: /^IL1RN/ })
+    .first()
     .click();
   await expect(
     page.getByRole("heading", { name: "IL1RN", exact: true }),
@@ -110,7 +111,7 @@ test("saved keys open first and every view stays associated with its target", as
   await page.screenshot({
     path: info.outputPath("saved-keys-mobile-sidebar.png"),
   });
-  await drawer.getByRole("button").filter({ hasText: /^FGF2/ }).click();
+  await drawer.getByRole("button").filter({ hasText: /^FGF2/ }).first().click();
   await ready(page, "199 residues · 2 chains");
   await page.screenshot({ path: info.outputPath("saved-complex-mobile.png") });
   await page.getByLabel("Prediction", { exact: true }).click();
