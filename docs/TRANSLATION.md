@@ -62,4 +62,3 @@ uv run ruff check .
 This software produces research predictions, not clinical results.
 
 See [system architecture](architecture.md) for the system contracts and step boundaries.
-
