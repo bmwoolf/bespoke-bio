@@ -1,5 +1,7 @@
 # Target and binder data index
 
+**Download all three complete result archives from the [GitHub release](https://github.com/bmwoolf/bespoke-bio/releases/tag/protein-results-2026-10-18). No Runpod credentials required.** The release includes a SHA256 checksum file.
+
 The broad campaigns and focused validation are separate datasets. Start with [the target-to-folder CSV](TARGET_DATA_INDEX.csv): it maps all 30 completed broad/focused generation cohorts to readable local folders and recorded Runpod S3 job prefixes. S3 paths come from execution receipts, not a fresh S3 availability audit. The persistent volume is retained after GPU deletion.
 
 - Original panel: GDF15 (reference/H202D), F7 (reference/R413Q), APOE (E3/E4; precursor C130R), VEGFA165. 7 states, 28 candidates. GitHub sequences/scores: `examples/variant_panel/`. Full local results: `outputs/variant_campaign/`; archive `variant_campaign_results.tar.gz`.
