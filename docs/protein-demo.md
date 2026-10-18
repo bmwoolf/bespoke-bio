@@ -18,6 +18,9 @@ the checkout. Only source, documentation and small synthetic tests belong in Git
 
 ```bash
 uv sync --extra stage1 --extra dev
+# Node 22.12+; web/.nvmrc pins the tested Node release.
+npm --prefix web ci
+npm --prefix web run build
 uv run python -m bespoke_bio.demo /data/proteins /data/demo/catalog.sqlite3
 
 export BESPOKE_DEMO_INDEX=/data/demo/catalog.sqlite3
@@ -43,6 +46,23 @@ indexing/testing to spare CPU capacity; browsing and preparation do not need a G
 Use a new private runs directory when switching to another design service; receipts belong
 to the service that created them.
 
+## React application
+
+`web/` contains Vite, React and strict TypeScript source. Components separate catalog,
+target preparation, job status, candidates and the Mol* viewer. Zod validates API responses;
+TanStack Query handles cancellation, caching and polling. Mutations never retry automatically.
+`npm --prefix web run dev` serves the app on port 5173 and proxies `/api` to the gateway.
+
+The production build writes ignored assets into `src/bespoke_bio/demo/static/`. Build before
+packaging a wheel or deploying. The gateway compresses and caches hashed assets, while API
+responses remain uncached. Mol* loads on demand from the same server; no CDN is needed.
+
+Existing mmCIF/PDB coordinates supply surface, ribbon and atom representations. Gaussian
+surfaces request GPU computation and fall back to CPU when Mol* determines the device or
+structure is unsuitable. The UI reports the selected path. WebGL renders the resulting
+geometry. Metallic finish controls material lighting only; it does not need another dataset
+and is not a measured density map. Sequence-only records need coordinates before 3D viewing.
+
 ## What is retained and what runs
 
 - Indexing first verifies the complete portable Stage 1 package, then checks its hashes again.
@@ -58,7 +78,7 @@ to the service that created them.
 - **Cached PD-L1 example** calls `POST /v1/designs/demo`. It displays previously generated
   results, explicitly separate from the selected donor. All exported candidates remain visible,
   including failed computational filters. Structures and ZIP downloads come from that job.
-- GPU execution is disabled by default. Only set `BESPOKE_DEMO_ALLOW_RUN=1` after configuring
+- GPU inference is disabled by default. Only set `BESPOKE_DEMO_ALLOW_RUN=1` after configuring
   and authorizing live execution with the service operator. Starting then requires an explicit
   UI action. Neither preparing nor viewing a cached example invokes `/run`.
 
@@ -72,6 +92,11 @@ or affinity. An empty result is shown as empty, never replaced with a cached don
 ```bash
 uv run pytest
 uv run ruff check .
+npm --prefix web run test
+npm --prefix web run build
+npm --prefix web run format:check
+# Against the running HG002 demo, without starting inference:
+npm --prefix web run test:browser
 ```
 
 The tests cover source corruption, biological cardinality, exact handoff, unknown submissions,
@@ -87,6 +112,8 @@ demonstrates the result path only. No timing here predicts the cost of processin
 HTTP requests have a 60-second timeout; JSON responses are limited to 8 MiB and individual
 artifact/ZIP responses to 128 MiB. Larger jobs need streaming downloads. Unknown submissions
 and restarts during dispatch require operator reconciliation; the gateway never retries POSTs
-automatically. The structure viewer uses [3Dmol.js](https://3dmol.org/doc/) 2.5.5 with a pinned
-CDN URL and integrity checksum; the older 2.0.1 parser did not render the cached mmCIF correctly.
-If unavailable, structure downloads remain available.
+automatically. The [Mol* viewer](https://molstar.org/docs/v5/plugin/instance/) is pinned in
+`web/package-lock.json`. Without WebGL, original structure downloads remain available.
+Browser tests cover the real cached mmCIF, representation changes, viewer teardown, mobile
+layout and absence of inference calls. Headless tests can exercise the GPU algorithm through
+software WebGL; they do not measure physical GPU performance.

@@ -36,9 +36,10 @@ variants; direct protein ingestion requires a separate interface update.
 
 ## Run the sequence-only design demo
 
-The [protein demo](docs/protein-demo.md) browses a complete verified Step 1 export and sends
-one unchanged protein record to the separate design service. It shows preparation status,
-cached or newly generated candidates, and structures. GPU execution is disabled by default.
+The Vite/React/TypeScript [protein demo](docs/protein-demo.md), with a Mol* viewer, browses
+a complete verified Step 1 export and sends one unchanged protein record to the separate
+design service. It shows preparation status,
+cached or newly generated candidates, and structures. GPU inference is disabled by default.
 Keep the full dataset and runtime files on the VM, outside Git. This demo bypasses standalone
 Step 2; the original CDS-to-structure API below remains available.
 

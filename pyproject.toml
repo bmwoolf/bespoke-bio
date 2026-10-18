@@ -34,6 +34,7 @@ bespoke-stage1 = "bespoke_bio.stage1.cli:main"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/bespoke_bio"]
+artifacts = ["src/bespoke_bio/demo/static/**"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

@@ -8,6 +8,7 @@ from urllib.error import HTTPError
 import pytest
 from fastapi.testclient import TestClient
 
+import bespoke_bio.demo.service as demo_service
 from bespoke_bio.demo.catalog import Catalog, build_index
 from bespoke_bio.demo.client import DesignService, ServiceError
 from bespoke_bio.demo.service import create_app
@@ -15,6 +16,23 @@ from bespoke_bio.stage1.io import artifact
 
 HEADERS = {"X-Bespoke-Request": "1"}
 REMOTE = "a" * 32
+
+
+def test_frontend_build_is_optional_for_api_and_assets_are_compressed(tmp_path, monkeypatch):
+    monkeypatch.setattr(demo_service, "STATIC", tmp_path)
+    with TestClient(create_app()) as client:
+        assert client.get("/").status_code == 503
+        assert client.get("/api/jobs").json() == []
+        (tmp_path / "assets").mkdir()
+        content = "/* compiled asset */" * 200
+        (tmp_path / "assets/bundle.js").write_text(content)
+        (tmp_path / "index.html").write_text("<main>React application</main>")
+        response = client.get("/assets/bundle.js", headers={"Accept-Encoding": "gzip"})
+        assert response.text == content
+        assert response.headers["content-encoding"] == "gzip"
+        assert "immutable" in response.headers["cache-control"]
+        assert client.get("/").headers["cache-control"] == "no-store"
+        assert client.get("/api/jobs").headers["cache-control"] == "no-store"
 
 
 @pytest.fixture

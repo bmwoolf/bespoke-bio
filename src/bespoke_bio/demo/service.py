@@ -13,6 +13,7 @@ from fastapi import FastAPI, HTTPException, Query, Request
 from fastapi.responses import FileResponse, JSONResponse, Response
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, ConfigDict, Field
+from starlette.middleware.gzip import GZipMiddleware
 from starlette.middleware.trustedhost import TrustedHostMiddleware
 
 from .catalog import Catalog
@@ -66,7 +67,11 @@ def create_app(index=None, runs=None, service=None, *, allow_run=False):
                 return JSONResponse({"detail": "Use the local demo client"}, status_code=403)
         response = await call_next(request)
         response.headers["X-Content-Type-Options"] = "nosniff"
-        response.headers["Cache-Control"] = "no-store"
+        response.headers["Cache-Control"] = (
+            "public, max-age=31536000, immutable"
+            if request.url.path.startswith("/assets/") and response.status_code == 200
+            else "no-store"
+        )
         return response
 
     @app.exception_handler(ServiceError)
@@ -314,10 +319,16 @@ def create_app(index=None, runs=None, service=None, *, allow_run=False):
             headers={"Content-Disposition": f'attachment; filename="{job_id}.zip"'},
         )
 
-    app.mount("/static", StaticFiles(directory=STATIC), name="static")
+    app.mount(
+        "/assets",
+        GZipMiddleware(StaticFiles(directory=STATIC / "assets", check_dir=False), minimum_size=1024),
+        name="assets",
+    )
 
     @app.get("/", include_in_schema=False)
     def index_page():
+        if not (STATIC / "index.html").is_file():
+            raise HTTPException(503, "Build the web app first: cd web && npm ci && npm run build")
         return FileResponse(STATIC / "index.html")
 
     return app
