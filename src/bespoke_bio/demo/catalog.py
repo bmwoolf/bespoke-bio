@@ -76,6 +76,7 @@ def build_index(package: Path, destination: Path) -> dict:
 class Catalog:
     def __init__(self, path: Path):
         self.path = path.resolve()
+        self.ready_index = None
         # The index is an immutable release; caches belong to this instance only.
         self.metadata = lru_cache(maxsize=1)(self.metadata)
         self.search = lru_cache(maxsize=512)(self.search)
@@ -84,13 +85,17 @@ class Catalog:
     def connect(self):
         db = sqlite3.connect(self.path.as_uri() + "?mode=ro", uri=True)
         db.row_factory = sqlite3.Row
+        if self.ready_index:
+            db.execute("ATTACH DATABASE ? AS ready", (self.ready_index.as_uri() + "?mode=ro",))
         return db
 
     def metadata(self):
         with closing(self.connect()) as db:
             return json.loads(db.execute("SELECT payload FROM metadata").fetchone()[0])
 
-    def search(self, query="", changed=False, limit=25, offset=0):
+    def search(self, query="", changed=False, limit=25, offset=0, ready=False):
+        if ready and not self.ready_index:
+            return {"total": 0, "offset": offset, "limit": limit, "records": []}
         # Literal prefix search: user text cannot become SQL or LIKE wildcards.
         pattern = query.replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_") + "%"
         where = "(gene LIKE ? ESCAPE '\\' OR transcript LIKE ? ESCAPE '\\' OR target_id = ?)"
@@ -99,11 +104,15 @@ class Catalog:
             where, args = "1", []
         if changed:
             where += " AND changed=1"
+        join = " LEFT JOIN ready.targets AS saved USING(target_id)" if self.ready_index else ""
+        extra = ",saved.target_id IS NOT NULL AS has_structure" if self.ready_index else ""
+        if ready:
+            where += " AND saved.target_id IS NOT NULL"
         with closing(self.connect()) as db:
-            if query:
-                total = db.execute("SELECT count(*) FROM targets WHERE " + where, args).fetchone()[
-                    0
-                ]
+            if query or ready:
+                total = db.execute(
+                    "SELECT count(*) FROM targets" + join + " WHERE " + where, args
+                ).fetchone()[0]
             else:
                 meta = json.loads(db.execute("SELECT payload FROM metadata").fetchone()[0])
                 total = meta["nonreference_records" if changed else "target_records"]
@@ -111,8 +120,11 @@ class Catalog:
             # and sorts thousands of large payload rows for a broad prefix such as "A".
             summary_index = "changed_index" if changed else "browse_index"
             rows = db.execute(
-                "SELECT target_id,gene,transcript,donor,changed,length FROM targets INDEXED BY "
+                "SELECT target_id,gene,transcript,donor,changed,length"
+                + extra
+                + " FROM targets INDEXED BY "
                 + summary_index
+                + join
                 + " WHERE "
                 + where
                 + " ORDER BY gene,transcript,target_id LIMIT ? OFFSET ?",

@@ -13,7 +13,23 @@ export const catalogSchema = z.object({
   service_configured: z.boolean(),
   gpu_execution_enabled: z.boolean(),
   read_only: z.boolean().default(false),
+  structured_records: count.default(0),
+  structured_sequences: count.default(0),
 });
+const structureUrl = z
+  .string()
+  .regex(/^\/api\/structures\/[a-f0-9]{64}\.(cif|json|npz)$/);
+export const structureSchema = z.object({
+  sequence_sha256: digest,
+  source: z.string(),
+  residues: count,
+  mean_plddt: z.number().min(0).max(100).nullable(),
+  geometry_screen_flags: count.nullable().default(null),
+  structure_url: structureUrl,
+  confidence_url: structureUrl,
+  provenance_url: structureUrl,
+});
+export type ProteinStructure = z.infer<typeof structureSchema>;
 export const targetSchema = z
   .object({
     target_id: z.string(),
@@ -40,6 +56,9 @@ export const pageSchema = z.object({
       donor: z.string(),
       changed: z.union([z.literal(0), z.literal(1)]),
       length: count,
+      has_structure: z
+        .union([z.boolean(), z.literal(0), z.literal(1)])
+        .default(false),
     }),
   ),
 });
@@ -117,6 +136,7 @@ export const api = {
     changed: boolean,
     offset: number,
     signal?: AbortSignal,
+    ready = false,
   ) =>
     request(
       "/api/targets?" +
@@ -125,12 +145,19 @@ export const api = {
           changed: String(changed),
           offset: String(offset),
           limit: "25",
+          ready: String(ready),
         }),
       pageSchema,
       { signal },
     ),
   target: (id: string, signal?: AbortSignal) =>
     request("/api/targets/" + encodeURIComponent(id), targetSchema, { signal }),
+  structure: (id: string, signal?: AbortSignal) =>
+    request(
+      `/api/targets/${encodeURIComponent(id)}/structure`,
+      structureSchema.nullable(),
+      { signal },
+    ),
   jobs: (signal?: AbortSignal) =>
     request("/api/jobs", z.array(jobSchema), { signal }),
   job: (id: string, signal?: AbortSignal) =>

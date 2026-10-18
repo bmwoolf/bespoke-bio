@@ -13,10 +13,115 @@ from bespoke_bio.demo.catalog import Catalog, build_index
 from bespoke_bio.demo.client import DesignService, ServiceError
 from bespoke_bio.demo.published import PublishedSnapshot, artifact_key, export_snapshot
 from bespoke_bio.demo.service import create_app
+from bespoke_bio.demo.structures import StructureLibrary, publish_structures
 from bespoke_bio.stage1.io import artifact
 
 HEADERS = {"X-Bespoke-Request": "1"}
 REMOTE = "a" * 32
+
+
+@pytest.fixture
+def structure_source(index, tmp_path):
+    from io import StringIO
+
+    from Bio.PDB import MMCIFIO, PDBParser
+
+    folder = tmp_path / "structure-source"
+    folder.mkdir()
+    lines = []
+    for residue, name in enumerate(("MET", "GLN"), 1):
+        for offset, atom in enumerate(("N", "CA", "C", "O")):
+            serial = (residue - 1) * 4 + offset + 1
+            lines.append(
+                f"ATOM  {serial:5d} {atom:^4s} {name} A{residue:4d}    "
+                f"{float(serial):8.3f}{0.0:8.3f}{0.0:8.3f}{1.0:6.2f}{80.0:6.2f}          "
+                f"{atom[0]:>2s}  \n"
+            )
+    writer = MMCIFIO()
+    writer.set_structure(PDBParser(QUIET=True).get_structure("fixture", StringIO("".join(lines))))
+    writer.save(str(folder / "target.cif"))
+    (folder / "confidence.json").write_text('{"synthetic":true}')
+    source = {
+        "version": 1,
+        "catalog_sha256": Catalog(index).metadata()["manifest_sha256"],
+        "structures": [
+            {
+                "amino_acid_sequence": "MQ",
+                "sequence_sha256": sha256(b"MQ").hexdigest(),
+                "file": "target.cif",
+                "file_sha256": sha256((folder / "target.cif").read_bytes()).hexdigest(),
+                "confidence": {
+                    "file": "confidence.json",
+                    "sha256": sha256((folder / "confidence.json").read_bytes()).hexdigest(),
+                },
+                "source": "Synthetic test",
+                "mean_plddt": 80.0,
+                "provenance": {"synthetic": True, "peptide_geometry_screen_flags": 1},
+            }
+        ],
+    }
+    (folder / "manifest.json").write_text(json.dumps(source))
+    return folder / "manifest.json"
+
+
+def test_structures_preserve_all_records_and_filter_exact_ready_sequences(
+    index, structure_source, tmp_path, package
+):
+    root = tmp_path / "structures"
+    assert publish_structures(index, structure_source, root) == {
+        "structured_records": 2,
+        "structured_sequences": 1,
+    }
+    with TestClient(create_app(index, structures=root)) as client:
+        assert client.get("/api/catalog").json()["target_records"] == 3
+        assert client.get("/api/targets").json()["total"] == 3
+        pages = [client.get(f"/api/targets?ready=true&limit=1&offset={i}").json() for i in range(3)]
+        assert all(p["total"] == 2 for p in pages)
+        assert [r["target_id"] for p in pages for r in p["records"]] == ["fixture-1", "fixture-2"]
+        assert client.get("/api/targets?ready=true&q=missing").json()["total"] == 0
+        assert client.get("/api/targets?ready=true&changed=true").json()["total"] == 2
+        assert client.get("/api/targets/fixture-1").json() == package[1][1]
+        a = client.get("/api/targets/fixture-1/structure").json()
+        b = client.get("/api/targets/fixture-2/structure").json()
+        assert a == b
+        assert a["geometry_screen_flags"] == 1
+        assert client.get("/api/targets/fixture-0/structure").json() is None
+        response = client.get(a["structure_url"])
+        assert response.content == (structure_source.parent / "target.cif").read_bytes()
+        assert "immutable" in response.headers["cache-control"]
+        assert client.get("/api/structures/secret.json").status_code == 404
+    with pytest.raises(FileExistsError):
+        publish_structures(index, structure_source, root)
+
+
+def test_structure_publication_rejects_mislabeled_coordinates_and_corruption(
+    index, structure_source, tmp_path
+):
+    source = json.loads(structure_source.read_text())
+    source["structures"][0].update(
+        amino_acid_sequence="ME", sequence_sha256=sha256(b"ME").hexdigest()
+    )
+    structure_source.write_text(json.dumps(source))
+    with pytest.raises(ValueError, match="exact complete sequence"):
+        publish_structures(index, structure_source, tmp_path / "bad")
+    assert not (tmp_path / "bad").exists()
+    source["structures"][0].update(
+        amino_acid_sequence="MQ", sequence_sha256=sha256(b"MQ").hexdigest()
+    )
+    structure_source.write_text(json.dumps(source))
+    root = tmp_path / "good"
+    publish_structures(index, structure_source, root)
+    path = next((root / "files").glob("*.cif"))
+    path.write_bytes(b"x" * path.stat().st_size)
+    with pytest.raises(ValueError, match="checksum mismatch"):
+        StructureLibrary(root, Catalog(index).metadata()["manifest_sha256"])
+
+
+def test_structure_library_rejects_a_different_catalog(index, structure_source, tmp_path):
+    root = tmp_path / "structures"
+    publish_structures(index, structure_source, root)
+    with pytest.raises(ValueError, match="does not match"):
+        StructureLibrary(root, "0" * 64)
 
 
 @pytest.fixture

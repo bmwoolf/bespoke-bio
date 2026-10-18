@@ -20,6 +20,7 @@ from starlette.middleware.trustedhost import TrustedHostMiddleware
 from .catalog import Catalog
 from .client import DesignService, ServiceError
 from .published import PublishedSnapshot
+from .structures import StructureLibrary
 
 STATIC = Path(__file__).parent / "static"
 JOB_ID = re.compile(r"^[a-f0-9]{32}$")
@@ -50,7 +51,16 @@ def write_json(path, value):
     sync_directory(path.parent)
 
 
-def create_app(index=None, runs=None, service=None, *, allow_run=False, published=None, hosts=()):
+def create_app(
+    index=None,
+    runs=None,
+    service=None,
+    *,
+    allow_run=False,
+    published=None,
+    hosts=(),
+    structures=None,
+):
     if published and not index:
         raise ValueError("Public snapshots require a verified catalog")
     if published and (service is not None or allow_run or runs is not None):
@@ -63,6 +73,13 @@ def create_app(index=None, runs=None, service=None, *, allow_run=False, publishe
         allowed_hosts=["localhost", "127.0.0.1", "[::1]", "testserver", *hosts],
     )
     catalog = Catalog(Path(index)) if index else None
+    if structures and not catalog:
+        raise ValueError("Structures require a verified catalog")
+    library = (
+        StructureLibrary(structures, catalog.metadata()["manifest_sha256"]) if structures else None
+    )
+    if library:
+        catalog.ready_index = library.index
     run_root = Path(runs).resolve() if runs else None
     lock = threading.Lock()
     snapshot = (
@@ -93,7 +110,8 @@ def create_app(index=None, runs=None, service=None, *, allow_run=False, publishe
         response.headers["X-Frame-Options"] = "DENY"
         response.headers["Cache-Control"] = (
             "public, max-age=31536000, immutable"
-            if request.url.path.startswith("/assets/") and response.status_code == 200
+            if request.url.path.startswith(("/assets/", "/api/structures/"))
+            and response.status_code == 200
             else "public, max-age=60, stale-while-revalidate=300"
             if snapshot and request.url.path.startswith("/api/") and response.status_code == 200
             else "no-store"
@@ -232,20 +250,38 @@ def create_app(index=None, runs=None, service=None, *, allow_run=False, publishe
             "service_configured": service is not None,
             "gpu_execution_enabled": allow_run,
             "read_only": snapshot is not None,
+            "structured_records": library.records if library else 0,
+            "structured_sequences": len(library.structures) if library else 0,
         }
 
     @app.get("/api/targets")
     def search(
         q: str = Query("", max_length=200),
         changed: bool = False,
+        ready: bool = False,
         limit: int = Query(25, ge=1, le=100),
         offset: int = Query(0, ge=0, le=2**63 - 1),
     ):
-        return require_catalog().search(q.strip(), changed, limit, offset)
+        return require_catalog().search(q.strip(), changed, limit, offset, ready)
 
     @app.get("/api/targets/{target_id}")
     def target_record(target_id: str):
         return target(target_id)
+
+    @app.get("/api/targets/{target_id}/structure")
+    def target_structure(target_id: str):
+        record = target(target_id)
+        return library.structures.get(record["sequence_sha256"]) if library else None
+
+    @app.get("/api/structures/{name}")
+    def structure_artifact(name: str):
+        try:
+            path = library.file(name) if library else None
+        except KeyError as exc:
+            raise HTTPException(404, "Unpublished structure artifact") from exc
+        if path is None:
+            raise HTTPException(404, "No structure library configured")
+        return FileResponse(path, media_type="application/octet-stream", filename=name)
 
     @app.post("/api/prepare", status_code=201)
     def prepare(selection: Selection):
@@ -408,6 +444,7 @@ def from_environment():
         allow_run=os.environ.get("BESPOKE_DEMO_ALLOW_RUN") == "1",
         published=os.environ.get("BESPOKE_DEMO_PUBLISHED"),
         hosts=tuple(filter(None, os.environ.get("BESPOKE_DEMO_HOSTS", "").split(","))),
+        structures=os.environ.get("BESPOKE_DEMO_STRUCTURES"),
     )
 
 

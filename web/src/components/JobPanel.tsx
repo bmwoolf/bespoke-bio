@@ -1,7 +1,8 @@
 import { lazy, Suspense, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { api, isActive, isComplete } from "../api";
-import type { Target } from "../api";
+import type { ProteinStructure, Target } from "../api";
+import { ProteinView } from "./ProteinView";
 import { Popover } from "./Popover";
 import { ViewerBoundary } from "./ViewerBoundary";
 import { CandidateList, CandidateDetails } from "./CandidateList";
@@ -14,16 +15,18 @@ export function JobPanel({
   jobId,
   allowRun,
   target,
+  proteinStructure,
 }: {
   jobId: string;
   allowRun: boolean;
   target?: Target;
+  proteinStructure?: ProteinStructure | null;
 }) {
   const cache = useQueryClient();
   const [candidateId, setCandidateId] = useState<string | null>(null);
-  const [structureKind, setStructureKind] = useState<"complex" | "binder">(
-    "complex",
-  );
+  const [structureKind, setStructureKind] = useState<
+    "complex" | "binder" | "protein"
+  >("complex");
   const status = useQuery({
     queryKey: ["job", jobId],
     queryFn: ({ signal }) => api.job(jobId, signal),
@@ -58,15 +61,16 @@ export function JobPanel({
   const candidate =
     results.data?.candidates.find((value) => value.id === candidateId) ??
     results.data?.candidates[0];
-  const structure = candidate
-    ? {
-        url:
-          structureKind === "complex"
-            ? candidate.complex_structure_url
-            : candidate.binder_structure_url,
-        title: `${structureKind === "complex" ? "Complex" : "Binder"} · ${candidate.id}`,
-      }
-    : null;
+  const structure =
+    candidate && structureKind !== "protein"
+      ? {
+          url:
+            structureKind === "complex"
+              ? candidate.complex_structure_url
+              : candidate.binder_structure_url,
+          title: `${structureKind === "complex" ? "Complex" : "Binder"} · ${candidate.id}`,
+        }
+      : null;
   const ready = job?.status === "prepared_pending_gpu_execution";
   const canCancel =
     job && ["queued", "running", "cancel_requested"].includes(job.status);
@@ -101,17 +105,24 @@ export function JobPanel({
                   value={structureKind}
                   onChange={(event) =>
                     setStructureKind(
-                      event.target.value === "binder" ? "binder" : "complex",
+                      event.target.value === "binder"
+                        ? "binder"
+                        : event.target.value === "protein"
+                          ? "protein"
+                          : "complex",
                     )
                   }
                 >
                   <option value="complex">Complex</option>
-                  <option value="binder">Binder</option>
+                  <option value="binder">Key</option>
+                  {proteinStructure && <option value="protein">Protein</option>}
                 </select>
               </label>
             ) : (
               <span className="status-label" data-testid="job-status">
-                {jobLabel(job.status)}
+                {results.data && !results.data.candidates.length
+                  ? "No keys returned"
+                  : jobLabel(job.status)}
               </span>
             )}
             <div className="result-actions">
@@ -129,13 +140,13 @@ export function JobPanel({
                     onClick={() => {
                       if (
                         window.confirm(
-                          "Generate binders for this protein using paid GPU compute?",
+                          "Generate keys for this protein using paid GPU compute?",
                         )
                       )
                         action.mutate("run");
                     }}
                   >
-                    Generate binders
+                    Generate keys
                   </button>
                 </>
               )}
@@ -167,6 +178,12 @@ export function JobPanel({
               )}
             </div>
           </div>
+          {isActive(job.status) && (
+            <Loading>
+              {job.progress?.stage?.replaceAll("_", " ") ||
+                jobLabel(job.status)}
+            </Loading>
+          )}
           {structure ? (
             <ViewerBoundary key={structure.url} downloadUrl={structure.url}>
               <Suspense
@@ -179,6 +196,11 @@ export function JobPanel({
                 <MolecularViewer key={structure.url} selection={structure} />
               </Suspense>
             </ViewerBoundary>
+          ) : proteinStructure ? (
+            <ProteinView
+              structure={proteinStructure}
+              title={target?.gene_symbol || "Target"}
+            />
           ) : (
             <div className="empty-structure">
               <div>

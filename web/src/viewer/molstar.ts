@@ -143,7 +143,11 @@ export class MolecularScene {
   }
 
   resize() {
-    if (!this.disposed) this.plugin.handleResize();
+    if (!this.disposed) {
+      this.plugin.handleResize();
+      // Keep the full molecule framed when the viewport changes aspect ratio.
+      this.plugin.canvas3d?.requestCameraReset({ durationMs: 0 });
+    }
   }
   resetCamera() {
     if (!this.disposed)

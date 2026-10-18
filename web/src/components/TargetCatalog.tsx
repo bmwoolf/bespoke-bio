@@ -23,7 +23,9 @@ export function TargetCatalog({
     query: "",
     changed: false,
     offset: 0,
+    ready: null as boolean | null,
   });
+  const readyOnly = filter.ready ?? !!catalog?.structured_records;
   useEffect(() => {
     const timer = setTimeout(
       () =>
@@ -37,9 +39,15 @@ export function TargetCatalog({
     return () => clearTimeout(timer);
   }, [input]);
   const { data, error, isFetching } = useQuery({
-    queryKey: ["targets", filter],
+    queryKey: ["targets", filter, readyOnly],
     queryFn: ({ signal }) =>
-      api.targets(filter.query, filter.changed, filter.offset, signal),
+      api.targets(
+        filter.query,
+        filter.changed,
+        filter.offset,
+        signal,
+        readyOnly,
+      ),
   });
   return (
     <section className="catalog" aria-label="Protein catalog">
@@ -69,6 +77,18 @@ export function TargetCatalog({
           placeholder="Search gene or transcript…"
           autoComplete="off"
         />
+        {!!catalog?.structured_records && (
+          <label className="check">
+            <input
+              type="checkbox"
+              checked={readyOnly}
+              onChange={(event) =>
+                setFilter({ ...filter, ready: event.target.checked, offset: 0 })
+              }
+            />
+            Structure ready
+          </label>
+        )}
         <label
           className="check"
           title="Protein sequence differs from its reference sequence"
@@ -78,6 +98,7 @@ export function TargetCatalog({
             checked={filter.changed}
             onChange={(e) =>
               setFilter({
+                ...filter,
                 query: input.trim(),
                 changed: e.target.checked,
                 offset: 0,
@@ -115,7 +136,9 @@ export function TargetCatalog({
             <span className="target-availability">
               {modeledTargets.has(row.target_id)
                 ? "Saved results"
-                : "Sequence only"}
+                : row.has_structure
+                  ? "3D structure"
+                  : "Structure pending"}
             </span>
             <span className="target-origin">
               {row.donor} · {row.target_id.slice(-8)}
@@ -163,8 +186,9 @@ export function TargetCatalog({
             {formatCount(catalog.nonreference_records)} changed records.
           </p>
           <p>
-            All records and their provenance are retained. Sequence records do
-            not include 3D coordinates.
+            {formatCount(catalog.structured_records)} records have a saved
+            structure. All records and their provenance remain available; clear
+            Structure ready to browse all.
           </p>
         </details>
       )}

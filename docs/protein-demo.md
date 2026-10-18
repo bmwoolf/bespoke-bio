@@ -1,14 +1,15 @@
-# Sequence-only protein design demo
+# Protein catalog and design demo
 
 This demo connects a verified Stage 1 protein package to Jacob's design API. It preserves
 every biological target and sends the selected record unchanged, plus `binder_length` and
 `num_designs`. Expression stays null when unmeasured. The complete sequence and both hashes
-remain in the request. The standalone CDS-based Step 2 is bypassed: structural prediction
-belongs to the design service in this route. This does not demonstrate the original three
-modules running in sequence.
+remain in the request. The standalone CDS-based Step 2 is bypassed. An optional, independently published structure
+library supplies exact-sequence previews; the design service predicts candidate complexes.
+The preview is not sent as a structural constraint. This route does not demonstrate the
+original three modules running in sequence.
 
 The integration targets [design service PR #1](https://github.com/bmwoolf/bespoke-bio/pull/1),
-commit `95507e664491bb6f1986704e2da1771cf817e525`. Its executable API/schema is the upstream
+commit `ee1db463e1cbc18450bbcbb0491dae040fbd024f`. Its executable API/schema is the upstream
 contract. Run that revision separately; this branch does not import its Step 2 changes.
 
 ## Run on the data VM
@@ -78,6 +79,8 @@ schema contains only reads. GET requests support cross-origin access without cre
 | `/api/catalog` | Full counts, source hashes and availability flags |
 | `/api/targets?q=TP53&changed=true&limit=25&offset=0` | Paged summaries; continue through `total` |
 | `/api/targets/{target_id}` | Original complete protein record, sequence and provenance |
+| `/api/targets/{target_id}/structure` | Exact-sequence preview metadata, or null |
+| `/api/structures/{file}` | Published coordinates, full confidence data or provenance |
 | `/api/jobs` | Explicitly published jobs only |
 | `/api/jobs/{job_id}/results` | All exported candidates and artifact/download links |
 | `/docs`, `/openapi.json` | Executable API documentation and schema |
@@ -98,9 +101,47 @@ demo.example.org {
 
 Public reads use a 60-second HTTP cache and bounded per-worker catalog caches. Saved files
 are served directly from disk, without contacting Jacob's API. Hashed assets are immutable;
-retain previous asset files during deployments so open tabs can finish loading. The index
+retain previous asset files during deployments so open tabs can finish loading. When switching
+to an installed release, clear any old `PYTHONPATH` override and verify the served catalog
+metadata before completing the switch. The index
 and snapshot are immutable releases: create new paths and restart workers when updating.
 The VM must remain running for the URL to work; no development tunnel is involved.
+
+## Publish target structures
+
+A partial preview library is separate from the complete Step 2 bundle contract. It never
+marks unresolved sequences as folded or removes targets from the catalog. Identical full
+sequences share coordinates; every biological record keeps its identity and original JSON.
+
+The publication input is a version-1 JSON manifest with `catalog_sha256` and a `structures`
+array. Each entry supplies `amino_acid_sequence`, `sequence_sha256`, `file`, `file_sha256`,
+`confidence: {file, sha256}`, `source`, `mean_plddt` (0–100 or null), and a `provenance` object.
+Paths are relative to that manifest. Coordinates must be mmCIF; confidence is JSON or NPZ.
+Retain model revision, inference settings, source URLs and validation evidence in provenance.
+
+```bash
+uv run python -m bespoke_bio.demo.structures \
+  --index /data/demo/catalog.sqlite3 \
+  --source /data/reviewed-structures/manifest.json \
+  --output /data/demo/structures-release-1
+export BESPOKE_DEMO_STRUCTURES=/data/demo/structures-release-1
+# Restart the public and/or private service with this setting.
+```
+
+Publication checks full sequence hashes, ordered residues, backbone coverage, finite
+coordinates and artifact hashes, then builds an immutable target index. Startup rechecks
+catalog identity, index cardinality and every artifact. This verifies data integrity; it is
+not an independent measurement of prediction accuracy. The optional provenance field
+`peptide_geometry_screen_flags` exposes a nonnegative count of flagged bond distances in the
+UI; null means no screen result was supplied. Review confidence semantics and structural
+quality before publication. Source artifacts and generated releases stay outside Git.
+
+The sidebar defaults to **Structure ready** when a library exists. Uncheck it to browse the
+full catalog, including records without coordinates. `/api/targets?ready=true` exposes the
+same filter. `/api/catalog` reports both complete and structure-ready counts. These counts
+measure coverage, not confidence or biological significance. List order is alphabetical,
+not a scientific ranking. Downloads retain full confidence arrays and provenance; the browser
+loads only the selected model. Structures use immutable, content-hashed URLs.
 
 ## React application
 
@@ -126,11 +167,13 @@ and is not a measured density map. Sequence-only records need coordinates before
 The workspace opens on the explicitly labeled saved PD-L1 example and its first exported
 candidate; list order is not a scientific ranking. Selecting a donor record replaces that
 example with the donor's own context. The sidebar reopens that exact target's completed,
-active or prepared job when available; otherwise it explicitly shows a sequence-only state.
+active or prepared job when available. Otherwise it displays that exact sequence's saved
+structure, or explicitly says that no structure has been published.
 Selection is preserved in the URL across refresh and back/forward navigation. Cross-target
 job links cannot display a model under the wrong protein's heading. A delayed
-preparation response cannot switch the active selection. The Complex/Binder selector chooses
-the artifact; Surface/Ribbon/Atoms changes its representation. Reset and fullscreen controls
+preparation response cannot switch the active selection. The Complex/Key/Protein selector chooses
+the artifact; Protein is the separate unbound preview when available, while Complex shows
+the design service's predicted bound geometry; Surface/Ribbon/Atoms changes its representation. Reset and fullscreen controls
 stay with the viewer. Chain labels/colors come from Mol*'s actual structure color legend;
 they do not infer which chain is the target or binder.
 
@@ -154,8 +197,10 @@ they do not infer which chain is the target or binder.
   including failed computational filters. Structures and ZIP downloads come from that job.
 - GPU inference is disabled by default. Only set `BESPOKE_DEMO_ALLOW_RUN=1` after configuring
   and authorizing live execution with the service operator. Starting then requires an explicit
-  **Generate binders** action and confirmation. Neither preparing nor viewing a cached
-  example invokes `/run`.
+  **Generate keys** action and confirmation. For a new target this prepares and dispatches
+  once; for an existing prepared job it dispatches that job. Ambiguous submissions are never
+  automatically retried. The protein stays visible while progress is polled, and candidates
+  appear only when returned. Viewing cached models never invokes `/run`.
 
 This UI prepares one chosen target at a time; it does not dispatch the entire catalog to
 GPUs. The service's 2-design, 75-residue defaults are small demo settings, not a validated
@@ -184,8 +229,9 @@ by preparing a real non-reference record, comparing its saved target sequence/ha
 the cached candidates and downloading their structures. Do not call `/run` in integration tests.
 
 Without the shared service token, authenticated shared-service behavior remains unverified.
-Without a fresh GPU run, deployment, inference and cleanup remain unverified. Cached replay
-demonstrates the result path only. No timing here predicts the cost of processing all proteins.
+Without a fresh design-service GPU run, its inference and cleanup remain unverified. Target
+folding benchmarks do not validate binder generation. Cached replay demonstrates the result
+path only; intercepted browser tests exercise the generation UI without spending GPU credits.
 
 HTTP requests have a 60-second timeout; JSON responses are limited to 8 MiB and individual
 artifact/ZIP responses to 128 MiB. Larger jobs need streaming downloads. Unknown submissions
@@ -198,3 +244,12 @@ results, refresh/back navigation and absence of inference calls. Public snapshot
 corruption, offline upstream operation, exact record retention and rejection of writes.
 Headless tests can exercise the GPU algorithm through
 software WebGL; they do not measure physical GPU performance.
+
+For the demo, a verified subset is a coverage decision, not evidence that every protein was
+modeled or that the models are equally reliable. HG002 is public benchmark data, not a soldier
+or a sensor stream. Candidate isoforms/phase scenarios are not proof of protein expression.
+The current flow demonstrates sequence identity → predicted target → candidate key/complex;
+variant-specific binding, off-target selectivity and therapeutic benefit remain unestablished.
+ESMFold2's [model card](https://huggingface.co/biohub/ESMFold2) explicitly distinguishes reduced
+inference compute from maximal accuracy. BoltzGen's [pipeline outputs](https://github.com/HannesStark/boltzgen#pipeline-output)
+provide computational design evidence, not measured binding.

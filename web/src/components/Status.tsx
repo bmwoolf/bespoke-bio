@@ -11,7 +11,7 @@ export function Loading({
   children?: React.ReactNode;
 }) {
   return (
-    <p className="muted" role="status">
+    <p className="muted loading-status" role="status">
       {children}
     </p>
   );

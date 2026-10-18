@@ -922,3 +922,29 @@ summary:focus-visible {
     width: 32px;
   }
 }
+
+.loading-status {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+.loading-status::before {
+  content: "";
+  width: 0.75rem;
+  height: 0.75rem;
+  flex: 0 0 auto;
+  border: 1.5px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: loading-spin 0.9s linear infinite;
+}
+@keyframes loading-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .loading-status::before {
+    animation: none;
+  }
+}

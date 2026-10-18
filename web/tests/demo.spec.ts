@@ -49,12 +49,10 @@ test("public catalog preserves selection across refresh and never submits jobs",
   await page.goto("/");
   await ready(page);
   await searchTarget(page);
-  await expect(
-    page.getByRole("heading", {
-      name: "No 3D structure for this protein",
-      exact: true,
-    }),
-  ).toBeVisible();
+  await ready(page);
+  await expect(page.getByTestId("viewer-info")).toContainText(
+    "495 residues · 1 chain",
+  );
   await expect(
     page.getByRole("button", { name: "Prepare target", exact: true }),
   ).toHaveCount(0);
@@ -65,9 +63,9 @@ test("public catalog preserves selection across refresh and never submits jobs",
   await expect(
     page.getByRole("heading", { name: "A1BG", exact: true }),
   ).toBeVisible();
-  await expect(page.locator(".molecule")).toHaveCount(0);
+  await ready(page);
   await page.screenshot({
-    path: testInfo.outputPath("sequence-only-desktop.png"),
+    path: testInfo.outputPath("protein-desktop.png"),
   });
   await page.setViewportSize({ width: 390, height: 844 });
   await page.getByRole("button", { name: "Proteins", exact: true }).click();
@@ -84,7 +82,7 @@ test("public catalog preserves selection across refresh and never submits jobs",
     ),
   ).toBe(true);
   await page.screenshot({
-    path: testInfo.outputPath("sequence-only-mobile.png"),
+    path: testInfo.outputPath("protein-mobile.png"),
   });
   await page.getByRole("button", { name: "Example", exact: true }).click();
   await ready(page);
@@ -161,6 +159,133 @@ test("public page with no published example never attempts automatic replay", as
     }),
   ).toBeVisible();
   expect(writes).toEqual([]);
+});
+
+test("saved protein structures switch without refresh and retain correct sequence identity", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await expect(
+    page.getByLabel("Structure ready", { exact: true }),
+  ).toBeChecked();
+  await searchTarget(page);
+  await ready(page);
+  await expect(page.getByTestId("viewer-info")).toContainText(
+    "495 residues · 1 chain",
+  );
+  const first = "protein_dcd5494921477cd9218a2a6745bf5095";
+  const twin = "protein_e055e4bd687a0c5bd5ad8afc76a18d42";
+  const second = "protein_3eb7f26a5b56905be5c2ecfe2cb40b34";
+  const a = await (
+    await page.request.get(`/api/targets/${first}/structure`)
+  ).json();
+  const b = await (
+    await page.request.get(`/api/targets/${second}/structure`)
+  ).json();
+  const shared = await (
+    await page.request.get(`/api/targets/${twin}/structure`)
+  ).json();
+  // Different biological records can legitimately share the same complete sequence.
+  expect(shared).toEqual(a);
+  await page
+    .getByRole("button")
+    .filter({ hasText: "HG002 · 76a18d42" })
+    .click();
+  await expect(page).toHaveURL(new RegExp(twin));
+  await ready(page);
+  expect(a.sequence_sha256).not.toBe(b.sequence_sha256);
+  const fetched = page.waitForResponse(
+    (response) => new URL(response.url()).pathname === b.structure_url,
+  );
+  await page
+    .getByRole("button")
+    .filter({ hasText: "HG002 · 2cb40b34" })
+    .click();
+  await fetched;
+  await ready(page);
+  await expect(page).toHaveURL(new RegExp(second));
+  await expect(page.getByTestId("viewer-info")).toContainText(
+    "517 residues · 1 chain",
+  );
+});
+
+test("one Generate keys action submits once and keeps the protein visible while running", async ({
+  page,
+}, testInfo) => {
+  const id = "e".repeat(32);
+  const targetId = "protein_dcd5494921477cd9218a2a6745bf5095";
+  let state = "running";
+  const writes: string[] = [];
+  const job = () => ({
+    job_id: id,
+    target_id: targetId,
+    status: state,
+    mode: "test",
+    execution_performed: false,
+    dispatch_attempted: true,
+    progress: { stage: "folding" },
+    error: null,
+  });
+  await page.route("**/api/catalog", async (route) => {
+    const response = await route.fetch();
+    await route.fulfill({
+      json: {
+        ...(await response.json()),
+        read_only: false,
+        service_configured: true,
+        gpu_execution_enabled: true,
+      },
+    });
+  });
+  await hidePreparedHistory(page);
+  await page.route("**/api/prepare", async (route) => {
+    writes.push("prepare");
+    expect(route.request().postDataJSON().target_id).toBe(targetId);
+    await route.fulfill({
+      json: {
+        ...job(),
+        status: "prepared_pending_gpu_execution",
+        dispatch_attempted: false,
+      },
+    });
+  });
+  await page.route(`**/api/jobs/${id}/run`, async (route) => {
+    writes.push("run");
+    await route.fulfill({ json: job() });
+  });
+  await page.route(`**/api/jobs/${id}`, (route) =>
+    route.fulfill({ json: job() }),
+  );
+  await page.route(`**/api/jobs/${id}/results`, (route) =>
+    route.fulfill({
+      json: {
+        run_id: id,
+        target_id: targetId,
+        candidates: [],
+        download_url: `/api/jobs/${id}/download`,
+      },
+    }),
+  );
+  await page.goto("/");
+  await searchTarget(page);
+  await ready(page);
+  expect(writes).toEqual([]);
+  page.once("dialog", (dialog) => dialog.accept());
+  await page
+    .getByRole("button", { name: "Generate keys", exact: true })
+    .click();
+  await expect(page.getByTestId("job-status")).toHaveText("Generating");
+  await ready(page);
+  await expect(page.getByTestId("viewer-info")).toContainText(
+    "495 residues · 1 chain",
+  );
+  await page.screenshot({
+    path: testInfo.outputPath("running-job-protein.png"),
+  });
+  state = "completed";
+  await expect(page.getByTestId("job-status")).toHaveText("No keys returned");
+  await ready(page);
+  expect(writes).toEqual(["prepare", "run"]);
 });
 
 test("saved example opens directly; representations, candidates and downloads stay together", async ({
@@ -285,10 +410,10 @@ test("donor selection removes example; preparation, details and mobile history p
   await page.goto("/");
   await ready(page);
   await searchTarget(page);
-  await expect(page.locator(".molecule")).toHaveCount(0);
-  await expect(
-    page.getByText("No 3D structure for this protein", { exact: true }),
-  ).toBeVisible();
+  await ready(page);
+  await expect(page.getByTestId("viewer-info")).toContainText(
+    "495 residues · 1 chain",
+  );
   await expect(
     page.getByRole("heading", { name: "PD-L1", exact: true }),
   ).toHaveCount(0);
@@ -311,7 +436,7 @@ test("donor selection removes example; preparation, details and mobile history p
   });
   await expect(page.getByTestId("job-status")).toHaveText("Ready to generate");
   await expect(
-    page.getByRole("button", { name: "Generate binders", exact: true }),
+    page.getByRole("button", { name: "Generate keys", exact: true }),
   ).toBeDisabled();
   await page.screenshot({ path: testInfo.outputPath("prepared-target.png") });
   await page.getByRole("button", { name: "Example", exact: true }).click();
@@ -334,7 +459,7 @@ test("donor selection removes example; preparation, details and mobile history p
   await expect(
     page.getByRole("heading", { name: "A1BG", exact: true }),
   ).toBeVisible();
-  await expect(page.locator(".molecule")).toHaveCount(0);
+  await ready(page);
   await page.setViewportSize({ width: 320, height: 700 });
   await page.getByLabel("Settings", { exact: true }).click();
   const settingsBox = await page
