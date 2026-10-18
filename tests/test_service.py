@@ -473,3 +473,50 @@ def test_managed_queue_api_auth_budget_cancellation_and_completion(tmp_path, mon
         app.state.managed_queue.expires_at = time.time() + 100
         late = api.post("/v1/designs", json={"sequence": "ACDEFGHIKLMNPQRSTVWY"}).json()
         assert api.post(late["status_url"] + "/run").status_code == 503
+
+
+def test_flat_upstream_json_preserves_sequence_metadata_and_never_executes(tmp_path, monkeypatch):
+    import hashlib
+    import json
+
+    def forbidden(*args, **kwargs):
+        raise AssertionError("Preparation must not start a GPU")
+
+    monkeypatch.setattr("biocad.worker.run_job", forbidden)
+    monkeypatch.setattr("biocad.cloud.run_managed_job", forbidden)
+    seq = "MMGLSLASAVLLASLLSLHLGTATRGSDISKTCCFQYSHKPLPWTWVRSYEFTSNSCSQRAVIFTTKRGKKVCTHPRKKWVQKYISLLKTPKQL"
+    payload = {
+        "target_id": "protein_test",
+        "donor": "HG002",
+        "gene_id": "ENSG00000006606.10",
+        "gene_symbol": "CCL26",
+        "transcript_id": "ENST00000005180.9",
+        "phase_scenario": "solution:allele-1",
+        "amino_acid_sequence": seq,
+        "sequence_sha256": hashlib.sha256(seq.encode()).hexdigest(),
+        "reference_sequence_sha256": "0" * 64,
+        "expression": None,
+    }
+    api = client(tmp_path)
+    response = api.post("/v1/designs", json=payload)
+    assert response.status_code == 201, response.text
+    body = response.json()
+    assert body["execution_performed"] is False
+    assert body["cloud_launched"] is False
+    assert body["plan"]["target_residues"] == 94
+    state = api.get(body["artifact_base_url"] + "prepared/target_state.json").json()
+    assert state["context"]["upstream_record"] == payload
+    assert json.loads((tmp_path / body["run_id"] / "upstream_record.json").read_text()) == payload
+    assert (tmp_path / body["run_id"] / "input.fasta").read_text() == ">target\n" + seq + "\n"
+    assert api.post("/v1/designs", json={**payload, "sequence_sha256": "0" * 64}).status_code == 422
+    assert api.post("/v1/designs", json={**payload, "sequence": "ACD"}).status_code == 422
+    assert api.post("/v1/designs", json={**payload, "structure_text": "bad"}).status_code == 422
+    assert (
+        api.post(
+            "/v1/designs",
+            json={**payload, "sequence_sha256": "sha256:" + payload["sequence_sha256"]},
+        ).status_code
+        == 201
+    )
+    schema = api.get("/openapi.json").json()["components"]["schemas"]["DesignInput"]
+    assert "amino_acid_sequence" in schema["properties"]

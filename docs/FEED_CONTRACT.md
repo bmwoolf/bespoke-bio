@@ -65,3 +65,17 @@ Before completion, inspect status/progress instead. Cached replay uses `actual_c
 4. Confirm which fields the downstream team needs in addition to candidate sequence, structures, scores and pass/fail.
 
 The proposed wire schema and examples are in `examples/design_api_requests/openapi.json` and the adjacent request fixtures. No new GPU pod is needed to review preparation or saved-result integration.
+
+## Single upstream target JSON
+
+POST your upstream record directly to `/v1/designs`, including `amino_acid_sequence`, `target_id`, `donor`, `gene_id`, `gene_symbol`, `transcript_id`, `phase_scenario`, `sequence_sha256`, `reference_sequence_sha256`, and nullable `expression`. The original `sequence` input remains supported. Optional `binder_length` and `num_designs` default to 75 and 2.
+
+The API verifies an optional `sequence_sha256` against the exact submitted sequence (bare hexadecimal or `sha256:` prefix). The reference checksum is retained as provenance and need not match the target. Conflicting sequence fields are rejected. Upstream fields are retained in `upstream_record.json` and the prepared target state's context. Submitted residues are preserved: signal peptides are **not** automatically removed.
+
+This request only prepares inputs and returns a job status URL. It never starts a GPU. Use `/v1/designs/demo` with `{}` to inspect saved results without inference. Only the separate `/run` request starts paid work.
+
+```sh
+curl -sS "$BIOCAD_BASE_URL/v1/designs" \
+  -H "Authorization: Bearer $BIOCAD_API_TOKEN" \
+  -H 'Content-Type: application/json' --data-binary @target.json
+```

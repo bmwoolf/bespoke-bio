@@ -16,6 +16,7 @@ import time
 import uuid
 import zipfile
 from contextlib import asynccontextmanager
+from hashlib import sha256
 from pathlib import Path
 from typing import Annotated, Literal
 from urllib.parse import quote
@@ -56,6 +57,23 @@ class DesignInput(BaseModel):
         max_length=10000,
         description="Target protein amino-acid sequence, using canonical one-letter codes. Supply sequence OR structure_text. Sequence input has no prior folded coordinates; its structural prediction is pending model execution.",
     )
+    amino_acid_sequence: str | None = Field(
+        default=None,
+        max_length=10000,
+        description="Upstream alias for sequence. Submitted residues are preserved; no automatic signal-peptide trimming.",
+    )
+    target_id: str | None = None
+    donor: str | None = None
+    gene_id: str | None = None
+    gene_symbol: str | None = None
+    transcript_id: str | None = None
+    phase_scenario: str | None = None
+    sequence_sha256: str | None = Field(
+        default=None,
+        description="Optional SHA-256 of the exact submitted sequence, bare hex or sha256: prefixed. Mismatches are rejected.",
+    )
+    reference_sequence_sha256: str | None = None
+    expression: dict | float | None = None
     structure_text: str | None = Field(
         default=None,
         max_length=20_000_000,
@@ -87,6 +105,16 @@ class DesignInput(BaseModel):
 
     @model_validator(mode="after")
     def one_input(self):
+        if self.amino_acid_sequence is not None:
+            if self.sequence is not None and self.sequence != self.amino_acid_sequence:
+                raise ValueError("sequence and amino_acid_sequence disagree")
+            self.sequence = self.amino_acid_sequence
+        if self.sequence_sha256 is not None and (
+            self.sequence is None
+            or sha256(self.sequence.encode()).hexdigest()
+            != self.sequence_sha256.removeprefix("sha256:").lower()
+        ):
+            raise ValueError("sequence_sha256 does not match the submitted sequence")
         if (self.sequence is None) == (self.structure_text is None):
             raise ValueError("Provide exactly one of sequence or structure_text")
         return self
@@ -331,6 +359,25 @@ def create_app(runs_dir=None, *, runner=None, managed_runner=None, managed_clean
         except (ValueError, RuntimeError, OSError) as exc:
             finish(run_id, folder, {"status": "failed_preparation", "error": str(exc)})
             raise HTTPException(422, str(exc)) from exc
+        upstream_fields = {
+            "amino_acid_sequence",
+            "target_id",
+            "donor",
+            "gene_id",
+            "gene_symbol",
+            "transcript_id",
+            "phase_scenario",
+            "sequence_sha256",
+            "reference_sequence_sha256",
+            "expression",
+        }
+        if request.model_fields_set & upstream_fields:
+            record = request.model_dump(include=upstream_fields, exclude_unset=True)
+            save(folder / "upstream_record.json", record)
+            state_path = folder / "prepared/target_state.json"
+            state = json.loads(state_path.read_text())
+            state.setdefault("context", {})["upstream_record"] = record
+            save(state_path, state)
         return finish(
             run_id,
             folder,

@@ -106,3 +106,17 @@ The same command routes a proposed upstream JSON with a `targets` list to upstre
 A real shared-HTTPS sequence-only PD-L1 job completed all seven native stages, returned a candidate, downloaded a verified ZIP and automatically deleted its GPU (independent read-back returned 404). Estimated GPU cost was $0.56, not finalized billing. The candidate passes native filters but has low interface confidence (ipTM 0.20); this is execution evidence, not a validated binder. Queued cancellation released its reservation without another GPU. Completed/cancelled statuses and the $10 retained reservation survived a service process restart. See [sanitized proof](../examples/shared_service_smoke/summary.json).
 
 The current deployment retains a small CPU gateway until its 24-hour expiry; new GPU jobs are rejected within two hours of that expiry. The gateway's 10 GB state volume and the separate 100 GB model cache survive host deletion and remain billable (approximately $0.70/month and $7/month respectively).
+
+## Single upstream target JSON
+
+POST your upstream record directly to `/v1/designs`, including `amino_acid_sequence`, `target_id`, `donor`, `gene_id`, `gene_symbol`, `transcript_id`, `phase_scenario`, `sequence_sha256`, `reference_sequence_sha256`, and nullable `expression`. The original `sequence` input remains supported. Optional `binder_length` and `num_designs` default to 75 and 2.
+
+The API verifies an optional `sequence_sha256` against the exact submitted sequence (bare hexadecimal or `sha256:` prefix). The reference checksum is retained as provenance and need not match the target. Conflicting sequence fields are rejected. Upstream fields are retained in `upstream_record.json` and the prepared target state's context. Submitted residues are preserved: signal peptides are **not** automatically removed.
+
+This request only prepares inputs and returns a job status URL. It never starts a GPU. Use `/v1/designs/demo` with `{}` to inspect saved results without inference. Only the separate `/run` request starts paid work.
+
+```sh
+curl -sS "$BIOCAD_BASE_URL/v1/designs" \
+  -H "Authorization: Bearer $BIOCAD_API_TOKEN" \
+  -H 'Content-Type: application/json' --data-binary @target.json
+```

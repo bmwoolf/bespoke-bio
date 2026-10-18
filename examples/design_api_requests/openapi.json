@@ -650,6 +650,123 @@
             "title": "Sequence",
             "description": "Target protein amino-acid sequence, using canonical one-letter codes. Supply sequence OR structure_text. Sequence input has no prior folded coordinates; its structural prediction is pending model execution."
           },
+          "amino_acid_sequence": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 10000
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Amino Acid Sequence",
+            "description": "Upstream alias for sequence. Submitted residues are preserved; no automatic signal-peptide trimming."
+          },
+          "target_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Target Id"
+          },
+          "donor": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Donor"
+          },
+          "gene_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Gene Id"
+          },
+          "gene_symbol": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Gene Symbol"
+          },
+          "transcript_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Transcript Id"
+          },
+          "phase_scenario": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Phase Scenario"
+          },
+          "sequence_sha256": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sequence Sha256",
+            "description": "Optional SHA-256 of the exact submitted sequence, bare hex or sha256: prefixed. Mismatches are rejected."
+          },
+          "reference_sequence_sha256": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reference Sequence Sha256"
+          },
+          "expression": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expression"
+          },
           "structure_text": {
             "anyOf": [
               {
