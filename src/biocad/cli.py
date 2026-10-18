@@ -55,7 +55,69 @@ def main():
     catalog.add_argument("--entries", required=True, help="JSON list of declared local templates")
     catalog.add_argument("--output", required=True)
     catalog.add_argument("--foldseek", default="vendor/foldseek/bin/foldseek")
+    submit = sub.add_parser("submit-bundle", help="Send an upstream package to the design API")
+    submit.add_argument("bundle")
+    submit.add_argument("--url", default="http://127.0.0.1:8000")
+    submit.add_argument("--output", required=True, help="Local receipt directory")
+    submit.add_argument("--chains", help="JSON mapping target IDs to author-chain lists")
+    submit.add_argument("--binder-length", type=int, default=75)
+    submit.add_argument("--num-designs", type=int, default=2)
+    submit.add_argument(
+        "--execute",
+        action="store_true",
+        help="Explicitly start each prepared child on the configured GPU worker",
+    )
+    submit.add_argument(
+        "--wait", action="store_true", help="Wait for submitted jobs; requires --execute"
+    )
+    submit.add_argument("--timeout", type=int, default=3600)
     a = p.parse_args()
+    if a.command == "submit-bundle":
+        from .client import DesignClient
+
+        if a.wait and not a.execute:
+            p.error("--wait requires --execute")
+        destination = Path(a.output)
+        if destination.exists() and any(destination.iterdir()):
+            p.error("Use an empty receipt directory")
+        destination.mkdir(parents=True, exist_ok=True)
+        client = DesignClient(a.url)
+        receipt = client.submit_bundle(
+            a.bundle,
+            binder_length=a.binder_length,
+            num_designs=a.num_designs,
+            chain_selections=json.loads(Path(a.chains).read_text()) if a.chains else None,
+        )
+        save(destination / "intake.json", receipt)
+        outcomes = []
+        for record in receipt.get("records", []):
+            child = record.get("child_run_id")
+            if not child:
+                outcomes.append(record)
+                continue
+            try:
+                outcome = client.start(child) if a.execute else client.status(child)
+                if a.wait:
+                    outcome = client.wait(child, timeout=a.timeout)
+                    if outcome["status"] == "completed":
+                        client.download(child, destination / (child + ".zip"))
+                        save(destination / (child + "_results.json"), client.results(child))
+                outcomes.append(outcome)
+            except (RuntimeError, OSError, TimeoutError) as exc:
+                outcomes.append({"run_id": child, "client_error": str(exc)})
+            save(destination / "jobs.json", outcomes)
+        print(
+            json.dumps(
+                {"run_id": receipt["run_id"], "jobs": outcomes, "receipts": str(destination)},
+                indent=2,
+            )
+        )
+        if not receipt.get("prepared_targets") or any(
+            "client_error" in o or o.get("status") in {"failed", "failed_preparation"}
+            for o in outcomes
+        ):
+            raise SystemExit(1)
+        return
     if a.command == "boltzgen-prepare":
         from .boltzgen_adapter import prepare, prepare_target
 

@@ -14,6 +14,7 @@ import uuid
 import zipfile
 from pathlib import Path
 from typing import Literal
+from urllib.parse import quote
 
 from fastapi import BackgroundTasks, FastAPI, HTTPException
 from fastapi.responses import FileResponse, StreamingResponse
@@ -23,7 +24,7 @@ from bespoke_bio.api import TranslateResponse
 from bespoke_bio.api import app as upstream_app
 
 from .boltzgen_adapter import prepare_target
-from .design_bundle import export_bundle
+from .design_bundle import DesignBundle, export_bundle
 from .pipeline import save
 from .upstream import contained_path, import_targets
 
@@ -36,7 +37,7 @@ class DesignInput(BaseModel):
         json_schema_extra={
             "examples": [
                 {
-                    "sequence": "AFTVTVPKDLYVVEYGSNMTIECKFPVEKQLDLAALIVYWEMEDKNIIQFVHGEEDLKVQHSSYRQRARLLKDQLSLGNAALQITDVKLQDAGVYRCMISYGGADYKRITVKVNAPY",
+                    "sequence": "AFTVTVPKDLYVVEYGSNMTIECKFPVEKQLDLAALIVYWEMEDKNIIQFVHGEEDLKVQHSSYRQRARLLKDQLSLGNAALQITDVKLQDAGVYRCMISYGGADYKRITVKVNA",
                     "binder_length": 75,
                     "num_designs": 2,
                     "mode": "prepare",
@@ -180,6 +181,45 @@ class JobResponse(BaseModel):
         default=None,
         description="Run-relative BoltzGen YAML input. Target is fixed-sequence or fixed-structure; binder length is generated, with no specified epitope.",
     )
+
+
+class CandidateResult(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    id: str
+    sequence: str
+    target_state_id: str | None
+    native_filter_passed: bool | None = Field(
+        description="Native computational filter result, not a binding claim."
+    )
+    failed_filters: list[str]
+    upstream_filter_flags: dict[str, str]
+    native_filter_metrics: dict[str, float | int | None]
+    native_filter_metric_units: dict[str, str]
+    confidence_metrics: dict[str, float | int | None]
+    confidence_units: dict[str, str]
+    confidence_evidence: str = Field(
+        description="Origin and limits of the predicted interface confidence."
+    )
+    binder_structure_url: str
+    complex_structure_url: str
+    evidence: dict
+
+
+class ResultsResponse(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    run_id: str
+    status: str
+    mode: str | None
+    target_state_ids: list[str]
+    candidate_count: int
+    candidates: list[CandidateResult]
+    bundle_url: str | None
+    download_url: str
+    records: list[dict] | None = Field(
+        default=None,
+        description="Upstream parent results are an index of independent child jobs, not flattened binder results. Follow child_results_url after each child completes.",
+    )
+    evidence: str
 
 
 class RunInput(BaseModel):
@@ -634,6 +674,119 @@ def create_app(runs_dir=None, *, runner=None):
             str(p.relative_to(folder)) for p in sorted(folder.rglob("*")) if p.is_file()
         ]
         return payload
+
+    @app.get(
+        "/v1/designs/{run_id}/results",
+        response_model=ResultsResponse,
+        response_model_exclude_none=True,
+    )
+    def results(run_id: str):
+        """Normalized candidate handoff from the actual completed bundle, or an upstream child index."""
+        folder = locate(run_id)
+        current = status(run_id)
+        base = {
+            "run_id": run_id,
+            "status": current["status"],
+            "mode": current.get("mode"),
+            "download_url": f"/v1/designs/{run_id}/download",
+            "evidence": "Computational designs and predictions only; no measured binding or affinity.",
+        }
+        if current.get("mode") == "upstream_prepare":
+            records = []
+            targets = []
+            for record in current.get("records", []):
+                entry = dict(record)
+                child_id = entry.get("child_run_id")
+                if child_id:
+                    entry["child_results_url"] = f"/v1/designs/{child_id}/results"
+                    child = json.loads((locate(child_id) / "status.json").read_text())
+                    target_id = child.get("plan", {}).get("target_state_id")
+                    if target_id:
+                        targets.append(target_id)
+                records.append(entry)
+            return {
+                **base,
+                "target_state_ids": sorted(set(targets)),
+                "candidate_count": 0,
+                "candidates": [],
+                "bundle_url": None,
+                "records": records,
+            }
+        if current["status"] not in {"completed", "cached_demo_completed"} or not current.get(
+            "bundle"
+        ):
+            raise HTTPException(
+                409,
+                {
+                    "message": "Candidate results are not available until the run completes. Poll status_url; no cached candidates are substituted.",
+                    "status": current["status"],
+                    "status_url": current["status_url"],
+                },
+            )
+        bundle_path = contained_path(folder, current["bundle"])
+        if not bundle_path.is_file():
+            raise HTTPException(409, "Completed job has no downloadable bundle")
+        bundle = DesignBundle.model_validate_json(bundle_path.read_text())
+
+        def artifact_url(relative):
+            artifact_path = contained_path(bundle_path.parent, relative)
+            if not artifact_path.is_file():
+                raise HTTPException(409, "A candidate structure artifact is unavailable")
+            return current["artifact_base_url"] + quote(
+                str(artifact_path.relative_to(folder)), safe="/"
+            )
+
+        candidates = []
+        for component in bundle.components:
+            evaluations = [e for e in bundle.evaluations if e.subject_id == component.id]
+            native = next((e for e in evaluations if e.id.endswith("_filters")), None)
+            confidence = next((e for e in evaluations if e.id.endswith("_binding")), None)
+            metrics = confidence.metrics if confidence else {}
+            candidates.append(
+                {
+                    "id": component.id,
+                    "sequence": component.sequence,
+                    "target_state_id": component.evidence.get("target_state_id"),
+                    "native_filter_passed": native.status == "pass" if native else None,
+                    "failed_filters": native.details.get("failed_filters", []) if native else [],
+                    "upstream_filter_flags": native.details.get("flags", {}) if native else {},
+                    "native_filter_metrics": native.metrics if native else {},
+                    "native_filter_metric_units": {
+                        metric: native.units.get(
+                            metric,
+                            "angstrom"
+                            if "rmsd" in metric
+                            else "dimensionless"
+                            if metric
+                            in {
+                                "design_ptm",
+                                "design_to_target_iptm",
+                                "esmfold2_ipsae_min",
+                                "quality_score",
+                            }
+                            else "unspecified",
+                        )
+                        for metric in (native.metrics if native else {})
+                    },
+                    "confidence_metrics": metrics,
+                    "confidence_units": {
+                        metric: confidence.units.get(metric, "dimensionless") for metric in metrics
+                    },
+                    "confidence_evidence": confidence.evidence
+                    if confidence
+                    else "Interface confidence missing; not assessed.",
+                    "binder_structure_url": artifact_url(component.structure),
+                    "complex_structure_url": artifact_url(component.evidence["complex_structure"]),
+                    "evidence": component.evidence,
+                }
+            )
+        return {
+            **base,
+            "target_state_ids": [target.id for target in bundle.target_states],
+            "candidate_count": len(candidates),
+            "candidates": candidates,
+            "bundle_url": current["artifact_base_url"] + quote(current["bundle"], safe="/"),
+        }
 
     @app.get("/v1/designs/{run_id}/download")
     def download(run_id: str):

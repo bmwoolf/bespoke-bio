@@ -332,3 +332,52 @@ def test_status_reports_last_native_log_stage_without_implying_completion(tmp_pa
     # An old stage outside the bounded tail must not be reported as current progress.
     (live / "worker.log").write_text("Pipeline step 1 of 7: design\n" + "x" * (1024 * 1024 + 1))
     assert "progress" not in api.get(job["status_url"]).json()
+
+
+def test_normalized_results_from_actual_cached_demo_and_artifact_links(tmp_path):
+    import gemmi
+
+    from biocad.structures import sequence
+
+    api = client(tmp_path)
+    job = api.post("/v1/designs/demo").json()
+    response = api.get(job["status_url"] + "/results")
+    assert response.status_code == 200
+    results = response.json()
+    assert results["status"] == "cached_demo_completed"
+    assert results["mode"] == "actual_cached_replay"
+    assert results["candidate_count"] == 2
+    assert len(results["target_state_ids"]) == 1
+    assert sorted(c["native_filter_passed"] for c in results["candidates"]) == [False, True]
+    for candidate in results["candidates"]:
+        assert candidate["target_state_id"] in results["target_state_ids"]
+        assert len(candidate["sequence"]) == 75
+        assert candidate["confidence_metrics"]["design_to_target_iptm"] < 0.31
+        assert candidate["confidence_units"]["design_to_target_iptm"] == "dimensionless"
+        assert "computational" in candidate["confidence_evidence"]
+        assert api.get(candidate["binder_structure_url"]).status_code == 200
+        assert api.get(candidate["complex_structure_url"]).status_code == 200
+    failed = next(c for c in results["candidates"] if not c["native_filter_passed"])
+    assert failed["failed_filters"] == ["pass_filter_rmsd_filter"]
+    assert api.get(results["bundle_url"]).json()["components"]
+    assert api.get(results["download_url"]).status_code == 200
+    schema = api.get("/openapi.json").json()
+    example = schema["components"]["schemas"]["DesignInput"]["examples"][0]["sequence"]
+    assert example == sequence(gemmi.read_structure(str(ROOT / "examples/5JDS.cif"))[0]["A"])
+    assert len(example) == 115
+
+
+def test_results_pending_and_upstream_child_index_are_honest(tmp_path):
+    api = client(tmp_path)
+    job = api.post("/v1/designs", json={"sequence": "ACDEFGHIKLMNPQRSTVWY"}).json()
+    response = api.get(job["status_url"] + "/results")
+    assert response.status_code == 409
+    assert response.json()["detail"]["status"] == "prepared_pending_gpu_execution"
+    batch = api.post("/v1/designs/upstream", json=upstream_payload()).json()
+    response = api.get(batch["status_url"] + "/results")
+    assert response.status_code == 200
+    index = response.json()
+    assert index["candidate_count"] == 0 and index["candidates"] == []
+    child = index["records"][0]
+    assert child["child_results_url"] == child["child_status_url"] + "/results"
+    assert api.get(child["child_results_url"]).status_code == 409

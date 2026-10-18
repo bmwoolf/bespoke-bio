@@ -23,7 +23,7 @@ see [the live API result](examples/boltzgen_api_results/summary.json). Its full 
 PD-L1 smoke test completed: two candidates, one native-filter pass, both with weak
 interface confidence. These are computational candidates; binding has not been measured.
 Start the teammate API with `uv run uvicorn biocad.service:app --host 127.0.0.1 --port 8000`;
-open `/docs` for interactive requests. See [the teammate handoff](docs/HACKATHON_HANDOFF.md).
+open `/docs` for interactive requests. See [the teammate handoff](docs/HACKATHON_HANDOFF.md) and [proposed feed contract](docs/FEED_CONTRACT.md).
 Inspect [the real results](examples/boltzgen_results/review.html),
 [the delivery punchlist](docs/PUNCHLIST.md), and [current status](docs/STATUS.md).
 

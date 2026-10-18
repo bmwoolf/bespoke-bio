@@ -1,5 +1,7 @@
 # Teammate integration: molecular design pipeline
 
+For team review, start with [the proposed feed contract](FEED_CONTRACT.md) and its drop-in Python client / CLI. The format is a proposal based on the existing upstream package.
+
 Use the existing Python service; no new website is required. It accepts exact protein sequence, one structural chain, or the upstream translated-target response. New requests prepare a reproducible, epitope-unconstrained BoltzGen job. A separate demo endpoint returns actual saved GPU outputs immediately.
 
 ## Start locally

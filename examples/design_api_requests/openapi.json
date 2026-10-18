@@ -256,6 +256,46 @@
         }
       }
     },
+    "/v1/designs/{run_id}/results": {
+      "get": {
+        "summary": "Results",
+        "description": "Normalized candidate handoff from the actual completed bundle, or an upstream child index.",
+        "operationId": "results_v1_designs__run_id__results_get",
+        "parameters": [
+          {
+            "name": "run_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Run Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultsResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/designs/{run_id}/download": {
       "get": {
         "summary": "Download",
@@ -343,6 +383,140 @@
   },
   "components": {
     "schemas": {
+      "CandidateResult": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "sequence": {
+            "type": "string",
+            "title": "Sequence"
+          },
+          "target_state_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Target State Id"
+          },
+          "native_filter_passed": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Native Filter Passed",
+            "description": "Native computational filter result, not a binding claim."
+          },
+          "failed_filters": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Failed Filters"
+          },
+          "upstream_filter_flags": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Upstream Filter Flags"
+          },
+          "native_filter_metrics": {
+            "additionalProperties": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "type": "object",
+            "title": "Native Filter Metrics"
+          },
+          "native_filter_metric_units": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Native Filter Metric Units"
+          },
+          "confidence_metrics": {
+            "additionalProperties": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "type": "object",
+            "title": "Confidence Metrics"
+          },
+          "confidence_units": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Confidence Units"
+          },
+          "confidence_evidence": {
+            "type": "string",
+            "title": "Confidence Evidence",
+            "description": "Origin and limits of the predicted interface confidence."
+          },
+          "binder_structure_url": {
+            "type": "string",
+            "title": "Binder Structure Url"
+          },
+          "complex_structure_url": {
+            "type": "string",
+            "title": "Complex Structure Url"
+          },
+          "evidence": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Evidence"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "sequence",
+          "target_state_id",
+          "native_filter_passed",
+          "failed_filters",
+          "upstream_filter_flags",
+          "native_filter_metrics",
+          "native_filter_metric_units",
+          "confidence_metrics",
+          "confidence_units",
+          "confidence_evidence",
+          "binder_structure_url",
+          "complex_structure_url",
+          "evidence"
+        ],
+        "title": "CandidateResult"
+      },
       "DesignInput": {
         "properties": {
           "sequence": {
@@ -426,7 +600,7 @@
             "binder_length": 75,
             "mode": "prepare",
             "num_designs": 2,
-            "sequence": "AFTVTVPKDLYVVEYGSNMTIECKFPVEKQLDLAALIVYWEMEDKNIIQFVHGEEDLKVQHSSYRQRARLLKDQLSLGNAALQITDVKLQDAGVYRCMISYGGADYKRITVKVNAPY"
+            "sequence": "AFTVTVPKDLYVVEYGSNMTIECKFPVEKQLDLAALIVYWEMEDKNIIQFVHGEEDLKVQHSSYRQRARLLKDQLSLGNAALQITDVKLQDAGVYRCMISYGGADYKRITVKVNA"
           }
         ]
       },
@@ -847,6 +1021,96 @@
           "annotation"
         ],
         "title": "Reference"
+      },
+      "ResultsResponse": {
+        "properties": {
+          "run_id": {
+            "type": "string",
+            "title": "Run Id"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "mode": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mode"
+          },
+          "target_state_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Target State Ids"
+          },
+          "candidate_count": {
+            "type": "integer",
+            "title": "Candidate Count"
+          },
+          "candidates": {
+            "items": {
+              "$ref": "#/components/schemas/CandidateResult"
+            },
+            "type": "array",
+            "title": "Candidates"
+          },
+          "bundle_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Bundle Url"
+          },
+          "download_url": {
+            "type": "string",
+            "title": "Download Url"
+          },
+          "records": {
+            "anyOf": [
+              {
+                "items": {
+                  "additionalProperties": true,
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Records",
+            "description": "Upstream parent results are an index of independent child jobs, not flattened binder results. Follow child_results_url after each child completes."
+          },
+          "evidence": {
+            "type": "string",
+            "title": "Evidence"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "run_id",
+          "status",
+          "mode",
+          "target_state_ids",
+          "candidate_count",
+          "candidates",
+          "bundle_url",
+          "download_url",
+          "evidence"
+        ],
+        "title": "ResultsResponse"
       },
       "RunInput": {
         "properties": {
