@@ -1,3 +1,5 @@
+> Historical research / deferred experiment. This is not the active design pipeline. Decisions and "next experiment" statements below reflect earlier work. The shipped path is [BoltzGen generation and API integration](INTEGRATION.md); see [current status](STATUS.md).
+
 # Motif-preserving scaffold redesign: local/GPU boundary
 
 The next experiment replaces two complete recognition domains with one connected scaffold carrying both sets of protected recognition geometry. This is a motif-grafting hypothesis, not a validated way to remove the nanobody framework. Conformational landscape design remains deferred.

@@ -39,7 +39,9 @@ For upstream structured targets, `/v1/designs/upstream` accepts the original `Tr
 
 ## Read the response and artifacts
 
-Every response contains `run_id`, `status_url`, `artifact_base_url`, `cloud_launched` and `execution_performed`. Download every artifact together from `GET /v1/designs/{run_id}/download`. Fetch the returned `status_url` to obtain the individual file list. Append a listed relative artifact path to `artifact_base_url` to download it.
+For downstream candidate data, use `GET /v1/designs/{run_id}/results`: it returns sequences, native filter flags/metrics, interface confidence, evidence and structure/download URLs. Pending candidate results return 409. Upstream parents return an index of child results.
+
+Every job response contains `run_id`, `status_url`, `artifact_base_url`, `cloud_launched` and `execution_performed`. Download every artifact together from `GET /v1/designs/{run_id}/download`. Fetch the returned `status_url` to obtain the individual file list. Append a listed relative artifact path to `artifact_base_url` to download it.
 
 - `prepared_pending_gpu_execution`: preparation succeeded; **no design inference has run**. The prepared folder contains target provenance, the no-epitope design YAML and the run plan.
 - `cached_demo_completed`: the demo exported actual saved BoltzGen outputs from the completed PD-L1 GPU run. It did **not** generate fresh designs for this HTTP request.

@@ -1,3 +1,5 @@
+> Historical research / deferred experiment. This is not the active design pipeline. Decisions and "next experiment" statements below reflect earlier work. The shipped path is [BoltzGen generation and API integration](INTEGRATION.md); see [current status](STATUS.md).
+
 # Compact assembly first
 
 User direction, 2026-10-17: prioritize compact, interdigitated assembly; defer conformational modeling. Keep the public PD-L1 benchmark. GPU provisioning and budget remain undecided.

@@ -1,3 +1,5 @@
+> Historical research / deferred experiment. This is not the active design pipeline. Decisions and "next experiment" statements below reflect earlier work. The shipped path is [BoltzGen generation and API integration](INTEGRATION.md); see [current status](STATUS.md).
+
 # Research and first implementation choices
 
 Reviewed 2026-10-17. This is a targeted primary-source scan, not a comprehensive benchmark or a claim that one method is universally best. Recent preprints and project-page success rates are author reports; they do not establish performance on our targets. Software inspected does not imply GPU execution.

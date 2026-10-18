@@ -10,12 +10,13 @@ Step 2: translation + folding
     -> personalized proteins, structures, confidence, and provenance
 
 Step 3: protein design
-    -> lock selection and candidate keys
+    -> BoltzGen binder candidates, predicted complexes, filters and portable evidence
 ```
 
 Bespoke Bio comprises all three steps. Step 1 owns genomic and transcript cleanup. Step 2
-starts from resolved coding sequences and ends with folded target structures. Step 3 consumes
-those structures and generates candidate keys.
+starts from resolved coding sequences and packages protein sequences with resolved or
+explicitly unresolved structures. Step 3 accepts either sequence or structure inputs and
+generates binder candidates through the active BoltzGen pipeline.
 
 ## Step 1 -> Step 2
 
@@ -189,6 +190,22 @@ The repository implements the complete Step 2 boundary described above:
 - `python -m bespoke_bio.api INPUT OUTPUT` writes the handoff package locally.
 - `--lookup` enables exact RCSB PDB and AlphaFold DB retrieval.
 - `--fold-missing` batches unresolved unique sequences through an installed ColabFold worker.
+
+## Step 3: active binder design integration
+
+The combined service is `biocad.service:app`; it retains `/v1/translate` and adds target
+preparation, explicit GPU dispatch, progress, candidate results and downloads. The proposed
+upstream bundle is submitted with `biocad.client.DesignClient` or `biocad submit-bundle`.
+Each prepared protein receives an independent child run.
+
+The active scientific protocol is BoltzGen generation → SolubleMPNN → Boltz-2 complex
+and binder-alone predictions → ESMFold2 scoring → analysis and native filtering. It has
+been executed on public PD-L1 structure and sequence inputs. No epitope is required.
+Native filter success remains distinct from measured binding. CAD UI, interdigitation,
+and folded connected assemblies are deferred.
+
+See [current integration](INTEGRATION.md), [the proposed feed contract](FEED_CONTRACT.md),
+and [verified status](STATUS.md). The detailed earlier CAD contracts are historical.
 
 ## Later pathogen mode
 

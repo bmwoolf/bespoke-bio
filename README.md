@@ -1,123 +1,83 @@
 # Bespoke Bio
 
-Bespoke Bio is the complete DNA/RNA-to-designed-protein system. This repository currently
-implements Step 2: translate the resolved DNA/RNA findings from Step 1, resolve or predict
-one structure per unique protein, and package the results for Step 3.
+This repository implements protein translation/packaging and a target-to-binder design
+pipeline. The active design engine is **BoltzGen**, with no required epitope or hotspot.
+Targets arrive as amino-acid sequences, PDB/mmCIF structures, or an upstream target bundle.
+Results include designed sequences, predicted complexes, filter outcomes, confidence scores
+and downloadable provenance.
 
-The implementation is intentionally small. It:
+The `biocad` package and CLI name are retained in the code. A CAD website, interdigitated
+assembly design and folded multi-module constructs are outside the active delivery.
+Earlier experiments are preserved under [research history](docs/LEGACY.md).
 
-1. validates resolved coding sequences, expression measurements, and CDS-relative variants;
-2. generates possible proteins when heterozygous variants are unphased;
-3. translates, hashes, and deduplicates personalized amino-acid sequences;
-4. optionally retrieves exact structures from RCSB PDB or AlphaFold DB;
-5. optionally folds unresolved sequences with a local `colabfold_batch`; and
-6. writes `proteins.fasta`, `targets.jsonl`, structure files, and `provenance.json` for Step 3.
+## Run the combined API
 
-Binding-surface selection and key generation belong to Step 3.
-
-## Binder design demo and teammate integration
-
-The active Step 3 engine is **BoltzGen**, with no required epitope. A fresh sequence-only
-HTTP job also completed all seven stages and returned a native-filter-passing candidate;
-see [the live API result](examples/boltzgen_api_results/summary.json). Its full seven-stage
-PD-L1 smoke test completed: two candidates, one native-filter pass, both with weak
-interface confidence. These are computational candidates; binding has not been measured.
-Start the teammate API with `uv run uvicorn biocad.service:app --host 127.0.0.1 --port 8000`;
-open `/docs` for interactive requests. See [the teammate handoff](docs/HACKATHON_HANDOFF.md) and [proposed feed contract](docs/FEED_CONTRACT.md).
-Inspect [the real results](examples/boltzgen_results/review.html),
-[the delivery punchlist](docs/PUNCHLIST.md), and [current status](docs/STATUS.md).
-
-Prepare a new structure or a single-sequence FASTA locally:
-
-```bash
+```sh
 uv sync --extra design --extra dev --locked
-uv run biocad boltzgen-prepare --source examples/5JDS.cif --chain A --output outputs/my-target
-# For FASTA, omit --chain. New inputs are prepared; this command does not run inference.
+uv run uvicorn biocad.service:app --host 127.0.0.1 --port 8000
 ```
 
-Export the completed smoke test as reusable target-linked molecular parts:
+Open `http://127.0.0.1:8000/docs`. The combined app includes translation and design routes.
+Preparation and saved-result replay work locally. Fresh inference requires an operator to
+configure an existing GPU worker; the API does not create pods.
 
-```bash
-uv run biocad export-binders examples/boltzgen_results outputs/my-target/target_state.json --output outputs/my-binders
+Try the real saved PD-L1 demonstration:
+
+```sh
+curl -X POST http://127.0.0.1:8000/v1/designs/demo \
+  -H 'Content-Type: application/json' --data '{}'
 ```
 
-Optional local structural retrieval uses a declared catalog, independent of generation;
-see [retrieval integration](docs/RETRIEVAL_DEMO.md). Persistent GPU caches are documented
-in [warm compute](docs/WARM_COMPUTE.md). Production catalog UI and interdigitated assembly
-are deferred so the upstream-to-binder handoff can ship first.
+Use the returned run ID with `GET /v1/designs/{run_id}/results` for candidate JSON or
+`GET /v1/designs/{run_id}/download` for the full ZIP. The demonstration is explicitly
+labeled as cached replay; it does not generate new candidates for the request.
 
-## Run the translation API
+## Connect the upstream feed
 
-```bash
-uv sync --extra dev
-uv run uvicorn bespoke_bio.api:app --reload
+The proposed team contract uses `targets.jsonl`, `provenance.json`, and declared structure
+files. The client embeds structure text and preserves target, variant and RNA metadata.
+This is a proposal for review, not an agreed external standard.
+
+```sh
+# Prepare independent jobs from an upstream package; no inference starts.
+uv run biocad submit-bundle path/to/upstream-package --output outputs/team-intake
+
+# Explicitly execute on a configured worker, wait and download results.
+uv run biocad submit-bundle path/to/upstream-package --output outputs/team-live --execute --wait
 ```
 
-Open `http://127.0.0.1:8000/docs`, or submit the example:
+Start with the [feed contract and Python client](docs/FEED_CONTRACT.md),
+[API walkthrough](docs/HACKATHON_HANDOFF.md), or [OpenAPI schema](examples/design_api_requests/openapi.json).
+For producing the upstream package, see [translation and packaging](docs/TRANSLATION.md).
 
-```bash
-curl -X POST http://127.0.0.1:8000/v1/translate \
-  -H 'content-type: application/json' \
-  --data @examples/case.json
-```
+## What is verified
 
-## Build the Step 3 handoff
+- Full seven-stage BoltzGen runs completed for public PD-L1 structure and sequence inputs.
+- The fresh sequence-only HTTP job returned a 75-residue candidate that passes native
+  filters, with complex recovery RMSD 0.83 Å and ipTM 0.41.
+- A fresh GPU restored the persistent runtime/model cache in 76 seconds. Both test GPU pods
+  were deleted; the persistent cache remains billable.
+- The full local suite has 58 passing tests, including upstream package/client integration,
+  real cached-result export, independent child jobs and failure handling.
 
-The default command stays offline and marks structures as unresolved:
+A native filter pass is computational evidence, not measured binding. Interface confidence
+is modest in the retained examples. See [fresh API results](examples/boltzgen_api_results/summary.json)
+and [the earlier two-candidate report](examples/boltzgen_results/review.html).
 
-```bash
-uv run python -m bespoke_bio.api examples/case.json outputs/demo
-```
+## Documentation
 
-Add exact-sequence lookup or fold unresolved proteins with an installed ColabFold worker:
-
-```bash
-uv run python -m bespoke_bio.api examples/case.json outputs/demo --lookup
-uv run python -m bespoke_bio.api examples/case.json outputs/demo --lookup --fold-missing
-```
-
-`--lookup` sends amino-acid sequences to RCSB PDB. A default ColabFold installation may
-send sequences to its public MSA service. Do not enable either option for sensitive data
-unless the relevant data-handling policy permits it; use local databases instead.
-
-## Input boundary
-
-Step 1 is responsible for alignment, variant calling and filtering, transcript/CDS
-resolution, ORF selection, expression quantification, and phasing when available. It sends
-Step 2 one JSON document containing:
-
-- the pinned genome build and annotation release;
-- the resolved coding sequence for each expressed transcript;
-- variants expressed in 1-based CDS coordinates;
-- transcript-level expression;
-- haplotype/phase information when available; and
-- an optional UniProt accession for exact AlphaFold DB lookup.
-
-Variants use replacement semantics: at `cds_position`, replace `ref` with `alt`. Coordinates
-refer to the original CDS even when an earlier indel changes the personalized sequence length.
+- [Current implementation and limits](docs/STATUS.md)
+- [Active pipeline and API architecture](docs/INTEGRATION.md)
+- [GPU operation and persistent cache](docs/COMPUTE.md)
+- [Optional bounded Foldseek template retrieval](docs/RETRIEVAL_DEMO.md)
+- [Remaining work](docs/PUNCHLIST.md)
+- [Upstream system boundaries](docs/architecture.md)
 
 ## Verify
 
-```bash
+```sh
 uv run pytest
-uv run ruff check .
+uv run ruff check src tests
 ```
 
 This software produces research predictions, not clinical results.
-
-See [docs/architecture.md](docs/architecture.md) for the system contracts and step boundaries.
-
-## Molecular design and compact assembly (Step 3 prototype)
-
-The optional `biocad` package adds offline target/site preparation, structural retrieval,
-component export and compact rigid assembly searches. Install with
-`uv sync --extra design --extra dev`, then run:
-
-```bash
-uv run --extra design biocad placements --bundle examples/replay --output outputs/compact-assembly
-```
-
-This command uses the supplied public PD-L1/nanobody replay and needs no GPU, weights,
-network connection or Foldseek installation. It screens rigid layouts; it does not generate
-new binders or validate a connected protein. See [docs/ASSEMBLY.md](docs/ASSEMBLY.md)
-for results, the shrinking/scaffold-redesign distinction, and the next experiment.
