@@ -1076,7 +1076,10 @@ summary:focus-visible {
 }
 
 @media (min-width: 861px) {
-  .workspace:has(.prediction-metrics) .molstar-viewport {
+  /* The embedded viewer shares space with metrics; fullscreen uses the whole screen. */
+  .workspace:has(.prediction-metrics)
+    .molecule:not(:fullscreen)
+    .molstar-viewport {
     height: clamp(320px, calc(100dvh - 490px), 800px);
   }
 }
