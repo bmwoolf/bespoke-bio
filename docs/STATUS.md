@@ -5,10 +5,11 @@ older Mosaic and interdigitated assembly plans below describe research history.
 
 **Confirmed now:** full seven-stage no-epitope PD-L1 run completed, two candidates downloaded,
 one native-filter pass, weak interface confidence for both, original GPU pod deleted.
-Generic sequence/structure preparation and typed binder export pass local tests.
-Bounded native Foldseek catalog retrieval passes local tests. HTTP integration and
-persistent GPU cache restoration are being completed. New-target live dispatch has
-not yet been demonstrated.
+Generic sequence/structure preparation, typed binder export, bounded native Foldseek
+catalog retrieval, upstream HTTP intake, explicit existing-worker dispatch and ZIP
+downloads pass 46 local tests. The API is running locally and real cached replay/download
+has been verified over HTTP. Fresh GPU execution through the API and persistent cache
+restoration are being verified; neither is claimed complete yet.
 
 
 | Component | Status | Evidence or blocker |

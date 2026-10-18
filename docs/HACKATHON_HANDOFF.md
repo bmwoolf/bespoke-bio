@@ -37,7 +37,7 @@ For upstream structured targets, `/v1/designs/upstream` accepts the original `Tr
 
 ## Read the response and artifacts
 
-Every response contains `run_id`, `status_url`, `artifact_base_url`, `cloud_launched` and `execution_performed`. Fetch the returned `status_url` to obtain the file list. Append a listed relative artifact path to `artifact_base_url` to download it.
+Every response contains `run_id`, `status_url`, `artifact_base_url`, `cloud_launched` and `execution_performed`. Download every artifact together from `GET /v1/designs/{run_id}/download`. Fetch the returned `status_url` to obtain the individual file list. Append a listed relative artifact path to `artifact_base_url` to download it.
 
 - `prepared_pending_gpu_execution`: preparation succeeded; **no design inference has run**. The prepared folder contains target provenance, the no-epitope design YAML and the run plan.
 - `cached_demo_completed`: the demo exported actual saved BoltzGen outputs from the completed PD-L1 GPU run. It did **not** generate fresh designs for this HTTP request.
@@ -48,7 +48,8 @@ The cached demo returns a `bundle` path (`bundle/bundle.json`) with target-linke
 ```mermaid
 flowchart TD
     A["Sequence, structure text, or upstream target feed"] --> B["FastAPI intake: exact sequence/hash and chain checks"]
-    B --> C["BoltzGen YAML + target provenance; no selected epitope"]
+    B --> U["Upstream feed: independent child run per target; direct input: one run"]
+    U --> C["BoltzGen YAML + target provenance; no selected epitope"]
     C --> D["Prepared job"]
     D --> R["Explicit POST /run to configured warm SSH worker"]
     R --> E["BoltzGen generation → SolubleMPNN → Boltz-2 → ESMFold2 → filters"]
@@ -74,10 +75,10 @@ curl -sS -X POST http://127.0.0.1:8000/v1/designs/RUN_ID/run \
   -H 'Content-Type: application/json' --data '{}'
 ```
 
-The endpoint returns 202, then the background worker uploads inputs, executes BoltzGen, downloads outputs and exports the component/evaluation bundle. Poll the returned status URL. For an upstream batch, send `{"target_index": 0}` to choose a prepared target. Live API jobs are bounded to 1–32 designs. Missing worker configuration returns 503; duplicate or non-ready runs return 409. A cached demo run is not eligible for fresh dispatch: prepare a new sequence/structure job first.
+The endpoint returns 202, then the background worker uploads inputs, executes BoltzGen, downloads outputs and exports the component/evaluation bundle. Poll the returned status URL. For an upstream feed, POST `{}` to **each record's `child_run_url`** independently. Poll its `child_status_url` and fetch its `child_download_url`. The parent intake aggregates child statuses; POST to the parent `/run` returns 422. Do not submit a `target_index` to the parent. Live API jobs are bounded to 1–32 designs. Missing worker configuration returns 503; duplicate or non-ready runs return 409. A cached demo run is not eligible for fresh dispatch: prepare a new sequence/structure job first.
 
 `cloud_launched=false` means the API did not provision a machine; a live run can still perform real inference on the configured existing GPU worker. Successful live status is `completed` with `mode=live_model_outputs`. Failures persist as `failed`; inspect the worker receipt/logs and any `remote_cleanup_required` flag. A timeout can leave remote execution running. The API does not stop or delete the pod, so lifecycle cleanup and the spending cap remain the operator/controller's responsibility.
 
 A persistent Runpod model/cache volume reduces repeated downloads. It should contain model weights and runtime setup, while each run retains a separate job directory. New sequence-only inputs are accepted as sequence jobs; acceptance itself does not establish a validated target fold.
 
-Verification: all three fixture requests were exercised using FastAPI `TestClient`; expected status, status inspection and artifact downloads succeeded without cloud resources. Worker orchestration tests mock SSH only and ingest actual saved native candidate files; successful export and failed/timeout partial downloads are tested. These local checks do not establish a fresh GPU execution through the new route; that must be verified against the configured worker.
+Verification: all three fixture requests were exercised using FastAPI `TestClient`; expected status, status inspection and artifact downloads succeeded without cloud resources. The upstream unresolved fixture was exercised again after child-run intake was added: its child identifiers/URLs, readable child status and valid ZIP download were verified. Worker orchestration tests mock SSH only and ingest actual saved native candidate files; successful export and failed/timeout partial downloads are tested. These local checks do not establish a fresh GPU execution through the new route; that must be verified against the configured worker.

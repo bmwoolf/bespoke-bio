@@ -48,7 +48,7 @@ if [[ ! -f "$snapshot/runtime.tar" || ! -f "$snapshot/runtime.tar.sha256" ]]; th
   tar -cf "$snapshot/runtime.tar.partial" -C / "${snapshot_paths[@]}"
   mv "$snapshot/runtime.tar.partial" "$snapshot/runtime.tar"
   cp esm_python.txt "$snapshot/esm_python.txt"
-  (cd "$snapshot" && sha256sum runtime.tar > runtime.tar.sha256)
+  (cd "$snapshot" && sha256sum runtime.tar > runtime.tar.sha256.partial && mv runtime.tar.sha256.partial runtime.tar.sha256)
 fi
 printf '%s\n' 'Runtime checked; model-cache readiness still requires a completed pipeline.'
 if [[ "${1:-run}" == warmup ]]; then

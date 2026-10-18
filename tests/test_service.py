@@ -207,6 +207,61 @@ def test_live_upstream_target_selection_and_runner_exception(tmp_path, monkeypat
     api = TestClient(create_app(tmp_path / "runs", runner=fake_runner))
     job = api.post("/v1/designs/upstream", json=upstream_payload()).json()
     assert api.post(job["status_url"] + "/run", json={"target_index": 7}).status_code == 422
-    assert api.post(job["status_url"] + "/run", json={"target_index": 0}).status_code == 202
-    failed = api.get(job["status_url"]).json()
+    child_url = job["records"][0]["child_status_url"]
+    assert api.post(job["records"][0]["child_run_url"], json={}).status_code == 202
+    failed = api.get(child_url).json()
     assert failed["status"] == "failed" and failed["error"] == "mock exporter error"
+
+
+def test_download_all_contains_only_run_artifacts_and_no_escaping_symlink(tmp_path):
+    import io
+    import zipfile
+
+    api = client(tmp_path)
+    demo = api.post("/v1/designs/demo").json()
+    (tmp_path / "unrelated.txt").write_text("outside this run")
+    (tmp_path / demo["run_id"] / "escape").symlink_to(tmp_path / "unrelated.txt")
+    response = api.get(demo["status_url"] + "/download")
+    assert response.status_code == 200
+    assert response.headers["content-type"] == "application/zip"
+    with zipfile.ZipFile(io.BytesIO(response.content)) as archive:
+        assert "bundle/bundle.json" in archive.namelist()
+        assert "prepared/target_state.json" in archive.namelist()
+        assert "escape" not in archive.namelist()
+        assert "unrelated.txt" not in archive.namelist()
+        assert not any(name.endswith(".zip") for name in archive.namelist())
+        assert len(__import__("json").loads(archive.read("bundle/bundle.json"))["components"]) == 2
+    assert not list((tmp_path / demo["run_id"]).glob("*.zip"))
+
+
+def test_upstream_batch_children_run_independently(tmp_path, monkeypatch):
+    configure_worker(monkeypatch, tmp_path)
+    calls = []
+
+    def fake_runner(prepared, output, **kwargs):
+        calls.append(prepared)
+        (output / "bundle").mkdir(parents=True)
+        (output / "bundle/bundle.json").write_text('{"mock_output":true}')
+        return {"status": "completed", "bundle": "bundle/bundle.json"}
+
+    api = TestClient(create_app(tmp_path / "runs", runner=fake_runner))
+    payload = upstream_payload()
+    other = {**payload["targets"][0], "target_id": "protein2", "transcript_id": "t2"}
+    payload["targets"].append(other)
+    payload["target_count"] = 2
+    job = api.post("/v1/designs/upstream", json=payload).json()
+    first, second = job["records"]
+    assert first["child_run_id"] != second["child_run_id"]
+    assert api.post(job["status_url"] + "/run").status_code == 422
+    assert api.get(first["child_status_url"]).json()["status"] == "prepared_pending_gpu_execution"
+    assert api.get(second["child_status_url"]).json()["status"] == "prepared_pending_gpu_execution"
+    assert api.post(first["child_run_url"]).json()["status"] == "queued"
+    assert api.get(first["child_status_url"]).json()["status"] == "completed"
+    assert api.get(second["child_status_url"]).json()["status"] == "prepared_pending_gpu_execution"
+    assert api.post(second["child_run_url"]).json()["status"] == "queued"
+    assert len(calls) == 2 and calls[0] != calls[1]
+    done = api.get(job["status_url"]).json()
+    assert done["status"] == "completed"
+    assert all(r["status"] == "completed" for r in done["records"])
+    assert api.get(first["child_download_url"]).status_code == 200
+    assert api.get(second["child_download_url"]).status_code == 200
