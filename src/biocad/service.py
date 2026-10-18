@@ -7,6 +7,7 @@ Compute must already be configured; only the explicit /run endpoint starts infer
 import io
 import json
 import os
+import re
 import shutil
 import threading
 import uuid
@@ -30,14 +31,52 @@ REPO = Path(__file__).resolve().parents[2]
 
 
 class DesignInput(BaseModel):
-    model_config = ConfigDict(extra="forbid")
-    sequence: str | None = Field(default=None, max_length=10000)
-    structure_text: str | None = Field(default=None, max_length=20_000_000)
-    format: Literal["pdb", "cif", "mmcif"] = "cif"
-    chain: str | None = None
-    mode: Literal["prepare"] = "prepare"
-    binder_length: int = Field(default=75, ge=25, le=300)
-    num_designs: int = Field(default=2, ge=1, le=10000)
+    model_config = ConfigDict(
+        extra="forbid",
+        json_schema_extra={
+            "examples": [
+                {
+                    "sequence": "AFTVTVPKDLYVVEYGSNMTIECKFPVEKQLDLAALIVYWEMEDKNIIQFVHGEEDLKVQHSSYRQRARLLKDQLSLGNAALQITDVKLQDAGVYRCMISYGGADYKRITVKVNAPY",
+                    "binder_length": 75,
+                    "num_designs": 2,
+                    "mode": "prepare",
+                }
+            ]
+        },
+    )
+    sequence: str | None = Field(
+        default=None,
+        max_length=10000,
+        description="Target protein amino-acid sequence, using canonical one-letter codes. Supply sequence OR structure_text. Sequence input has no prior folded coordinates; its structural prediction is pending model execution.",
+    )
+    structure_text: str | None = Field(
+        default=None,
+        max_length=20_000_000,
+        description="Complete PDB or mmCIF file contents as a JSON string, not a filename or URL. Supply this instead of sequence. The original file and author-to-normalized residue mapping are retained.",
+    )
+    format: Literal["pdb", "cif", "mmcif"] = Field(
+        default="cif", description="Format of structure_text; ignored for sequence input."
+    )
+    chain: str | None = Field(
+        default=None,
+        description="Author chain ID to select from structure_text, e.g. A. Required for structures containing multiple protein chains. Omit for a single protein chain or sequence input.",
+    )
+    mode: Literal["prepare"] = Field(
+        default="prepare",
+        description="Preparation creates downloadable BoltzGen inputs. It does not start inference; explicitly POST the returned status_url + /run to use a configured GPU worker.",
+    )
+    binder_length: int = Field(
+        default=75,
+        ge=25,
+        le=300,
+        description="Number of amino-acid residues to generate in each binder. Start with 75. No epitope or hotspot is specified.",
+    )
+    num_designs: int = Field(
+        default=2,
+        ge=1,
+        le=10000,
+        description="Number of candidate designs to request. Start with 2 for a smoke test. Live HTTP execution is limited to 32 designs per job; generation does not guarantee candidates pass filters or bind experimentally.",
+    )
 
     @model_validator(mode="after")
     def one_input(self):
@@ -54,9 +93,103 @@ class UpstreamInput(TranslateResponse):
     num_designs: int = Field(default=2, ge=1, le=10000)
 
 
+class JobResponse(BaseModel):
+    """Common job envelope; extra stage-specific fields are preserved."""
+
+    model_config = ConfigDict(
+        extra="allow",
+        json_schema_extra={
+            "examples": [
+                {
+                    "run_id": "0123456789abcdef0123456789abcdef",
+                    "status": "prepared_pending_gpu_execution",
+                    "mode": "prepare",
+                    "execution_performed": False,
+                    "cloud_launched": False,
+                    "status_url": "/v1/designs/0123456789abcdef0123456789abcdef",
+                    "artifact_base_url": "/v1/designs/0123456789abcdef0123456789abcdef/artifacts/",
+                    "prepared_directory": "prepared",
+                    "design_yaml": "prepared/design.yaml",
+                }
+            ]
+        },
+    )
+    run_id: str = Field(
+        description="Unique run identifier. Upstream batches also return independent child runs for each prepared target."
+    )
+    status: str = Field(
+        description="Job progress: prepared_pending_gpu_execution, queued, running, completed, failed, or cached_demo_completed. Parent batches aggregate child progress."
+    )
+    mode: str | None = Field(
+        default=None,
+        description="prepare, upstream_prepare, actual_cached_replay, or live_model_outputs. Cached replay is never a new GPU experiment.",
+    )
+    execution_performed: bool = Field(
+        default=False,
+        description="Whether the worker reports actual remote model invocation. A queued job, cached demo, or failed connection is not model execution.",
+    )
+    execution_attempted: bool = Field(
+        default=False,
+        description="Whether live dispatch was attempted. This does not guarantee successful connection, inference, or binding.",
+    )
+    cloud_launched: bool = Field(
+        default=False,
+        description="Always false for this API: it uses an existing configured worker and never provisions a pod.",
+    )
+    status_url: str = Field(
+        description="GET this relative URL to poll progress and list downloadable artifacts."
+    )
+    artifact_base_url: str = Field(
+        description="Append a returned artifact path to download one file. GET status_url + /download downloads this run as a ZIP."
+    )
+    bundle: str | None = Field(
+        default=None,
+        description="Relative artifact path to the typed binder bundle when available. Contains TargetState, Component and Evaluation records, sequence/structure links and provenance.",
+    )
+    candidates: int | None = Field(
+        default=None,
+        description="Number of designed candidates exported. Does not imply experimental binding.",
+    )
+    native_filter_passed: int | None = Field(
+        default=None,
+        description="Candidates passing native computational filters; separate from interface confidence or measured affinity.",
+    )
+    plan: dict | None = Field(
+        default=None,
+        description="BoltzGen inputs, command, sequence hashes, unconstrained site policy and execution stages.",
+    )
+    records: list[dict] | None = Field(
+        default=None,
+        description="Upstream target results, including failures and independent child_run_url/child_status_url/child_download_url for prepared targets.",
+    )
+    artifacts: list[str] | None = Field(
+        default=None,
+        description="Relative file paths available via artifact_base_url. Returned by the status endpoint.",
+    )
+    progress: dict | None = Field(
+        default=None,
+        description="Latest native pipeline stage observed in the last 1 MiB of the worker log: stage_index, total_stages, stage. Stage entry does not imply stage or pipeline completion.",
+    )
+    prepared_directory: str | None = Field(
+        default=None,
+        description="Run-relative directory containing the complete prepared model inputs.",
+    )
+    plan_path: str | None = None
+    target_state_path: str | None = None
+    design_yaml: str | None = Field(
+        default=None,
+        description="Run-relative BoltzGen YAML input. Target is fixed-sequence or fixed-structure; binder length is generated, with no specified epitope.",
+    )
+
+
 class RunInput(BaseModel):
     model_config = ConfigDict(extra="forbid")
-    target_index: int | None = Field(default=None, ge=0)
+    target_index: int | None = Field(
+        default=None,
+        ge=0,
+        json_schema_extra={"deprecated": True},
+        description="Use each upstream record child_run_url instead. Direct jobs accept an empty object or no body.",
+    )
 
 
 def create_app(runs_dir=None, *, runner=None):
@@ -103,7 +236,12 @@ def create_app(runs_dir=None, *, runner=None):
         temporary.replace(folder / "status.json")
         return response
 
-    @app.post("/v1/designs", status_code=201)
+    @app.post(
+        "/v1/designs",
+        status_code=201,
+        response_model=JobResponse,
+        response_model_exclude_unset=True,
+    )
     def prepare_design(request: DesignInput):
         run_id, folder = allocate()
         source = folder / (
@@ -143,7 +281,12 @@ def create_app(runs_dir=None, *, runner=None):
             },
         )
 
-    @app.post("/v1/designs/demo", status_code=201)
+    @app.post(
+        "/v1/designs/demo",
+        status_code=201,
+        response_model=JobResponse,
+        response_model_exclude_unset=True,
+    )
     def demo_design():
         run_id, folder = allocate()
         plan = prepare_target(
@@ -182,7 +325,12 @@ def create_app(runs_dir=None, *, runner=None):
             },
         )
 
-    @app.post("/v1/designs/upstream", status_code=201)
+    @app.post(
+        "/v1/designs/upstream",
+        status_code=201,
+        response_model=JobResponse,
+        response_model_exclude_unset=True,
+    )
     def upstream_design(request: UpstreamInput):
         run_id, folder = allocate()
         package = folder / "upstream_package"
@@ -313,7 +461,7 @@ def create_app(runs_dir=None, *, runner=None):
                 **original,
                 "status": "running",
                 "mode": "live_model_outputs",
-                "execution_performed": True,
+                "execution_performed": False,
                 "execution_attempted": True,
             }
             finish(run_id, folder, active)
@@ -329,6 +477,8 @@ def create_app(runs_dir=None, *, runner=None):
                     **active,
                     "status": "completed" if completed else "failed",
                     "worker_receipt": receipt,
+                    "execution_performed": receipt.get("execution_performed", completed),
+                    "execution_attempted": True,
                     "cloud_launched": False,
                 }
                 if completed:
@@ -340,6 +490,17 @@ def create_app(runs_dir=None, *, runner=None):
                             "Worker reported completion without a downloadable bundle"
                         )
                     payload["bundle"] = str(bundle_path.relative_to(folder))
+                    exported = json.loads(bundle_path.read_text())
+                    payload["candidates"] = len(exported.get("components", []))
+                    payload["native_filter_passed"] = sum(
+                        e["status"] == "pass"
+                        for e in exported.get("evaluations", [])
+                        if e["id"].endswith("_filters")
+                    )
+                    payload["structural_validation"] = "model_predictions_exported"
+                    payload["binding_evidence"] = (
+                        "computational only; no measured binding or affinity"
+                    )
                 finish(run_id, folder, payload)
             except Exception as exc:  # noqa: BLE001 - background failures must persist a terminal job state
                 finish(
@@ -353,7 +514,12 @@ def create_app(runs_dir=None, *, runner=None):
                     },
                 )
 
-    @app.post("/v1/designs/{run_id}/run", status_code=202)
+    @app.post(
+        "/v1/designs/{run_id}/run",
+        status_code=202,
+        response_model=JobResponse,
+        response_model_exclude_unset=True,
+    )
     def run_design(run_id: str, background_tasks: BackgroundTasks, request: RunInput | None = None):
         """Explicitly execute against an operator-configured existing worker; never provision a pod."""
         request = request or RunInput()
@@ -422,7 +588,7 @@ def create_app(runs_dir=None, *, runner=None):
             )
         return queued
 
-    @app.get("/v1/designs/{run_id}")
+    @app.get("/v1/designs/{run_id}", response_model=JobResponse, response_model_exclude_unset=True)
     def status(run_id: str):
         folder = locate(run_id)
         path = folder / "status.json"
@@ -449,6 +615,21 @@ def create_app(runs_dir=None, *, runner=None):
             payload["execution_performed"] = any(
                 r.get("execution_performed", False) for r in payload.get("records", [])
             )
+        log_path = folder / "live/worker.log"
+        if log_path.is_file() and log_path.resolve().is_relative_to(folder.resolve()):
+            with log_path.open("rb") as handle:
+                handle.seek(0, 2)
+                handle.seek(max(0, handle.tell() - 1024 * 1024))
+                tail = handle.read(1024 * 1024).decode("utf-8", errors="replace")
+            matches = re.findall(r"Pipeline step (\d+) of (\d+): ([A-Za-z0-9_]+)", tail)
+            valid = [
+                (int(index), int(total), stage)
+                for index, total, stage in matches
+                if 1 <= int(index) <= int(total)
+            ]
+            if valid:
+                index, total, stage = valid[-1]
+                payload["progress"] = {"stage_index": index, "total_stages": total, "stage": stage}
         payload["artifacts"] = [
             str(p.relative_to(folder)) for p in sorted(folder.rglob("*")) if p.is_file()
         ]

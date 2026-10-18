@@ -1,0 +1,28 @@
+{
+  "mode": "live_model_outputs",
+  "entrypoint": "HTTP POST /v1/designs then POST /v1/designs/{id}/run",
+  "target": "PD-L1 observed 115-residue sequence from 5JDS; sequence-only input",
+  "specified_epitope": null,
+  "candidates": 1,
+  "native_filter_passed": 1,
+  "binder_sequence": "MTIYVVTEDGTIIKLEVEPSDTIGEVKKKIEEKLGIPPENQELIFNGKKLKDEETLSDYDIGDYSVLKLKLKEVK",
+  "metrics": {
+    "filter_rmsd": 0.8308135867118835,
+    "designfolding-filter_rmsd": 1.331756353378296,
+    "design_to_target_iptm": 0.4104224741458892,
+    "esmfold2_ipsae_min": 0.1719648101654564
+  },
+  "target_ca_rmsd_to_experimental_5JDS_angstrom": 1.3621483271459585,
+  "target_comparison_scope": "115 exact sequence-matched C-alpha atoms, proper rigid superposition; experimental structure not supplied to generation",
+  "stages_seconds": {
+    "design": "63.9",
+    "inverse_folding": "11.0",
+    "folding": "47.6",
+    "design_folding": "46.0",
+    "esmfold2_scoring": "59.9",
+    "analysis": "16.4",
+    "filtering": "16.7"
+  },
+  "interpretation": "Native filters passed; modest interface confidence; no measured binding or affinity.",
+  "adapter_note": "Initial running API used a compatibility copy of native refolded CIF; exporter now directly discovers native folder and was re-run on these actual outputs."
+}

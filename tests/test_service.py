@@ -158,7 +158,8 @@ def test_live_run_success_status_artifacts_and_duplicate_guard(tmp_path, monkeyp
         calls.append((prepared, kwargs))
         status = __import__("json").loads((output.parent / "status.json").read_text())
         assert status["status"] == "running"
-        assert status["execution_performed"] is True
+        assert status["execution_performed"] is False
+        assert status["execution_attempted"] is True
         (output / "bundle").mkdir(parents=True)
         (output / "bundle/bundle.json").write_text('{"test_fixture": true}')
         return {"status": "completed", "bundle": "bundle/bundle.json"}
@@ -183,6 +184,7 @@ def test_live_run_failure_and_bounded_design_count(tmp_path, monkeypatch):
         return {
             "status": "failed_or_interrupted",
             "error": "mock GPU failure",
+            "execution_performed": True,
             "remote_cleanup_required": True,
         }
 
@@ -265,3 +267,68 @@ def test_upstream_batch_children_run_independently(tmp_path, monkeypatch):
     assert all(r["status"] == "completed" for r in done["records"])
     assert api.get(first["child_download_url"]).status_code == 200
     assert api.get(second["child_download_url"]).status_code == 200
+
+
+def test_openapi_describes_job_envelopes_and_target_inputs(tmp_path):
+    api = client(tmp_path)
+    schema = api.get("/openapi.json").json()
+    for route, method, code in [
+        ("/v1/designs", "post", "201"),
+        ("/v1/designs/demo", "post", "201"),
+        ("/v1/designs/upstream", "post", "201"),
+        ("/v1/designs/{run_id}/run", "post", "202"),
+        ("/v1/designs/{run_id}", "get", "200"),
+    ]:
+        response = schema["paths"][route][method]["responses"][code]
+        assert response["content"]["application/json"]["schema"]["$ref"].endswith("/JobResponse")
+    models = schema["components"]["schemas"]
+    assert models["JobResponse"]["additionalProperties"] is True
+    assert models["JobResponse"]["properties"]["bundle"]["description"]
+    assert models["JobResponse"]["properties"]["records"]["description"]
+    assert models["JobResponse"]["examples"][0]["status"] == "prepared_pending_gpu_execution"
+    for field in ("sequence", "structure_text", "chain", "binder_length", "num_designs"):
+        assert models["DesignInput"]["properties"][field]["description"]
+    job = api.post("/v1/designs", json={"sequence": "ACDEFGHIKLMNPQRSTVWY"}).json()
+    assert job["structural_validation"] == "pending_model_execution"
+    assert job["target_state_path"] == "prepared/target_state.json"
+
+
+def test_connection_failure_is_an_attempt_not_model_execution(tmp_path, monkeypatch):
+    configure_worker(monkeypatch, tmp_path)
+
+    def failed_before_model(*args, **kwargs):
+        return {
+            "status": "failed_or_interrupted",
+            "execution_performed": False,
+            "error": "mock SSH connection failure",
+            "remote_cleanup_required": False,
+        }
+
+    api = TestClient(create_app(tmp_path / "runs", runner=failed_before_model))
+    job = api.post("/v1/designs", json={"sequence": "ACDEFGHIKLMNPQRSTVWY"}).json()
+    assert api.post(job["status_url"] + "/run").status_code == 202
+    status = api.get(job["status_url"]).json()
+    assert status["status"] == "failed"
+    assert status["execution_attempted"] is True
+    assert status["execution_performed"] is False
+
+
+def test_status_reports_last_native_log_stage_without_implying_completion(tmp_path):
+    api = client(tmp_path)
+    job = api.post("/v1/designs", json={"sequence": "ACDEFGHIKLMNPQRSTVWY"}).json()
+    live = tmp_path / job["run_id"] / "live"
+    live.mkdir()
+    (live / "worker.log").write_text(
+        "Pipeline step 1 of 7: design\nnoise\nPipeline step 2 of 7: inverse_folding\n"
+    )
+    status = api.get(job["status_url"]).json()
+    assert status["progress"] == {"stage_index": 2, "total_stages": 7, "stage": "inverse_folding"}
+    assert status["status"] == "prepared_pending_gpu_execution"
+    assert status["execution_performed"] is False
+    (live / "worker.log").write_text("Pipeline step 7 of 7: filtering\n")
+    status = api.get(job["status_url"]).json()
+    assert status["progress"]["stage_index"] == 7
+    assert status["status"] == "prepared_pending_gpu_execution"
+    # An old stage outside the bounded tail must not be reported as current progress.
+    (live / "worker.log").write_text("Pipeline step 1 of 7: design\n" + "x" * (1024 * 1024 + 1))
+    assert "progress" not in api.get(job["status_url"]).json()

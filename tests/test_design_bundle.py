@@ -71,3 +71,38 @@ def test_actual_candidates_export_typed_evidence_and_refuse_target_mismatch(tmp_
         export_bundle(
             ROOT / "examples/boltzgen_results", prep / "target_state.json", tmp_path / "bad"
         )
+
+
+def test_export_actual_native_refold_layout_from_downloaded_archive(tmp_path):
+    import shutil
+    import tarfile
+
+    from biocad.structures import sha
+
+    prepared = tmp_path / "prepared"
+    prepare(ROOT / "examples", prepared)
+    native = tmp_path / "native"
+    metrics = native / "final_ranked_designs/all_designs_metrics.csv"
+    metrics.parent.mkdir(parents=True)
+    shutil.copy2(ROOT / "examples/boltzgen_results/all_designs_metrics.csv", metrics)
+    native_prefix = "boltzgen_smoke/results_unconstrained/"
+    expected = {}
+    # These are the actual archived native BoltzGen outputs, not synthetic CIFs.
+    with tarfile.open(ROOT / "examples/boltzgen_results/all_artifacts.tar.gz", "r:gz") as archive:
+        for name in ("pdl1_0.cif", "pdl1_1.cif"):
+            relative = "intermediate_designs_inverse_folded/refold_cif/" + name
+            content = archive.extractfile(native_prefix + relative).read()
+            path = native / relative
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_bytes(content)
+            expected[sha(content)] = name
+    bundle = export_bundle(
+        native, prepared / "target_state.json", tmp_path / "bundle", mode="live_model_outputs"
+    )
+    assert len(bundle["components"]) == 2
+    assert bundle["provenance"]["mode"] == "live_model_outputs"
+    assert {component["evidence"]["source_sha256"] for component in bundle["components"]} == set(
+        expected
+    )
+    filters = [e for e in bundle["evaluations"] if e["id"].endswith("_filters")]
+    assert sorted(e["status"] for e in filters) == ["fail", "pass"]

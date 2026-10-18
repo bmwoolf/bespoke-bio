@@ -1,0 +1,35 @@
+{
+  "status": "pipeline_completed",
+  "total": 1,
+  "passed": 1,
+  "candidates": [
+    {
+      "id": "design",
+      "file_name": "design.cif",
+      "passed": true,
+      "failed_filters": [],
+      "upstream_filter_flags": {
+        "pass_has_x_filter": "True",
+        "pass_filter_rmsd_filter": "True",
+        "pass_filter_rmsd_design_filter": "True",
+        "pass_designfolding-filter_rmsd_filter": "True",
+        "pass_ALA_fraction_filter": "True",
+        "pass_GLY_fraction_filter": "True",
+        "pass_GLU_fraction_filter": "True",
+        "pass_LEU_fraction_filter": "True",
+        "pass_VAL_fraction_filter": "True"
+      },
+      "sequence": "MTIYVVTEDGTIIKLEVEPSDTIGEVKKKIEEKLGIPPENQELIFNGKKLKDEETLSDYDIGDYSVLKLKLKEVK",
+      "metrics": {
+        "design_ptm": "0.7670690417289733",
+        "design_to_target_iptm": "0.4104224741458892",
+        "filter_rmsd": "0.8308135867118835",
+        "filter_rmsd_design": "0.7955069541931152",
+        "designfolding-filter_rmsd": "1.331756353378296",
+        "esmfold2_ipsae_min": "0.1719648101654564",
+        "quality_score": ""
+      }
+    }
+  ],
+  "evidence": "computational pipeline filters only; no measured binding"
+}

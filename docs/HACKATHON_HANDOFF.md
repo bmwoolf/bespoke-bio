@@ -11,7 +11,7 @@ uv sync --extra design --extra dev
 .venv/bin/uvicorn biocad.service:app --host 127.0.0.1 --port 8000
 ```
 
-Interactive API contract: `http://127.0.0.1:8000/docs`. Run files default to `outputs/service`; set `BIOCAD_RUNS_DIR` to change their location. This is a local integration service with no authentication layer: keep the loopback address for the demo.
+Interactive API contract: `http://127.0.0.1:8000/docs`. A static [OpenAPI contract](../examples/design_api_requests/openapi.json) is included for upstream integration. Run files default to `outputs/service`; set `BIOCAD_RUNS_DIR` to change their location. This is a local integration service with no authentication layer: keep the loopback address for the demo.
 
 ## Three working requests
 
@@ -81,4 +81,4 @@ The endpoint returns 202, then the background worker uploads inputs, executes Bo
 
 A persistent Runpod model/cache volume reduces repeated downloads. It should contain model weights and runtime setup, while each run retains a separate job directory. New sequence-only inputs are accepted as sequence jobs; acceptance itself does not establish a validated target fold.
 
-Verification: all three fixture requests were exercised using FastAPI `TestClient`; expected status, status inspection and artifact downloads succeeded without cloud resources. The upstream unresolved fixture was exercised again after child-run intake was added: its child identifiers/URLs, readable child status and valid ZIP download were verified. Worker orchestration tests mock SSH only and ingest actual saved native candidate files; successful export and failed/timeout partial downloads are tested. These local checks do not establish a fresh GPU execution through the new route; that must be verified against the configured worker.
+Verification: all three fixture requests were exercised using FastAPI `TestClient`; expected status, status inspection and artifact downloads succeeded without cloud resources. The upstream unresolved fixture was exercised again after child-run intake was added: its child identifiers/URLs, readable child status and valid ZIP download were verified. Worker orchestration tests mock SSH only and ingest actual saved native candidate files; successful export and failed/timeout partial downloads are tested. A real sequence-only PD-L1 request subsequently completed all seven stages through this HTTP route, returned its binder bundle and downloaded a valid ZIP. Its one candidate passes native filters but has modest interface confidence (ipTM 0.41). See [fresh live results](../examples/boltzgen_api_results/summary.json). A new disposable worker restored the cache in 76 seconds; both test GPUs were then deleted. The local service is now in preparation/replay mode until an operator configures another worker.

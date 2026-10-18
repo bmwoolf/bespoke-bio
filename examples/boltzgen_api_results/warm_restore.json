@@ -1,0 +1,11 @@
+{
+  "started_at": "2026-10-18T01:52:59+00:00",
+  "finished_at": "2026-10-18T01:54:15+00:00",
+  "warm_seconds": 76.0,
+  "exit_code": 0,
+  "snapshot_checksum_verified": true,
+  "both_cuda_checks": "passed",
+  "cached_model_check": "passed without downloading weights",
+  "pod_id": "hhfsmzizull7o0",
+  "pod_deleted": true
+}

@@ -1,0 +1,16 @@
+{
+  "entities": [
+    {
+      "protein": {
+        "id": "B",
+        "sequence": 75
+      }
+    },
+    {
+      "protein": {
+        "id": "A",
+        "sequence": "AFTVTVPKDLYVVEYGSNMTIECKFPVEKQLDLAALIVYWEMEDKNIIQFVHGEEDLKVQHSSYRQRARLLKDQLSLGNAALQITDVKLQDAGVYRCMISYGGADYKRITVKVNA"
+      }
+    }
+  ]
+}

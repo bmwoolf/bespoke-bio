@@ -1,0 +1,1284 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Bespoke Bio design pipeline",
+    "description": "Prepare BoltzGen jobs from sequence, structure, or upstream targets. Demo replays actual cached outputs. GPU execution requires an explicit /run request and a configured existing worker.",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/healthz": {
+      "get": {
+        "summary": "Healthcheck",
+        "operationId": "healthcheck_healthz_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "type": "object",
+                  "title": "Response Healthcheck Healthz Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/translate": {
+      "post": {
+        "summary": "Translate",
+        "operationId": "translate_v1_translate_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TranslateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TranslateResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/designs": {
+      "post": {
+        "summary": "Prepare Design",
+        "operationId": "prepare_design_v1_designs_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DesignInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/designs/demo": {
+      "post": {
+        "summary": "Demo Design",
+        "operationId": "demo_design_v1_designs_demo_post",
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/designs/upstream": {
+      "post": {
+        "summary": "Upstream Design",
+        "operationId": "upstream_design_v1_designs_upstream_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpstreamInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/designs/{run_id}/run": {
+      "post": {
+        "summary": "Run Design",
+        "description": "Explicitly execute against an operator-configured existing worker; never provision a pod.",
+        "operationId": "run_design_v1_designs__run_id__run_post",
+        "parameters": [
+          {
+            "name": "run_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Run Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "anyOf": [
+                  {
+                    "$ref": "#/components/schemas/RunInput"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "title": "Request"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/designs/{run_id}": {
+      "get": {
+        "summary": "Status",
+        "operationId": "status_v1_designs__run_id__get",
+        "parameters": [
+          {
+            "name": "run_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Run Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/designs/{run_id}/download": {
+      "get": {
+        "summary": "Download",
+        "description": "Download only this run's contained regular artifacts as one ZIP.",
+        "operationId": "download_v1_designs__run_id__download_get",
+        "parameters": [
+          {
+            "name": "run_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Run Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/designs/{run_id}/artifacts/{artifact_path}": {
+      "get": {
+        "summary": "Artifact",
+        "operationId": "artifact_v1_designs__run_id__artifacts__artifact_path__get",
+        "parameters": [
+          {
+            "name": "run_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Run Id"
+            }
+          },
+          {
+            "name": "artifact_path",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Artifact Path"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "DesignInput": {
+        "properties": {
+          "sequence": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 10000
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sequence",
+            "description": "Target protein amino-acid sequence, using canonical one-letter codes. Supply sequence OR structure_text. Sequence input has no prior folded coordinates; its structural prediction is pending model execution."
+          },
+          "structure_text": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 20000000
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Structure Text",
+            "description": "Complete PDB or mmCIF file contents as a JSON string, not a filename or URL. Supply this instead of sequence. The original file and author-to-normalized residue mapping are retained."
+          },
+          "format": {
+            "type": "string",
+            "enum": [
+              "pdb",
+              "cif",
+              "mmcif"
+            ],
+            "title": "Format",
+            "description": "Format of structure_text; ignored for sequence input.",
+            "default": "cif"
+          },
+          "chain": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Chain",
+            "description": "Author chain ID to select from structure_text, e.g. A. Required for structures containing multiple protein chains. Omit for a single protein chain or sequence input."
+          },
+          "mode": {
+            "type": "string",
+            "const": "prepare",
+            "title": "Mode",
+            "description": "Preparation creates downloadable BoltzGen inputs. It does not start inference; explicitly POST the returned status_url + /run to use a configured GPU worker.",
+            "default": "prepare"
+          },
+          "binder_length": {
+            "type": "integer",
+            "maximum": 300.0,
+            "minimum": 25.0,
+            "title": "Binder Length",
+            "description": "Number of amino-acid residues to generate in each binder. Start with 75. No epitope or hotspot is specified.",
+            "default": 75
+          },
+          "num_designs": {
+            "type": "integer",
+            "maximum": 10000.0,
+            "minimum": 1.0,
+            "title": "Num Designs",
+            "description": "Number of candidate designs to request. Start with 2 for a smoke test. Live HTTP execution is limited to 32 designs per job; generation does not guarantee candidates pass filters or bind experimentally.",
+            "default": 2
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "DesignInput",
+        "examples": [
+          {
+            "binder_length": 75,
+            "mode": "prepare",
+            "num_designs": 2,
+            "sequence": "AFTVTVPKDLYVVEYGSNMTIECKFPVEKQLDLAALIVYWEMEDKNIIQFVHGEEDLKVQHSSYRQRARLLKDQLSLGNAALQITDVKLQDAGVYRCMISYGGADYKRITVKVNAPY"
+          }
+        ]
+      },
+      "Expression": {
+        "properties": {
+          "tpm": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Tpm"
+          },
+          "raw_count": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Raw Count"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "tpm"
+        ],
+        "title": "Expression"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "JobResponse": {
+        "properties": {
+          "run_id": {
+            "type": "string",
+            "title": "Run Id",
+            "description": "Unique run identifier. Upstream batches also return independent child runs for each prepared target."
+          },
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "description": "Job progress: prepared_pending_gpu_execution, queued, running, completed, failed, or cached_demo_completed. Parent batches aggregate child progress."
+          },
+          "mode": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mode",
+            "description": "prepare, upstream_prepare, actual_cached_replay, or live_model_outputs. Cached replay is never a new GPU experiment."
+          },
+          "execution_performed": {
+            "type": "boolean",
+            "title": "Execution Performed",
+            "description": "Whether the worker reports actual remote model invocation. A queued job, cached demo, or failed connection is not model execution.",
+            "default": false
+          },
+          "execution_attempted": {
+            "type": "boolean",
+            "title": "Execution Attempted",
+            "description": "Whether live dispatch was attempted. This does not guarantee successful connection, inference, or binding.",
+            "default": false
+          },
+          "cloud_launched": {
+            "type": "boolean",
+            "title": "Cloud Launched",
+            "description": "Always false for this API: it uses an existing configured worker and never provisions a pod.",
+            "default": false
+          },
+          "status_url": {
+            "type": "string",
+            "title": "Status Url",
+            "description": "GET this relative URL to poll progress and list downloadable artifacts."
+          },
+          "artifact_base_url": {
+            "type": "string",
+            "title": "Artifact Base Url",
+            "description": "Append a returned artifact path to download one file. GET status_url + /download downloads this run as a ZIP."
+          },
+          "bundle": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Bundle",
+            "description": "Relative artifact path to the typed binder bundle when available. Contains TargetState, Component and Evaluation records, sequence/structure links and provenance."
+          },
+          "candidates": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Candidates",
+            "description": "Number of designed candidates exported. Does not imply experimental binding."
+          },
+          "native_filter_passed": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Native Filter Passed",
+            "description": "Candidates passing native computational filters; separate from interface confidence or measured affinity."
+          },
+          "plan": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Plan",
+            "description": "BoltzGen inputs, command, sequence hashes, unconstrained site policy and execution stages."
+          },
+          "records": {
+            "anyOf": [
+              {
+                "items": {
+                  "additionalProperties": true,
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Records",
+            "description": "Upstream target results, including failures and independent child_run_url/child_status_url/child_download_url for prepared targets."
+          },
+          "artifacts": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Artifacts",
+            "description": "Relative file paths available via artifact_base_url. Returned by the status endpoint."
+          },
+          "progress": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Progress",
+            "description": "Latest native pipeline stage observed in the last 1 MiB of the worker log: stage_index, total_stages, stage. Stage entry does not imply stage or pipeline completion."
+          },
+          "prepared_directory": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Prepared Directory",
+            "description": "Run-relative directory containing the complete prepared model inputs."
+          },
+          "plan_path": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Plan Path"
+          },
+          "target_state_path": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Target State Path"
+          },
+          "design_yaml": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Design Yaml",
+            "description": "Run-relative BoltzGen YAML input. Target is fixed-sequence or fixed-structure; binder length is generated, with no specified epitope."
+          }
+        },
+        "additionalProperties": true,
+        "type": "object",
+        "required": [
+          "run_id",
+          "status",
+          "status_url",
+          "artifact_base_url"
+        ],
+        "title": "JobResponse",
+        "description": "Common job envelope; extra stage-specific fields are preserved.",
+        "examples": [
+          {
+            "artifact_base_url": "/v1/designs/0123456789abcdef0123456789abcdef/artifacts/",
+            "cloud_launched": false,
+            "design_yaml": "prepared/design.yaml",
+            "execution_performed": false,
+            "mode": "prepare",
+            "prepared_directory": "prepared",
+            "run_id": "0123456789abcdef0123456789abcdef",
+            "status": "prepared_pending_gpu_execution",
+            "status_url": "/v1/designs/0123456789abcdef0123456789abcdef"
+          }
+        ]
+      },
+      "Protein": {
+        "properties": {
+          "target_id": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Target Id"
+          },
+          "gene_id": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Gene Id"
+          },
+          "gene_symbol": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Gene Symbol"
+          },
+          "transcript_id": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Transcript Id"
+          },
+          "uniprot_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 200,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Uniprot Id"
+          },
+          "haplotype": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Haplotype"
+          },
+          "phase_scenario": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Phase Scenario"
+          },
+          "source_variant_ids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Source Variant Ids"
+          },
+          "expression": {
+            "$ref": "#/components/schemas/Expression"
+          },
+          "reference_amino_acid_sequence": {
+            "type": "string",
+            "title": "Reference Amino Acid Sequence"
+          },
+          "amino_acid_sequence": {
+            "type": "string",
+            "title": "Amino Acid Sequence"
+          },
+          "amino_acid_length": {
+            "type": "integer",
+            "title": "Amino Acid Length"
+          },
+          "sequence_hash": {
+            "type": "string",
+            "title": "Sequence Hash"
+          },
+          "first_changed_residue": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "First Changed Residue"
+          },
+          "translation_status": {
+            "type": "string",
+            "enum": [
+              "complete",
+              "complete_with_warnings"
+            ],
+            "title": "Translation Status"
+          },
+          "warnings": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Warnings"
+          },
+          "structure": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Structure"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "target_id",
+          "gene_id",
+          "gene_symbol",
+          "transcript_id",
+          "haplotype",
+          "source_variant_ids",
+          "expression",
+          "reference_amino_acid_sequence",
+          "amino_acid_sequence",
+          "amino_acid_length",
+          "sequence_hash",
+          "first_changed_residue",
+          "translation_status",
+          "warnings"
+        ],
+        "title": "Protein"
+      },
+      "Reference": {
+        "properties": {
+          "genome_build": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Genome Build"
+          },
+          "annotation": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Annotation"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "genome_build",
+          "annotation"
+        ],
+        "title": "Reference"
+      },
+      "RunInput": {
+        "properties": {
+          "target_index": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Target Index",
+            "description": "Use each upstream record child_run_url instead. Direct jobs accept an empty object or no body.",
+            "deprecated": true
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "RunInput"
+      },
+      "Structure": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "complete",
+              "unresolved"
+            ],
+            "title": "Status"
+          },
+          "source": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source"
+          },
+          "source_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source Id"
+          },
+          "file": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "File"
+          },
+          "mean_plddt": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mean Plddt"
+          },
+          "confidence_file": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Confidence File"
+          },
+          "model_version": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Model Version"
+          },
+          "error": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "status"
+        ],
+        "title": "Structure"
+      },
+      "Transcript": {
+        "properties": {
+          "gene_id": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Gene Id"
+          },
+          "gene_symbol": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Gene Symbol"
+          },
+          "transcript_id": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Transcript Id"
+          },
+          "uniprot_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 200,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Uniprot Id"
+          },
+          "haplotype": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Haplotype",
+            "default": "unknown"
+          },
+          "coding_sequence": {
+            "type": "string",
+            "minLength": 3,
+            "title": "Coding Sequence"
+          },
+          "expression": {
+            "$ref": "#/components/schemas/Expression"
+          },
+          "variants": {
+            "items": {
+              "$ref": "#/components/schemas/Variant"
+            },
+            "type": "array",
+            "title": "Variants"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "gene_id",
+          "gene_symbol",
+          "transcript_id",
+          "coding_sequence",
+          "expression"
+        ],
+        "title": "Transcript"
+      },
+      "TranslateRequest": {
+        "properties": {
+          "case_id": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Case Id"
+          },
+          "reference": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "transcripts": {
+            "items": {
+              "$ref": "#/components/schemas/Transcript"
+            },
+            "type": "array",
+            "minItems": 1,
+            "title": "Transcripts"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "case_id",
+          "reference",
+          "transcripts"
+        ],
+        "title": "TranslateRequest"
+      },
+      "TranslateResponse": {
+        "properties": {
+          "case_id": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Case Id"
+          },
+          "reference": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "targets": {
+            "items": {
+              "$ref": "#/components/schemas/Protein"
+            },
+            "type": "array",
+            "title": "Targets"
+          },
+          "target_count": {
+            "type": "integer",
+            "title": "Target Count"
+          },
+          "unique_sequence_count": {
+            "type": "integer",
+            "title": "Unique Sequence Count"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "case_id",
+          "reference",
+          "targets",
+          "target_count",
+          "unique_sequence_count"
+        ],
+        "title": "TranslateResponse"
+      },
+      "UpstreamInput": {
+        "properties": {
+          "case_id": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Case Id"
+          },
+          "reference": {
+            "$ref": "#/components/schemas/Reference"
+          },
+          "targets": {
+            "items": {
+              "$ref": "#/components/schemas/Protein"
+            },
+            "type": "array",
+            "title": "Targets"
+          },
+          "target_count": {
+            "type": "integer",
+            "title": "Target Count"
+          },
+          "unique_sequence_count": {
+            "type": "integer",
+            "title": "Unique Sequence Count"
+          },
+          "artifact_texts": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Artifact Texts"
+          },
+          "provenance": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Provenance"
+          },
+          "chain_selections": {
+            "additionalProperties": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "type": "object",
+            "title": "Chain Selections"
+          },
+          "binder_length": {
+            "type": "integer",
+            "maximum": 300.0,
+            "minimum": 25.0,
+            "title": "Binder Length",
+            "default": 75
+          },
+          "num_designs": {
+            "type": "integer",
+            "maximum": 10000.0,
+            "minimum": 1.0,
+            "title": "Num Designs",
+            "default": 2
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "case_id",
+          "reference",
+          "targets",
+          "target_count",
+          "unique_sequence_count"
+        ],
+        "title": "UpstreamInput"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      },
+      "Variant": {
+        "properties": {
+          "variant_id": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Variant Id"
+          },
+          "cds_position": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Cds Position",
+            "description": "One-based position in the reference CDS"
+          },
+          "ref": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Ref"
+          },
+          "alt": {
+            "type": "string",
+            "title": "Alt",
+            "default": ""
+          },
+          "genotype": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Genotype"
+          },
+          "phase_set": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Phase Set"
+          },
+          "quality": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Quality"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "variant_id",
+          "cds_position",
+          "ref"
+        ],
+        "title": "Variant"
+      }
+    }
+  }
+}

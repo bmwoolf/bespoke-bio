@@ -17,7 +17,9 @@ Binding-surface selection and key generation belong to Step 3.
 
 ## Binder design demo and teammate integration
 
-The active Step 3 engine is **BoltzGen**, with no required epitope. Its full seven-stage
+The active Step 3 engine is **BoltzGen**, with no required epitope. A fresh sequence-only
+HTTP job also completed all seven stages and returned a native-filter-passing candidate;
+see [the live API result](examples/boltzgen_api_results/summary.json). Its full seven-stage
 PD-L1 smoke test completed: two candidates, one native-filter pass, both with weak
 interface confidence. These are computational candidates; binding has not been measured.
 Start the teammate API with `uv run uvicorn biocad.service:app --host 127.0.0.1 --port 8000`;

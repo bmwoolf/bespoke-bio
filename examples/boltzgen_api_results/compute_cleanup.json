@@ -1,0 +1,17 @@
+{
+  "as_of_utc": "2026-10-18T01:57:18.764423+00:00",
+  "gpu_pods_deleted": [
+    "d6f79xbzrghsag",
+    "hhfsmzizull7o0"
+  ],
+  "deletion_verified": "both returned404",
+  "persistent_volume_retained": "sjltm1vrwh",
+  "volume_size_gb": 100,
+  "volume_estimated_usd_per_month": 7,
+  "cold_pod_uptime_seconds": 955,
+  "cold_gpu_estimated_usd": 1.0584583333333335,
+  "restore_gpu_estimated_usd": 0.08,
+  "billing": "estimates only; finalized Runpod billing not queried",
+  "warm_restore_seconds": 76,
+  "cold_setup_seconds": 566
+}

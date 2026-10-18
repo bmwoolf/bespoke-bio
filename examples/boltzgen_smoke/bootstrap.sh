@@ -11,10 +11,37 @@ command -v uv >/dev/null || python3 -m pip install uv==0.12.24
 revision=a07fea1153111ef453aaea7a15697ee05de9291f
 snapshot=/workspace/cache/runtimes/boltzgen-${revision}-torch280-py312
 mkdir -p "$snapshot" /workspace/cache/boltzgen
+archive="$snapshot/runtime.tar.zst"
+if [[ ! -f "$archive" && -f "$snapshot/runtime.tar" ]]; then
+  archive="$snapshot/runtime.tar"
+fi
 # Snapshots are trusted account-local artifacts, restored to their original absolute paths.
-if [[ -f "$snapshot/runtime.tar" && -f "$snapshot/runtime.tar.sha256" ]]; then
-  (cd "$snapshot" && sha256sum -c runtime.tar.sha256)
-  tar -xf "$snapshot/runtime.tar" -C /
+if [[ -f "$archive" && -s "$archive.sha256" ]]; then
+  python3 - "$archive" <<'PYRESTORE'
+import hashlib
+from pathlib import Path
+import subprocess
+import sys
+archive = Path(sys.argv[1])
+expected = Path(str(archive) + '.sha256').read_text().split()[0]
+digest = hashlib.sha256()
+command = ['tar', '-xf', '-', '-C', '/']
+if archive.suffix == '.zst':
+    command.insert(1, '--zstd')
+process = subprocess.Popen(command, stdin=subprocess.PIPE)
+try:
+    with archive.open('rb') as stream:
+        while chunk := stream.read(8 * 1024 * 1024):
+            digest.update(chunk)
+            process.stdin.write(chunk)
+    process.stdin.close()
+    assert process.wait() == 0, 'Runtime extraction failed'
+    assert digest.hexdigest() == expected, 'Runtime checksum mismatch; refusing execution'
+finally:
+    if process.poll() is None:
+        process.kill()
+print('Runtime snapshot checksum verified during extraction')
+PYRESTORE
   cp "$snapshot/esm_python.txt" esm_python.txt
   echo 'Restored versioned local runtime snapshot'
 else
@@ -38,17 +65,18 @@ PY
 uv pip freeze --python /opt/boltzgen-env/bin/python > worker_requirements.txt
 uv pip freeze --python "$(cat esm_python.txt)" > esmfold2_requirements.txt
 # Commit the snapshot only after both environments pass real CUDA allocation checks.
-if [[ ! -f "$snapshot/runtime.tar" || ! -f "$snapshot/runtime.tar.sha256" ]]; then
+if [[ ! -f "$archive" || ! -s "$archive.sha256" ]]; then
   esm_environment=$(dirname "$(dirname "$(cat esm_python.txt)")")
   managed_python=$("$(cat esm_python.txt)" -c 'import sys; print(sys.base_prefix)')
   snapshot_paths=(opt/boltzgen-env "${esm_environment#/}")
   if [[ "$managed_python" == /root/.local/share/uv/python/* ]]; then
     snapshot_paths+=("${managed_python#/}")
   fi
-  tar -cf "$snapshot/runtime.tar.partial" -C / "${snapshot_paths[@]}"
-  mv "$snapshot/runtime.tar.partial" "$snapshot/runtime.tar"
+  archive="$snapshot/runtime.tar.zst"
+  tar -cf - -C / "${snapshot_paths[@]}" | zstd -T4 -1 -o "$archive.partial" -f
+  mv "$archive.partial" "$archive"
   cp esm_python.txt "$snapshot/esm_python.txt"
-  (cd "$snapshot" && sha256sum runtime.tar > runtime.tar.sha256.partial && mv runtime.tar.sha256.partial runtime.tar.sha256)
+  (cd "$snapshot" && sha256sum "$(basename "$archive")" > "$(basename "$archive").sha256.partial" && mv "$(basename "$archive").sha256.partial" "$(basename "$archive").sha256")
 fi
 printf '%s\n' 'Runtime checked; model-cache readiness still requires a completed pipeline.'
 if [[ "${1:-run}" == warmup ]]; then

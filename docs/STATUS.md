@@ -7,9 +7,11 @@ older Mosaic and interdigitated assembly plans below describe research history.
 one native-filter pass, weak interface confidence for both, original GPU pod deleted.
 Generic sequence/structure preparation, typed binder export, bounded native Foldseek
 catalog retrieval, upstream HTTP intake, explicit existing-worker dispatch and ZIP
-downloads pass 46 local tests. The API is running locally and real cached replay/download
-has been verified over HTTP. Fresh GPU execution through the API and persistent cache
-restoration are being verified; neither is claimed complete yet.
+downloads pass local tests. The API is running locally and real cached replay/download
+has been verified over HTTP. Fresh sequence-only HTTP dispatch also completed all seven native stages, exported one
+filter-passing candidate and downloaded its ZIP. A fresh GPU restored the cache in
+76 seconds. Both disposable GPUs were deleted; the persistent volume remains.
+See `examples/boltzgen_api_results/summary.json` for the new result.
 
 
 | Component | Status | Evidence or blocker |

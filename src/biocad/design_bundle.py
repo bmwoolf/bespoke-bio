@@ -69,7 +69,14 @@ def export_bundle(results, target_state_path, output, *, mode="actual_cached_mod
         filename = Path(candidate["file_name"])
         if filename.name != str(filename):
             raise ValueError("Candidate file_name must be a basename")
-        locations = [results / "candidates" / filename, results / "final_ranked_designs" / filename]
+        # Native filtering copies ranked names into nested folders; the unranked
+        # refolded complex is retained here for every candidate (including failures).
+        # Never fall back to a before_refolding backbone for these sequence metrics.
+        locations = [
+            results / "intermediate_designs_inverse_folded" / "refold_cif" / filename,
+            results / "candidates" / filename,
+            results / "final_ranked_designs" / filename,
+        ]
         source = next((p for p in locations if p.is_file()), None)
         if source is None:
             raise FileNotFoundError(filename)

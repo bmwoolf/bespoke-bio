@@ -1,0 +1,198 @@
+{
+  "schema_version": "0.1.0",
+  "target_states": [
+    {
+      "id": "target_78a113f634ca3525",
+      "source": "target/source.fasta",
+      "prepared": "",
+      "source_sha256": "534d566908c9fa56e8fcd52e348473d78583819c5da7c632f4ddcc901fa5007e",
+      "chains": {
+        "A": "AFTVTVPKDLYVVEYGSNMTIECKFPVEKQLDLAALIVYWEMEDKNIIQFVHGEEDLKVQHSSYRQRARLLKDQLSLGNAALQITDVKLQDAGVYRCMISYGGADYKRITVKVNA"
+      },
+      "residue_mapping": [],
+      "unresolved": [],
+      "context": {
+        "input_mode": "sequence_only",
+        "source_author_chain": "A",
+        "coordinate_normalization": "observed residues only; source retained",
+        "sequence_only_prediction_performed": false
+      },
+      "evidence": "predicted",
+      "variants": [],
+      "measurements": []
+    }
+  ],
+  "components": [
+    {
+      "id": "binder_5c7000a0e62fb0de",
+      "structure": "binder_5c7000a0e62fb0de/binder.cif",
+      "sequence": "MTIYVVTEDGTIIKLEVEPSDTIGEVKKKIEEKLGIPPENQELIFNGKKLKDEETLSDYDIGDYSVLKLKLKEVK",
+      "sequence_sha256": "f3643a317931067d52ed3f50ac7a4944c9d3406957b8e980caa9857013e21196",
+      "role": "computational_binder_candidate",
+      "ports": [
+        {
+          "terminus": "N",
+          "residue": {
+            "chain": "A",
+            "number": 1,
+            "insertion": ""
+          },
+          "anchors": [
+            "N",
+            "CA",
+            "C"
+          ],
+          "frame": {
+            "rotation": [
+              [
+                0.7689639463783404,
+                0.557922125766787,
+                -0.31211752714341157
+              ],
+              [
+                0.40135531217303627,
+                -0.8013339965129025,
+                -0.44359636993909696
+              ],
+              [
+                -0.4976026151064053,
+                0.21583958768615416,
+                -0.8401219612810616
+              ]
+            ],
+            "translation": [
+              -17.3642044,
+              -2.87888288,
+              5.78969097
+            ]
+          },
+          "connection_type": "peptide_fusion"
+        },
+        {
+          "terminus": "C",
+          "residue": {
+            "chain": "A",
+            "number": 75,
+            "insertion": ""
+          },
+          "anchors": [
+            "C",
+            "CA",
+            "N"
+          ],
+          "frame": {
+            "rotation": [
+              [
+                -0.6664633253052057,
+                -0.15347536935827183,
+                0.7295696999077398
+              ],
+              [
+                -0.46222119337859846,
+                0.8528697319054255,
+                -0.2428266640861989
+              ],
+              [
+                -0.5849600024059696,
+                -0.49905764336387975,
+                -0.6393459659568507
+              ]
+            ],
+            "translation": [
+              11.0285053,
+              -9.5498457,
+              25.8147449
+            ]
+          },
+          "connection_type": "peptide_fusion"
+        }
+      ],
+      "fixed_residues": [],
+      "evidence": {
+        "target_state_id": "target_78a113f634ca3525",
+        "native_candidate_id": "design",
+        "complex_structure": "binder_5c7000a0e62fb0de/complex.cif",
+        "source_sha256": "8963a09d697db625780ffa5bf7c8effad377de8652a04440a2355e82047a1aef",
+        "engine_commit": "a07fea1153111ef453aaea7a15697ee05de9291f",
+        "measured_binding": false
+      }
+    }
+  ],
+  "evaluations": [
+    {
+      "id": "binder_5c7000a0e62fb0de_filters",
+      "subject_id": "binder_5c7000a0e62fb0de",
+      "target_state_id": "target_78a113f634ca3525",
+      "method": "BoltzGen native default filters",
+      "evidence": "computational",
+      "status": "pass",
+      "metrics": {
+        "design_ptm": 0.7670690417289733,
+        "design_to_target_iptm": 0.4104224741458892,
+        "filter_rmsd": 0.8308135867118835,
+        "filter_rmsd_design": 0.7955069541931152,
+        "designfolding-filter_rmsd": 1.331756353378296,
+        "esmfold2_ipsae_min": 0.1719648101654564,
+        "quality_score": null
+      },
+      "units": {},
+      "details": {
+        "failed_filters": [],
+        "flags": {
+          "pass_has_x_filter": "True",
+          "pass_filter_rmsd_filter": "True",
+          "pass_filter_rmsd_design_filter": "True",
+          "pass_designfolding-filter_rmsd_filter": "True",
+          "pass_ALA_fraction_filter": "True",
+          "pass_GLY_fraction_filter": "True",
+          "pass_GLU_fraction_filter": "True",
+          "pass_LEU_fraction_filter": "True",
+          "pass_VAL_fraction_filter": "True"
+        },
+        "acceptance_scope": "default filters; does not establish binding"
+      }
+    },
+    {
+      "id": "binder_5c7000a0e62fb0de_binding",
+      "subject_id": "binder_5c7000a0e62fb0de",
+      "target_state_id": "target_78a113f634ca3525",
+      "method": "predicted interface confidence",
+      "evidence": "computational prediction; no experimental binding",
+      "status": "assessed",
+      "metrics": {
+        "design_to_target_iptm": 0.4104224741458892,
+        "esmfold2_ipsae_min": 0.1719648101654564
+      },
+      "units": {},
+      "details": {
+        "selection_gate": "not calibrated; report values independently of filter pass"
+      }
+    },
+    {
+      "id": "binder_5c7000a0e62fb0de_ports",
+      "subject_id": "binder_5c7000a0e62fb0de",
+      "target_state_id": "target_78a113f634ca3525",
+      "method": "terminal atom distance to bound target",
+      "evidence": "coordinate geometry",
+      "status": "assessed",
+      "metrics": {
+        "N_target_clearance_angstrom": 11.25951883973234,
+        "C_target_clearance_angstrom": 23.415591306113054
+      },
+      "units": {
+        "N_target_clearance_angstrom": "angstrom",
+        "C_target_clearance_angstrom": "angstrom"
+      },
+      "details": {
+        "limitation": "point clearance only; linker path, solvent exposure and fusion feasibility untested"
+      }
+    }
+  ],
+  "provenance": {
+    "engine": "BoltzGen",
+    "commit": "a07fea1153111ef453aaea7a15697ee05de9291f",
+    "mode": "live_model_outputs",
+    "source_metrics_sha256": "6789de451e1eac9a69cfbf6927fdea35f876dbd82b1e154db894354f4743d7ee",
+    "binding_evidence": "no measured binding or affinity"
+  }
+}

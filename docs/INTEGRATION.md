@@ -1,6 +1,6 @@
 # Engineer integration
 
-The scientific implementation is one Python package and CLI. A teammate-facing HTTP adapter is being added; see the current hackathon handoff and punchlist. No database is required. Public entry points are `structures.prepare`, `structures.select_indices`, `retrieval.search`, `retrieval.transfer`, `mosaic_adapter.compile_request`, `mosaic_adapter.run`, and `pipeline.run_example`. Geometry and assembly logic is currently integrated into the demonstration, rather than a general-purpose assembly API.
+The scientific implementation is one Python package and CLI. The teammate-facing HTTP adapter is `biocad.service:app`; see the current hackathon handoff and punchlist. No database is required. Public entry points are `structures.prepare`, `structures.select_indices`, `retrieval.search`, `retrieval.transfer`, `mosaic_adapter.compile_request`, `mosaic_adapter.run`, and `pipeline.run_example`. Geometry and assembly logic is currently integrated into the demonstration, rather than a general-purpose assembly API.
 
 `contracts.py` defines strict Pydantic objects. `examples/response.schema.json` is the generated JSON Schema. The exact example request/response is in `examples/replay/`. Recreate the schema with `biocad schema`.
 
