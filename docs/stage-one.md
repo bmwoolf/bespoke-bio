@@ -23,7 +23,8 @@ one CPU worker. Use the pinned workflows, thin adapters, native files and retain
 For the immediate protein-focused run, import HG002's precomputed, phased GIAB v5.0q
 variants with the matching benchmark BED and source documentation. This skips DNA alignment,
 variant calling and read-based phasing. Keep the complete source callset; annotate coding
-intervals and 50-base local flanks, then resolve complete transcript alleles. Do not discard
+intervals and 50-base local flanks with VEP using the exact, sorted and indexed GENCODE GTF
+used for CDS extraction, then resolve complete transcript alleles. Do not discard
 synonymous changes before combined haplotype interpretation. This scope does not reconstruct
 novel splicing, regulatory effects or structural variants.
 
@@ -51,19 +52,19 @@ Step 2 should verify `sequence_sha256`, retain every target record, and deduplic
 work by the complete `amino_acid_sequence`. No nucleotide translation or variant application
 is needed for this route. `expression: null` means unmeasured, not zero.
 
-One protein record from the HG002 export, containing the complete CCL26 precursor sequence:
+One protein record from the validated HG002 export, containing the complete SS18L2 sequence:
 
 ```json
 {
-  "target_id": "protein_053f7d312f1326fff933fba39f7db183",
+  "target_id": "protein_3494206a68a2cb619173b43bfef8127f",
   "donor": "HG002",
-  "gene_id": "ENSG00000006606.10",
-  "gene_symbol": "CCL26",
-  "transcript_id": "ENST00000005180.9",
-  "phase_scenario": "solution_aaa4578e74d3b986b14fcf44:allele-1",
-  "amino_acid_sequence": "MMGLSLASAVLLASLLSLHLGTATRGSDISKTCCFQYSHKPLPWTWVRSYEFTSNSCSQRAVIFTTKRGKKVCTHPRKKWVQKYISLLKTPKQL",
-  "sequence_sha256": "f5e2fc31c84ced489b4dfbc8f7855c20c70b3fb65f1657673657a7abd2d0d140",
-  "reference_sequence_sha256": "f5e2fc31c84ced489b4dfbc8f7855c20c70b3fb65f1657673657a7abd2d0d140",
+  "gene_id": "ENSG00000008324.14",
+  "gene_symbol": "SS18L2",
+  "transcript_id": "ENST00000011691.6",
+  "phase_scenario": "solution_bafd0cbb4cc7860c82289596:allele-1",
+  "amino_acid_sequence": "MSVAFVPDWLRGKAEVNQETIQRLLEENDQLIRCIVEYQNKGRGNECVQYQHVLHRNLIYLATIADASPTSTSKAME",
+  "sequence_sha256": "8fec45ce0f659b00507a08b9e5d71d0cd8ef8575882320af92a429d9f85de267",
+  "reference_sequence_sha256": "8fec45ce0f659b00507a08b9e5d71d0cd8ef8575882320af92a429d9f85de267",
   "expression": null
 }
 ```
@@ -549,11 +550,12 @@ of worker count. Add services only when measured concurrency or query load requi
 
 Install the adapter with `uv sync --extra stage1 --extra dev`. Keep data and runtime settings
 outside Git. `PrecomputedRun` in `stage1/precomputed_run.py` defines the required source
-manifest, validated reference records, genome/GTF/cache paths, container digests and resource
+manifest, validated reference records, genome/GTF paths, container digests and resource
 limits. With those local settings, run:
 
 ```bash
 uv run bespoke-stage1 process-precomputed --settings /work/run.json --output /work/attempt-001
+uv run bespoke-stage1 validate-proteins --root /work/attempt-001/proteins
 ```
 
 Read `proteins/manifest.json` only after successful completion. It lists output hashes,

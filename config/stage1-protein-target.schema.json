@@ -1,0 +1,66 @@
+{
+  "additionalProperties": false,
+  "description": "One biological allele with its actual, complete amino-acid sequence.\n\nExpression is unknown in this input mode. Sequence hashes deduplicate computation;\ntarget records retain the donor, transcript and allele scenario independently.",
+  "properties": {
+    "target_id": {
+      "maxLength": 200,
+      "minLength": 1,
+      "title": "Target Id",
+      "type": "string"
+    },
+    "donor": {
+      "maxLength": 200,
+      "minLength": 1,
+      "title": "Donor",
+      "type": "string"
+    },
+    "gene_id": {
+      "title": "Gene Id",
+      "type": "string"
+    },
+    "gene_symbol": {
+      "title": "Gene Symbol",
+      "type": "string"
+    },
+    "transcript_id": {
+      "title": "Transcript Id",
+      "type": "string"
+    },
+    "phase_scenario": {
+      "title": "Phase Scenario",
+      "type": "string"
+    },
+    "amino_acid_sequence": {
+      "title": "Amino Acid Sequence",
+      "type": "string"
+    },
+    "sequence_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Sequence Sha256",
+      "type": "string"
+    },
+    "reference_sequence_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Reference Sequence Sha256",
+      "type": "string"
+    },
+    "expression": {
+      "default": null,
+      "title": "Expression",
+      "type": "null"
+    }
+  },
+  "required": [
+    "target_id",
+    "donor",
+    "gene_id",
+    "gene_symbol",
+    "transcript_id",
+    "phase_scenario",
+    "amino_acid_sequence",
+    "sequence_sha256",
+    "reference_sequence_sha256"
+  ],
+  "title": "ProteinTarget",
+  "type": "object"
+}

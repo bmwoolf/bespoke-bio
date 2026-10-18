@@ -20,6 +20,11 @@ repository; Step 2 is simply the first module implemented.
 
 ## Step 1 -> Step 2
 
+The [Stage 1 guide](stage-one.md) also defines a precomputed-evidence route that exports
+complete amino-acid sequences, sequence hashes and transcript provenance. That route has
+been exercised on HG002. Its protein records require a direct-protein Step 2 interface;
+the existing API described below continues to accept CDS and variants.
+
 Step 1 performs alignment, variant calling and rarity filtering, transcript/CDS resolution,
 novel-transcript ORF selection, expression quantification, and haplotype/scenario grouping.
 
@@ -190,8 +195,9 @@ Step 3 outputs and are intentionally absent from the Step 2 package.
 
 ## Current implementation
 
-The first contribution to the shared repository implements the complete Step 2 boundary
-described above. Step 1 and Step 3 will be added alongside it:
+The repository implements the Step 2 boundary described above and the Stage 1 precomputed
+protein export. Stage 1 raw-read workflow adapters require full-case qualification; Step 3
+will be added alongside them. Step 2 entry points remain:
 
 - `POST /v1/build?folding_backend=...` runs translation, lookup, folding, and packaging.
 - `GET /v1/bundles/{bundle_id}/{file}` serves files from the completed package.

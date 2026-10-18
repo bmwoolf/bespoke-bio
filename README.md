@@ -5,7 +5,7 @@ for Steps 1, 2, and 3. Step 2 is the first implemented contribution: it translat
 DNA/RNA findings from Step 1, resolves or predicts one structure per unique protein, and
 packages the results for Step 3.
 
-The implementation is intentionally small. It:
+The Step 2 implementation:
 
 1. validates resolved coding sequences, expression measurements, and CDS-relative variants;
 2. accepts only explicit haplotypes or phase scenarios supplied by Step 1;
@@ -15,6 +15,24 @@ The implementation is intentionally small. It:
 6. writes `proteins.fasta`, `targets.jsonl`, structure files, and `provenance.json` for Step 3.
 
 Binding-surface selection and key generation belong to Step 3.
+
+## Run Step 1
+
+Step 1 imports precomputed human variant evidence and exports complete protein sequences in
+`protein-targets.jsonl` and a deduplicated `proteins.fasta`. It retains every supported target
+and records why other transcripts were deferred. Expression remains null until measured.
+
+```bash
+uv sync --extra stage1 --extra dev
+uv run bespoke-stage1 process-precomputed --settings /work/run.json --output /work/attempt-001
+uv run bespoke-stage1 validate-proteins --root /work/attempt-001/proteins
+```
+
+See [the Stage 1 guide](docs/stage-one.md) for inputs, settings, container requirements and the
+protein JSON contract. Keep runtime settings and generated data outside Git. The HG002
+precomputed-evidence route has passed a full export and independent replay. The raw DNA/RNA
+workflow adapters still require full-case qualification. Step 2's current API accepts CDS and
+variants; direct protein ingestion requires a separate interface update.
 
 ## Run the API
 

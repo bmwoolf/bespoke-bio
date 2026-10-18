@@ -1,0 +1,445 @@
+{
+  "schema_version": "1.0.0",
+  "files": [
+    {
+      "role": "dna_r1",
+      "url": "https://nist-midas.s3.amazonaws.com/pdrsrv/mds2-2336/input_fastqs/HG002.novaseq.pcr-free.35x.R1.fastq.gz",
+      "filename": "HG002.novaseq.pcr-free.35x.R1.fastq.gz",
+      "checksum_algorithm": "sha256",
+      "checksum": "0b8578457bd4f0a0503b5f3cbafff58da84ea32cc07c7caa3c553f152ac0686e",
+      "bytes": 29911262422
+    },
+    {
+      "role": "dna_r2",
+      "url": "https://nist-midas.s3.amazonaws.com/pdrsrv/mds2-2336/input_fastqs/HG002.novaseq.pcr-free.35x.R2.fastq.gz",
+      "filename": "HG002.novaseq.pcr-free.35x.R2.fastq.gz",
+      "checksum_algorithm": "sha256",
+      "checksum": "726b987b13e05c245d373a2dc6cad64b6104bd756e6ed60e6b9052b72e0965c0",
+      "bytes": 31043207981
+    },
+    {
+      "role": "rna_r1",
+      "url": "https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/data_RNAseq/AshkenazimTrio/HG002_NA24385_son/Google_Illumina/mRNA/reads/hg002_gm24385.mrna.R1.fastq.gz",
+      "filename": "hg002_gm24385.mrna.R1.fastq.gz",
+      "checksum_algorithm": "md5",
+      "checksum": "96a10e4f029805253ada8531c6ef87e9",
+      "bytes": 7321569102
+    },
+    {
+      "role": "rna_r2",
+      "url": "https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/data_RNAseq/AshkenazimTrio/HG002_NA24385_son/Google_Illumina/mRNA/reads/hg002_gm24385.mrna.R2.fastq.gz",
+      "filename": "hg002_gm24385.mrna.R2.fastq.gz",
+      "checksum_algorithm": "md5",
+      "checksum": "9df3298a1c919b064762bafe1963a271",
+      "bytes": 7375938930
+    },
+    {
+      "role": "genome",
+      "url": "https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_50/GRCh38.primary_assembly.genome.fa.gz",
+      "filename": "GRCh38.primary_assembly.genome.fa.gz",
+      "checksum_algorithm": "md5",
+      "checksum": "da1a11258be075cfa7af718162c894e7",
+      "bytes": null
+    },
+    {
+      "role": "annotation",
+      "url": "https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_50/gencode.v50.primary_assembly.annotation.gtf.gz",
+      "filename": "gencode.v50.primary_assembly.annotation.gtf.gz",
+      "checksum_algorithm": "md5",
+      "checksum": "289b91e5e95e8b0450d223246f10a12e",
+      "bytes": null
+    },
+    {
+      "role": "proteins",
+      "url": "https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_50/gencode.v50.pc_translations.fa.gz",
+      "filename": "gencode.v50.pc_translations.fa.gz",
+      "checksum_algorithm": "md5",
+      "checksum": "509a89a4c3bb8c594baac50d4d57e589",
+      "bytes": null
+    },
+    {
+      "role": "truth_smvar.benchmark.bed",
+      "url": "https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/release/AshkenazimTrio/HG002_NA24385_son/v5.0q/HG002_GRCh38_v5.0q_smvar.benchmark.bed",
+      "filename": "HG002_GRCh38_v5.0q_smvar.benchmark.bed",
+      "checksum_algorithm": "md5",
+      "checksum": "3366858af85875cbb3c579412ffa4c56",
+      "bytes": null
+    },
+    {
+      "role": "truth_smvar.vcf.gz",
+      "url": "https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/release/AshkenazimTrio/HG002_NA24385_son/v5.0q/HG002_GRCh38_v5.0q_smvar.vcf.gz",
+      "filename": "HG002_GRCh38_v5.0q_smvar.vcf.gz",
+      "checksum_algorithm": "md5",
+      "checksum": "c71acc71069bf7cd7f51eb8fb0c1a1ab",
+      "bytes": null
+    },
+    {
+      "role": "truth_smvar.vcf.gz.tbi",
+      "url": "https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/release/AshkenazimTrio/HG002_NA24385_son/v5.0q/HG002_GRCh38_v5.0q_smvar.vcf.gz.tbi",
+      "filename": "HG002_GRCh38_v5.0q_smvar.vcf.gz.tbi",
+      "checksum_algorithm": "md5",
+      "checksum": "58cab2a06e29b74a5bdc190ead079083",
+      "bytes": null
+    },
+    {
+      "role": "truth_README.md",
+      "url": "https://ftp-trace.ncbi.nlm.nih.gov/ReferenceSamples/giab/release/AshkenazimTrio/HG002_NA24385_son/v5.0q/NIST_HG002_v5.0q_variant-benchmarksets_README.md",
+      "filename": "NIST_HG002_v5.0q_variant-benchmarksets_README.md",
+      "checksum_algorithm": "sha256",
+      "checksum": "14d71c9f54a7a9fcf93cb1eabe5298468e8f0bb8f60844345a6f08a53cbfb4b0",
+      "bytes": 16920,
+      "source_note": "Publisher checksum.md5 contains a malformed 31-character digest for this README. Documentation is pinned by independently retrieved SHA-256; benchmark VCF/index/BED retain verified publisher checksums."
+    },
+    {
+      "role": "fingerprints",
+      "url": "https://storage.googleapis.com/gcp-public-data--broad-references/hg38/v0/Homo_sapiens_assembly38.with_assay_info.haplotype_database.txt",
+      "filename": "Homo_sapiens_assembly38.with_assay_info.haplotype_database.txt",
+      "checksum_algorithm": "sha256",
+      "checksum": "4b9a9a8daafd39fc0e75ee48bc8298df58c6f431809d4b6abf50d8a64c63c6e5",
+      "bytes": 525780
+    }
+  ],
+  "source_revisions": [
+    {
+      "repo": "nf-core/sarek",
+      "ref": "3.10.0",
+      "commit": "8ccac7ad37b05dd792447763bf9671b719824587",
+      "url": "https://github.com/nf-core/sarek/commit/8ccac7ad37b05dd792447763bf9671b719824587"
+    },
+    {
+      "repo": "nf-core/rnaseq",
+      "ref": "3.27.0",
+      "commit": "a1fcdddd3b826fe46eb46f0479f2ff8a7815af05",
+      "url": "https://github.com/nf-core/rnaseq/commit/a1fcdddd3b826fe46eb46f0479f2ff8a7815af05"
+    },
+    {
+      "repo": "whatshap/whatshap",
+      "ref": "v2.8",
+      "commit": "f07423a7ba0c7609e7d4d5c73fb5e4e240057830",
+      "url": "https://github.com/whatshap/whatshap/commit/f07423a7ba0c7609e7d4d5c73fb5e4e240057830"
+    },
+    {
+      "repo": "gpertea/gffread",
+      "ref": "v0.12.9",
+      "commit": "05462cdb2bb6025f72a8d93c4797b24155962340",
+      "url": "https://github.com/gpertea/gffread/commit/05462cdb2bb6025f72a8d93c4797b24155962340"
+    },
+    {
+      "repo": "Ensembl/ensembl-vep",
+      "ref": "release/116.0",
+      "commit": "57ea5c52340acc1f156267f810ad162e26597082",
+      "url": "https://github.com/Ensembl/ensembl-vep/commit/57ea5c52340acc1f156267f810ad162e26597082"
+    },
+    {
+      "repo": "google/deepvariant",
+      "ref": "r1.10",
+      "commit": "45f2627504c59785ea2b88d0256a2ec347bce7b4",
+      "url": "https://github.com/google/deepvariant/commit/45f2627504c59785ea2b88d0256a2ec347bce7b4"
+    },
+    {
+      "repo": "nextflow-io/nextflow",
+      "ref": "v26.10.2",
+      "commit": "ca1dd58ead7156c172f1f2897530015187622d20",
+      "url": "https://github.com/nextflow-io/nextflow/commit/ca1dd58ead7156c172f1f2897530015187622d20"
+    }
+  ],
+  "containers": {
+    "bcftools": "community.wave.seqera.io/library/bcftools_htslib@sha256:9c0dea3c6d34d771912b4a2b0297d3e796db69d3c06620cb93b8ab41c072c613",
+    "samtools": "community.wave.seqera.io/library/htslib_samtools@sha256:a55ddea590e567a91df592300a960aa534cfc1bd16e7623e3938ec21f4f3df15",
+    "salmon": "community.wave.seqera.io/library/salmon@sha256:8b30cea858872777488e937f74e1a11c3a50ada0ac4b361ad423697b60e784b2"
+  },
+  "reference": {
+    "genome_build": "GRCh38",
+    "annotation": "GENCODE-50",
+    "ensembl_cache": 116
+  },
+  "dataset": {
+    "donor": "HG002",
+    "dna_specimen": "HG002-NovaSeq",
+    "dna_library": "HG002-NovaSeq-PCRfree",
+    "rna_specimen": "GM24385-Google",
+    "rna_library": "GM24385-Google-polyA",
+    "sex": "XY",
+    "aliquot": null,
+    "passage": null
+  },
+  "licenses": {
+    "nextflow": "Apache-2.0",
+    "nf-core/sarek": "MIT",
+    "nf-core/rnaseq": "MIT",
+    "whatshap": "MIT",
+    "gffread": "MIT",
+    "ensembl-vep": "Apache-2.0",
+    "deepvariant": "BSD-3-Clause",
+    "picard": "MIT",
+    "samtools": "MIT",
+    "salmon": "BSD-3-Clause",
+    "project": "pending contributor agreement"
+  },
+  "qualification": {
+    "HG002": "integration and regression only; DeepVariant WGS training includes HG002",
+    "independent_holdout": "required before generalization"
+  },
+  "binaries": {
+    "nextflow": {
+      "version": "26.10.2",
+      "url": "https://github.com/nextflow-io/nextflow/releases/download/v26.10.2/nextflow-26.10.2-dist",
+      "sha256": "14d668a3daca7d522e9a45140f4208b6a9e36a1d3ffd75de3d72aa3ba013fbe6"
+    },
+    "picard": {
+      "version": "3.5.0",
+      "url": "https://github.com/broadinstitute/picard/releases/download/3.5.0/picard.jar",
+      "sha256": "b7d97861c3a54ba5a421f5a317f38382f955803862d30ef4aca2bcdc54943631"
+    },
+    "gffread": {
+      "version": "0.12.9",
+      "url": "https://github.com/gpertea/gffread/releases/download/v0.12.9/gffread-0.12.9.Linux_x86_64.tar.gz",
+      "sha256": "3effcbb3ccf5a76305887df0d39feb69160aed6091e42f173bb0ebf422f18d17"
+    }
+  },
+  "plugins": [
+    "nf-schema@2.7.2",
+    "nf-core-utils@0.4.0",
+    "nf-fgbio@1.0.0",
+    "nf-prov@1.7.0"
+  ],
+  "workflow_containers": {
+    "community.wave.seqera.io/library/bcftools_htslib:1.23.1--9f08ec665533d64a": {
+      "digest": "community.wave.seqera.io/library/bcftools_htslib@sha256:9c0dea3c6d34d771912b4a2b0297d3e796db69d3c06620cb93b8ab41c072c613",
+      "image_id": "sha256:9c0dea3c6d34d771912b4a2b0297d3e796db69d3c06620cb93b8ab41c072c613",
+      "bytes": 117707695
+    },
+    "community.wave.seqera.io/library/bedtools_coreutils:a623c13f66d5262b": {
+      "digest": "community.wave.seqera.io/library/bedtools_coreutils@sha256:87d2a7cad1272517e4b6e7e2f846a3763c012b46978f1ff0dc5c345f32dbeeac",
+      "image_id": "sha256:87d2a7cad1272517e4b6e7e2f846a3763c012b46978f1ff0dc5c345f32dbeeac",
+      "bytes": 57980850
+    },
+    "community.wave.seqera.io/library/bioconductor-dupradar:1.38.0--831da16eb40a64ab": {
+      "digest": "community.wave.seqera.io/library/bioconductor-dupradar@sha256:9509e959f6a9fe5ebc3cc16b907ba0fc0423fe03d2c02d6ac2e05c5fb50114fb",
+      "image_id": "sha256:9509e959f6a9fe5ebc3cc16b907ba0fc0423fe03d2c02d6ac2e05c5fb50114fb",
+      "bytes": 530263283
+    },
+    "community.wave.seqera.io/library/bioconductor-tximeta_jq:78bccd386c46a07c": {
+      "digest": "community.wave.seqera.io/library/bioconductor-tximeta_jq@sha256:b8b4a40e7c126ed0182341087883eff161487814a3ddc9b168fc6ba104842189",
+      "image_id": "sha256:b8b4a40e7c126ed0182341087883eff161487814a3ddc9b168fc6ba104842189",
+      "bytes": 816751767
+    },
+    "community.wave.seqera.io/library/bwa-mem2_htslib_samtools:db98f81f55b64113": {
+      "digest": "community.wave.seqera.io/library/bwa-mem2_htslib_samtools@sha256:5ebd1290d9680195817ce75915b79ae2e608834c017824b7e2bc7b141509b242",
+      "image_id": "sha256:5ebd1290d9680195817ce75915b79ae2e608834c017824b7e2bc7b141509b242",
+      "bytes": 71611983
+    },
+    "community.wave.seqera.io/library/coreutils_grep_gzip_lbzip2_pruned:838ba80435a629f8": {
+      "digest": "community.wave.seqera.io/library/coreutils_grep_gzip_lbzip2_pruned@sha256:63c2c6b22e83b2f656e88fbb1553e595da4e9e58794e3bfcb98b20b3837f328a",
+      "image_id": "sha256:63c2c6b22e83b2f656e88fbb1553e595da4e9e58794e3bfcb98b20b3837f328a",
+      "bytes": 58668266
+    },
+    "community.wave.seqera.io/library/ensembl-vep_perl-math-cdf_htslib:c4edd3fb4a233ae6": {
+      "digest": "community.wave.seqera.io/library/ensembl-vep_perl-math-cdf_htslib@sha256:918b8397048f87e44b6bd4fd1f7a6a78c77b758882bfd298c95f57c054e3e4c6",
+      "image_id": "sha256:918b8397048f87e44b6bd4fd1f7a6a78c77b758882bfd298c95f57c054e3e4c6",
+      "bytes": 1097645415
+    },
+    "community.wave.seqera.io/library/gatk4_gcnvkernel:edb12e4f0bf02cd3": {
+      "digest": "community.wave.seqera.io/library/gatk4_gcnvkernel@sha256:f76352ed2666fa3da80a02792cde7af896da176e9b1835646829c27e4ca0d2d4",
+      "image_id": "sha256:f76352ed2666fa3da80a02792cde7af896da176e9b1835646829c27e4ca0d2d4",
+      "bytes": 2013318037
+    },
+    "community.wave.seqera.io/library/gatk4_gcnvkernel_htslib_samtools:d3becb6465454c35": {
+      "digest": "community.wave.seqera.io/library/gatk4_gcnvkernel_htslib_samtools@sha256:8d26ec8c48d73b028e066c8b8849fdf4fcbadf8a0f53820ac3d9e33c0aea4b17",
+      "image_id": "sha256:8d26ec8c48d73b028e066c8b8849fdf4fcbadf8a0f53820ac3d9e33c0aea4b17",
+      "bytes": 2117693979
+    },
+    "community.wave.seqera.io/library/gawk:5.3.1--e09efb5dfc4b8156": {
+      "digest": "community.wave.seqera.io/library/gawk@sha256:3f253db588d0a3e9526734cda5f6c0e3cdd3038a7106d23a609c7a3fdc1205f2",
+      "image_id": "sha256:3f253db588d0a3e9526734cda5f6c0e3cdd3038a7106d23a609c7a3fdc1205f2",
+      "bytes": 51209589
+    },
+    "community.wave.seqera.io/library/htslib_mosdepth_gzip:4108dd38be84e40a": {
+      "digest": "community.wave.seqera.io/library/htslib_mosdepth_gzip@sha256:426ef2ec8c93bc292862c2902a91f193ae336bdb84750581637d35f59017d2bc",
+      "image_id": "sha256:426ef2ec8c93bc292862c2902a91f193ae336bdb84750581637d35f59017d2bc",
+      "bytes": 70958598
+    },
+    "community.wave.seqera.io/library/htslib_samtools:1.24--d697cfb9dce007cd": {
+      "digest": "community.wave.seqera.io/library/htslib_samtools@sha256:a55ddea590e567a91df592300a960aa534cfc1bd16e7623e3938ec21f4f3df15",
+      "image_id": "sha256:a55ddea590e567a91df592300a960aa534cfc1bd16e7623e3938ec21f4f3df15",
+      "bytes": 83414046
+    },
+    "community.wave.seqera.io/library/htslib_samtools_star_gawk:ae438e9a604351a4": {
+      "digest": "community.wave.seqera.io/library/htslib_samtools_star_gawk@sha256:4a468118dbd7491a69bf9813c68233afa8558d1f3380fd8cab03e0e3d3135190",
+      "image_id": "sha256:4a468118dbd7491a69bf9813c68233afa8558d1f3380fd8cab03e0e3d3135190",
+      "bytes": 80796627
+    },
+    "community.wave.seqera.io/library/htslib_samtools_xz:1595ae0727655963": {
+      "digest": "community.wave.seqera.io/library/htslib_samtools_xz@sha256:304caa8b82718eb34f9c162c40fc977a86c5bb2d6dfd40d49901db077719a7eb",
+      "image_id": "sha256:304caa8b82718eb34f9c162c40fc977a86c5bb2d6dfd40d49901db077719a7eb",
+      "bytes": 84314452
+    },
+    "community.wave.seqera.io/library/htslib_xz:32f2772a564b3cd2": {
+      "digest": "community.wave.seqera.io/library/htslib_xz@sha256:f80d3b163039303cc5b50e599aba464e43a9c97fcc7f2bb114d55a71183170a2",
+      "image_id": "sha256:f80d3b163039303cc5b50e599aba464e43a9c97fcc7f2bb114d55a71183170a2",
+      "bytes": 83265166
+    },
+    "community.wave.seqera.io/library/multiqc:1.35--c17fb751507e9dfc": {
+      "digest": "community.wave.seqera.io/library/multiqc@sha256:ae074e961979ea85c72c6c67a8ed432fa3368c736b8fe37799f7223901ac84ab",
+      "image_id": "sha256:ae074e961979ea85c72c6c67a8ed432fa3368c736b8fe37799f7223901ac84ab",
+      "bytes": 381743747
+    },
+    "community.wave.seqera.io/library/picard:3.5.0--842d4c70c98af9b4": {
+      "digest": "community.wave.seqera.io/library/picard@sha256:77adca1b952cf3bba4ebd92393809e3cfd34e8f5cd186882d075a4291068b3ca",
+      "image_id": "sha256:77adca1b952cf3bba4ebd92393809e3cfd34e8f5cd186882d075a4291068b3ca",
+      "bytes": 667409116
+    },
+    "community.wave.seqera.io/library/python:3.14.5--dc8358b3c5eeb927": {
+      "digest": "community.wave.seqera.io/library/python@sha256:50198b21b0661eecf498d4983a897806d649071e801d9f8792b4c5e23e70674a",
+      "image_id": "sha256:50198b21b0661eecf498d4983a897806d649071e801d9f8792b4c5e23e70674a",
+      "bytes": 98434310
+    },
+    "community.wave.seqera.io/library/r-base_r-optparse_r-ggplot2_r-rcolorbrewer_pruned:9e75394d0bc21987": {
+      "digest": "community.wave.seqera.io/library/r-base_r-optparse_r-ggplot2_r-rcolorbrewer_pruned@sha256:afd00df7ce26f38ecb2a063f65d441fc20c0803e5c7319ee5cbe3a23732a30dd",
+      "image_id": "sha256:afd00df7ce26f38ecb2a063f65d441fc20c0803e5c7319ee5cbe3a23732a30dd",
+      "bytes": 734701982
+    },
+    "community.wave.seqera.io/library/rseqc_r-base:2e29d2dfda9cef15": {
+      "digest": "community.wave.seqera.io/library/rseqc_r-base@sha256:4f5926eeef842405756ca3453cd534b72d941c119b8e4785565c7918e05cd8ab",
+      "image_id": "sha256:4f5926eeef842405756ca3453cd534b72d941c119b8e4785565c7918e05cd8ab",
+      "bytes": 725818662
+    },
+    "community.wave.seqera.io/library/salmon:2.7.0--74784226202c61b9": {
+      "digest": "community.wave.seqera.io/library/salmon@sha256:8b30cea858872777488e937f74e1a11c3a50ada0ac4b361ad423697b60e784b2",
+      "image_id": "sha256:8b30cea858872777488e937f74e1a11c3a50ada0ac4b361ad423697b60e784b2",
+      "bytes": 49249230
+    },
+    "community.wave.seqera.io/library/seqkit:2.13.0--05c0a96bf9fb2751": {
+      "digest": "community.wave.seqera.io/library/seqkit@sha256:1f6c3399ca530a727fd243e50348560e820cd1f97668ebbe767d5dff370168da",
+      "image_id": "sha256:1f6c3399ca530a727fd243e50348560e820cd1f97668ebbe767d5dff370168da",
+      "bytes": 50352648
+    },
+    "community.wave.seqera.io/library/stringtie:3.0.3--e8043d00caecd051": {
+      "digest": "community.wave.seqera.io/library/stringtie@sha256:bf011179decc78b31c2001386c640b86d8075d7ea0222f0358739a2464922e7e",
+      "image_id": "sha256:bf011179decc78b31c2001386c640b86d8075d7ea0222f0358739a2464922e7e",
+      "bytes": 185404781
+    },
+    "community.wave.seqera.io/library/trim-galore:2.3.0--6a38a479b4972363": {
+      "digest": "community.wave.seqera.io/library/trim-galore@sha256:51c7ccb48048e4b08bcbc60796d9be8e41cda648dba02e8710f71c1b74f008d8",
+      "image_id": "sha256:51c7ccb48048e4b08bcbc60796d9be8e41cda648dba02e8710f71c1b74f008d8",
+      "bytes": 39219866
+    },
+    "community.wave.seqera.io/library/yte:1.9.4--2a362f82cd32b54a": {
+      "digest": "community.wave.seqera.io/library/yte@sha256:83b4ee0d08781bc3a2ed219df1a138ed80b89b3fe7d764b76ba0b434dc7f9a14",
+      "image_id": "sha256:83b4ee0d08781bc3a2ed219df1a138ed80b89b3fe7d764b76ba0b434dc7f9a14",
+      "bytes": 172469394
+    },
+    "docker.io/google/deepvariant:1.10.0": {
+      "digest": "google/deepvariant@sha256:962e5a83b1d76aae6990625d47102785f791603f2138aa1fa9aa4fb6a2eecbe6",
+      "image_id": "sha256:962e5a83b1d76aae6990625d47102785f791603f2138aa1fa9aa4fb6a2eecbe6",
+      "bytes": 2105730554
+    },
+    "quay.io/biocontainers/bioconductor-summarizedexperiment:1.32.0--r43hdfd78af_0": {
+      "digest": "quay.io/biocontainers/bioconductor-summarizedexperiment@sha256:17fe194827b1e08aeda6e0505439aaec24e677a52d785da2f7d8b3ff35758687",
+      "image_id": "sha256:17fe194827b1e08aeda6e0505439aaec24e677a52d785da2f7d8b3ff35758687",
+      "bytes": 409503242
+    },
+    "quay.io/biocontainers/fastqc:0.12.1--hdfd78af_0": {
+      "digest": "quay.io/biocontainers/fastqc@sha256:e194048df39c3145d9b4e0a14f4da20b59d59250465b6f2a9cb698445fd45900",
+      "image_id": "sha256:e194048df39c3145d9b4e0a14f4da20b59d59250465b6f2a9cb698445fd45900",
+      "bytes": 295720251
+    },
+    "quay.io/biocontainers/fq:0.12.0--h9ee0642_0": {
+      "digest": "quay.io/biocontainers/fq@sha256:74b59572f1d05b4829b45b599ee04311c8b3acec510f3cfb879f23b4bbd2090b",
+      "image_id": "sha256:74b59572f1d05b4829b45b599ee04311c8b3acec510f3cfb879f23b4bbd2090b",
+      "bytes": 5979811
+    },
+    "quay.io/biocontainers/gawk:5.3.0": {
+      "digest": "quay.io/biocontainers/gawk@sha256:701d6199235b36d054c24b1d0a889ca5e9740e301e4b46651f54d59576b73cd0",
+      "image_id": "sha256:701d6199235b36d054c24b1d0a889ca5e9740e301e4b46651f54d59576b73cd0",
+      "bytes": 22403951
+    },
+    "quay.io/biocontainers/gffread:0.12.7--hdcf5f25_4": {
+      "digest": "quay.io/biocontainers/gffread@sha256:88df8382561fbe6b8ad43279c649d0139fbee022127ebdff4608da845d703bab",
+      "image_id": "sha256:88df8382561fbe6b8ad43279c649d0139fbee022127ebdff4608da845d703bab",
+      "bytes": 11679345
+    },
+    "quay.io/biocontainers/goleft:0.2.4--h9ee0642_1": {
+      "digest": "quay.io/biocontainers/goleft@sha256:6d60fe73daed42e743222ae077aff5ee97ed1edfbacc1ecd7e3d9e612df38c75",
+      "image_id": "sha256:6d60fe73daed42e743222ae077aff5ee97ed1edfbacc1ecd7e3d9e612df38c75",
+      "bytes": 46157579
+    },
+    "quay.io/biocontainers/perl:5.26.2": {
+      "digest": "quay.io/biocontainers/perl@sha256:8ae3c6d2fc43fb73efb20e26dd1d780ef05c32977435bb0bdfa670037913848f",
+      "image_id": "sha256:8ae3c6d2fc43fb73efb20e26dd1d780ef05c32977435bb0bdfa670037913848f",
+      "bytes": 31884834
+    },
+    "quay.io/biocontainers/python:3.10.4": {
+      "digest": "quay.io/biocontainers/python@sha256:6745f24775c46d74a7c6e0f9d9b3b4cb3b14cadf531e9670f8b2fa26d1dbc637",
+      "image_id": "sha256:6745f24775c46d74a7c6e0f9d9b3b4cb3b14cadf531e9670f8b2fa26d1dbc637",
+      "bytes": 56819909
+    },
+    "quay.io/biocontainers/python:3.12": {
+      "digest": "quay.io/biocontainers/python@sha256:29fccb317d61a9d09ecf432f63bfea512b98f0f3bc3764dc65fbdbc0f02473b5",
+      "image_id": "sha256:29fccb317d61a9d09ecf432f63bfea512b98f0f3bc3764dc65fbdbc0f02473b5",
+      "bytes": 70321654
+    },
+    "quay.io/biocontainers/python:3.12.12": {
+      "digest": "quay.io/biocontainers/python@sha256:4cc84261c4b7a77a23cfbaa5b5316416a507b42ac8cde330b002631666d99ca2",
+      "image_id": "sha256:4cc84261c4b7a77a23cfbaa5b5316416a507b42ac8cde330b002631666d99ca2",
+      "bytes": 71014894
+    },
+    "quay.io/biocontainers/qualimap:2.3--hdfd78af_0": {
+      "digest": "quay.io/biocontainers/qualimap@sha256:49d81e27bf995d0ef72ae46c79c22c8c779e21573cd76f7b60cf3f73af61b087",
+      "image_id": "sha256:49d81e27bf995d0ef72ae46c79c22c8c779e21573cd76f7b60cf3f73af61b087",
+      "bytes": 726602410
+    },
+    "quay.io/biocontainers/samtools:1.20--h50ea8bc_0": {
+      "digest": "quay.io/biocontainers/samtools@sha256:d0ebd10e887e3ddd02d071f1ca7b649dc90dc6fb99a5ffd0f5ebf8611a1f92cc",
+      "image_id": "sha256:d0ebd10e887e3ddd02d071f1ca7b649dc90dc6fb99a5ffd0f5ebf8611a1f92cc",
+      "bytes": 26832256
+    },
+    "quay.io/biocontainers/subread:2.1.1--h577a1d6_0": {
+      "digest": "quay.io/biocontainers/subread@sha256:a0f7ea960dd0f55240b330b5c4515388a493e266a7b427d6a59a39164bc14865",
+      "image_id": "sha256:a0f7ea960dd0f55240b330b5c4515388a493e266a7b427d6a59a39164bc14865",
+      "bytes": 31592881
+    },
+    "quay.io/biocontainers/ucsc-bedclip:482--h0b57e2e_0": {
+      "digest": "quay.io/biocontainers/ucsc-bedclip@sha256:fc319a3c622f4d31436216bee1e7826b0e251e3c4ac12f15ac8ae12ac183fcad",
+      "image_id": "sha256:fc319a3c622f4d31436216bee1e7826b0e251e3c4ac12f15ac8ae12ac183fcad",
+      "bytes": 26952475
+    },
+    "quay.io/biocontainers/ucsc-bedgraphtobigwig:482--hdc0a859_0": {
+      "digest": "quay.io/biocontainers/ucsc-bedgraphtobigwig@sha256:40ace9b457123ecd48fc58497b3bf1a1e7c39938f36752bcc8d4bf7a488ec31a",
+      "image_id": "sha256:40ace9b457123ecd48fc58497b3bf1a1e7c39938f36752bcc8d4bf7a488ec31a",
+      "bytes": 25333761
+    },
+    "quay.io/nf-core/ubuntu:20.04": {
+      "digest": "quay.io/nf-core/ubuntu@sha256:59e9d08d8dc153bfc704de15af5b14ac82f5ac695377fa29dd5087b6fea7942e",
+      "image_id": "sha256:59e9d08d8dc153bfc704de15af5b14ac82f5ac695377fa29dd5087b6fea7942e",
+      "bytes": 28581391
+    }
+  },
+  "adapter_containers": {
+    "whatshap": {
+      "source": "quay.io/biocontainers/whatshap:2.8--py312hf731ba3_0",
+      "digest": "quay.io/biocontainers/whatshap@sha256:e50ebc2cc57c796b41248139c384d8c9d6885aa7713e3685058ddeaa9c856d78",
+      "image_id": "sha256:e50ebc2cc57c796b41248139c384d8c9d6885aa7713e3685058ddeaa9c856d78"
+    },
+    "hap.py": {
+      "source": "quay.io/biocontainers/hap.py:0.3.15--py27hcb73b3d_0",
+      "digest": "quay.io/biocontainers/hap.py@sha256:d63b963a6cb01b4830393b22369e7b91d298e4156dde353739e74e4cfa4f96d0",
+      "image_id": "sha256:d63b963a6cb01b4830393b22369e7b91d298e4156dde353739e74e4cfa4f96d0"
+    },
+    "rtg-tools": {
+      "source": "quay.io/biocontainers/rtg-tools:3.13--hdfd78af_0",
+      "digest": "quay.io/biocontainers/rtg-tools@sha256:6a85ea03bdb8b30ae6a10f01e9eb0a35dd0dcf66438d988dd5f65e11786b6d98",
+      "image_id": "sha256:6a85ea03bdb8b30ae6a10f01e9eb0a35dd0dcf66438d988dd5f65e11786b6d98"
+    },
+    "transdecoder": {
+      "source": "quay.io/biocontainers/transdecoder:6.0.0--pl5321hcbfc158_1",
+      "digest": "quay.io/biocontainers/transdecoder@sha256:bd96512d2a48f10d8eaea66cab5acf9fa1a06562af42d2368e76283ec94da0df",
+      "image_id": "sha256:bd96512d2a48f10d8eaea66cab5acf9fa1a06562af42d2368e76283ec94da0df"
+    },
+    "gffcompare": {
+      "source": "quay.io/biocontainers/gffcompare:0.12.10--h9948957_0",
+      "digest": "quay.io/biocontainers/gffcompare@sha256:2a8868cca6c21b413a83a5f16299ec0e3bcd86dcc31a218d7da921640f5f2175",
+      "image_id": "sha256:2a8868cca6c21b413a83a5f16299ec0e3bcd86dcc31a218d7da921640f5f2175"
+    }
+  }
+}

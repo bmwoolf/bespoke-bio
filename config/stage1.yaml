@@ -1,0 +1,7 @@
+schema_version: 1.0.0
+name: human-germline-bulk-rna-v1
+min_depth: 10
+min_genotype_quality: 20
+min_base_quality: 20
+min_mapping_quality: 20
+identity_lod: 5
