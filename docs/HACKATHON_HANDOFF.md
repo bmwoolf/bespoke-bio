@@ -4,6 +4,12 @@ For team review, start with [the proposed feed contract](FEED_CONTRACT.md) and i
 
 Use the existing Python service; no new website is required. It accepts exact protein sequence, one structural chain, or the upstream translated-target response. New requests prepare a reproducible, epitope-unconstrained BoltzGen job. A separate demo endpoint returns actual saved GPU outputs immediately.
 
+## Shared service
+
+For teammate use, see [shared service access and managed GPU operation](SHARED_SERVICE.md).
+The shared mode authenticates requests, persists jobs and the phase budget, starts disposable
+GPUs and deletes them after result collection. The local/static setup below remains available.
+
 ## Start locally
 
 From the repository root:
@@ -62,7 +68,7 @@ flowchart TD
     H["Optional bounded Foldseek catalog lookup"] -. "Known-template analogy, not new generation" .-> G
 ```
 
-## Execute a fresh prepared job
+## Execute a fresh prepared job in local/static mode
 
 The service now exposes an explicit existing-worker route. Configure these environment variables **before starting the service**:
 
@@ -85,4 +91,4 @@ The endpoint returns 202, then the background worker uploads inputs, executes Bo
 
 A persistent Runpod model/cache volume reduces repeated downloads. It should contain model weights and runtime setup, while each run retains a separate job directory. New sequence-only inputs are accepted as sequence jobs; acceptance itself does not establish a validated target fold.
 
-Verification: all three fixture requests were exercised using FastAPI `TestClient`; expected status, status inspection and artifact downloads succeeded without cloud resources. The upstream unresolved fixture was exercised again after child-run intake was added: its child identifiers/URLs, readable child status and valid ZIP download were verified. Worker orchestration tests mock SSH only and ingest actual saved native candidate files; successful export and failed/timeout partial downloads are tested. A real sequence-only PD-L1 request subsequently completed all seven stages through this HTTP route, returned its binder bundle and downloaded a valid ZIP. Its one candidate passes native filters but has modest interface confidence (ipTM 0.41). See [fresh live results](../examples/boltzgen_api_results/summary.json). A new disposable worker restored the cache in 76 seconds; both test GPUs were then deleted. The local service is now in preparation/replay mode until an operator configures another worker.
+Verification: all three fixture requests were exercised using FastAPI `TestClient`; expected status, status inspection and artifact downloads succeeded without cloud resources. The upstream unresolved fixture was exercised again after child-run intake was added: its child identifiers/URLs, readable child status and valid ZIP download were verified. Worker letorchestration tests mock SSH only and ingest actual saved native candidate files; successful export and failed/timeout partial downloads are tested. A real sequence-only PD-L1 request subsequently completed all seven stages through this HTTP route, returned its binder bundle and downloaded a valid ZIP. Its one candidate passes native filters but has modest interface confidence (ipTM 0.41). See [fresh live results](../examples/boltzgen_api_results/summary.json). A new disposable worker restored the cache in 76 seconds; both test GPUs were then deleted. The local service is now in preparation/replay mode until an operator configures another worker.

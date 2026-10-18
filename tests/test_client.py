@@ -116,3 +116,29 @@ def test_client_rejects_cross_origin_returned_paths_and_wait_timeout(tmp_path):
     client.status = lambda run_id: {"status": "running"}
     with pytest.raises(TimeoutError, match="not canceled"):
         client.wait("a" * 32, timeout=0)
+
+
+def test_service_token_is_sent_only_to_configured_origin(monkeypatch):
+    monkeypatch.setenv("BIOCAD_API_TOKEN", "local-test-token")
+    calls = []
+
+    def opener(request, timeout):
+        calls.append(request)
+        return io.BytesIO(b'{"status":"cancel_requested"}')
+
+    client = DesignClient("https://service.example", opener=opener)
+    assert client.cancel("a" * 32)["status"] == "cancel_requested"
+    assert calls[0].get_header("Authorization") == "Bearer local-test-token"
+    assert calls[0].get_method() == "POST"
+    with pytest.raises(ValueError, match="relative"):
+        client._request("//other.example/steal")
+    assert len(calls) == 1
+
+
+def test_direct_target_json_client(tmp_path):
+    client, _ = connected_client(tmp_path)
+    response = client.submit_target({"sequence": "ACDEFGHIKLMNPQRSTVWY", "num_designs": 1})
+    assert response["status"] == "prepared_pending_gpu_execution"
+    assert response["plan"]["num_designs"] == 1
+    with pytest.raises(TypeError, match="object"):
+        client.submit_target(["ACDE"])

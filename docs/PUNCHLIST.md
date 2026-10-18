@@ -13,7 +13,7 @@ The deliverable is an inspectable scientific pipeline with a teammate-facing HTT
 - [x] Publish runnable teammate request examples and replay the real cached results through the API.
 - [x] Create a 100 GB persistent Runpod model/runtime cache volume in US-MO-1.
 - [x] Populate the cache on a GPU, verify runtime/weight readiness, and prove restoration on another disposable pod.
-- [x] Connect prepared HTTP jobs to an explicitly configured existing GPU worker with serialized execution, status and result collection; local integration tests pass.
+- [x] Connect prepared HTTP jobs to a static worker or authenticated managed service with persistent queue/budget, automatic GPU startup/deletion, cancellation and status.
 - [x] Verify that HTTP live dispatch completes a real fresh GPU job and returns its bundle. Pod lifecycle remains operator-owned with a cost guard.
 - [x] Refresh the portable handoff archive with the API and validated examples.
 

@@ -71,8 +71,17 @@ def main():
         "--wait", action="store_true", help="Wait for submitted jobs; requires --execute"
     )
     submit.add_argument("--timeout", type=int, default=3600)
+    submit_json = sub.add_parser(
+        "submit-json", help="Submit target or upstream JSON to the shared API"
+    )
+    submit_json.add_argument("json_file")
+    submit_json.add_argument("--url", default="http://127.0.0.1:8000")
+    submit_json.add_argument("--output", required=True)
+    submit_json.add_argument("--execute", action="store_true")
+    submit_json.add_argument("--wait", action="store_true")
+    submit_json.add_argument("--timeout", type=int, default=3600)
     a = p.parse_args()
-    if a.command == "submit-bundle":
+    if a.command in {"submit-bundle", "submit-json"}:
         from .client import DesignClient
 
         if a.wait and not a.execute:
@@ -82,15 +91,19 @@ def main():
             p.error("Use an empty receipt directory")
         destination.mkdir(parents=True, exist_ok=True)
         client = DesignClient(a.url)
-        receipt = client.submit_bundle(
-            a.bundle,
-            binder_length=a.binder_length,
-            num_designs=a.num_designs,
-            chain_selections=json.loads(Path(a.chains).read_text()) if a.chains else None,
+        receipt = (
+            client.submit_target(json.loads(Path(a.json_file).read_text()))
+            if a.command == "submit-json"
+            else client.submit_bundle(
+                a.bundle,
+                binder_length=a.binder_length,
+                num_designs=a.num_designs,
+                chain_selections=json.loads(Path(a.chains).read_text()) if a.chains else None,
+            )
         )
         save(destination / "intake.json", receipt)
         outcomes = []
-        for record in receipt.get("records", []):
+        for record in receipt.get("records", [{"child_run_id": receipt["run_id"]}]):
             child = record.get("child_run_id")
             if not child:
                 outcomes.append(record)
@@ -112,7 +125,9 @@ def main():
                 indent=2,
             )
         )
-        if not receipt.get("prepared_targets") or any(
+        if not receipt.get(
+            "prepared_targets", receipt["status"] == "prepared_pending_gpu_execution"
+        ) or any(
             "client_error" in o or o.get("status") in {"failed", "failed_preparation"}
             for o in outcomes
         ):

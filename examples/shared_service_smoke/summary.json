@@ -1,0 +1,53 @@
+{
+  "verification": "real shared HTTPS API with managed GPU lifecycle",
+  "target": "public PD-L1 observed115-residue sequence",
+  "run_id": "666dd196f6324942b258a3e28ca38fc7",
+  "status": "completed",
+  "stages_seconds": {
+    "design": 48.9,
+    "inverse_folding": 6.9,
+    "folding": 43.7,
+    "design_folding": 33.6,
+    "esmfold2_scoring": 168.0,
+    "analysis": 14.5,
+    "filtering": 12.0
+  },
+  "candidate_count": 1,
+  "native_filter_passed": true,
+  "interface_confidence": {
+    "design_to_target_iptm": 0.2008967697620391,
+    "esmfold2_ipsae_min": 0.0148284056488283
+  },
+  "interpretation": "Pipeline execution and native filters passed; low interface confidence, no measured binding.",
+  "gpu_receipt": {
+    "status": "completed",
+    "execution_performed": true,
+    "job_id": "666dd196f6324942b258a3e28ca38fc7",
+    "actual_cost_usd": 0.56,
+    "billing_finalized": false,
+    "watchdog_armed": true,
+    "pod_id": "kydphuz7mvzesr",
+    "hourly_rate_usd": 3.99,
+    "remote_directory": "/workspace/jobs/150c215abe794eaf84061ffb4e2dd2e7",
+    "bundle": "bundle/bundle.json",
+    "candidates": 1,
+    "pod_shutdown_performed": true,
+    "cleanup_required": false,
+    "download_thread_finished": true
+  },
+  "gpu_deletion_readback": 404,
+  "zip_sha256": "9e6cd7d1befcdee094dd250ff34530ee9c155f0a011ce8c8855a9adacff27176",
+  "zip_download_verified": true,
+  "unauthenticated_request_rejected": 401,
+  "queued_cancellation_verified": true,
+  "completed_and_cancelled_status_survived_restart": true,
+  "budget_after_restart": {
+    "cap_usd": 100.0,
+    "prior_spend_usd": 3.0,
+    "service_storage_reserve_usd": 10.0,
+    "job_reserved_usd": 10.0,
+    "remaining_unreserved_usd": 77.0,
+    "reservation_policy": "10 USD per job retained after execution; queued cancellations release their reservation"
+  },
+  "credentials": "No tokens, Runpod API key or SSH private keys are included in this proof."
+}

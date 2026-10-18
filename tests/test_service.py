@@ -359,6 +359,8 @@ def test_normalized_results_from_actual_cached_demo_and_artifact_links(tmp_path)
         assert api.get(candidate["complex_structure_url"]).status_code == 200
     failed = next(c for c in results["candidates"] if not c["native_filter_passed"])
     assert failed["failed_filters"] == ["pass_filter_rmsd_filter"]
+    assert failed["native_filter_metrics"]["filter_rmsd"] > 2.5
+    assert failed["native_filter_metric_units"]["filter_rmsd"] == "angstrom"
     assert api.get(results["bundle_url"]).json()["components"]
     assert api.get(results["download_url"]).status_code == 200
     schema = api.get("/openapi.json").json()
@@ -381,3 +383,93 @@ def test_results_pending_and_upstream_child_index_are_honest(tmp_path):
     child = index["records"][0]
     assert child["child_results_url"] == child["child_status_url"] + "/results"
     assert api.get(child["child_results_url"]).status_code == 409
+
+
+def test_bearer_protection_preserves_swagger_authorize_and_health(tmp_path, monkeypatch):
+    monkeypatch.setenv("BIOCAD_API_TOKEN", "local-test-token")
+    api = client(tmp_path)
+    assert api.get("/docs").status_code == 200
+    assert api.get("/healthz").status_code == 200
+    assert api.post("/v1/designs/demo").status_code == 401
+    assert (
+        api.post("/v1/designs/demo", headers={"Authorization": "Bearer wrong"}).status_code == 401
+    )
+    response = api.post("/v1/designs/demo", headers={"Authorization": "Bearer local-test-token"})
+    assert response.status_code == 201
+    job = response.json()
+    assert api.get(job["status_url"]).status_code == 401
+    assert api.get(job["status_url"] + "/download").status_code == 401
+    assert api.get(job["artifact_base_url"] + job["bundle"]).status_code == 401
+    schema = api.get("/openapi.json").json()
+    assert schema["components"]["securitySchemes"]["DesignServiceToken"]["scheme"] == "bearer"
+
+
+def test_managed_mode_requires_token_at_startup(tmp_path, monkeypatch):
+    monkeypatch.setenv("BIOCAD_MANAGED_WORKERS", "1")
+    monkeypatch.delenv("BIOCAD_API_TOKEN", raising=False)
+    import pytest
+
+    with (
+        pytest.raises(RuntimeError, match="BIOCAD_API_TOKEN"),
+        TestClient(
+            create_app(
+                tmp_path, managed_runner=lambda *a, **k: None, managed_cleanup=lambda pod: True
+            )
+        ),
+    ):
+        pass
+
+
+def test_managed_queue_api_auth_budget_cancellation_and_completion(tmp_path, monkeypatch):
+    import threading
+    import time
+
+    monkeypatch.setenv("BIOCAD_MANAGED_WORKERS", "1")
+    monkeypatch.setenv("BIOCAD_API_TOKEN", "test-managed-token")
+    monkeypatch.setenv("BIOCAD_SERVICE_EXPIRES_AT", str(time.time() + 20000))
+    entered, release = threading.Event(), threading.Event()
+
+    def managed_runner(prepared, output, *, job_id, cancel_event, lease_callback, timeout):
+        lease_callback("mock-owned-pod")
+        entered.set()
+        assert release.wait(3)
+        (output / "bundle").mkdir(parents=True)
+        (output / "bundle/bundle.json").write_text('{"components": [], "evaluations": []}')
+        lease_callback("mock-owned-pod", state="deleted")
+        return {
+            "status": "completed",
+            "execution_performed": True,
+            "pod_id": "mock-owned-pod",
+            "bundle": "bundle/bundle.json",
+            "actual_cost_usd": 0.1,
+        }
+
+    app = create_app(tmp_path, managed_runner=managed_runner, managed_cleanup=lambda pod: True)
+    headers = {"Authorization": "Bearer test-managed-token"}
+    with TestClient(app, headers=headers) as api:
+        first = api.post("/v1/designs", json={"sequence": "ACDEFGHIKLMNPQRSTVWY"}).json()
+        queued = api.post(first["status_url"] + "/run").json()
+        assert queued["status"] == "queued"
+        assert queued["budget"]["job_reserved_usd"] == 10
+        assert entered.wait(3)
+        second = api.post("/v1/designs", json={"sequence": "ACDEFGHIKLMNPQRSTVWY"}).json()
+        assert api.post(second["status_url"] + "/run").status_code == 202
+        cancelled = api.post(second["status_url"] + "/cancel").json()
+        assert cancelled["status"] == "cancelled"
+        assert app.state.managed_queue.store.budget()["job_reserved_usd"] == 10
+        release.set()
+        deadline = time.monotonic() + 3
+        while time.monotonic() < deadline:
+            completed = api.get(first["status_url"]).json()
+            if completed["status"] == "completed":
+                break
+            threading.Event().wait(0.01)
+        assert completed["status"] == "completed"
+        assert completed["cloud_launched"] is True and completed["execution_performed"] is True
+        assert api.get(first["artifact_base_url"] + completed["bundle"]).status_code == 200
+        assert api.post(first["status_url"] + "/run").status_code == 409
+        assert app.state.managed_queue.store.budget()["job_reserved_usd"] == 10
+        # No job may be admitted when the service cannot cover its complete deadline.
+        app.state.managed_queue.expires_at = time.time() + 100
+        late = api.post("/v1/designs", json={"sequence": "ACDEFGHIKLMNPQRSTVWY"}).json()
+        assert api.post(late["status_url"] + "/run").status_code == 503

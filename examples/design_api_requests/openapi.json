@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Bespoke Bio design pipeline",
-    "description": "Prepare BoltzGen jobs from sequence, structure, or upstream targets. Demo replays actual cached outputs. GPU execution requires an explicit /run request and a configured existing worker.",
+    "description": "Prepare BoltzGen jobs from sequence, structure, or upstream targets. Demo replays actual cached outputs. GPU execution requires an explicit /run request. Managed mode reserves the phase budget and provisions a disposable worker; static mode uses a configured existing worker.",
     "version": "0.1.0"
   },
   "paths": {
@@ -25,7 +25,12 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "DesignServiceToken": []
+          }
+        ]
       }
     },
     "/v1/translate": {
@@ -63,7 +68,12 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "DesignServiceToken": []
+          }
+        ]
       }
     },
     "/v1/designs": {
@@ -101,7 +111,12 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "DesignServiceToken": []
+          }
+        ]
       }
     },
     "/v1/designs/demo": {
@@ -119,7 +134,12 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "DesignServiceToken": []
+          }
+        ]
       }
     },
     "/v1/designs/upstream": {
@@ -157,14 +177,24 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "DesignServiceToken": []
+          }
+        ]
       }
     },
     "/v1/designs/{run_id}/run": {
       "post": {
         "summary": "Run Design",
-        "description": "Explicitly execute against an operator-configured existing worker; never provision a pod.",
+        "description": "Explicitly submit to the configured static worker or durable managed GPU queue.",
         "operationId": "run_design_v1_designs__run_id__run_post",
+        "security": [
+          {
+            "DesignServiceToken": []
+          }
+        ],
         "parameters": [
           {
             "name": "run_id",
@@ -217,10 +247,83 @@
         }
       }
     },
+    "/v1/designs/{run_id}/cancel": {
+      "post": {
+        "summary": "Cancel Design",
+        "operationId": "cancel_design_v1_designs__run_id__cancel_post",
+        "security": [
+          {
+            "DesignServiceToken": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "run_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Run Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/service": {
+      "get": {
+        "tags": [
+          "Service"
+        ],
+        "summary": "Service Status",
+        "operationId": "service_status_v1_service_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "DesignServiceToken": []
+          }
+        ]
+      }
+    },
     "/v1/designs/{run_id}": {
       "get": {
         "summary": "Status",
         "operationId": "status_v1_designs__run_id__get",
+        "security": [
+          {
+            "DesignServiceToken": []
+          }
+        ],
         "parameters": [
           {
             "name": "run_id",
@@ -261,6 +364,11 @@
         "summary": "Results",
         "description": "Normalized candidate handoff from the actual completed bundle, or an upstream child index.",
         "operationId": "results_v1_designs__run_id__results_get",
+        "security": [
+          {
+            "DesignServiceToken": []
+          }
+        ],
         "parameters": [
           {
             "name": "run_id",
@@ -301,6 +409,11 @@
         "summary": "Download",
         "description": "Download only this run's contained regular artifacts as one ZIP.",
         "operationId": "download_v1_designs__run_id__download_get",
+        "security": [
+          {
+            "DesignServiceToken": []
+          }
+        ],
         "parameters": [
           {
             "name": "run_id",
@@ -338,6 +451,11 @@
       "get": {
         "summary": "Artifact",
         "operationId": "artifact_v1_designs__run_id__artifacts__artifact_path__get",
+        "security": [
+          {
+            "DesignServiceToken": []
+          }
+        ],
         "parameters": [
           {
             "name": "run_id",
@@ -683,7 +801,7 @@
           "cloud_launched": {
             "type": "boolean",
             "title": "Cloud Launched",
-            "description": "Always false for this API: it uses an existing configured worker and never provisions a pod.",
+            "description": "False for preparation, cached replay and static workers. Managed execution reports whether its receipt contains a newly provisioned pod ID.",
             "default": false
           },
           "status_url": {
@@ -1542,6 +1660,12 @@
           "ref"
         ],
         "title": "Variant"
+      }
+    },
+    "securitySchemes": {
+      "DesignServiceToken": {
+        "type": "http",
+        "scheme": "bearer"
       }
     }
   }

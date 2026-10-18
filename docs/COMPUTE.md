@@ -15,13 +15,17 @@ runtime snapshot persist on the network volume. A fresh A100 restored the runtim
 passed both CUDA checks and reused the weights in 76 seconds. This is startup readiness,
 not model inference time. See [the operational instructions and measurements](WARM_COMPUTE.md).
 
-Both test GPU pods were deleted after results were downloaded. The 100 GB cache remains
-in US-MO-1 and costs approximately $7/month until deleted. Fresh inference requires
-provisioning and configuring another worker; the API does not silently create one.
+The original benchmark GPU pods were deleted after results were downloaded. The 100 GB cache remains
+in US-MO-1 and costs approximately $7/month until deleted. Shared managed mode provisions a disposable worker for each explicit submitted job and
+deletes it after results are collected. A separate CPU gateway remains available at
+$0.08/hour with a 24-hour lifetime. Its 10 GB persistent state volume costs approximately
+$0.70/month, separate from the GPU model-cache volume. See [shared service operation](SHARED_SERVICE.md).
 Keep a pod-scoped spending guard, collect partial outputs on failure, and verify cleanup.
 
-The current API binds to loopback. Feed/API deployment and ownership of worker lifecycle
-remain team integration decisions. Credentials, dependency caches and live run directories
+The local development API binds to loopback. The shared deployment exposes an authenticated
+HTTPS endpoint, with persistent spend reservations and a single serial job dispatcher.
+Cloud credentials and controller executables remain CPU-local; GPU workers cannot mount
+the separate CPU state volume through the service. Credentials, dependency caches and live run directories
 are excluded from the Git repository and handoff archive. Public benchmark results are
 retained under `examples/boltzgen_results/` and `examples/boltzgen_api_results/`.
 

@@ -4,7 +4,7 @@ This is a working proposal based on the repository's existing upstream output, n
 
 ## Simplest starting point
 
-For one target, POST `/v1/designs` with `sequence`, `binder_length` (default 75) and `num_designs` (default 2). Or send `structure_text`, `format`, and the author `chain`. No epitope is required. A request prepares inputs; a separate explicit `/run` request starts a configured GPU worker.
+For one target, POST `/v1/designs` with `sequence`, `binder_length` (default 75) and `num_designs` (default 2). Or send `structure_text`, `format`, and the author `chain`. No epitope is required. A request prepares inputs; a separate explicit `/run` request starts a managed GPU job on the shared service, or uses a configured static worker in local mode.
 
 For the existing upstream feed, use a directory containing:
 
@@ -27,7 +27,7 @@ for record in intake["records"]:
         print("Intake failed:", record)
         continue
     print(child_id, client.status(child_id))
-    # Explicit paid inference, only after an operator configures an existing GPU worker:
+    # Explicit paid inference on the managed service (or configured local worker):
     # client.start(child_id)
     # status = client.wait(child_id, timeout=3600)
     # if status["status"] == "completed":
@@ -43,7 +43,7 @@ uv run biocad submit-bundle path/to/upstream-package --output outputs/team-intak
 uv run biocad submit-bundle path/to/upstream-package --output outputs/team-live --execute --wait
 ```
 
-Each prepared upstream record has an independent child run. Parent status/results indexes refer to those children. One failure does not overwrite another target's results. Missing GPU configuration returns 503; pending candidate results return 409. A client wait timeout does not cancel remote inference.
+Each prepared upstream record has an independent child run. Parent status/results indexes refer to those children. One failure does not overwrite another target's results. An unavailable managed queue or missing static-worker configuration returns 503; pending candidate results return 409. A client wait timeout does not cancel remote inference.
 
 ## Downstream return values
 
@@ -61,7 +61,7 @@ Before completion, inspect status/progress instead. Cached replay uses `actual_c
 
 1. Confirm whether the upstream team will emit the current `Protein` record shape or needs a thinner adapter.
 2. Confirm sequence-only versus structure-first handoff, including chain selection for multichain inputs.
-3. Choose the deployment/API address and who owns the GPU worker lifecycle. The current service binds to loopback and uses an explicitly configured worker.
+3. Confirm the shared API address/token with the team. Managed mode owns GPU startup/shutdown, conservative spend reservations and persistent status; local static-worker mode remains available.
 4. Confirm which fields the downstream team needs in addition to candidate sequence, structures, scores and pass/fail.
 
 The proposed wire schema and examples are in `examples/design_api_requests/openapi.json` and the adjacent request fixtures. No new GPU pod is needed to review preparation or saved-result integration.

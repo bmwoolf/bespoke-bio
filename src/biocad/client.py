@@ -1,6 +1,7 @@
 """Small HTTP client for the upstream-package to binder-design handoff."""
 
 import json
+import os
 import time
 from hashlib import sha256
 from pathlib import Path
@@ -57,21 +58,27 @@ def bundle_payload(bundle, *, binder_length=75, num_designs=2, chain_selections=
 
 
 class DesignClient:
-    def __init__(self, base_url="http://127.0.0.1:8000", *, timeout=120, opener=urlopen):
+    def __init__(
+        self, base_url="http://127.0.0.1:8000", *, timeout=120, opener=urlopen, token=None
+    ):
         parsed = urlsplit(base_url)
         if parsed.scheme not in {"http", "https"} or not parsed.netloc:
             raise ValueError("Use an http(s) API base URL")
         self.base_url = base_url.rstrip("/")
         self.timeout, self.opener = timeout, opener
+        self.token = token if token is not None else os.environ.get("BIOCAD_API_TOKEN")
 
     def _request(self, path, payload=None, *, raw=False):
         # Returned artifact URLs must remain on the explicitly selected API origin.
         if not path.startswith("/") or path.startswith("//") or urlsplit(path).netloc:
             raise ValueError("Expected a relative API path")
+        headers = {"Content-Type": "application/json"}
+        if self.token:
+            headers["Authorization"] = "Bearer " + self.token
         request = Request(
             self.base_url + path,
             data=None if payload is None else json.dumps(payload).encode(),
-            headers={"Content-Type": "application/json"},
+            headers=headers,
         )
         try:
             with self.opener(request, timeout=self.timeout) as response:
@@ -81,6 +88,13 @@ class DesignClient:
             raise DesignAPIError(f"API returned {exc.code}: {detail}") from exc
         return data if raw else json.loads(data)
 
+    def submit_target(self, payload):
+        """Submit direct target JSON or the proposed upstream targets-list JSON."""
+        if not isinstance(payload, dict):
+            raise TypeError("Target JSON must be an object")
+        route = "/v1/designs/upstream" if "targets" in payload else "/v1/designs"
+        return self._request(route, payload)
+
     def submit_bundle(self, bundle, **options):
         return self._request("/v1/designs/upstream", bundle_payload(bundle, **options))
 
@@ -89,6 +103,12 @@ class DesignClient:
 
     def start(self, run_id):
         return self._request(self._run_path(run_id) + "/run", {})
+
+    def cancel(self, run_id):
+        return self._request(self._run_path(run_id) + "/cancel", {})
+
+    def service_status(self):
+        return self._request("/v1/service")
 
     def results(self, run_id):
         return self._request(self._run_path(run_id) + "/results")
@@ -105,7 +125,7 @@ class DesignClient:
         deadline = time.monotonic() + timeout
         while True:
             result = self.status(run_id)
-            if result["status"] not in {"queued", "running"}:
+            if result["status"] not in {"queued", "running", "cancel_requested"}:
                 return result
             if time.monotonic() >= deadline:
                 raise TimeoutError(f"Timed out waiting for {run_id}; remote job was not canceled")

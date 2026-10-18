@@ -9,7 +9,7 @@ BoltzGen owns the scientific generation/prediction/filtering protocol.
 flowchart TD
   U[Sequence, structure, or upstream target package] --> V[Validate hashes, select chain, preserve provenance]
   V --> J[Prepare independent target jobs and unconstrained design YAML]
-  J --> R[Explicit run on configured existing GPU worker]
+  J --> R[Explicit run: managed disposable GPU or configured static worker]
   R --> D[BoltzGen design]
   D --> M[SolubleMPNN sequence design]
   M --> C[Boltz-2 complex prediction]
@@ -32,7 +32,9 @@ mapping. Candidate chains are identified by exact sequence, not presumed chain l
 | `POST /v1/translate` | Translate upstream CDS/variant inputs |
 | `POST /v1/designs` | Prepare one sequence/structure target |
 | `POST /v1/designs/upstream` | Import a proposed upstream package and create child jobs |
-| `POST /v1/designs/{id}/run` | Explicitly submit a prepared child/direct job to an existing worker |
+| `POST /v1/designs/{id}/run` | Explicitly queue a prepared job; managed mode provisions a disposable GPU |
+| `POST /v1/designs/{id}/cancel` | Cancel a managed job and request owned GPU cleanup |
+| `GET /v1/service` | Read managed readiness, phase budget and expiry |
 | `GET /v1/designs/{id}` | Inspect status, native-stage progress and artifacts |
 | `GET /v1/designs/{id}/results` | Read typed candidate results; upstream parents return a child index |
 | `GET /v1/designs/{id}/download` | Download that run's ZIP |
@@ -41,14 +43,24 @@ mapping. Candidate chains are identified by exact sequence, not presumed chain l
 
 Binder length is 25–300 residues, default 75. Candidate count defaults to 2; live jobs
 are limited to 1–32 designs. The model's final candidate budget is not a dollar budget.
-The API does not provision or delete pods. Configure an existing worker with
-`BIOCAD_WORKER_HOST`, `BIOCAD_WORKER_PORT` and `BIOCAD_WORKER_KEY`.
+Shared managed mode (`BIOCAD_MANAGED_WORKERS=1`) requires bearer authentication, persists
+its queue/budget in SQLite, provisions a GPU per job and deletes it after collection.
+It reserves $10 per job against the $100 phase cap, with $13 held for prior/service costs.
+Jobs are bounded to two hours at at most $4/hour; the gateway expires after 24 hours.
+CPU state storage is separate from the GPU model cache; cloud credentials and executable
+controller code stay on CPU-local disk. See [deployment](SHARED_SERVICE.md).
+Static mode uses an existing worker configured with `BIOCAD_WORKER_HOST`,
+`BIOCAD_WORKER_PORT` and `BIOCAD_WORKER_KEY`.
 
 Jobs move from `prepared_pending_gpu_execution` through `queued` and `running` to
 `completed` or `failed`. No worker returns 503; pending candidate results return 409.
 Duplicate dispatch is rejected. Each upstream target has its own child run and outputs.
-Execution is serialized within one API process; this is not a durable multi-worker scheduler.
-A timeout may leave remote inference running and reports cleanup as required.
+Execution is serial. Managed mode uses durable claims and conservative spend reservations,
+cleans recorded owned GPUs on restart, and marks interrupted jobs without silently rerunning
+them. It is a single-controller queue, not a distributed scheduler.
+Managed cancellation/deadlines trigger GPU deletion and report unconfirmed cleanup; the
+queue refuses further work while a recorded GPU remains active. Static-worker timeouts
+may leave remote inference running and require operator cleanup.
 
 ## Data and evidence
 

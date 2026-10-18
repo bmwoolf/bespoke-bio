@@ -1,23 +1,28 @@
 """Local teammate API: prepare new designs and replay actual cached demo artifacts.
 
 Run: uvicorn biocad.service:app --host 127.0.0.1 --port 8000
-Compute must already be configured; only the explicit /run endpoint starts inference.
+Only the explicit /run endpoint starts inference, using a configured static or managed worker.
 """
 
+import asyncio
 import io
 import json
 import os
 import re
+import secrets
 import shutil
 import threading
+import time
 import uuid
 import zipfile
+from contextlib import asynccontextmanager
 from pathlib import Path
-from typing import Literal
+from typing import Annotated, Literal
 from urllib.parse import quote
 
-from fastapi import BackgroundTasks, FastAPI, HTTPException
+from fastapi import BackgroundTasks, Depends, FastAPI, HTTPException, Request, Security
 from fastapi.responses import FileResponse, StreamingResponse
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 from bespoke_bio.api import TranslateResponse
@@ -25,10 +30,11 @@ from bespoke_bio.api import app as upstream_app
 
 from .boltzgen_adapter import prepare_target
 from .design_bundle import DesignBundle, export_bundle
+from .jobs import BudgetExceeded, JobConflict, JobStore, ManagedQueue
 from .pipeline import save
 from .upstream import contained_path, import_targets
 
-REPO = Path(__file__).resolve().parents[2]
+REPO = Path(os.environ.get("BIOCAD_REPO_DIR", Path(__file__).resolve().parents[2])).resolve()
 
 
 class DesignInput(BaseModel):
@@ -135,7 +141,7 @@ class JobResponse(BaseModel):
     )
     cloud_launched: bool = Field(
         default=False,
-        description="Always false for this API: it uses an existing configured worker and never provisions a pod.",
+        description="False for preparation, cached replay and static workers. Managed execution reports whether its receipt contains a newly provisioned pod ID.",
     )
     status_url: str = Field(
         description="GET this relative URL to poll progress and list downloadable artifacts."
@@ -232,11 +238,33 @@ class RunInput(BaseModel):
     )
 
 
-def create_app(runs_dir=None, *, runner=None):
+def create_app(runs_dir=None, *, runner=None, managed_runner=None, managed_cleanup=None):
+    managed = os.environ.get("BIOCAD_MANAGED_WORKERS") == "1"
+    bearer = HTTPBearer(auto_error=False, scheme_name="DesignServiceToken")
+
+    def authenticate(
+        request: Request,
+        credentials: Annotated[HTTPAuthorizationCredentials | None, Security(bearer)] = None,
+    ):
+        if request.url.path == "/healthz":
+            return
+        token = os.environ.get("BIOCAD_API_TOKEN")
+        if managed and not token:
+            raise HTTPException(503, "Managed service requires BIOCAD_API_TOKEN")
+        if token and (
+            credentials is None or not secrets.compare_digest(credentials.credentials, token)
+        ):
+            raise HTTPException(
+                401,
+                "Provide the service bearer token using Authorize",
+                headers={"WWW-Authenticate": "Bearer"},
+            )
+
     app = FastAPI(
         title="Bespoke Bio design pipeline",
+        dependencies=[Depends(authenticate)],
         version="0.1.0",
-        description="Prepare BoltzGen jobs from sequence, structure, or upstream targets. Demo replays actual cached outputs. GPU execution requires an explicit /run request and a configured existing worker.",
+        description="Prepare BoltzGen jobs from sequence, structure, or upstream targets. Demo replays actual cached outputs. GPU execution requires an explicit /run request. Managed mode reserves the phase budget and provisions a disposable worker; static mode uses a configured existing worker.",
     )
     app.include_router(upstream_app.router)
     claim_lock = threading.Lock()
@@ -561,23 +589,35 @@ def create_app(runs_dir=None, *, runner=None):
         response_model_exclude_unset=True,
     )
     def run_design(run_id: str, background_tasks: BackgroundTasks, request: RunInput | None = None):
-        """Explicitly execute against an operator-configured existing worker; never provision a pod."""
+        """Explicitly submit to the configured static worker or durable managed GPU queue."""
         request = request or RunInput()
         folder = locate(run_id)
         host = os.environ.get("BIOCAD_WORKER_HOST")
         key = os.environ.get("BIOCAD_WORKER_KEY")
         port = os.environ.get("BIOCAD_WORKER_PORT")
-        if not all((host, key, port)):
+        if not managed and not all((host, key, port)):
             raise HTTPException(
                 503,
                 "Live execution disabled: configure BIOCAD_WORKER_HOST, BIOCAD_WORKER_PORT and BIOCAD_WORKER_KEY",
             )
-        try:
-            port_number = int(port)
-            if not 1 <= port_number <= 65535 or not Path(key).is_file():
-                raise ValueError("Invalid port or missing SSH key file")
-        except ValueError as exc:
-            raise HTTPException(503, "Live worker port/key configuration is invalid") from exc
+        port_number = None
+        if managed:
+            queue = getattr(app.state, "managed_queue", None)
+            if queue is None or not queue.ready:
+                raise HTTPException(
+                    503, "Managed queue is not ready; recovery or cleanup is required"
+                )
+            if queue.expires_at and time.time() + 7200 > queue.expires_at:
+                raise HTTPException(
+                    503, "Shared service expires in less than two hours; new GPU jobs are disabled"
+                )
+        else:
+            try:
+                port_number = int(port)
+                if not 1 <= port_number <= 65535 or not Path(key).is_file():
+                    raise ValueError("Invalid port or missing SSH key file")
+            except ValueError as exc:
+                raise HTTPException(503, "Live worker port/key configuration is invalid") from exc
         with claim_lock:
             status_path = folder / "status.json"
             if not status_path.is_file():
@@ -606,6 +646,27 @@ def create_app(runs_dir=None, *, runner=None):
             plan = json.loads((prepared / "boltzgen_plan.json").read_text())
             if not 1 <= plan.get("num_designs", 0) <= 32:
                 raise HTTPException(422, "Live API jobs are limited to 1..32 designs")
+            if managed:
+                try:
+                    queue.store.enqueue(run_id, prepared, folder / "live")
+                except JobConflict as exc:
+                    raise HTTPException(409, str(exc)) from exc
+                except BudgetExceeded as exc:
+                    raise HTTPException(402, str(exc)) from exc
+                return finish(
+                    run_id,
+                    folder,
+                    {
+                        **current,
+                        "status": "queued",
+                        "mode": "live_model_outputs",
+                        "execution_performed": False,
+                        "execution_attempted": False,
+                        "managed_worker": True,
+                        "budget": queue.store.budget(),
+                        "worker_scope": "durable managed queue; 10 USD reserved, maximum 2 hours at 4 USD/hour; pod deleted after result download",
+                    },
+                )
             queued = finish(
                 run_id,
                 folder,
@@ -627,6 +688,33 @@ def create_app(runs_dir=None, *, runner=None):
                 {"host": host, "port": port_number, "key": key},
             )
         return queued
+
+    @app.post(
+        "/v1/designs/{run_id}/cancel", response_model=JobResponse, response_model_exclude_unset=True
+    )
+    def cancel_design(run_id: str):
+        folder = locate(run_id)
+        queue = getattr(app.state, "managed_queue", None)
+        if not managed or queue is None:
+            raise HTTPException(409, "Durable cancellation is available for managed jobs only")
+        try:
+            queue.cancel(run_id)
+        except KeyError as exc:
+            raise HTTPException(409, "Job has not been queued") from exc
+        except JobConflict as exc:
+            raise HTTPException(409, str(exc)) from exc
+        return json.loads((folder / "status.json").read_text())
+
+    @app.get("/v1/service", tags=["Service"])
+    def service_status():
+        queue = getattr(app.state, "managed_queue", None)
+        return {
+            "managed_workers": managed,
+            "ready": bool(queue and queue.ready) if managed else True,
+            "active_job_id": queue.active_id if queue else None,
+            "budget": queue.store.budget() if queue else None,
+            "expires_at": queue.expires_at if queue else None,
+        }
 
     @app.get("/v1/designs/{run_id}", response_model=JobResponse, response_model_exclude_unset=True)
     def status(run_id: str):
@@ -819,6 +907,85 @@ def create_app(runs_dir=None, *, runner=None):
             raise HTTPException(404, "Artifact unavailable")
         return FileResponse(path, filename=path.name)
 
+    def persist_managed(job, state, receipt):
+        folder = Path(job["output"]).parent
+        with claim_lock:
+            latest = app.state.managed_queue.store.get(job["id"])
+            state = latest["status"]
+            receipt = latest.get("receipt") or receipt
+            current = json.loads((folder / "status.json").read_text())
+            payload = {
+                **current,
+                "status": state,
+                "mode": "live_model_outputs",
+                "managed_worker": True,
+                "execution_attempted": state not in {"queued", "cancelled"}
+                or current.get("execution_attempted", False),
+                "execution_performed": receipt.get(
+                    "execution_performed", current.get("execution_performed", False)
+                ),
+                "cloud_launched": bool(receipt.get("pod_id")),
+                "budget": app.state.managed_queue.store.budget(),
+            }
+            if receipt:
+                payload["worker_receipt"] = receipt
+            if state == "completed":
+                bundle_path = contained_path(
+                    Path(job["output"]), receipt.get("bundle", "bundle/bundle.json")
+                )
+                if bundle_path.is_file():
+                    payload["bundle"] = str(bundle_path.relative_to(folder))
+                    exported = json.loads(bundle_path.read_text())
+                    payload["candidates"] = len(exported.get("components", []))
+                    payload["native_filter_passed"] = sum(
+                        e["status"] == "pass"
+                        for e in exported.get("evaluations", [])
+                        if e["id"].endswith("_filters")
+                    )
+                    payload["structural_validation"] = "model_predictions_exported"
+                else:
+                    payload.update(
+                        status="failed",
+                        error="Managed worker completed without a downloaded bundle",
+                    )
+                    app.state.managed_queue.store.finish(job["id"], "failed", payload)
+            finish(job["id"], folder, payload)
+
+    @asynccontextmanager
+    async def lifespan(_app):
+        if managed:
+            if not os.environ.get("BIOCAD_API_TOKEN"):
+                raise RuntimeError("BIOCAD_API_TOKEN is required for managed shared service")
+            selected_runner, selected_cleanup = managed_runner, managed_cleanup
+            startup_reconcile = None
+            if selected_runner is None:
+                from .cloud import reconcile_owned_leases
+
+                startup_reconcile = reconcile_owned_leases
+            if selected_runner is None or selected_cleanup is None:
+                from .cloud import cleanup_owned_pod, run_managed_job
+
+                selected_runner = selected_runner or run_managed_job
+                selected_cleanup = selected_cleanup or cleanup_owned_pod
+            queue = ManagedQueue(
+                JobStore(Path(os.environ.get("BIOCAD_JOB_DB", root() / "jobs.sqlite3"))),
+                selected_runner,
+                selected_cleanup,
+                persist_managed,
+                startup_reconcile=startup_reconcile,
+                expires_at=float(os.environ["BIOCAD_SERVICE_EXPIRES_AT"])
+                if os.environ.get("BIOCAD_SERVICE_EXPIRES_AT")
+                else None,
+            )
+            app.state.managed_queue = queue
+            await asyncio.to_thread(queue.start)
+        try:
+            yield
+        finally:
+            if managed:
+                await asyncio.to_thread(app.state.managed_queue.stop)
+
+    app.router.lifespan_context = lifespan
     return app
 
 

@@ -18,8 +18,10 @@ uv run uvicorn biocad.service:app --host 127.0.0.1 --port 8000
 ```
 
 Open `http://127.0.0.1:8000/docs`. The combined app includes translation and design routes.
-Preparation and saved-result replay work locally. Fresh inference requires an operator to
-configure an existing GPU worker; the API does not create pods.
+Preparation and saved-result replay work locally. In shared managed mode, explicit job
+submission starts a disposable GPU, collects results and deletes it under a persistent
+$100 phase budget. The authenticated gateway keeps job state on separate persistent storage.
+Local static-worker mode remains available. See [shared service operation](docs/SHARED_SERVICE.md).
 
 Try the real saved PD-L1 demonstration:
 
@@ -57,8 +59,8 @@ For producing the upstream package, see [translation and packaging](docs/TRANSLA
   filters, with complex recovery RMSD 0.83 Å and ipTM 0.41.
 - A fresh GPU restored the persistent runtime/model cache in 76 seconds. Both test GPU pods
   were deleted; the persistent cache remains billable.
-- The full local suite has 58 passing tests, including upstream package/client integration,
-  real cached-result export, independent child jobs and failure handling.
+- Automated tests cover upstream package/client integration, authenticated shared access,
+  persistent queue/budget rules, GPU cleanup, native result export and failure handling.
 
 A native filter pass is computational evidence, not measured binding. Interface confidence
 is modest in the retained examples. See [fresh API results](examples/boltzgen_api_results/summary.json)

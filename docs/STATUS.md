@@ -8,12 +8,12 @@ conformational design and folded multi-module assembly are deferred.
 |---|---|---|
 | Upstream translation/package | CDS/variant translation, sequence hashing, RNA provenance, optional structure lookup/folding adapters | Raw sequencing processing belongs upstream; optional external folding is not automatically run |
 | Target intake | Sequence, PDB/mmCIF chain or upstream package; exact hash/sequence checks and residue mapping | One polypeptide target per child job; no automatic biological-assembly expansion |
-| Feed integration | Python client, `submit-bundle` CLI, independent child jobs, status/progress, typed results and ZIP downloads | Proposed contract; one API process and operator-configured worker |
+| Feed integration | Python client, `submit-bundle` CLI, independent child jobs, status/progress, typed results and ZIP downloads | Proposed team contract |
 | Binder generation | Full pinned BoltzGen seven-stage protocol, no specified epitope | No bespoke target prioritization or experimental hit guarantee |
 | Candidate export | Exact sequences, binder/complex mmCIF, native filter metrics/flags, confidence, target linkage and provenance | Filter pass is separate from binding evidence |
 | Foldseek | Tested bounded search of 1–100 declared local templates and transferred partner poses | Optional library/CLI branch; not automatically invoked by the design API and not a complementarity detector |
 | GPU cache | Fresh-pod restore, checksum verification, both CUDA checks and model-cache reuse in 76 seconds | Setup timing excludes inference; volume persists after pod deletion |
-| Verification | 58 local tests; real structure-input run and fresh sequence-only HTTP run | Synthetic feed tests and public PD-L1 benchmarks, not novel teammate-target or assay validation |
+| Verification | Automated tests; real structure-input run and fresh sequence-only HTTP run | Synthetic feed tests and public PD-L1 benchmarks, not novel teammate-target or assay validation |
 
 ## Retained scientific results
 
@@ -27,13 +27,17 @@ recovery RMSD is 0.83 Å, binder-alone recovery 1.33 Å, ipTM 0.41 and ESMFold2 
 residues; those experimental coordinates were not input to generation. See
 [the result](../examples/boltzgen_api_results/summary.json). Neither run establishes measured binding.
 
-## Compute state
+## Compute state and shared service
 
-Both disposable test GPU pods were deleted, with deletion verified. The 100 GB persistent
+The original disposable benchmark GPU pods were deleted, with deletion verified. The 100 GB persistent
 cache volume remains in US-MO-1 at approximately $7/month. The setup, fresh API run and
 restore-test phase cost approximately $1.14 in estimated GPU charges, plus storage; these
-are estimates rather than finalized billing. Fresh API execution is disabled until an
-operator configures another worker. Preparation, cached replay and downloads remain available.
+are estimates rather than finalized billing. The shared service now uses an authenticated CPU gateway, separate persistent job storage,
+a durable serial queue and managed disposable GPUs. It reserves $10 per executed job
+against the phase cap, with $13 reserved for prior/service costs. Fresh jobs can be
+submitted explicitly without manually configuring a worker. Queued cancellations release
+their reservation; running jobs retain their conservative reservation. The gateway expires
+after 24 hours. See [shared operation](SHARED_SERVICE.md).
 
 ## Remaining work
 
@@ -41,3 +45,11 @@ Agree the team feed/deployment contract; run a novel incoming target; define any
 selectivity/state panels; and validate promising candidates independently and experimentally.
 See [the punchlist](PUNCHLIST.md). Earlier CAD and model-selection notes are retained as
 [history](LEGACY.md), not current instructions.
+
+## Shared service proof
+
+Managed startup, runtime restore, full native inference, artifact download and verified GPU
+deletion also completed through the shared HTTPS API. Queued cancellation and persistent
+status/budget after restart were checked against the deployed service. See
+[the sanitized proof](../examples/shared_service_smoke/summary.json). A CPU gateway remains
+active for the 24-hour demo lifetime; the managed test GPU is deleted.
