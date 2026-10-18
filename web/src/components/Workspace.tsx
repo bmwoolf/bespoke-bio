@@ -154,6 +154,15 @@ export function TargetWorkspace({
                 <span title={data.target_id}>{data.target_id.slice(-8)}</span>
               </p>
             </div>
+            {!jobId && catalog.read_only && catalog.operator_access && (
+              <a
+                className="button-link"
+                href={"/operator/?" + new URLSearchParams({ target: targetId })}
+                title="Sign in as an operator to generate keys"
+              >
+                Generate keys
+              </a>
+            )}
             {!jobId && !catalog.read_only && (
               <form
                 className="prepare-actions"
@@ -225,7 +234,9 @@ export function TargetWorkspace({
           </div>
           {!catalog.service_configured && !catalog.read_only && (
             <p className="notice">
-              Connect a design service to prepare this protein.
+              {catalog.service_expires_at
+                ? "Design service access has expired. Refresh the server credential to generate keys."
+                : "Connect a design service to prepare this protein."}
             </p>
           )}
           {jobId ? (

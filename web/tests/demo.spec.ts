@@ -23,6 +23,8 @@ async function ready(page: Page) {
   );
 }
 async function searchTarget(page: Page) {
+  const tab = page.getByRole("button", { name: "Proteins", exact: true });
+  if (await tab.isVisible()) await tab.click();
   await page.getByLabel("Search gene or transcript").fill("A1BG");
   await page.getByLabel("Changed sequences", { exact: true }).check();
   await expect(
@@ -41,12 +43,13 @@ test("public catalog preserves selection across refresh and never submits jobs",
   page,
 }, testInfo) => {
   test.skip(!publicDeployment, "Public deployment check");
+  await hidePreparedHistory(page);
   const writes: string[] = [];
   page.on("request", (request) => {
     if (!["GET", "HEAD", "OPTIONS"].includes(request.method()))
       writes.push(request.url());
   });
-  await page.goto("/");
+  await page.goto("/?example=1");
   await ready(page);
   await searchTarget(page);
   await ready(page);
@@ -68,8 +71,8 @@ test("public catalog preserves selection across refresh and never submits jobs",
     path: testInfo.outputPath("protein-desktop.png"),
   });
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.getByRole("button", { name: "Proteins", exact: true }).click();
-  const drawer = page.getByRole("dialog", { name: "Proteins", exact: true });
+  await page.getByRole("button", { name: "Browse", exact: true }).click();
+  const drawer = page.getByRole("dialog", { name: "Browse", exact: true });
   await expect(drawer).toBeVisible();
   await page.screenshot({
     path: testInfo.outputPath("public-mobile-catalog.png"),
@@ -126,7 +129,7 @@ test("existing jobs reopen from the sidebar, and cross-target URLs never display
   await page.route(`**/api/jobs/${jobId}`, (route) =>
     route.fulfill({ json: prepared }),
   );
-  await page.goto("/");
+  await page.goto("/?example=1");
   await searchTarget(page);
   await expect(page.getByTestId("job-status")).toHaveText("Ready to generate");
   await expect(
@@ -152,7 +155,7 @@ test("public page with no published example never attempts automatic replay", as
     if (request.method() === "POST") writes.push(request.url());
   });
   await page.route("**/api/jobs", (route) => route.fulfill({ json: [] }));
-  await page.goto("/");
+  await page.goto("/?example=1");
   await expect(
     page.getByText("No saved example has been published here yet.", {
       exact: false,
@@ -164,7 +167,9 @@ test("public page with no published example never attempts automatic replay", as
 test("saved protein structures switch without refresh and retain correct sequence identity", async ({
   page,
 }) => {
-  await page.goto("/");
+  await hidePreparedHistory(page);
+  await page.goto("/?example=1");
+  await page.getByRole("button", { name: "Proteins", exact: true }).click();
   await expect(
     page.getByLabel("Structure ready", { exact: true }),
   ).toBeChecked();
@@ -266,7 +271,7 @@ test("one Generate keys action submits once and keeps the protein visible while 
       },
     }),
   );
-  await page.goto("/");
+  await page.goto("/?example=1");
   await searchTarget(page);
   await ready(page);
   expect(writes).toEqual([]);
@@ -303,7 +308,7 @@ test("saved example opens directly; representations, candidates and downloads st
       unexpected.push(request.url());
   });
   await page.setViewportSize({ width: 1440, height: 900 });
-  await page.goto("/");
+  await page.goto("/?example=1");
   await expect(
     page.getByRole("heading", { name: "PD-L1", exact: true }),
   ).toBeVisible();
@@ -343,15 +348,17 @@ test("saved example opens directly; representations, candidates and downloads st
     .length;
   await page.getByText("Details", { exact: true }).click();
   await page
-    .getByRole("combobox", { name: "Structure", exact: true })
-    .selectOption("binder");
+    .getByRole("group", { name: "Structure", exact: true })
+    .getByRole("button", { name: "Key", exact: true })
+    .click();
   await ready(page);
   await expect(page.getByTestId("viewer-info")).toContainText(
     `${binderLength} residues · 1 chain`,
   );
   await page
-    .getByRole("combobox", { name: "Structure", exact: true })
-    .selectOption("complex");
+    .getByRole("group", { name: "Structure", exact: true })
+    .getByRole("button", { name: "Complex", exact: true })
+    .click();
   await ready(page);
   await page.getByRole("button", { name: "02 Failed", exact: true }).click();
   await ready(page);
@@ -360,7 +367,7 @@ test("saved example opens directly; representations, candidates and downloads st
   ).toHaveAttribute("aria-pressed", "true");
   await page.getByText("Details", { exact: true }).click();
   await expect(page.locator(".candidate-details")).toContainText(
-    "Computational filters: failed",
+    "Original native filters: failed",
   );
   await page.getByText("Details", { exact: true }).click();
   await page.getByRole("button", { name: "01 Passed", exact: true }).click();
@@ -407,7 +414,7 @@ test("donor selection removes example; preparation, details and mobile history p
   page.on("request", (request) => {
     if (request.url().endsWith("/run")) runs.push(request.url());
   });
-  await page.goto("/");
+  await page.goto("/?example=1");
   await ready(page);
   await searchTarget(page);
   await ready(page);
@@ -442,8 +449,8 @@ test("donor selection removes example; preparation, details and mobile history p
   await page.getByRole("button", { name: "Example", exact: true }).click();
   await ready(page);
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.getByRole("button", { name: "Proteins", exact: true }).click();
-  const drawer = page.getByRole("dialog", { name: "Proteins", exact: true });
+  await page.getByRole("button", { name: "Browse", exact: true }).click();
+  const drawer = page.getByRole("dialog", { name: "Browse", exact: true });
   await expect(drawer).toBeVisible();
   await drawer.getByLabel("Search gene or transcript").fill("A1BG");
   await drawer.getByLabel("Changed sequences", { exact: true }).check();
@@ -514,7 +521,7 @@ test("a late preparation response cannot replace a newly selected example", asyn
     "Preparation belongs to the private operator gateway",
   );
   await hidePreparedHistory(page);
-  await page.goto("/");
+  await page.goto("/?example=1");
   await ready(page);
   await searchTarget(page);
   let release!: () => void;
@@ -560,7 +567,7 @@ test("surface computation falls back to CPU without float buffers", async ({
       },
     });
   });
-  await page.goto("/");
+  await page.goto("/?example=1");
   await ready(page);
   await expect(page.getByTestId("viewer-info")).toContainText("1,496 atoms");
   await expect(page.getByTestId("viewer-info")).toContainText(
@@ -584,7 +591,7 @@ test("without WebGL the original structure remains downloadable", async ({
       },
     });
   });
-  await page.goto("/");
+  await page.goto("/?example=1");
   await expect(page.getByRole("alert")).toContainText("WebGL is unavailable");
   await expect(
     page.getByRole("link", { name: "Download structure", exact: true }),
@@ -598,7 +605,7 @@ test("a failed viewer chunk leaves candidates and downloads usable", async ({
   await page.route(/MolecularViewer(?:-[^/]+\.js|\.tsx)(?:\?|$)/, (route) =>
     route.abort(),
   );
-  await page.goto("/");
+  await page.goto("/?example=1");
   await expect(page.getByRole("alert")).toContainText(
     "molecular viewer could not load",
   );
@@ -620,7 +627,7 @@ test("empty results do not invent a candidate or substitute a structure", async 
     const body = await response.json();
     await route.fulfill({ json: { ...body, candidates: [] } });
   });
-  await page.goto("/");
+  await page.goto("/?example=1");
   await expect(
     page.getByRole("heading", { name: "No candidates returned", exact: true }),
   ).toBeVisible();
@@ -645,7 +652,7 @@ test("automatic cached replay never retries a failed submission", async ({
       json: { detail: "Saved example unavailable" },
     });
   });
-  await page.goto("/");
+  await page.goto("/?example=1");
   await expect(page.getByRole("alert")).toHaveText("Saved example unavailable");
   await searchTarget(page);
   await page.getByRole("button", { name: "Example", exact: true }).click();

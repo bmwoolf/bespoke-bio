@@ -37,6 +37,18 @@ def result_urls(result):
         urls.append(result["bundle_url"])
     for candidate in result["candidates"]:
         urls.extend(candidate[field] for field in ("binder_structure_url", "complex_structure_url"))
+        if candidate.get("target_structure_url"):
+            urls.append(candidate["target_structure_url"])
+        for prediction in candidate.get("predictions", []):
+            urls.extend(
+                prediction[field]
+                for field in (
+                    "target_structure_url",
+                    "binder_structure_url",
+                    "complex_structure_url",
+                    "evidence_url",
+                )
+            )
     return urls
 
 
@@ -109,6 +121,17 @@ class PublishedSnapshot:
                 raise ValueError("Published job is incomplete")
             if entry["results"]["target_id"] != entry["job"]["target_id"]:
                 raise ValueError("Published result belongs to another target")
+            design = entry.get("design")
+            if design is not None:
+                if not isinstance(design.get("name"), str) or not design["name"].strip():
+                    raise ValueError("Published design needs its source target name")
+                if design.get("target_id") != entry["job"]["target_id"]:
+                    raise ValueError("Published design metadata belongs to another target")
+                sequence = design.get("amino_acid_sequence")
+                if not isinstance(sequence, str) or not sequence:
+                    raise ValueError("Published design needs its complete input sequence")
+                if sha256(sequence.encode()).hexdigest() != design.get("sequence_sha256"):
+                    raise ValueError("Published design sequence checksum mismatch")
             for url in result_urls(entry["results"]):
                 if artifact_key(url, job_id) not in self.files:
                     raise ValueError("Published artifact is missing")

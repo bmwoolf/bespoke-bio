@@ -16,17 +16,23 @@ export function JobPanel({
   allowRun,
   target,
   proteinStructure,
+  expectedTargetId,
+  initialView = "complex",
 }: {
   jobId: string;
   allowRun: boolean;
   target?: Target;
   proteinStructure?: ProteinStructure | null;
+  expectedTargetId?: string | null;
+  initialView?: "complex" | "binder" | "protein";
 }) {
   const cache = useQueryClient();
   const [candidateId, setCandidateId] = useState<string | null>(null);
+  const [evaluation, setEvaluation] = useState("evaluated");
+  const [seed, setSeed] = useState(11);
   const [structureKind, setStructureKind] = useState<
     "complex" | "binder" | "protein"
-  >("complex");
+  >(initialView);
   const status = useQuery({
     queryKey: ["job", jobId],
     queryFn: ({ signal }) => api.job(jobId, signal),
@@ -49,8 +55,11 @@ export function JobPanel({
   const job = status.data;
   // A shared URL must never display another target's job or result under this heading.
   if (
-    (job && job.target_id !== (target?.target_id ?? null)) ||
-    (results.data && results.data.target_id !== (target?.target_id ?? null))
+    (job &&
+      job.target_id !== (expectedTargetId ?? target?.target_id ?? null)) ||
+    (results.data &&
+      results.data.target_id !==
+        (expectedTargetId ?? target?.target_id ?? null))
   ) {
     return (
       <div className="error" role="alert">
@@ -61,14 +70,26 @@ export function JobPanel({
   const candidate =
     results.data?.candidates.find((value) => value.id === candidateId) ??
     results.data?.candidates[0];
+  const prediction =
+    evaluation === "evaluated"
+      ? (candidate?.predictions.find((p) => p.seed === seed) ??
+        candidate?.predictions[0])
+      : undefined;
+  const model = prediction ?? candidate;
   const structure =
-    candidate && structureKind !== "protein"
+    candidate &&
+    model &&
+    (structureKind !== "protein" || model.target_structure_url)
       ? {
           url:
-            structureKind === "complex"
-              ? candidate.complex_structure_url
-              : candidate.binder_structure_url,
-          title: `${structureKind === "complex" ? "Complex" : "Binder"} · ${candidate.id}`,
+            structureKind === "protein"
+              ? model.target_structure_url!
+              : structureKind === "complex"
+                ? model.complex_structure_url
+                : model.binder_structure_url,
+          title: `${structureKind === "complex" ? "Complex" : structureKind === "protein" ? "Target" : "Key"} · ${candidate.id}`,
+          chainRoles:
+            structureKind === "complex" ? model.complex_chains : undefined,
         }
       : null;
   const ready = job?.status === "prepared_pending_gpu_execution";
@@ -99,31 +120,80 @@ export function JobPanel({
           )}
           <div className="result-toolbar">
             {candidate ? (
-              <label className="structure-picker">
-                <span className="sr-only">Structure</span>
-                <select
-                  value={structureKind}
-                  onChange={(event) =>
-                    setStructureKind(
-                      event.target.value === "binder"
-                        ? "binder"
-                        : event.target.value === "protein"
-                          ? "protein"
-                          : "complex",
-                    )
-                  }
-                >
-                  <option value="complex">Complex</option>
-                  <option value="binder">Key</option>
-                  {proteinStructure && <option value="protein">Protein</option>}
-                </select>
-              </label>
+              <div
+                className="structure-tabs"
+                role="group"
+                aria-label="Structure"
+              >
+                {(
+                  [
+                    ["protein", "Target"],
+                    ["binder", "Key"],
+                    ["complex", "Complex"],
+                  ] as const
+                ).map(([value, label]) => (
+                  <button
+                    key={value}
+                    aria-pressed={structureKind === value}
+                    disabled={
+                      value === "protein" &&
+                      !proteinStructure &&
+                      !model?.target_structure_url
+                    }
+                    onClick={() => setStructureKind(value)}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
             ) : (
               <span className="status-label" data-testid="job-status">
                 {results.data && !results.data.candidates.length
                   ? "No keys returned"
                   : jobLabel(job.status)}
               </span>
+            )}
+            {candidate && (
+              <Popover className="prediction-popover" label="Prediction">
+                {candidate.predictions.length > 0 ? (
+                  <>
+                    <label>
+                      Prediction context
+                      <select
+                        value={evaluation}
+                        onChange={(event) => setEvaluation(event.target.value)}
+                      >
+                        <option value="evaluated">Standard refold</option>
+                        <option value="native">Original design</option>
+                      </select>
+                    </label>
+                    {prediction && (
+                      <label>
+                        Prediction seed
+                        <select
+                          value={prediction.seed}
+                          onChange={(event) =>
+                            setSeed(Number(event.target.value))
+                          }
+                        >
+                          {candidate.predictions.map((p) => (
+                            <option key={p.id} value={p.seed}>
+                              Seed {p.seed}
+                            </option>
+                          ))}
+                        </select>
+                      </label>
+                    )}
+                  </>
+                ) : (
+                  <p>Original design · No standard refold in this export.</p>
+                )}
+                <p className="prediction-note">
+                  {prediction
+                    ? `${prediction.context}. Target and Key show independent folds; Complex shows their separately predicted binding pose.`
+                    : "Complex shows the original predicted pose. Target and Key are displayed separately."}
+                </p>
+              </Popover>
             )}
             <div className="result-actions">
               {ready && (
@@ -166,12 +236,15 @@ export function JobPanel({
                   <a href={results.data.download_url}>All results (.zip)</a>
                   {candidate && (
                     <>
-                      <a href={candidate.complex_structure_url}>
+                      <a href={model?.complex_structure_url}>
                         Complex structure
                       </a>
-                      <a href={candidate.binder_structure_url}>
-                        Binder structure
-                      </a>
+                      <a href={model?.binder_structure_url}>Binder structure</a>
+                      {prediction && (
+                        <a href={prediction.evidence_url}>
+                          Refolding evidence (.json)
+                        </a>
+                      )}
                     </>
                   )}
                 </Popover>
@@ -234,6 +307,62 @@ export function JobPanel({
               selectedId={candidate.id}
               onSelect={setCandidateId}
             />
+          )}
+          {prediction && (
+            <div
+              className="prediction-metrics"
+              aria-label="Computational confidence"
+            >
+              <span>Computational confidence</span>
+              {structureKind === "complex" ? (
+                <>
+                  <span>
+                    Target{" "}
+                    <strong>
+                      {prediction.confidence_metrics.target_plddt?.toFixed(1)}
+                    </strong>{" "}
+                    pLDDT
+                  </span>
+                  <span>
+                    Key{" "}
+                    <strong>
+                      {prediction.confidence_metrics.binder_plddt?.toFixed(1)}
+                    </strong>{" "}
+                    pLDDT
+                  </span>
+                  <span>
+                    Interface{" "}
+                    <strong>
+                      {prediction.confidence_metrics.target_to_binder_iptm?.toFixed(
+                        3,
+                      )}{" "}
+                      /{" "}
+                      {prediction.confidence_metrics.binder_to_target_iptm?.toFixed(
+                        3,
+                      )}
+                    </strong>{" "}
+                    ipTM
+                  </span>
+                  <span>
+                    Close overlaps{" "}
+                    <strong>
+                      {prediction.confidence_metrics.close_atomic_overlaps}
+                    </strong>
+                  </span>
+                </>
+              ) : (
+                <span>
+                  {structureKind === "binder" ? "Key" : "Target"}{" "}
+                  <strong>
+                    {(structureKind === "binder"
+                      ? prediction.binder_alone_plddt
+                      : prediction.target_alone_plddt
+                    ).toFixed(1)}
+                  </strong>{" "}
+                  pLDDT
+                </span>
+              )}
+            </div>
           )}
           <div className="workspace-footer">
             <details className="workspace-details">

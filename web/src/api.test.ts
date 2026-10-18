@@ -42,6 +42,28 @@ const candidate = {
 
 afterEach(() => vi.unstubAllGlobals());
 describe("typed handoff boundary", () => {
+  it("keeps operator requests and artifact links inside the protected prefix", async () => {
+    vi.stubGlobal("location", { pathname: "/operator/" });
+    const fetch = vi.fn().mockResolvedValue(new Response(JSON.stringify(job)));
+    vi.stubGlobal("fetch", fetch);
+    await api.job(job.job_id);
+    expect(fetch).toHaveBeenCalledWith(`/operator/api/jobs/${job.job_id}`, {
+      signal: undefined,
+    });
+    const parsed = candidateSchema.parse(candidate);
+    expect(parsed.complex_structure_url).toBe(
+      "/operator" + candidate.complex_structure_url,
+    );
+    expect(parsed.binder_structure_url).toBe(
+      "/operator" + candidate.binder_structure_url,
+    );
+    expect(
+      candidateSchema.safeParse({
+        ...candidate,
+        complex_structure_url: "//untrusted.example/model.cif",
+      }).success,
+    ).toBe(false);
+  });
   it("retains unmeasured expression and additional provenance verbatim", () => {
     const original = { ...target, evidence: { source: "synthetic fixture" } };
     expect(targetSchema.parse(original)).toEqual(original);
@@ -50,7 +72,10 @@ describe("typed handoff boundary", () => {
     ).toBe(false);
   });
   it("retains failed candidates and missing confidence without inventing scores", () => {
-    expect(candidateSchema.parse(candidate)).toEqual(candidate);
+    expect(candidateSchema.parse(candidate)).toEqual({
+      ...candidate,
+      predictions: [],
+    });
     expect(
       candidateSchema.safeParse({
         ...candidate,

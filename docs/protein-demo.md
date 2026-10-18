@@ -42,7 +42,7 @@ ssh -N -L 8787:127.0.0.1:8787 your-vm
 ```
 
 Open `http://127.0.0.1:8787`. Keep one gateway worker and bind to loopback; this is a single-user
-demo, not an authenticated public application. Existing raw-read jobs can continue. Limit
+demo. For protected HTTPS access, use the operator proxy below. Existing raw-read jobs can continue. Limit
 indexing/testing to spare CPU capacity; browsing and preparation do not need a GPU.
 Use a new private runs directory when switching to another design service; receipts belong
 to the service that created them.
@@ -51,8 +51,12 @@ to the service that created them.
 
 The demo is available at [bespoke-bio-demo.westus2.cloudapp.azure.com](https://bespoke-bio-demo.westus2.cloudapp.azure.com/).
 It serves the full public HG002 catalog and explicitly published completed results from the
-VM. Browsing needs no token or tunnel. New generation still needs the private operator
-gateway and Jacob's service credentials. The public instance cannot access either.
+VM. Browsing needs no token or tunnel. **Generate keys** opens `/operator/` with the selected
+protein. The browser asks for a separate operator username/password; Jacob's service token
+never enters the browser. After signing in, **Generate keys** asks for confirmation, prepares
+the selected record, and starts its design job. Progress and returned key/complex models
+appear in the same workspace. The public process remains read-only and is not configured
+with service credentials or private receipts. Operator jobs are not automatically published to visitors.
 
 To publish saved results, export selected completed job IDs from the private gateway:
 
@@ -95,9 +99,53 @@ automatically while the domain resolves and the service is reachable. A minimal 
 ```caddyfile
 demo.example.org {
     encode zstd gzip
-    reverse_proxy 127.0.0.1:8789
+    redir /operator /operator/ 308
+    handle_path /operator/* {
+        basic_auth {
+            operator REPLACE_WITH_CADDY_PASSWORD_HASH
+        }
+        header {
+            Cache-Control no-store
+            defer
+        }
+        reverse_proxy 127.0.0.1:8787 {
+            header_up -Authorization
+        }
+    }
+    handle {
+        reverse_proxy 127.0.0.1:8789
+    }
 }
 ```
+
+Use [Caddy's password hashing](https://caddyserver.com/docs/caddyfile/directives/basic_auth)
+and HTTPS. Protect the entire `/operator/*` path, including APIs, artifacts and documentation;
+never expose the gateway port directly. The operator client prefixes all requests and
+download links. Enable `BESPOKE_DEMO_OPERATOR_ACCESS=1` on the public instance only after
+the protected route exists. Configure the public hostname on both processes. Browser Basic
+authentication is suitable for this shared demo; per-person access and audit require an
+identity provider for broader use. Browsers may remember the operator login until closed.
+
+### Key Vault credentials
+
+Install the optional `vault` extra in the VM runtime. Store one JSON secret containing
+`base_url`, `api_token`, `expires_at` (with timezone), and optionally `docs_url`. Grant the VM's
+managed identity **Key Vault Secrets User** on this secret; the public process needs no
+secret file. Follow Microsoft's [VM identity guidance](https://learn.microsoft.com/en-us/azure/key-vault/general/tutorial-python-virtual-machine).
+In the private gateway's systemd unit, use `RuntimeDirectory=bespoke-demo-operator`,
+`RuntimeDirectoryMode=0700`, and this startup command:
+
+```bash
+python -m bespoke_bio.demo.vault --vault-url https://YOUR-VAULT.vault.azure.net \
+  --secret biocad-service --output /run/bespoke-demo-operator/service.json
+```
+
+Set `BIOCAD_SERVICE_CONFIG_FILE=/run/bespoke-demo-operator/service.json`. The helper writes
+an atomic mode-600 runtime file, and the gateway enforces expiry before contacting the
+service. Set the Vault secret's expiry metadata as well. After rotating the secret, restart
+the operator service to retrieve its latest version. This intentionally avoids a Vault call
+for every UI request. Never put secret values in commands, Git, frontend variables or logs.
+The separate operator password may also be stored in Vault; Caddy receives only its hash.
 
 Public reads use a 60-second HTTP cache and bounded per-worker catalog caches. Saved files
 are served directly from disk, without contacting Jacob's API. Hashed assets are immutable;
@@ -136,7 +184,7 @@ not an independent measurement of prediction accuracy. The optional provenance f
 UI; null means no screen result was supplied. Review confidence semantics and structural
 quality before publication. Source artifacts and generated releases stay outside Git.
 
-The sidebar defaults to **Structure ready** when a library exists. Uncheck it to browse the
+The **Proteins** tab defaults to **Structure ready** when a library exists. Uncheck it to browse the
 full catalog, including records without coordinates. `/api/targets?ready=true` exposes the
 same filter. `/api/catalog` reports both complete and structure-ready counts. These counts
 measure coverage, not confidence or biological significance. List order is alphabetical,
@@ -164,15 +212,15 @@ structure is unsuitable. Appearance reports the selected path and coordinate cou
 geometry. Metallic finish controls material lighting only; it does not need another dataset
 and is not a measured density map. Sequence-only records need coordinates before 3D viewing.
 
-The workspace opens on the explicitly labeled saved PD-L1 example and its first exported
-candidate; list order is not a scientific ranking. Selecting a donor record replaces that
-example with the donor's own context. The sidebar reopens that exact target's completed,
+The public workspace opens on **Saved keys**, with evaluated benchmark constructs kept
+separate from donor records. List order is not a scientific ranking. Selecting a donor
+record replaces the benchmark with that donor's own context. The sidebar reopens that exact target's completed,
 active or prepared job when available. Otherwise it displays that exact sequence's saved
 structure, or explicitly says that no structure has been published.
 Selection is preserved in the URL across refresh and back/forward navigation. Cross-target
 job links cannot display a model under the wrong protein's heading. A delayed
-preparation response cannot switch the active selection. The Complex/Key/Protein selector chooses
-the artifact; Protein is the separate unbound preview when available, while Complex shows
+preparation response cannot switch the active selection. The Target/Key/Complex buttons choose
+the artifact; Target is the separate preview or refold when available, while Complex shows
 the design service's predicted bound geometry; Surface/Ribbon/Atoms changes its representation. Reset and fullscreen controls
 stay with the viewer. Chain labels/colors come from Mol*'s actual structure color legend;
 they do not infer which chain is the target or binder.
@@ -228,10 +276,10 @@ The gateway's own schema is generated at `/openapi.json`. Test the deployed serv
 by preparing a real non-reference record, comparing its saved target sequence/hash, opening
 the cached candidates and downloading their structures. Do not call `/run` in integration tests.
 
-Without the shared service token, authenticated shared-service behavior remains unverified.
-Without a fresh design-service GPU run, its inference and cleanup remain unverified. Target
-folding benchmarks do not validate binder generation. Cached replay demonstrates the result
-path only; intercepted browser tests exercise the generation UI without spending GPU credits.
+Authenticated preparation and two explicitly authorized A1BG design jobs completed on
+2026-10-18. Their four candidates retain exact input identity and native filter outcomes.
+This is computational integration evidence, not experimental binding validation. Browser
+tests intercept paid actions and exercise the UI without starting additional GPU jobs.
 
 HTTP requests have a 60-second timeout; JSON responses are limited to 8 MiB and individual
 artifact/ZIP responses to 128 MiB. Larger jobs need streaming downloads. Unknown submissions
@@ -253,3 +301,48 @@ variant-specific binding, off-target selectivity and therapeutic benefit remain 
 ESMFold2's [model card](https://huggingface.co/biohub/ESMFold2) explicitly distinguishes reduced
 inference compute from maximal accuracy. BoltzGen's [pipeline outputs](https://github.com/HannesStark/boltzgen#pipeline-output)
 provide computational design evidence, not measured binding.
+
+## Saved key batches
+
+The public site opens on **Saved keys**. Each sidebar row represents one published job;
+identical gene names never merge different constructs or jobs. The selected complex opens in
+3D with both target and key visible; Target/Key/Complex buttons switch structures. **Proteins** retains the
+complete donor catalog and links completed jobs by exact target ID. A fold alone is labeled
+“Protein structure · no saved keys”. Public browsing never starts inference.
+
+`GET /api/designs?q=...&offset=...&limit=25` pages completed published jobs.
+`GET /api/designs/{job_id}` returns display metadata and provenance. Native failures remain
+visible. Native candidate `target_structure_url` is a chain extracted from its original complex.
+Evaluated `predictions` instead link independent target and binder refolds plus a separately
+predicted complex, indexed by exact target, candidate, context and seed.
+
+Import Jacob's allowlisted public scientific export after copying it outside Git:
+
+```bash
+uv run python -m bespoke_bio.demo.import_science \
+  --source /data/jacob/examples/folding_validation \
+  --snapshot /data/current-published --output /data/new-published \
+  --revision FULL_SOURCE_COMMIT
+```
+
+The importer validates every indexed CIF and confidence artifact checksum, coordinate
+finiteness, backbone completeness, exact binder sequences, and consistent target constructs.
+It imports every native candidate, including failures, and preserves the complete public
+study in the ZIP download. Standard refolds, controls and seed repeats remain separate
+study evidence; they are not counted as new candidate keys. Native pass status is not proof
+of binding, and target processing, oligomers and competing partners still matter.
+
+The website serves this immutable snapshot from Azure; no browser token or live GPU is
+needed to view imported results. Generated files stay outside Git. Replace the public
+snapshot setting only after validation, keeping the previous directory for rollback.
+
+For the three reevaluated candidates, **Standard refold** is selected by default with seed
+11; seeds 22/33 and **Original design** remain available in **Prediction**. The Target view uses the matching
+MSA/no-template control; Key uses the independent binder refold. Complex loads exactly one
+CIF. The single Target/Key/Complex selector switches complete artifacts; it never assembles
+separate coordinate frames or changes their positions. The native filter label stays separate from
+view-specific computational confidence; the complete evidence JSON retains all metrics.
+
+Study IDs such as FGF2 and IL1RN are benchmark constructs, not HG002 target IDs. The importer
+checks exact sequences across native and evaluated structures and rejects ambiguous or
+unmatched prediction joins. It does not attach a benchmark to a donor based on gene name.

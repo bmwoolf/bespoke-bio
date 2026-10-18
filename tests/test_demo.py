@@ -1,6 +1,7 @@
 """Sequence handoff, cardinality, retry behavior and isolated artifact access."""
 
 import json
+from datetime import UTC, datetime, timedelta
 from hashlib import sha256
 from io import BytesIO
 from urllib.error import HTTPError
@@ -14,10 +15,64 @@ from bespoke_bio.demo.client import DesignService, ServiceError
 from bespoke_bio.demo.published import PublishedSnapshot, artifact_key, export_snapshot
 from bespoke_bio.demo.service import create_app
 from bespoke_bio.demo.structures import StructureLibrary, publish_structures
+from bespoke_bio.demo.vault import materialize
 from bespoke_bio.stage1.io import artifact
 
 HEADERS = {"X-Bespoke-Request": "1"}
 REMOTE = "a" * 32
+
+
+def test_runtime_credential_is_private_and_expired_refresh_preserves_valid_file(tmp_path):
+    path = tmp_path / "credential.json"
+    config = {
+        "base_url": "https://design.example",
+        "api_token": "synthetic-test-token",
+        "expires_at": (datetime.now(UTC) + timedelta(hours=1)).isoformat(),
+    }
+    materialize(json.dumps(config), path)
+    assert path.stat().st_mode & 0o777 == 0o600
+    assert DesignService.from_config(path).available
+    original = path.read_bytes()
+    config["expires_at"] = "2000-01-01T00:00:00+00:00"
+    with pytest.raises(ServiceError, match="expired"):
+        materialize(json.dumps(config), path)
+    assert path.read_bytes() == original
+    assert list(tmp_path.iterdir()) == [path]
+    config["expires_at"] = "2030-01-01T00:00:00"
+    with pytest.raises(ValueError, match="timezone"):
+        materialize(json.dumps(config), path)
+    assert path.read_bytes() == original
+
+
+def test_expired_credential_cannot_submit_or_mark_a_prepared_job_dispatched(index, tmp_path):
+    runs = tmp_path / "runs"
+    with TestClient(create_app(index, runs, FakeService())) as client:
+        job = prepare(client)
+    expired = DesignService("https://design.example", "fixture", expires_at="2000-01-01T00:00:00Z")
+    with TestClient(create_app(index, runs, expired, allow_run=True)) as client:
+        metadata = client.get("/api/catalog").json()
+        assert metadata["service_configured"] is False
+        assert metadata["gpu_execution_enabled"] is False
+        assert metadata["service_expires_at"]
+        assert "fixture" not in json.dumps(metadata)
+        for path, payload in [
+            ("/api/prepare", {"target_id": "fixture-0"}),
+            (f"/api/jobs/{job['job_id']}/run", {}),
+        ]:
+            assert client.post(path, json=payload, headers=HEADERS).status_code == 503
+    saved = json.loads((runs / (job["job_id"] + ".json")).read_text())
+    assert saved["status"] == "prepared_pending_gpu_execution"
+    assert not saved.get("dispatch_attempted")
+
+
+def test_public_operator_link_does_not_enable_mutations(index, published):
+    with TestClient(create_app(index, published=published[0], operator_access=True)) as client:
+        meta = client.get("/api/catalog").json()
+        assert meta["operator_access"] is True
+        assert meta["read_only"] is True
+        assert meta["service_configured"] is False
+        assert meta["service_expires_at"] is None
+        assert client.post("/api/prepare", json={}, headers=HEADERS).status_code == 403
 
 
 @pytest.fixture
@@ -506,6 +561,23 @@ def test_unknown_dispatch_is_not_repeated_after_status_refresh(index, tmp_path):
         assert sum(path.endswith("/run") for path, _ in upstream.calls) == 1
 
 
+def test_budget_rejection_can_be_explicitly_retried_after_capacity_is_restored(index, tmp_path):
+    upstream = FakeService()
+    with TestClient(create_app(index, tmp_path / "jobs", upstream, allow_run=True)) as client:
+        job = prepare(client)
+        base = f"/api/jobs/{job['job_id']}"
+        upstream.failure = ServiceError(402, "Design service budget is exhausted")
+        assert client.post(base + "/run", json={}, headers=HEADERS).status_code == 402
+        saved = client.get("/api/jobs").json()[0]
+        assert saved["status"] == "prepared_pending_gpu_execution"
+        assert saved["dispatch_attempted"] is False
+        upstream.failure = None
+        response = client.post(base + "/run", json={}, headers=HEADERS)
+        assert response.status_code == 200
+        assert response.json()["error"] is None
+        assert response.json()["dispatch_attempted"] is True
+
+
 @pytest.mark.parametrize("url", ["http://remote.example", "https://a:b@host", "https://host/path"])
 def test_client_rejects_unsafe_origins(url):
     with pytest.raises(ValueError):
@@ -519,6 +591,7 @@ def test_client_sends_token_only_to_configured_origin_and_redacts_errors():
         def open(self, request, timeout):
             assert request.full_url == "https://service.example/v1/designs"
             assert request.get_header("Authorization") == "Bearer private-token"
+            assert request.get_header("User-agent") == "bespoke-bio/0.1"
             assert json.loads(request.data) == {"sequence": "ME"}
             raise HTTPError(request.full_url, 401, "private-token", {}, BytesIO(b"private-token"))
 
@@ -529,3 +602,42 @@ def test_client_sends_token_only_to_configured_origin_and_redacts_errors():
     assert "private-token" not in str(error.value)
     with pytest.raises(ValueError):
         client.request("https://elsewhere.example/v1/designs")
+
+
+def test_design_catalog_keeps_distinct_jobs_and_native_failures(index, published):
+    root, job_id = published
+    manifest = json.loads((root / "manifest.json").read_text())
+    original = manifest["jobs"][job_id]
+    # Distinct jobs with the same biological label must remain distinct rows.
+    for number in range(27):
+        jid = f"{number:032x}"
+        entry = json.loads(json.dumps(original))
+        entry["job"].update(job_id=jid, target_id=f"external:{number}")
+        entry["results"].update(run_id=jid, target_id=f"external:{number}")
+        entry["design"] = {
+            "target_id": f"external:{number}",
+            "name": "FGF2",
+            "amino_acid_sequence": "ME",
+            "sequence_sha256": sha256(b"ME").hexdigest(),
+        }
+        for url in list(manifest["files"]):
+            if job_id in url:
+                manifest["files"][url.replace(job_id, jid)] = manifest["files"][url]
+        entry["results"] = json.loads(json.dumps(entry["results"]).replace(job_id, jid))
+        manifest["jobs"][jid] = entry
+    (root / "manifest.json").write_text(json.dumps(manifest))
+    with TestClient(create_app(index, published=root)) as client:
+        a = client.get("/api/designs?q=fgf2&limit=25").json()
+        b = client.get("/api/designs?q=fgf2&limit=25&offset=25").json()
+        assert a["total"] == b["total"] == 27
+        assert len(a["records"]) == 25 and len(b["records"]) == 2
+        assert len({r["job_id"] for r in a["records"] + b["records"]}) == 27
+        assert all(r["candidate_count"] == 1 and r["passed_count"] == 0 for r in a["records"])
+        detail = client.get("/api/designs/" + a["records"][0]["job_id"]).json()
+        assert detail["name"] == "FGF2" and detail["protein_structure"] is None
+        assert client.get("/api/designs/" + "f" * 32).status_code == 404
+    first = manifest["jobs"]["0" * 32]
+    first["design"]["sequence_sha256"] = "0" * 64
+    (root / "manifest.json").write_text(json.dumps(manifest))
+    with pytest.raises(ValueError, match="sequence checksum"):
+        PublishedSnapshot(root, manifest["catalog_sha256"])

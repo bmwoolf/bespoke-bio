@@ -135,9 +135,9 @@ export function TargetCatalog({
             <span className="target-transcript">{row.transcript}</span>
             <span className="target-availability">
               {modeledTargets.has(row.target_id)
-                ? "Saved results"
+                ? "Keys ready"
                 : row.has_structure
-                  ? "3D structure"
+                  ? "Protein structure · no saved keys"
                   : "Structure pending"}
             </span>
             <span className="target-origin">

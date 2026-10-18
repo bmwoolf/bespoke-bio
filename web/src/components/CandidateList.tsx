@@ -45,7 +45,7 @@ export function CandidateList({
           </button>
         ))}
       </div>
-      <span className="strip-note">Computational filters</span>
+      <span className="strip-note">Native filters</span>
     </div>
   );
 }
@@ -55,7 +55,7 @@ export function CandidateDetails({ candidate }: { candidate: Candidate }) {
       <h3>Candidate</h3>
       <p className="identifier">{candidate.id}</p>
       <p>
-        Computational filters: {filterLabel(candidate).toLowerCase()}
+        Original native filters: {filterLabel(candidate).toLowerCase()}
         {candidate.failed_filters.length
           ? ` · ${candidate.failed_filters.join(", ")}`
           : ""}
