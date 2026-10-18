@@ -48,8 +48,11 @@ to the service that created them.
 
 ## React application
 
-`web/` contains Vite, React and strict TypeScript source. Components separate catalog,
-target preparation, job status, candidates and the Mol* viewer. Zod validates API responses;
+`web/` contains Vite, React and strict TypeScript source. A single workspace places the
+protein catalog beside the molecular viewer, with candidates below it. On mobile the catalog
+opens in a drawer. History, sequences, provenance, metrics and design settings stay available
+without occupying the main view. Components separate catalog, target preparation, job status,
+candidates and the Mol* viewer. Zod validates API responses;
 TanStack Query handles cancellation, caching and polling. Mutations never retry automatically.
 `npm --prefix web run dev` serves the app on port 5173 and proxies `/api` to the gateway.
 
@@ -59,9 +62,17 @@ responses remain uncached. Mol* loads on demand from the same server; no CDN is 
 
 Existing mmCIF/PDB coordinates supply surface, ribbon and atom representations. Gaussian
 surfaces request GPU computation and fall back to CPU when Mol* determines the device or
-structure is unsuitable. The UI reports the selected path. WebGL renders the resulting
+structure is unsuitable. Appearance reports the selected path and coordinate counts. WebGL renders the resulting
 geometry. Metallic finish controls material lighting only; it does not need another dataset
 and is not a measured density map. Sequence-only records need coordinates before 3D viewing.
+
+The workspace opens on the explicitly labeled saved PD-L1 example and its first exported
+candidate; list order is not a scientific ranking. Selecting a donor record replaces that
+example with the donor's own context and an empty viewer until results exist. A delayed
+preparation response cannot switch the active selection. The Complex/Binder selector chooses
+the artifact; Surface/Ribbon/Atoms changes its representation. Reset and fullscreen controls
+stay with the viewer. Chain labels/colors come from Mol*'s actual structure color legend;
+they do not infer which chain is the target or binder.
 
 ## What is retained and what runs
 
@@ -71,16 +82,19 @@ and is not a measured density map. Sequence-only records need coordinates before
 - The browser pages through all records and fetches a full sequence only when selected.
   Prefix search accepts gene or transcript; exact target IDs also work. The non-reference
   filter compares sequence hashes. Pagination does not cap the catalog.
-- **Prepare selected target** calls `POST /v1/designs`. It validates and prepares one protein;
+- **Prepare target** calls `POST /v1/designs`. It validates and prepares one protein;
   it does not run inference. Local receipts bind the job to its submitted record and package
   hash. Repeating the same selection/settings reuses the local receipt. After an ambiguous
   timeout, inspect the upstream job before retrying; do not delete receipts blindly.
-- **Cached PD-L1 example** calls `POST /v1/designs/demo`. It displays previously generated
-  results, explicitly separate from the selected donor. All exported candidates remain visible,
+- **Example** opens the existing cached receipt, or calls `POST /v1/designs/demo` once when
+  none exists. This is the only automatic POST; it never starts inference or retries after a
+  failure. It displays previously generated results, explicitly separate from donor records.
+  All exported candidates remain available in the selector,
   including failed computational filters. Structures and ZIP downloads come from that job.
 - GPU inference is disabled by default. Only set `BESPOKE_DEMO_ALLOW_RUN=1` after configuring
   and authorizing live execution with the service operator. Starting then requires an explicit
-  UI action. Neither preparing nor viewing a cached example invokes `/run`.
+  **Generate binders** action and confirmation. Neither preparing nor viewing a cached
+  example invokes `/run`.
 
 This UI prepares one chosen target at a time; it does not dispatch the entire catalog to
 GPUs. The service's 2-design, 75-residue defaults are small demo settings, not a validated
@@ -114,6 +128,7 @@ artifact/ZIP responses to 128 MiB. Larger jobs need streaming downloads. Unknown
 and restarts during dispatch require operator reconciliation; the gateway never retries POSTs
 automatically. The [Mol* viewer](https://molstar.org/docs/v5/plugin/instance/) is pinned in
 `web/package-lock.json`. Without WebGL, original structure downloads remain available.
-Browser tests cover the real cached mmCIF, representation changes, viewer teardown, mobile
-layout and absence of inference calls. Headless tests can exercise the GPU algorithm through
+Browser tests cover the real cached mmCIF, representation and candidate changes, viewer
+teardown, fullscreen, mobile drawers, selection identity, late preparation responses, empty
+results and absence of inference calls. Headless tests can exercise the GPU algorithm through
 software WebGL; they do not measure physical GPU performance.

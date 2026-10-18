@@ -38,8 +38,9 @@ variants; direct protein ingestion requires a separate interface update.
 
 The Vite/React/TypeScript [protein demo](docs/protein-demo.md), with a Mol* viewer, browses
 a complete verified Step 1 export and sends one unchanged protein record to the separate
-design service. It shows preparation status,
-cached or newly generated candidates, and structures. GPU inference is disabled by default.
+design service. It opens on a labeled saved example, with a large molecular viewer and
+compact candidate selector. Selecting a donor protein switches the entire workspace to that
+record; sequences, provenance and metrics remain available in Details. GPU inference is disabled by default.
 Keep the full dataset and runtime files on the VM, outside Git. This demo bypasses standalone
 Step 2; the original CDS-to-structure API below remains available.
 

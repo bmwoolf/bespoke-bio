@@ -19,6 +19,7 @@ export type ViewerInfo = {
   chains: number;
   webgl: string;
   surfacePath: "GPU" | "CPU" | null;
+  colors: { label: string; color: string }[];
 };
 export const defaultSettings: ViewSettings = {
   style: "surface",
@@ -109,7 +110,16 @@ export class MolecularScene {
         this.representation.cell?.obj?.data.repr.renderObjects ?? [];
       if (!objects.length)
         throw new Error("Mol* did not produce a molecular representation");
+      const legend =
+        this.representation.cell?.obj?.data.repr.theme.color.legend;
       return {
+        colors:
+          settings.colorByChain && legend?.kind === "table-legend"
+            ? legend.table.map(([label, color]) => ({
+                label,
+                color: `#${color.toString(16).padStart(6, "0")}`,
+              }))
+            : [],
         atoms: structure.elementCount,
         residues: structure.polymerResidueCount,
         chains: structure.models.reduce(
@@ -137,7 +147,12 @@ export class MolecularScene {
   }
   resetCamera() {
     if (!this.disposed)
-      this.plugin.canvas3d?.requestCameraReset({ durationMs: 250 });
+      this.plugin.canvas3d?.requestCameraReset({
+        durationMs: window.matchMedia("(prefers-reduced-motion: reduce)")
+          .matches
+          ? 0
+          : 250,
+      });
   }
   dispose() {
     if (this.disposed) return;
@@ -165,8 +180,11 @@ export async function loadScene(
       );
     signal.throwIfAborted();
     plugin.canvas3d?.setProps({
-      renderer: { backgroundColor: Color(0x101b27), ambientIntensity: 0.6 },
-      camera: { manualReset: true },
+      renderer: { backgroundColor: Color(0x141b22), ambientIntensity: 0.6 },
+      camera: {
+        manualReset: true,
+        helper: { axes: { name: "off", params: {} } },
+      },
     });
     const response = await fetch(url, { signal });
     if (!response.ok)

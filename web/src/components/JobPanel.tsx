@@ -1,22 +1,29 @@
 import { lazy, Suspense, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { api, isActive, isComplete } from "../api";
-import type { StructureSelection } from "../api";
+import type { Target } from "../api";
+import { Popover } from "./Popover";
 import { ViewerBoundary } from "./ViewerBoundary";
-import { CandidateList } from "./CandidateList";
-import { ErrorMessage, Loading } from "./Status";
+import { CandidateList, CandidateDetails } from "./CandidateList";
+import { TargetDetails } from "./TargetDetails";
+import { ErrorMessage, Loading, jobLabel } from "./Status";
 
 const MolecularViewer = lazy(() => import("../viewer/MolecularViewer"));
 
 export function JobPanel({
   jobId,
   allowRun,
+  target,
 }: {
   jobId: string;
   allowRun: boolean;
+  target?: Target;
 }) {
   const cache = useQueryClient();
-  const [structure, setStructure] = useState<StructureSelection | null>(null);
+  const [candidateId, setCandidateId] = useState<string | null>(null);
+  const [structureKind, setStructureKind] = useState<"complex" | "binder">(
+    "complex",
+  );
   const status = useQuery({
     queryKey: ["job", jobId],
     queryFn: ({ signal }) => api.job(jobId, signal),
@@ -37,98 +44,176 @@ export function JobPanel({
     },
   });
   const job = status.data;
+  const candidate =
+    results.data?.candidates.find((value) => value.id === candidateId) ??
+    results.data?.candidates[0];
+  const structure = candidate
+    ? {
+        url:
+          structureKind === "complex"
+            ? candidate.complex_structure_url
+            : candidate.binder_structure_url,
+        title: `${structureKind === "complex" ? "Complex" : "Binder"} · ${candidate.id}`,
+      }
+    : null;
+  const ready = job?.status === "prepared_pending_gpu_execution";
+  const canCancel =
+    job && ["queued", "running", "cancel_requested"].includes(job.status);
   return (
     <>
       <ErrorMessage error={status.error} />
       <ErrorMessage error={results.error} />
       <ErrorMessage error={action.error} />
+      {status.error && (
+        <button className="quiet" onClick={() => void status.refetch()}>
+          Refresh status
+        </button>
+      )}
+      {results.error && (
+        <button className="quiet" onClick={() => void results.refetch()}>
+          Reload results
+        </button>
+      )}
       {!job && status.isPending && <Loading>Loading job…</Loading>}
       {job && (
         <>
-          <div className="job-line">
-            <strong data-testid="job-status">
-              {job.status.replaceAll("_", " ")}
-            </strong>
-            <span className="tag">
-              {job.mode === "actual_cached_replay"
-                ? "CACHED REPLAY · NO NEW INFERENCE"
-                : job.execution_performed
-                  ? "MODEL EXECUTION REPORTED"
-                  : "NO MODEL EXECUTION"}
-            </span>
-          </div>
-          <p className="muted job-target">
-            {job.target_id
-              ? `Target: ${job.target_id}`
-              : "Public PD-L1 example — separate from the selected donor protein."}
-          </p>
-          {job.progress?.stage && <p>Current stage: {job.progress.stage}</p>}
           {job.error && (
             <div className="error" role="alert">
               {job.error}
             </div>
           )}
-          <div className="actions">
-            <button
-              className="secondary"
-              disabled={status.isFetching}
-              onClick={() => {
-                void status.refetch();
-              }}
-            >
-              Refresh status
-            </button>
-            <button
-              disabled={
-                !allowRun ||
-                job.status !== "prepared_pending_gpu_execution" ||
-                !!job.dispatch_attempted ||
-                action.isPending
-              }
-              onClick={() => {
-                if (
-                  window.confirm(
-                    "Start a paid GPU design job for this prepared target?",
-                  )
-                )
-                  action.mutate("run");
-              }}
-            >
-              Start GPU job
-            </button>
-            <button
-              className="secondary"
-              disabled={
-                !["queued", "running", "cancel_requested"].includes(
-                  job.status,
-                ) || action.isPending
-              }
-              onClick={() => action.mutate("cancel")}
-            >
-              Cancel job
-            </button>
-            {results.data && (
-              <a href={results.data.download_url}>Download complete ZIP</a>
+          <div className="result-toolbar">
+            {candidate ? (
+              <label className="structure-picker">
+                <span className="sr-only">Structure</span>
+                <select
+                  value={structureKind}
+                  onChange={(event) =>
+                    setStructureKind(
+                      event.target.value === "binder" ? "binder" : "complex",
+                    )
+                  }
+                >
+                  <option value="complex">Complex</option>
+                  <option value="binder">Binder</option>
+                </select>
+              </label>
+            ) : (
+              <span className="status-label" data-testid="job-status">
+                {jobLabel(job.status)}
+              </span>
             )}
+            <div className="result-actions">
+              {ready && (
+                <>
+                  <span className="muted">
+                    {!allowRun
+                      ? "Generation unavailable in this demo"
+                      : "Generation uses paid compute"}
+                  </span>
+                  <button
+                    disabled={
+                      !allowRun || !!job.dispatch_attempted || action.isPending
+                    }
+                    onClick={() => {
+                      if (
+                        window.confirm(
+                          "Generate binders for this protein using paid GPU compute?",
+                        )
+                      )
+                        action.mutate("run");
+                    }}
+                  >
+                    Generate binders
+                  </button>
+                </>
+              )}
+              {canCancel && (
+                <button
+                  className="quiet"
+                  disabled={
+                    job.status === "cancel_requested" || action.isPending
+                  }
+                  onClick={() => action.mutate("cancel")}
+                >
+                  Cancel
+                </button>
+              )}
+              {results.data && (
+                <Popover className="download-popover" label="Download">
+                  <a href={results.data.download_url}>All results (.zip)</a>
+                  {candidate && (
+                    <>
+                      <a href={candidate.complex_structure_url}>
+                        Complex structure
+                      </a>
+                      <a href={candidate.binder_structure_url}>
+                        Binder structure
+                      </a>
+                    </>
+                  )}
+                </Popover>
+              )}
+            </div>
           </div>
-          {results.isFetching && <Loading>Loading candidates…</Loading>}
-          {results.data ? (
-            <CandidateList
-              candidates={results.data.candidates}
-              onView={setStructure}
-            />
-          ) : (
-            !results.isFetching && (
-              <p className="empty">No candidate results for this job yet.</p>
-            )
-          )}
-          {structure && (
+          {structure ? (
             <ViewerBoundary key={structure.url} downloadUrl={structure.url}>
-              <Suspense fallback={<Loading>Loading molecular viewer…</Loading>}>
+              <Suspense
+                fallback={
+                  <div className="empty-structure">
+                    <Loading>Loading molecular viewer…</Loading>
+                  </div>
+                }
+              >
                 <MolecularViewer key={structure.url} selection={structure} />
               </Suspense>
             </ViewerBoundary>
+          ) : (
+            <div className="empty-structure">
+              <div>
+                <span className="empty-mark" aria-hidden="true">
+                  ◇
+                </span>
+                <h2>
+                  {isActive(job.status)
+                    ? jobLabel(job.status)
+                    : ready
+                      ? "Protein ready"
+                      : results.data
+                        ? "No candidates returned"
+                        : "No structure available"}
+                </h2>
+                <p>
+                  {results.isFetching
+                    ? "Loading candidates…"
+                    : ready
+                      ? "Sequence validated. Generate binders to create structures."
+                      : job.progress?.stage
+                        ? job.progress.stage.replaceAll("_", " ")
+                        : "Structures appear here when results are available."}
+                </p>
+              </div>
+            </div>
           )}
+          {candidate && results.data && (
+            <CandidateList
+              candidates={results.data.candidates}
+              selectedId={candidate.id}
+              onSelect={setCandidateId}
+            />
+          )}
+          <div className="workspace-footer">
+            <details className="workspace-details">
+              <summary>Details</summary>
+              {candidate && <CandidateDetails candidate={candidate} />}
+              {target && <TargetDetails target={target} />}
+              <details>
+                <summary>Job record</summary>
+                <pre>{JSON.stringify(job, null, 2)}</pre>
+              </details>
+            </details>
+            <span className="research-note">Research prediction</span>
+          </div>
         </>
       )}
     </>

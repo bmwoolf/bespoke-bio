@@ -1,76 +1,81 @@
-import type { Candidate, StructureSelection } from "../api";
+import type { Candidate } from "../api";
 
+export function filterLabel(candidate: Candidate) {
+  return candidate.native_filter_passed === true
+    ? "Passed"
+    : candidate.native_filter_passed === false
+      ? "Failed"
+      : "Not assessed";
+}
 export function CandidateList({
   candidates,
-  onView,
+  selectedId,
+  onSelect,
 }: {
   candidates: Candidate[];
-  onView: (value: StructureSelection) => void;
+  selectedId: string;
+  onSelect: (id: string) => void;
 }) {
-  if (!candidates.length)
-    return (
-      <p className="empty">The job completed with no exported candidates.</p>
-    );
   return (
-    <div className="candidates">
-      {candidates.map((candidate) => (
-        <article className="candidate" key={candidate.id}>
-          <h3>{candidate.id}</h3>
-          <p
-            className={
-              candidate.native_filter_passed === true ? "pass" : "fail"
-            }
+    <div className="candidate-strip" aria-label="Candidates">
+      <span className="strip-label">
+        Candidates <span>{candidates.length}</span>
+      </span>
+      <div className="candidate-options">
+        {candidates.map((candidate, index) => (
+          <button
+            className="candidate-option"
+            key={candidate.id}
+            aria-pressed={candidate.id === selectedId}
+            onClick={() => onSelect(candidate.id)}
+            title={candidate.id}
           >
-            Native computational filters:{" "}
-            {candidate.native_filter_passed === true
-              ? "passed"
-              : candidate.native_filter_passed === false
-                ? "failed"
-                : "unknown"}
-          </p>
-          <div className="metrics">
-            {Object.entries(candidate.confidence_metrics).map(
-              ([name, value]) => (
-                <div key={name}>
-                  {name.replaceAll("_", " ")}
-                  <strong>
-                    {value === null ? "Not available" : value.toFixed(3)}
-                  </strong>
-                  <small>{candidate.confidence_units?.[name]}</small>
-                </div>
-              ),
-            )}
+            <span>{String(index + 1).padStart(2, "0")}</span>
+            <span
+              className={
+                candidate.native_filter_passed === true
+                  ? "pass"
+                  : candidate.native_filter_passed === false
+                    ? "fail"
+                    : "muted"
+              }
+            >
+              {filterLabel(candidate)}
+            </span>
+          </button>
+        ))}
+      </div>
+      <span className="strip-note">Computational filters</span>
+    </div>
+  );
+}
+export function CandidateDetails({ candidate }: { candidate: Candidate }) {
+  return (
+    <div className="candidate-details">
+      <h3>Candidate</h3>
+      <p className="identifier">{candidate.id}</p>
+      <p>
+        Computational filters: {filterLabel(candidate).toLowerCase()}
+        {candidate.failed_filters.length
+          ? ` · ${candidate.failed_filters.join(", ")}`
+          : ""}
+      </p>
+      <dl>
+        {Object.entries(candidate.confidence_metrics).map(([name, value]) => (
+          <div className="metadata-row" key={name}>
+            <dt>{name.replaceAll("_", " ")}</dt>
+            <dd>
+              {value === null ? "Not available" : value.toFixed(3)}{" "}
+              {candidate.confidence_units?.[name]}
+            </dd>
           </div>
-          <pre>{candidate.sequence}</pre>
-          {!!candidate.failed_filters.length && (
-            <p className="muted">
-              Failed filters: {candidate.failed_filters.join(", ")}
-            </p>
-          )}
-          <button
-            className="secondary"
-            onClick={() =>
-              onView({
-                url: candidate.complex_structure_url,
-                title: `Complex · ${candidate.id}`,
-              })
-            }
-          >
-            View complex
-          </button>
-          <button
-            className="secondary"
-            onClick={() =>
-              onView({
-                url: candidate.binder_structure_url,
-                title: `Binder · ${candidate.id}`,
-              })
-            }
-          >
-            View binder
-          </button>
-        </article>
-      ))}
+        ))}
+      </dl>
+      <h3>Binder sequence · {candidate.sequence.length} aa</h3>
+      <pre data-testid="binder-sequence">{candidate.sequence}</pre>
+      <p className="muted">
+        Confidence and filter passes are model evidence, not measured binding.
+      </p>
     </div>
   );
 }
