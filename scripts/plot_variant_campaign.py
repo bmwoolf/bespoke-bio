@@ -37,19 +37,21 @@ def plot(report_path, manifest_path, output):
                        (r.get('filter') or {}).get('status', 'unknown') for r in selections}
     panels = []
     for key, states in groups.items():
+        if set(states) == {'reference'}:
+            panels.append((key, None, states))
         for variant in states:
             if variant != 'reference':
                 panels.append((key, variant, states))
     if panels:
         columns = min(3, len(panels))
         rows = math.ceil(len(panels) / columns)
-        fig, axes = plt.subplots(rows, columns, figsize=(4.6 * columns, 4.0 * rows),
+        fig, axes = plt.subplots(rows, columns, figsize=(max(8, 4.6 * columns), 4.0 * rows),
                                  squeeze=False, sharey=True)
         seed_values = sorted({seed for states in groups.values() for scores in states.values()
                               for seed in scores})
         colors = {seed: plt.get_cmap('tab10')(i % 10) for i, seed in enumerate(seed_values)}
         for axis, (key, variant, states) in zip(axes.flat, panels):
-            reference, alternate = states.get('reference', {}), states[variant]
+            reference, alternate = states.get('reference', {}), states.get(variant, {})
             for seed in sorted(reference.keys() | alternate.keys()):
                 xs, ys = [], []
                 for x, scores in [(0, reference), (1, alternate)]:
@@ -58,8 +60,9 @@ def plot(report_path, manifest_path, output):
                         ys.append(scores[seed])
                 axis.plot(xs, ys, marker='o', color=colors[seed], alpha=.85, linewidth=1.3,
                           label=f'Seed {seed}')
-            axis.set_xticks([0, 1], ['Reference', variant])
-            axis.set_xlim(-.2, 1.2)
+            axis.set_xticks([0, 1] if variant else [0],
+                            ['Reference', variant] if variant else ['Reference only'])
+            axis.set_xlim(-.2, 1.2 if variant else .2)
             axis.set_ylim(0, 1)
             axis.grid(axis='y', alpha=.2)
             axis.set_ylabel('Interface ipTM (model confidence)')
@@ -74,8 +77,8 @@ def plot(report_path, manifest_path, output):
                    for s in seed_values]
         fig.legend(handles=handles, loc='upper center', bbox_to_anchor=(.5, .96),
                    ncol=min(6, len(handles)), frameon=False)
-        fig.suptitle('Same binder, reference versus variant target', fontsize=15, y=.995)
-        fig.text(.5, .01, 'Each line joins the same seed. Confidence is not affinity. '
+        fig.suptitle('Fixed-binder confidence across target states', fontsize=15, y=.995)
+        fig.text(.5, .01, 'Lines join matching comparison seeds when both states exist. Confidence is not affinity. '
                  '\nFilter pass is not binding validation; few replicates do not establish significance.', ha='center', fontsize=9)
         fig.tight_layout(rect=[0, .035, 1, .91])
         path = output / 'fixed_binder_confidence.png'

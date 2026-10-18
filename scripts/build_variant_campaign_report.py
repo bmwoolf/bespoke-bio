@@ -20,7 +20,14 @@ import json
 from collections import defaultdict
 from pathlib import Path
 
-from analyze_variant_campaign import analyze, distribution, variant_contacts
+from analyze_variant_campaign import (
+    analyze,
+    distribution,
+    exact_sequence_ca,
+    native_fold_confidence,
+    proper_rmsd,
+    variant_contacts,
+)
 
 
 def matched_seed_deltas(rows):
@@ -165,8 +172,48 @@ def build(root, refold_dirs=()):
             for seed in receipt.get("seeds", []):
                 if (task_id, seed) not in result_keys:
                     missing.append(f"prediction:{refold.name}/{task_id}/seed_{seed}")
+    confidence = []
+    for row in target_scores + manifest['cross_scores']:
+        state = row.get('scored_on', row.get('state'))
+        target = row['target_id']
+        sequence = by_key[(target, state)]['sequence']
+        reference = by_key.get((target, 'reference'), {}).get('sequence', '')
+        positions = set()
+        for (gene, other_state), cohort in by_key.items():
+            if gene == target and other_state != 'reference' and len(cohort['sequence']) == len(reference):
+                positions.update(i for i, (a, b) in enumerate(zip(reference, cohort['sequence']), 1)
+                                 if a != b)
+        values = native_fold_confidence(row['structure'], sequence, row.get('binder_sequence'),
+                                        sorted(positions))
+        confidence.append({'target_id': target, 'state': state, 'seed': row['seed'],
+                           'binder_id': row.get('binder_id'), **values})
+    calibration = []
+    original_by_key = {(c['target_id'], c['state']): c for c in original['cohorts']}
+    for row in target_scores:
+        key = (row['target_id'], row['state'])
+        source = original_by_key[key]
+        if source.get('input_mode') != 'observed_structure':
+            continue
+        experiment = root / source['directory'] / 'prepared/target.cif'
+        if not experiment.is_file() or not Path(row['structure']).is_file():
+            continue
+        entry = {'target_id': key[0], 'state': key[1], 'seed': row['seed'],
+                 'experimental_reference': str(experiment), 'prediction': row['structure']}
+        try:
+            sequence = by_key[key]['sequence']
+            ref_ca = exact_sequence_ca(experiment, sequence)
+            predicted_ca = exact_sequence_ca(row['structure'], sequence)
+            matched = sorted(ref_ca.keys() & predicted_ca.keys())
+            entry.update(status='assessed', n_matched=len(matched),
+                         ca_rmsd_angstrom=proper_rmsd([predicted_ca[p] for p in matched],
+                                                     [ref_ca[p] for p in matched]))
+        except (ValueError, RuntimeError) as error:
+            entry.update(status='unavailable', reason=str(error))
+        calibration.append(entry)
     report = analyze(manifest)
     report["variant_residue_contacts"] = collect_contacts(manifest)
+    report["experimental_target_calibration"] = calibration
+    report["local_prediction_confidence"] = confidence
     report["availability"] = availability
     report["missing_refold_outputs"] = missing
     report["target_alone_scores"] = target_scores

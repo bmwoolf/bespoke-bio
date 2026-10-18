@@ -66,6 +66,11 @@ A native filter pass is computational evidence, not measured binding. Interface 
 is modest in the retained examples. See [fresh API results](examples/boltzgen_api_results/summary.json)
 and [the earlier two-candidate report](examples/boltzgen_results/review.html).
 
+The [expanded target and variant study](examples/expanded_variant_panel/README.md) includes
+public sequences, candidate scores, repeated comparisons and assembly checks. Across both
+research panels, 132 designs yielded 15 native-filter passes; no variant-selective binding
+was established. See the [findings and limitations](examples/expanded_variant_panel/FINDINGS.md).
+
 ## Documentation
 
 - [Current implementation and limits](docs/STATUS.md)

@@ -1,0 +1,46 @@
+{
+  "engine": "BoltzGen",
+  "engine_commit": "a07fea1153111ef453aaea7a15697ee05de9291f",
+  "generation": {
+    "designs_per_state": {
+      "IGF1_reference": 4,
+      "PF4_reference": 4,
+      "SERPINA1_reference": 8,
+      "SERPINA1_E288V": 8,
+      "SERPINA1_E366K": 8,
+      "FGB_reference": 8,
+      "FGB_R478K": 8,
+      "FGF2_reference": 4,
+      "IL1RN_reference": 4,
+      "CXCL12_reference": 4,
+      "TFPI_reference": 4,
+      "IL6_reference": 4,
+      "MSTN_reference": 4,
+      "THBD_reference": 4,
+      "FGF21_reference": 4,
+      "CCL2_reference": 4,
+      "CXCL8_reference": 4,
+      "IL18_reference": 4,
+      "LEP_reference": 4,
+      "HMGB1_reference": 4,
+      "C5_reference": 4
+    },
+    "binder_length": 75,
+    "epitope": null,
+    "explicit_seed_control": false,
+    "target_input": "10 exact observed experimental fragments; 11 sequence-only states, including matched SERPINA1/FGB variant families"
+  },
+  "crossfold": {
+    "seeds": [
+      11,
+      22,
+      33
+    ],
+    "samples_per_seed": 1,
+    "target_templates": false,
+    "msa": "empty",
+    "sequence_redesign": false,
+    "caveat": "Native NumPy feature RNG is independently initialized; seeds do not guarantee bitwise reproducibility."
+  },
+  "expansion_note": "Experimental exact contiguous fragments when available; matched sequence-only variant families. Target assembly/cofactors omitted as documented per target."
+}

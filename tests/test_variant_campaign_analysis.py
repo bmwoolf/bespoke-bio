@@ -147,3 +147,71 @@ def test_variant_contact_maps_by_sequence_and_ignores_hydrogen(tmp_path):
     st[0].add_chain(ambiguous)
     st.write_pdb(str(path))
     assert analysis.variant_contacts(path, "AV", "GG", [1])["status"] == "unavailable"
+
+
+def test_native_confidence_requires_normalized_scale(tmp_path):
+    import gemmi
+
+    st = gemmi.Structure()
+    model = gemmi.Model('1')
+    chain = gemmi.Chain('X')
+    for i, value in enumerate([.8, .4], 1):
+        residue = gemmi.Residue()
+        residue.name, residue.seqid = 'ALA', gemmi.SeqId(i, ' ')
+        atom = gemmi.Atom()
+        atom.name, atom.element, atom.b_iso = 'CA', gemmi.Element('C'), value
+        residue.add_atom(atom)
+        chain.add_residue(residue)
+    model.add_chain(chain)
+    st.add_model(model)
+    path = tmp_path / 'confidence.pdb'
+    st.write_pdb(str(path))
+    result = analysis.native_fold_confidence(path, 'AA', positions=[2])
+    assert result['chains']['target']['mean'] == pytest.approx(.6)
+    assert result['variant_positions'][0]['normalized_plddt'] == pytest.approx(.4)
+    st[0][0][0][0].b_iso = 80
+    st.write_pdb(str(path))
+    assert analysis.native_fold_confidence(path, 'AA')['status'] == 'unavailable'
+
+
+def test_experimental_calibration_matches_sequences_not_chain_names(tmp_path, monkeypatch):
+    import importlib
+
+    import gemmi
+
+    monkeypatch.syspath_prepend(str(Path(__file__).parents[1] / 'scripts'))
+    builder = importlib.import_module('build_variant_campaign_report')
+    prepared = tmp_path / 'generation/x/prepared'
+    prepared.mkdir(parents=True)
+    predicted = tmp_path / 'refold/seed_11/refold_cif'
+    predicted.mkdir(parents=True)
+    for path, chain_name, shift in [(prepared / 'target.cif', 'Z', 0),
+                                    (predicted / 'x_alone.cif', 'A', 10)]:
+        st = gemmi.Structure()
+        model = gemmi.Model('1')
+        chain = gemmi.Chain(chain_name)
+        for i, (x, y, z) in enumerate([(0, 0, 0), (2, 0, 0), (0, 3, 0)], 1):
+            residue = gemmi.Residue()
+            residue.name, residue.seqid = 'ALA', gemmi.SeqId(i, ' ')
+            residue.het_flag = 'A'
+            atom = gemmi.Atom()
+            atom.name, atom.element, atom.b_iso = 'CA', gemmi.Element('C'), .8
+            atom.pos = gemmi.Position(x + shift, y, z)
+            residue.add_atom(atom)
+            chain.add_residue(residue)
+        model.add_chain(chain)
+        st.add_model(model)
+        st.setup_entities()
+        st.make_mmcif_document().write_file(str(path))
+    (tmp_path / 'generation_manifest.json').write_text(json.dumps({'cohorts': [
+        {'target_id': 'x', 'state': 'reference', 'sequence': 'AAA',
+         'directory': 'generation/x', 'input_mode': 'observed_structure'}]}))
+    (tmp_path / 'refold/receipt.json').write_text(json.dumps({
+        'tasks': [{'id': 'x_alone', 'target_id': 'x', 'scored_on': 'reference',
+                   'target_sequence': 'AAA'}], 'seeds': [11],
+        'results': [{'id': 'x_alone', 'seed': 11, 'metrics': {'ptm': .8}}]}))
+    _, report = builder.build(tmp_path, [tmp_path / 'refold'])
+    result = report['experimental_target_calibration'][0]
+    assert result['status'] == 'assessed'
+    assert result['n_matched'] == 3
+    assert result['ca_rmsd_angstrom'] < 1e-12

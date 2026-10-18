@@ -59,6 +59,43 @@ def render(root):
     md.extend([seed_note, ""])
     web.append(f"<p>{html.escape(seed_note)}</p>")
 
+    assembly_audit = root / 'pf4_assembly_audit.json'
+    if assembly_audit.is_file():
+        audit = json.loads(assembly_audit.read_text())
+        note = (f"PF4 lead {audit['candidate_id']}: native filter PASS is retained, but the rigid "
+                "pose is incompatible with the intact experimental tetramer. " + audit['conclusion'] +
+                " Reference-only repeats assess monomer-model repeatability, not biological accessibility.")
+        md.extend(['## PF4 assembly context', '', note, ''])
+        web.append('<h2>PF4 assembly context</h2><p>' + html.escape(note) + '</p>')
+        assembly_image = root / 'pf4_assembly_comparison.png'
+        if assembly_image.is_file():
+            image_url = quote(os.path.relpath(assembly_image, output), safe='/')
+            caption = 'PF4 monomer pose overlaid on the experimental tetramer'
+            md.extend([f'![{caption}]({image_url})', ''])
+            web.append(f'<figure><img style="max-width:100%" src="{image_url}" '
+                       f'alt="{caption}"><figcaption>{caption}</figcaption></figure>')
+
+
+    other_audits = root / 'assembly_audits.json'
+    if other_audits.is_file():
+        audit_data = json.loads(other_audits.read_text())
+        notes = []
+        for target in audit_data.get('targets', []):
+            for candidate in target.get('candidates', []):
+                counts = [p['atom_pairs_lt2A'] for p in candidate.get('placements', [])]
+                notes.append(f"{target['target']} / {candidate['candidate_id']}: "
+                             f"{candidate['assembly_assessment']}; heavy-atom pairs <2 Å "
+                             f"across tested placements: {counts}. Native filter status is unchanged.")
+        if notes:
+            md.extend(['## Additional biological assembly checks', '', *notes, ''])
+            web.append('<h2>Additional biological assembly checks</h2>')
+            web.extend('<p>' + html.escape(note) + '</p>' for note in notes)
+            caveat = ('Rigid geometry checks do not establish binding or oligomer disruption. '
+                      'Chemokine monomer/dimer equilibria remain relevant. Only the first '
+                      'deposited model is assessed, not an entire NMR ensemble.')
+            md.extend([caveat, ''])
+            web.append('<p>' + html.escape(caveat) + '</p>')
+
     if report.get('fixed_binder_cross_scoring') or report.get('target_structural_comparisons'):
         runtime = (Path(sys.executable) if importlib.util.find_spec('matplotlib') else
                    Path(__file__).resolve().parents[1] / 'vendor/boltzgen-env/bin/python')
@@ -77,6 +114,18 @@ def render(root):
                            f'alt="{html.escape(caption)}"><figcaption>{html.escape(caption)}'
                            '</figcaption></figure>')
 
+    gallery_path = output / 'native_pass_gallery.json'
+    if gallery_path.is_file():
+        gallery = json.loads(gallery_path.read_text())
+        for name in gallery.get('images', []):
+            image_path = output / name
+            if image_path.is_file() and image_path.resolve().is_relative_to(output.resolve()):
+                url = quote(name, safe='/')
+                caption = 'Native-filter-pass designs; actual Cα traces, not experimentally confirmed binders'
+                md.extend([f'![{caption}]({url})', ''])
+                web.append(f'<figure><img style="max-width:100%" src="{url}" '
+                           f'alt="{caption}"></figure>')
+
     def table(title, headers, rows):
         md.extend([f"## {title}", "", "| " + " | ".join(headers) + " |",
                    "| " + " | ".join("---" for _ in headers) + " |"])
@@ -91,10 +140,38 @@ def render(root):
         web.append('</table></div>')
         md.append("")
 
+    input_rows = []
+    for cohort in generation['cohorts']:
+        validation_path = root / cohort.get('input_validation', '__absent__')
+        if not validation_path.is_file():
+            continue
+        validation = json.loads(validation_path.read_text())
+        requested = validation.get('requested_construct', {})
+        requested_span = f"{requested.get('start', '?')}–{requested.get('end', '?')}"
+        observed_map = validation.get('sequence_mapping', [])
+        modeled_span = (f"{observed_map[0]['precursor_position']}–"
+                        f"{observed_map[-1]['precursor_position']}" if observed_map else requested_span)
+        mode = validation.get('input_mode', cohort.get('input_mode', 'unknown'))
+        input_rows.append([cohort['target_id'], cohort['state'], mode,
+                           len(cohort['sequence']), requested_span, modeled_span,
+                           validation.get('pdb_id', '—'),
+                           ('Terminal truncation' if modeled_span != requested_span else
+                            'Full requested construct'),
+                           validation.get('structure_policy',
+                               'Experimental observed coordinates' if mode == 'observed_structure'
+                               else 'Sequence-only; no compatible experimental construct')])
+    if input_rows:
+        table('Actual model inputs (precursor numbering)', ['Protein', 'State', 'Input mode',
+              'Modeled aa', 'Requested span', 'Modeled span', 'PDB', 'Coverage', 'Input policy'],
+              input_rows)
+
     panel_path = root / 'research/panel.json'
     if panel_path.is_file():
         panel = json.loads(panel_path.read_text())
         short_caveats = {
+            'SERPINA1': 'Controlled E288V/E366K substitutions on canonical V237 background, not '
+                        'full phased S/Z haplotypes (Z annotation includes A237). Glycans, '
+                        'polymerization and secretion defects are not modeled.',
             'GDF15': 'Native disulfide-linked dimer omitted. Literature construct starts 197; '
                     'UniProt mature annotation starts 195 (H8D). Assay recognition is not bioactivity.',
             'F7': 'Zymogen; activation cleavage, calcium, Gla modifications, glycans and tissue '
@@ -112,7 +189,7 @@ def render(root):
                                  for v in target.get('variants', [])) or 'Reference only'
             rows.append([target['gene_symbol'] + ' / ' + target['accession'], construct['length'],
                          f"{construct['start']}–{construct['end']}", variants,
-                         short_caveats.get(target['gene_symbol'], '; '.join(target.get('caveats', [])))])
+                         short_caveats.get(target['gene_symbol'], '; '.join(target.get('caveats', [])[:2]))])
         table('Target panel', ['Protein / accession', 'Construct aa', 'Precursor span',
                               'Substitution: precursor → modeled chain (rsID)',
                               'Biological context and omissions'], rows)
@@ -147,6 +224,43 @@ def render(root):
         geometries[(r['target_id'], r['state'], kind)].append(r['ca_rmsd_angstrom'])
     table("Target-alone structure variation", ["Target", "State", "Comparison", "CA RMSD (Å)"],
           [[*key, stats(distribution(values))] for key, values in sorted(geometries.items())])
+    calibration_groups = defaultdict(list)
+    for row in report.get('experimental_target_calibration', []):
+        if row['status'] == 'assessed':
+            calibration_groups[(row['target_id'], row['state'])].append(row['ca_rmsd_angstrom'])
+    if calibration_groups:
+        table('Untemplated target-alone folds versus experimental input',
+              ['Target', 'State', 'CA RMSD (Å) across comparison seeds'],
+              [[*key, stats(distribution(values))] for key, values in sorted(calibration_groups.items())])
+        note = ('Reference is the exact prepared experimental chain/construct. LEP uses deposited '
+                'NMR model 1 selected before outcomes; NMR ensemble variation is not assessed here.')
+        md.extend([note, ''])
+        web.append('<p>' + html.escape(note) + '</p>')
+
+    confidence_groups = defaultdict(list)
+    for row in report.get('local_prediction_confidence', []):
+        if row['status'] == 'assessed':
+            confidence_groups[(row['target_id'], row['state'], row.get('binder_id') or 'target alone')].append(row)
+    if confidence_groups:
+        local_rows = []
+        for key, rows in sorted(confidence_groups.items()):
+            target_values = [r['chains']['target']['mean'] for r in rows
+                             if r['chains']['target'].get('n')]
+            binder_values = [r['chains']['binder']['mean'] for r in rows
+                             if r['chains'].get('binder', {}).get('n')]
+            changed = defaultdict(list)
+            for row in rows:
+                for residue in row['variant_positions']:
+                    if residue['normalized_plddt'] is not None:
+                        changed[str(residue['sequence_position'])].append(residue['normalized_plddt'])
+            local_rows.append([*key, stats(distribution(target_values)),
+                               stats(distribution(binder_values)),
+                               '; '.join(position + ': ' + stats(distribution(values))
+                                         for position, values in sorted(changed.items())) or '—'])
+        table('Local fold confidence (normalized pLDDT 0–1, descriptive across seeds)',
+              ['Target', 'State', 'Binder', 'Target chain mean', 'Binder chain mean',
+               'Variant-site confidence'], local_rows)
+
     fixed = []
     for row in report.get('fixed_binder_cross_scoring', []):
         identity = identities.get((row['target_id'], row['designed_on'], row['binder_sequence']), {})
@@ -184,17 +298,37 @@ def render(root):
     missing = report.get('missing_refold_outputs', [])
     table("Missing refold outputs", ["Output"], [[p] for p in missing])
     files = {root / name for name in ("binders.fasta", "candidates.csv",
-                                     "download_verification.json", "compute_cleanup.json")
+                                     "download_verification.json", "compute_cleanup.json",
+                                     "crossfold_tasks.json", "design_count_overrides.json",
+                                     "native_input_validation.json")
              if (root / name).is_file()}
     for c in generation['cohorts']:
+        if c.get('input_validation'):
+            validation_file = root / c['input_validation']
+            if validation_file.is_file():
+                files.add(validation_file)
         directory = root / c['directory'] / 'live'
         for pattern in ('bundle/**/*.cif', 'bundle/bundle.json', '**/*metrics*.csv'):
             files.update(p for p in directory.glob(pattern) if p.is_file())
+    analysis_manifest_path = output / 'analysis_manifest.json'
+    if analysis_manifest_path.is_file():
+        cross_rows = json.loads(analysis_manifest_path.read_text()).get('cross_scores', [])
+        for row in cross_rows:
+            if row.get('structure') and Path(row['structure']).is_file():
+                files.add(Path(row['structure']))
+    for row in report.get('experimental_target_calibration', []):
+        for key in ('experimental_reference', 'prediction'):
+            if Path(row[key]).is_file():
+                files.add(Path(row[key]))
+    for name in ('pf4_assembly_audit.json', 'pf4_assembly_audit.md', 'pf4_assembly_overlay.cif',
+                 'pf4_assembly_comparison.png', 'assembly_audits.json', 'assembly_audits.md'):
+        if (root / name).is_file():
+            files.add(root / name)
     for row in report.get('target_alone_scores', []) + report.get('variant_residue_contacts', []):
         if row.get('structure') and Path(row['structure']).is_file():
             files.add(Path(row['structure']))
-    md.extend(['## Downloaded structures and native files', ''])
-    web.append('<h2>Downloaded structures and native files</h2><ul>')
+    md.extend(['## Downloaded structures, native files and input validation', ''])
+    web.append('<h2>Downloaded structures, native files and input validation</h2><ul>')
     for path in sorted(files):
         relative = os.path.relpath(path, output)
         url = quote(relative, safe='/')

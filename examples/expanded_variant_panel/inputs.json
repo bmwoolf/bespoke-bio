@@ -1,0 +1,422 @@
+[
+  {
+    "target_id": "IGF1",
+    "state": "reference",
+    "sequence": "PETLCGAELVDALQFVCGDRGFYFNKPTGYGSSSRRAPQTGIVDECCFRSCDLRRLEMYCAP",
+    "sequence_sha256": "ae0e0259227bc263a4949c626f42dc8e4d7b39753de99e700ab052fda82565ed",
+    "input_mode": "observed_structure",
+    "modeled_length": 62,
+    "requested_precursor_span": [
+      49,
+      118
+    ],
+    "modeled_precursor_span": [
+      50,
+      111
+    ],
+    "pdb_id": "1WQJ",
+    "selected_model": null,
+    "source_model_count": null,
+    "hotspots_specified": false
+  },
+  {
+    "target_id": "PF4",
+    "state": "reference",
+    "sequence": "DLQCLCVKTTSQVRPRHITSLEVIKAGPHCPTAQLIATLKNGRKICLDLQAPLYKKIIKKLLES",
+    "sequence_sha256": "fc604945ab98f2b60c58555100d84c9e16ced6257c272ced095c0e4ed93e255b",
+    "input_mode": "observed_structure",
+    "modeled_length": 64,
+    "requested_precursor_span": [
+      32,
+      101
+    ],
+    "modeled_precursor_span": [
+      38,
+      101
+    ],
+    "pdb_id": "1F9Q",
+    "selected_model": null,
+    "source_model_count": null,
+    "hotspots_specified": false
+  },
+  {
+    "target_id": "SERPINA1",
+    "state": "reference",
+    "sequence": "EDPQGDAAQKTDTSHHDQDHPTFNKITPNLAEFAFSLYRQLAHQSNSTNIFFSPVSIATAFAMLSLGTKADTHDEILEGLNFNLTEIPEAQIHEGFQELLRTLNQPDSQLQLTTGNGLFLSEGLKLVDKFLEDVKKLYHSEAFTVNFGDTEEAKKQINDYVEKGTQGKIVDLVKELDRDTVFALVNYIFFKGKWERPFEVKDTEEEDFHVDQVTTVKVPMMKRLGMFNIQHCKKLSSWVLLMKYLGNATAIFFLPDEGKLQHLENELTHDIITKFLENEDRRSASLHLPKLSITGTYDLKSVLGQLGITKVFSNGADLSGVTEEAPLKLSKAVHKAVLTIDEKGTEAAGAMFLEAIPMSIPPEVKFNKPFVFLMIEQNTKSPLFMGKVVNPTQK",
+    "sequence_sha256": "ba6b3f708a989f2c0d315169ce9b1d0822619c5da0134c50385b8f0b1bd48ce7",
+    "input_mode": "sequence_only",
+    "modeled_length": 394,
+    "requested_precursor_span": [
+      25,
+      418
+    ],
+    "modeled_precursor_span": [
+      25,
+      418
+    ],
+    "pdb_id": null,
+    "selected_model": null,
+    "source_model_count": null,
+    "hotspots_specified": false
+  },
+  {
+    "target_id": "SERPINA1",
+    "state": "E288V",
+    "sequence": "EDPQGDAAQKTDTSHHDQDHPTFNKITPNLAEFAFSLYRQLAHQSNSTNIFFSPVSIATAFAMLSLGTKADTHDEILEGLNFNLTEIPEAQIHEGFQELLRTLNQPDSQLQLTTGNGLFLSEGLKLVDKFLEDVKKLYHSEAFTVNFGDTEEAKKQINDYVEKGTQGKIVDLVKELDRDTVFALVNYIFFKGKWERPFEVKDTEEEDFHVDQVTTVKVPMMKRLGMFNIQHCKKLSSWVLLMKYLGNATAIFFLPDEGKLQHLVNELTHDIITKFLENEDRRSASLHLPKLSITGTYDLKSVLGQLGITKVFSNGADLSGVTEEAPLKLSKAVHKAVLTIDEKGTEAAGAMFLEAIPMSIPPEVKFNKPFVFLMIEQNTKSPLFMGKVVNPTQK",
+    "sequence_sha256": "f6fb891fc4d16e15e64dbfd63665f912fbd267f49fea5ae86ad219e974bb741a",
+    "input_mode": "sequence_only",
+    "modeled_length": 394,
+    "requested_precursor_span": [
+      25,
+      418
+    ],
+    "modeled_precursor_span": [
+      25,
+      418
+    ],
+    "pdb_id": null,
+    "selected_model": null,
+    "source_model_count": null,
+    "hotspots_specified": false
+  },
+  {
+    "target_id": "SERPINA1",
+    "state": "E366K",
+    "sequence": "EDPQGDAAQKTDTSHHDQDHPTFNKITPNLAEFAFSLYRQLAHQSNSTNIFFSPVSIATAFAMLSLGTKADTHDEILEGLNFNLTEIPEAQIHEGFQELLRTLNQPDSQLQLTTGNGLFLSEGLKLVDKFLEDVKKLYHSEAFTVNFGDTEEAKKQINDYVEKGTQGKIVDLVKELDRDTVFALVNYIFFKGKWERPFEVKDTEEEDFHVDQVTTVKVPMMKRLGMFNIQHCKKLSSWVLLMKYLGNATAIFFLPDEGKLQHLENELTHDIITKFLENEDRRSASLHLPKLSITGTYDLKSVLGQLGITKVFSNGADLSGVTEEAPLKLSKAVHKAVLTIDKKGTEAAGAMFLEAIPMSIPPEVKFNKPFVFLMIEQNTKSPLFMGKVVNPTQK",
+    "sequence_sha256": "6b371b1e482932aa913c77da58d34d72793a8b4f12a7e2c34c27a5624d03562a",
+    "input_mode": "sequence_only",
+    "modeled_length": 394,
+    "requested_precursor_span": [
+      25,
+      418
+    ],
+    "modeled_precursor_span": [
+      25,
+      418
+    ],
+    "pdb_id": null,
+    "selected_model": null,
+    "source_model_count": null,
+    "hotspots_specified": false
+  },
+  {
+    "target_id": "FGB",
+    "state": "reference",
+    "sequence": "NIPVVSGKECEEIIRKGGETSEMYLIQPDSSVKPYRVYCDMNTENGGWTVIQNRQDGSVDFGRKWDPYKQGFGNVATNTDGKNYCGLPGEYWLGNDKISQLTRMGPTELLIEMEDWKGDKVKAHYGGFTVQNEANKYQISVNKYRGTAGNALMDGASQLMGENRTMTIHNGMFFSTYDRDNDGWLTSDPRKQCSKEDGGGWWYNRCHAANPNGRYYWGGQYTWDMAKHGTDDGVVWMNWKGSWYSMRKMSMKIRPFFPQQ",
+    "sequence_sha256": "96ed6707b38f337a4738bad29f9bcbf7fd7ec599dfd41a993d495d127be88f68",
+    "input_mode": "sequence_only",
+    "modeled_length": 260,
+    "requested_precursor_span": [
+      232,
+      491
+    ],
+    "modeled_precursor_span": [
+      232,
+      491
+    ],
+    "pdb_id": null,
+    "selected_model": null,
+    "source_model_count": null,
+    "hotspots_specified": false
+  },
+  {
+    "target_id": "FGB",
+    "state": "R478K",
+    "sequence": "NIPVVSGKECEEIIRKGGETSEMYLIQPDSSVKPYRVYCDMNTENGGWTVIQNRQDGSVDFGRKWDPYKQGFGNVATNTDGKNYCGLPGEYWLGNDKISQLTRMGPTELLIEMEDWKGDKVKAHYGGFTVQNEANKYQISVNKYRGTAGNALMDGASQLMGENRTMTIHNGMFFSTYDRDNDGWLTSDPRKQCSKEDGGGWWYNRCHAANPNGRYYWGGQYTWDMAKHGTDDGVVWMNWKGSWYSMKKMSMKIRPFFPQQ",
+    "sequence_sha256": "786d4bee9b537f518f012ea1728db6350195a1469c26aafb7cd79e60dacd1e11",
+    "input_mode": "sequence_only",
+    "modeled_length": 260,
+    "requested_precursor_span": [
+      232,
+      491
+    ],
+    "modeled_precursor_span": [
+      232,
+      491
+    ],
+    "pdb_id": null,
+    "selected_model": null,
+    "source_model_count": null,
+    "hotspots_specified": false
+  },
+  {
+    "target_id": "FGF2",
+    "state": "reference",
+    "sequence": "PKRLYCKNGGFFLRIHPDGRVDGVREKSDPHIKLQLQAEERGVVSIKGVCANRYLAMKEDGRLLASKCVTDECFFFERLESNNYNTYRSRKYTSWYVALKRTGQYKLGSKTGPGQKAILFLPMS",
+    "sequence_sha256": "342c0a2431980ff1e64e0dad6a6c634812e14f7916448c7cdb42d73fdbc64289",
+    "input_mode": "observed_structure",
+    "modeled_length": 124,
+    "requested_precursor_span": [
+      143,
+      288
+    ],
+    "modeled_precursor_span": [
+      162,
+      285
+    ],
+    "pdb_id": "1FGA",
+    "selected_model": null,
+    "source_model_count": null,
+    "hotspots_specified": false
+  },
+  {
+    "target_id": "IL1RN",
+    "state": "reference",
+    "sequence": "SSKMQAFRIWDVNQKTFYLRNNQLVAGYLQGPNVNLEEKIDVVPIEPHALFLGIHGGKMCLSCVKSGDETRLQLEAVNITDLSENRKQDKRFAFIRSDSGPTTSFESAACPGWFLCTAMEADQPVSLTNMPDEGVMVTKFYFQED",
+    "sequence_sha256": "32b56787ef0ba39550b4d40c763601cc41a7186964f723ccc349d861af419624",
+    "input_mode": "observed_structure",
+    "modeled_length": 145,
+    "requested_precursor_span": [
+      26,
+      177
+    ],
+    "modeled_precursor_span": [
+      32,
+      176
+    ],
+    "pdb_id": "1IRA",
+    "selected_model": null,
+    "source_model_count": null,
+    "hotspots_specified": false
+  },
+  {
+    "target_id": "CXCL12",
+    "state": "reference",
+    "sequence": "SYRCPCRFFESHVARANVKHLKILNTPNCALQIVARLKNNNRQVCIDPKLKWIQEYLEKALN",
+    "sequence_sha256": "0a3fcc484821e1013eb3bbe8e8ce5e414b11b0fb04e19916c31af44d2f1aaf93",
+    "input_mode": "observed_structure",
+    "modeled_length": 62,
+    "requested_precursor_span": [
+      22,
+      88
+    ],
+    "modeled_precursor_span": [
+      27,
+      88
+    ],
+    "pdb_id": "1QG7",
+    "selected_model": null,
+    "source_model_count": null,
+    "hotspots_specified": false
+  },
+  {
+    "target_id": "TFPI",
+    "state": "reference",
+    "sequence": "KPDFCFLEEDPGICRGYITRYFYNNQTKQCERFKYGGCLGNMNNFETLEECKNICEDG",
+    "sequence_sha256": "74846326a39254fe2b04b970639830d1aab79f410ef109be54c4ed7e12772fd6",
+    "input_mode": "observed_structure",
+    "modeled_length": 58,
+    "requested_precursor_span": [
+      119,
+      178
+    ],
+    "modeled_precursor_span": [
+      121,
+      178
+    ],
+    "pdb_id": "1TFX",
+    "selected_model": null,
+    "source_model_count": null,
+    "hotspots_specified": false
+  },
+  {
+    "target_id": "IL6",
+    "state": "reference",
+    "sequence": "VPPGEDSKDVAAPHRQPLTSSERIDKQIRYILDGISALRKETCNKSNMCESSKEALAENNLNLPKMAEKDGCFQSGFNEETCLVKIITGLLEFEVYLEYLQNRFESSEEQARAVQMSTKVLIQFLQKKAKNLDAITTPDPTTNASLLTKLQAQNQWLQDMTTHLILRSFKEFLQSSLRALRQM",
+    "sequence_sha256": "49017e62426d5cda55e4902d3e43bb63e3ff781530c280643c840dfacce10b59",
+    "input_mode": "sequence_only",
+    "modeled_length": 183,
+    "requested_precursor_span": [
+      30,
+      212
+    ],
+    "modeled_precursor_span": [
+      30,
+      212
+    ],
+    "pdb_id": null,
+    "selected_model": null,
+    "source_model_count": null,
+    "hotspots_specified": false
+  },
+  {
+    "target_id": "MSTN",
+    "state": "reference",
+    "sequence": "DFGLDCDEHSTESRCCRYPLTVDFEAFGWDWIIAPKRYKANYCSGECEFVFLQKYPHTHLVHQANPRGSAGPCCTPTKMSPINMLYFNGKEQIIYGKIPAMVVDRCGCS",
+    "sequence_sha256": "e205d6b7461c02138f83a8fd9afd277c571460d987f791c9777c20ecde78c2a9",
+    "input_mode": "sequence_only",
+    "modeled_length": 109,
+    "requested_precursor_span": [
+      267,
+      375
+    ],
+    "modeled_precursor_span": [
+      267,
+      375
+    ],
+    "pdb_id": null,
+    "selected_model": null,
+    "source_model_count": null,
+    "hotspots_specified": false
+  },
+  {
+    "target_id": "THBD",
+    "state": "reference",
+    "sequence": "VEPVDPCFRANCEYQCQPLNQTSYLCVCAEGFAPIPHEPHRCQMFCNQTACPADCDPNTQASCECPEGYILDDGFICTDIDECENGGFCSGVCHNLPGTFECICGPDSALARHIGTDC",
+    "sequence_sha256": "66277f56806a040859ac22885f6126767599771150d4cddf23ae0bea79aebcdf",
+    "input_mode": "sequence_only",
+    "modeled_length": 118,
+    "requested_precursor_span": [
+      363,
+      480
+    ],
+    "modeled_precursor_span": [
+      363,
+      480
+    ],
+    "pdb_id": null,
+    "selected_model": null,
+    "source_model_count": null,
+    "hotspots_specified": false
+  },
+  {
+    "target_id": "FGF21",
+    "state": "reference",
+    "sequence": "HPIPDSSPLLQFGGQVRQRYLYTDDAQQTEAHLEIREDGTVGGAADQSPESLLQLKALKPGVIQILGVKTSRFLCQRPDGALYGSLHFDPEACSFRELLLEDGYNVYQSEAHGLPLHLPGNKSPHRDPAPRGPARFLPLPGLPPALPEPPGILAPQPPDVGSSDPLSMVGPSQGRSPSYAS",
+    "sequence_sha256": "24c0ffce5f3b1a791ae2ad59970f746e2cb3c7b80bd324c82bb93801ffb92397",
+    "input_mode": "sequence_only",
+    "modeled_length": 181,
+    "requested_precursor_span": [
+      29,
+      209
+    ],
+    "modeled_precursor_span": [
+      29,
+      209
+    ],
+    "pdb_id": null,
+    "selected_model": null,
+    "source_model_count": null,
+    "hotspots_specified": false
+  },
+  {
+    "target_id": "CCL2",
+    "state": "reference",
+    "sequence": "QPDAINAPVTCCYNFTNRKISVQRLASYRRITSSKCPKEAVIFKTIVAKEICADPKQKWVQDSMDHLDKQTQTPKT",
+    "sequence_sha256": "c5d6f41c1107ebe4d6ae282bd77d6c1eea1bf65c5b6d0c6ef90fb2bf7b505de2",
+    "input_mode": "sequence_only",
+    "modeled_length": 76,
+    "requested_precursor_span": [
+      24,
+      99
+    ],
+    "modeled_precursor_span": [
+      24,
+      99
+    ],
+    "pdb_id": null,
+    "selected_model": null,
+    "source_model_count": null,
+    "hotspots_specified": false
+  },
+  {
+    "target_id": "CXCL8",
+    "state": "reference",
+    "sequence": "AKELRCQCIKTYSKPFHPKFIKELRVIESGPHCANTEIIVKLSDGRELCLDPKENWVQRVVEKFLKRAENS",
+    "sequence_sha256": "c9400572203b07eaff7e1cb8b5544ff3c29c363a44368d4e9e7213d24b7bd60b",
+    "input_mode": "observed_structure",
+    "modeled_length": 71,
+    "requested_precursor_span": [
+      28,
+      99
+    ],
+    "modeled_precursor_span": [
+      29,
+      99
+    ],
+    "pdb_id": "1IL8",
+    "selected_model": null,
+    "source_model_count": null,
+    "hotspots_specified": false
+  },
+  {
+    "target_id": "IL18",
+    "state": "reference",
+    "sequence": "YFGKLESKLSVIRNLNDQVLFIDQGNRPLFEDMTDSDCRDNAPRTIFIISMYKDSQPRGMAVTISVKCEKISTLSCENKIISFKEMNPPDNIKDTKSDIIFFQRSVPGHDNKMQFESSSYEGYFLACEKERDLFKLILKKEDELGDRSIMFTVQNED",
+    "sequence_sha256": "7ab6b3ace6f1268c8046d72bf57947994504a05361f54c6543748906ca0d81ac",
+    "input_mode": "observed_structure",
+    "modeled_length": 157,
+    "requested_precursor_span": [
+      37,
+      193
+    ],
+    "modeled_precursor_span": [
+      37,
+      193
+    ],
+    "pdb_id": "3WO2",
+    "selected_model": null,
+    "source_model_count": null,
+    "hotspots_specified": false
+  },
+  {
+    "target_id": "LEP",
+    "state": "reference",
+    "sequence": "VPIQKVQDDTKTLIKTIVTRINDISHTQSVSSKQKVTGLDFIPGLHPILTLSKMDQTLAVYQQILTSMPSRNVIQISNDLENLRDLLHVLAFSKSCHLPWASGLETLDSLGGVLEASGYSTEVVALSRLQGSLQDMLWQLDLSPGC",
+    "sequence_sha256": "a84abcc586b0f56c4533943b7712d8eb6e53b1ba56a42f0fe42413a97e8f9015",
+    "input_mode": "observed_structure",
+    "modeled_length": 146,
+    "requested_precursor_span": [
+      22,
+      167
+    ],
+    "modeled_precursor_span": [
+      22,
+      167
+    ],
+    "pdb_id": "8K6Z",
+    "selected_model": 1,
+    "source_model_count": 10,
+    "hotspots_specified": false
+  },
+  {
+    "target_id": "HMGB1",
+    "state": "reference",
+    "sequence": "MGKGDPKKPRGKMSSYAFFVQTCREEHKKKHPDASVNFSEFSKKCSERWKTMSAKEKGKFEDMAKADKARYEREMKTYIPPKGETKKKFKDPNAPKRPPSAFFLFCSEYRPKIKGEHPGLSIGDVAKKLGEMWNNTAADDKQPYEKKAAKLKEKYEKDIAAYRAKG",
+    "sequence_sha256": "ff6d57214b05d73240e9aa4bc60896fb302d190dc1f95e357fd73ea11c85b739",
+    "input_mode": "sequence_only",
+    "modeled_length": 166,
+    "requested_precursor_span": [
+      1,
+      166
+    ],
+    "modeled_precursor_span": [
+      1,
+      166
+    ],
+    "pdb_id": null,
+    "selected_model": null,
+    "source_model_count": null,
+    "hotspots_specified": false
+  },
+  {
+    "target_id": "C5",
+    "state": "reference",
+    "sequence": "TLQKKIEEIAAKYKHSVVKKCCYDGACVNNDETCEQRAARISLGPRCIKAFTECCVVASQLRANISHKDMQLGR",
+    "sequence_sha256": "a4b3ab74f6296e2d04ba3800df17104a1bbed65660693a62f4053f23b323307a",
+    "input_mode": "observed_structure",
+    "modeled_length": 74,
+    "requested_precursor_span": [
+      678,
+      751
+    ],
+    "modeled_precursor_span": [
+      678,
+      751
+    ],
+    "pdb_id": "8HK5",
+    "selected_model": null,
+    "source_model_count": null,
+    "hotspots_specified": false
+  }
+]

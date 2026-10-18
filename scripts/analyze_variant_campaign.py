@@ -152,6 +152,69 @@ def variant_contacts(path, target_sequence, binder_sequence, positions, cutoff=5
             "residues": rows}
 
 
+def exact_sequence_ca(path, sequence):
+    """Map CA coordinates by ordered sequence positions after exact chain matching."""
+    import gemmi
+
+    structure = gemmi.read_structure(str(path))
+    matches = []
+    for chain in structure[0]:
+        residues = [r for r in chain if gemmi.find_tabulated_residue(r.name).is_amino_acid()]
+        observed = "".join(gemmi.find_tabulated_residue(r.name).one_letter_code.upper()
+                           for r in residues)
+        if observed == sequence:
+            matches.append(residues)
+    if len(matches) != 1:
+        raise ValueError("Exact sequence chain mapping missing or ambiguous")
+    result = {}
+    for index, residue in enumerate(matches[0], 1):
+        atom = residue.find_atom("CA", "*")
+        if atom is not None:
+            result[index] = [atom.pos.x, atom.pos.y, atom.pos.z]
+    return result
+
+
+def native_fold_confidence(path, target_sequence, binder_sequence=None, positions=()):
+    """Read native FoldingWriter CA B-factors as normalized pLDDT, never crystallographic B."""
+    import gemmi
+
+    if not Path(path).is_file():
+        return {"status": "unavailable", "reason": "structure_missing"}
+    st = gemmi.read_structure(str(path))
+    chains = []
+    for chain in st[0]:
+        residues = [r for r in chain if gemmi.find_tabulated_residue(r.name).is_amino_acid()]
+        seq = "".join(gemmi.find_tabulated_residue(r.name).one_letter_code.upper()
+                      for r in residues)
+        chains.append((chain.name, seq, residues))
+    summaries = {}
+    mutated = []
+    for role, sequence in [("target", target_sequence), ("binder", binder_sequence)]:
+        if sequence is None:
+            continue
+        matched = [c for c in chains if c[1] == sequence]
+        if len(matched) != 1:
+            return {"status": "unavailable", "reason": "exact_sequence_chain_mapping_ambiguous_or_missing"}
+        name, _, residues = matched[0]
+        values = []
+        for index, residue in enumerate(residues, 1):
+            atom = residue.find_atom("CA", "*")
+            value = None if atom is None else float(atom.b_iso)
+            if value is not None and (not math.isfinite(value) or not 0 <= value <= 1):
+                return {"status": "unavailable", "reason": "B_factor_not_normalized_native_confidence"}
+            if value is not None:
+                values.append(value)
+            if role == "target" and index in positions:
+                mutated.append({"sequence_position": index, "residue": sequence[index - 1],
+                                "normalized_plddt": value})
+        stats = distribution(values)
+        stats.pop("values", None)
+        summaries[role] = {"chain": name, **stats}
+    return {"status": "assessed", "source": "native FoldingWriter CA B-factor; normalized 0..1",
+            "chains": summaries, "variant_positions": mutated,
+            "interpretation": "Local prediction confidence, not interface confidence or affinity"}
+
+
 def analyze(manifest, root=Path(".")):
     root = Path(root)
     grouped, sequences, structures = defaultdict(list), {}, defaultdict(list)

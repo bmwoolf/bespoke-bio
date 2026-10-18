@@ -1,0 +1,263 @@
+{
+  "export_schema_version": 1,
+  "exported_utc": "2026-10-18T10:20:17.115867+00:00",
+  "partial": false,
+  "cohorts": [
+    {
+      "target_id": "IGF1",
+      "state": "reference",
+      "generation_status": "completed",
+      "bundle_present": true,
+      "candidates": 4,
+      "native_pass": 0,
+      "native_fail": 4,
+      "native_unknown": 0,
+      "unique_sequences": 4
+    },
+    {
+      "target_id": "PF4",
+      "state": "reference",
+      "generation_status": "completed",
+      "bundle_present": true,
+      "candidates": 4,
+      "native_pass": 1,
+      "native_fail": 3,
+      "native_unknown": 0,
+      "unique_sequences": 4
+    },
+    {
+      "target_id": "SERPINA1",
+      "state": "reference",
+      "generation_status": "completed",
+      "bundle_present": true,
+      "candidates": 8,
+      "native_pass": 0,
+      "native_fail": 8,
+      "native_unknown": 0,
+      "unique_sequences": 8
+    },
+    {
+      "target_id": "SERPINA1",
+      "state": "E288V",
+      "generation_status": "completed",
+      "bundle_present": true,
+      "candidates": 8,
+      "native_pass": 0,
+      "native_fail": 8,
+      "native_unknown": 0,
+      "unique_sequences": 8
+    },
+    {
+      "target_id": "SERPINA1",
+      "state": "E366K",
+      "generation_status": "completed",
+      "bundle_present": true,
+      "candidates": 8,
+      "native_pass": 0,
+      "native_fail": 8,
+      "native_unknown": 0,
+      "unique_sequences": 8
+    },
+    {
+      "target_id": "FGB",
+      "state": "reference",
+      "generation_status": "completed",
+      "bundle_present": true,
+      "candidates": 8,
+      "native_pass": 1,
+      "native_fail": 7,
+      "native_unknown": 0,
+      "unique_sequences": 8
+    },
+    {
+      "target_id": "FGB",
+      "state": "R478K",
+      "generation_status": "completed",
+      "bundle_present": true,
+      "candidates": 8,
+      "native_pass": 2,
+      "native_fail": 6,
+      "native_unknown": 0,
+      "unique_sequences": 8
+    },
+    {
+      "target_id": "FGF2",
+      "state": "reference",
+      "generation_status": "completed",
+      "bundle_present": true,
+      "candidates": 4,
+      "native_pass": 0,
+      "native_fail": 4,
+      "native_unknown": 0,
+      "unique_sequences": 4
+    },
+    {
+      "target_id": "IL1RN",
+      "state": "reference",
+      "generation_status": "completed",
+      "bundle_present": true,
+      "candidates": 4,
+      "native_pass": 0,
+      "native_fail": 4,
+      "native_unknown": 0,
+      "unique_sequences": 4
+    },
+    {
+      "target_id": "CXCL12",
+      "state": "reference",
+      "generation_status": "completed",
+      "bundle_present": true,
+      "candidates": 4,
+      "native_pass": 1,
+      "native_fail": 3,
+      "native_unknown": 0,
+      "unique_sequences": 4
+    },
+    {
+      "target_id": "TFPI",
+      "state": "reference",
+      "generation_status": "completed",
+      "bundle_present": true,
+      "candidates": 4,
+      "native_pass": 0,
+      "native_fail": 4,
+      "native_unknown": 0,
+      "unique_sequences": 4
+    },
+    {
+      "target_id": "IL6",
+      "state": "reference",
+      "generation_status": "completed",
+      "bundle_present": true,
+      "candidates": 4,
+      "native_pass": 0,
+      "native_fail": 4,
+      "native_unknown": 0,
+      "unique_sequences": 4
+    },
+    {
+      "target_id": "MSTN",
+      "state": "reference",
+      "generation_status": "completed",
+      "bundle_present": true,
+      "candidates": 4,
+      "native_pass": 1,
+      "native_fail": 3,
+      "native_unknown": 0,
+      "unique_sequences": 4
+    },
+    {
+      "target_id": "THBD",
+      "state": "reference",
+      "generation_status": "completed",
+      "bundle_present": true,
+      "candidates": 4,
+      "native_pass": 0,
+      "native_fail": 4,
+      "native_unknown": 0,
+      "unique_sequences": 4
+    },
+    {
+      "target_id": "FGF21",
+      "state": "reference",
+      "generation_status": "completed",
+      "bundle_present": true,
+      "candidates": 4,
+      "native_pass": 2,
+      "native_fail": 2,
+      "native_unknown": 0,
+      "unique_sequences": 4
+    },
+    {
+      "target_id": "CCL2",
+      "state": "reference",
+      "generation_status": "completed",
+      "bundle_present": true,
+      "candidates": 4,
+      "native_pass": 1,
+      "native_fail": 3,
+      "native_unknown": 0,
+      "unique_sequences": 4
+    },
+    {
+      "target_id": "CXCL8",
+      "state": "reference",
+      "generation_status": "completed",
+      "bundle_present": true,
+      "candidates": 4,
+      "native_pass": 0,
+      "native_fail": 4,
+      "native_unknown": 0,
+      "unique_sequences": 4
+    },
+    {
+      "target_id": "IL18",
+      "state": "reference",
+      "generation_status": "completed",
+      "bundle_present": true,
+      "candidates": 4,
+      "native_pass": 0,
+      "native_fail": 4,
+      "native_unknown": 0,
+      "unique_sequences": 4
+    },
+    {
+      "target_id": "LEP",
+      "state": "reference",
+      "generation_status": "completed",
+      "bundle_present": true,
+      "candidates": 4,
+      "native_pass": 0,
+      "native_fail": 4,
+      "native_unknown": 0,
+      "unique_sequences": 4
+    },
+    {
+      "target_id": "HMGB1",
+      "state": "reference",
+      "generation_status": "completed",
+      "bundle_present": true,
+      "candidates": 4,
+      "native_pass": 3,
+      "native_fail": 1,
+      "native_unknown": 0,
+      "unique_sequences": 4
+    },
+    {
+      "target_id": "C5",
+      "state": "reference",
+      "generation_status": "completed",
+      "bundle_present": true,
+      "candidates": 4,
+      "native_pass": 0,
+      "native_fail": 4,
+      "native_unknown": 0,
+      "unique_sequences": 4
+    }
+  ],
+  "actual_candidates": 104,
+  "native_pass": 12,
+  "native_fail": 92,
+  "native_unknown": 0,
+  "planned_crossfold_predictions": 168,
+  "reported_crossfold_predictions": 168,
+  "missing_crossfold_predictions": 0,
+  "binding_validation": "No experimental binding, affinity or variant selectivity established",
+  "PF4_assembly": {
+    "binder_id": "binder_ec321e7a89fa50d1",
+    "native_filter_status_unchanged": true,
+    "assessment": "Rigid monomer pose incompatible with intact experimental tetramer",
+    "atom_pairs_below_2_angstrom_by_placement": [
+      952,
+      967,
+      914,
+      957
+    ],
+    "clashing_binder_residues_by_placement": [
+      73,
+      72,
+      72,
+      73
+    ]
+  }
+}
