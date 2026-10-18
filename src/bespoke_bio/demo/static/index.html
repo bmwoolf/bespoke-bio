@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="data:," />
+    <title>Bespoke Bio · Protein design</title>
+    <link rel="stylesheet" href="/static/style.css" />
+    <script
+      defer
+      src="https://cdnjs.cloudflare.com/ajax/libs/3Dmol/2.5.5/3Dmol-min.js"
+      integrity="sha384-OsczYbldvrHgslr9fFp/i4GiLSeuw9l+QIlv99ITw8soOwXcoGeflFMLg+CU/X1d"
+      crossorigin="anonymous"
+    ></script>
+    <script defer src="/static/app.js"></script>
+  </head>
+  <body>
+    <header>
+      <a class="brand" href="/">BESPOKE <span>BIO</span></a
+      ><span class="tag">RESEARCH DEMO</span>
+    </header>
+    <main>
+      <div class="intro">
+        <div>
+          <p class="eyebrow">FROM DONOR SEQUENCE TO MOLECULAR DESIGN</p>
+          <h1>Protein → candidate</h1>
+          <p>
+            Explore the complete protein catalog. Prepare a target. Inspect
+            candidate designs.
+          </p>
+        </div>
+        <div id="mode" class="mode">Loading catalog…</div>
+      </div>
+      <div id="alert" role="alert" hidden></div>
+      <section class="stats" aria-label="Catalog totals">
+        <div>
+          <strong id="records">—</strong><span>biological records</span>
+        </div>
+        <div><strong id="unique">—</strong><span>unique sequences</span></div>
+        <div>
+          <strong id="changed">—</strong><span>non-reference records</span>
+        </div>
+        <div>
+          <strong>Intact</strong><span>original sequences & provenance</span>
+        </div>
+      </section>
+      <div class="workspace">
+        <section class="panel catalog">
+          <div class="panel-title">
+            <span class="step">01</span>
+            <h2>Choose a protein</h2>
+          </div>
+          <form id="search">
+            <label for="query">Gene or transcript prefix</label>
+            <div class="search">
+              <input
+                id="query"
+                placeholder="e.g. SS18L2"
+                autocomplete="off"
+              /><button>Search</button>
+            </div>
+            <label class="check"
+              ><input id="nonreference" type="checkbox" /> Non-reference
+              proteins only</label
+            >
+          </form>
+          <p id="page-info" class="muted"></p>
+          <div id="targets" class="target-list"></div>
+          <div class="pagination">
+            <button id="previous" class="secondary" disabled>Previous</button
+            ><button id="next" class="secondary" disabled>Next</button>
+          </div>
+        </section>
+        <div class="detail-column">
+          <section class="panel">
+            <div class="panel-title">
+              <span class="step">02</span>
+              <h2>Prepare target</h2>
+              <span id="selected-badge" class="tag">NO SELECTION</span>
+            </div>
+            <div id="empty-target" class="empty">
+              Select a protein to inspect its exact sequence and donor evidence.
+            </div>
+            <div id="target-detail" hidden>
+              <h3 id="gene-name"></h3>
+              <dl id="metadata"></dl>
+              <label for="sequence">Complete amino-acid sequence</label>
+              <pre id="sequence"></pre>
+              <details>
+                <summary>Original target JSON</summary>
+                <pre id="target-json"></pre>
+              </details>
+              <div class="settings">
+                <label
+                  >Binder length<input
+                    id="binder-length"
+                    type="number"
+                    min="25"
+                    max="300"
+                    value="75" /></label
+                ><label
+                  >Requested designs<input
+                    id="design-count"
+                    type="number"
+                    min="1"
+                    max="32"
+                    value="2" /></label
+                ><button id="prepare">Prepare selected target</button>
+              </div>
+              <p class="muted">
+                Preparation validates inputs. It does not start GPU inference.
+              </p>
+            </div>
+          </section>
+          <section class="panel">
+            <div class="panel-title">
+              <span class="step">03</span>
+              <h2>Inspect results</h2>
+              <button id="cached" class="secondary">
+                Load cached PD-L1 example
+              </button>
+            </div>
+            <p class="muted">
+              Candidates are computational predictions. Filter passes and
+              confidence scores do not establish measured binding.
+            </p>
+            <div id="job-detail" hidden>
+              <div class="job-line">
+                <strong id="job-status"></strong
+                ><span id="job-mode" class="tag"></span>
+              </div>
+              <p id="job-target" class="muted"></p>
+              <p id="progress"></p>
+              <div class="actions">
+                <button id="refresh" class="secondary">Refresh status</button
+                ><button id="run" disabled>Start GPU job</button
+                ><button id="cancel" class="secondary" disabled>
+                  Cancel job</button
+                ><a id="download" hidden>Download complete ZIP</a>
+              </div>
+            </div>
+            <div id="results-empty" class="empty">
+              Prepared jobs appear here. The cached example shows saved model
+              outputs without running inference.
+            </div>
+            <div id="candidates"></div>
+            <div id="structure-panel" hidden>
+              <div class="viewer-heading">
+                <h3 id="structure-title">Predicted structure</h3>
+                <a id="structure-download">Download structure</a>
+              </div>
+              <div
+                id="viewer"
+                aria-label="Interactive molecular structure"
+              ></div>
+              <p id="viewer-note" class="muted">
+                Drag to rotate · Scroll to zoom · Colors distinguish chains
+              </p>
+            </div>
+          </section>
+          <section class="panel history">
+            <h2>Local job history</h2>
+            <div id="history">No jobs yet.</div>
+          </section>
+        </div>
+      </div>
+      <footer>
+        Full Stage 1 output stays on the server. Only selected records are sent
+        to the configured design service.
+        <a href="https://3dmol.org/" target="_blank" rel="noreferrer"
+          >Molecular viewer: 3Dmol.js</a
+        >
+      </footer>
+    </main>
+  </body>
+</html>
