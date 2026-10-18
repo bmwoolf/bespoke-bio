@@ -17,6 +17,15 @@ conformational design and folded multi-module assembly are deferred.
 
 ## Retained scientific results
 
+The newer [folding-validation audit](FOLDING_VALIDATION.md) reports standard Boltz
+MSA/template controls, existing-candidate reassessment and the focused FGF2/IL1RN
+follow-up. The 64 new designs yielded three native-filter passes; all 18 subsequent
+standard predictions completed. One FGF2 candidate has strong, repeatable standard
+confidence in an alternate pose, but poor original-pose recovery and weak ESM evidence.
+The other two have variable docking. None is experimentally validated. See the
+[scientific findings](../examples/folding_validation/FINAL_FINDINGS.md) and
+[metrics figures](../examples/folding_validation/summary_figures/README.md).
+
 The structure-input PD-L1 run produced two 75-residue candidates: one passes native
 filters and one fails complex recovery RMSD (2.61 Å versus a 2.5 Å threshold). Both have
 low interface confidence (ipTM about 0.30). See [the report](../examples/boltzgen_results/review.html).

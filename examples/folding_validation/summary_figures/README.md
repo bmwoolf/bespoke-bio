@@ -1,0 +1,12 @@
+# Metrics summary figures
+
+PNG figures are accompanied by vector PDF copies. All values come from saved outputs; no inference was run to make these figures.
+
+1. **Target controls:** 2×2 frozen MSA / explicit empty MSA and template / no-template conditions. pLDDT (0–100) measures local model confidence; pTM (0–1) global model confidence. CA RMSD (Å) compares exact mapped residues with a separate experimental structure. Template-conditioned recovery is distinct from no-template folding. Historical PDBs are not guaranteed absent from training.
+2. **Native filtering:** actual generated candidates and original native filter pass/fail. Native filters test structural recovery and composition, without an interface-confidence acceptance threshold. Native Boltz ipTM and ESMFold2 ipSAE are distinct metrics, not affinity values.
+3. **Focused standard refolding:** target MSA, binder empty MSA, no coordinates/templates. Individual seeds show binder-alone and complex pLDDT, both raw chain-pair ipTM directions, binder-alone fold RMSD to design, binder pose RMSD to design after target alignment, experimental target RMSD, and seed-pair pose RMSD after target alignment. Lower design RMSD means agreement with a computational design, not experimental accuracy. Low seed-pair RMSD means repeatability, not proof that the pose is real. Candidate labels show the final six identifier characters; full IDs are in source analysis JSON.
+4. **Experimental positive control:** 1WQJ IGF1–IGFBP4 domain with target-only template. Empty-binder-MSA and both-natural-chain paired+unpaired MSA arms are different protocols. Contact recall/precision use exact sequence positions at strict heavy-atom distance <5 Å. Interface RMSD jointly fits CAs of the reference-contact residues from both chains; this is not DockQ or full-backbone iRMSD. This calibrates a known natural interaction, not new designed binders.
+
+Three requested seeds are not equilibrium samples or a significance test. The three seed pairs share predictions and are not independent. No figure applies a calibrated binding-success cutoff, and no experimentally validated designed binder is claimed. Severe clashes and full per-seed details remain in the source candidate report and focused review.
+
+Sources: `../analysis/analysis.json`, `../focused_validation_report/analysis.json`, focused native bundles, `../positive_pose_audit.json`. Derived point data and seed-pair computations are in `figure_data.json`.

@@ -22,6 +22,9 @@ def run_job(prepared, output, host, port, key, *, timeout=3600):
     count, length = int(plan["num_designs"]), int(plan["binder_residues"])
     if not 1 <= count <= 32 or not 25 <= length <= 300:
         raise ValueError("Interactive worker supports 1..32 designs, 25..300 residues")
+    budget = plan.get("budget", count)
+    if isinstance(budget, bool) or not isinstance(budget, int) or not 1 <= budget <= count:
+        raise ValueError("Plan budget must be an integer between 1 and num_designs")
     yaml_name = command[2]
     if Path(yaml_name).name != yaml_name or not (prepared / yaml_name).is_file():
         raise ValueError("Design YAML must be a local prepared basename")
@@ -82,7 +85,7 @@ def run_job(prepared, output, host, port, key, *, timeout=3600):
         "--num_designs",
         str(count),
         "--budget",
-        str(count),
+        str(budget),
         "--diffusion_batch_size",
         "1",
         "--inverse_fold_num_sequences",
