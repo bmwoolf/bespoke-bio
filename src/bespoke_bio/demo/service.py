@@ -1,4 +1,4 @@
-"""Loopback-only demo gateway; serve through an SSH tunnel, with one process."""
+"""Private design gateway or read-only public catalog and explicitly published results."""
 
 import json
 import os
@@ -13,11 +13,13 @@ from fastapi import FastAPI, HTTPException, Query, Request
 from fastapi.responses import FileResponse, JSONResponse, Response
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, ConfigDict, Field
+from starlette.middleware.cors import CORSMiddleware
 from starlette.middleware.gzip import GZipMiddleware
 from starlette.middleware.trustedhost import TrustedHostMiddleware
 
 from .catalog import Catalog
 from .client import DesignService, ServiceError
+from .published import PublishedSnapshot
 
 STATIC = Path(__file__).parent / "static"
 JOB_ID = re.compile(r"^[a-f0-9]{32}$")
@@ -48,18 +50,38 @@ def write_json(path, value):
     sync_directory(path.parent)
 
 
-def create_app(index=None, runs=None, service=None, *, allow_run=False):
+def create_app(index=None, runs=None, service=None, *, allow_run=False, published=None, hosts=()):
+    if published and not index:
+        raise ValueError("Public snapshots require a verified catalog")
+    if published and (service is not None or allow_run or runs is not None):
+        raise ValueError("Public snapshots cannot access live services or private job receipts")
+    if any("*" in host or "/" in host for host in hosts):
+        raise ValueError("Configure exact public hostnames")
     app = FastAPI(title="Bespoke Bio protein demo", version="1.0.0")
     app.add_middleware(
-        TrustedHostMiddleware, allowed_hosts=["localhost", "127.0.0.1", "[::1]", "testserver"]
+        TrustedHostMiddleware,
+        allowed_hosts=["localhost", "127.0.0.1", "[::1]", "testserver", *hosts],
     )
     catalog = Catalog(Path(index)) if index else None
     run_root = Path(runs).resolve() if runs else None
     lock = threading.Lock()
+    snapshot = (
+        PublishedSnapshot(published, catalog.metadata()["manifest_sha256"]) if published else None
+    )
+    app.add_middleware(GZipMiddleware, minimum_size=1024)
+    if snapshot:
+        app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["GET", "HEAD"])
 
     @app.middleware("http")
     async def same_origin(request: Request, call_next):
         if request.method not in {"GET", "HEAD", "OPTIONS"}:
+            if snapshot:
+                return JSONResponse(
+                    {
+                        "detail": "Public access is read-only; use the operator gateway to prepare or generate"
+                    },
+                    status_code=403,
+                )
             origin = request.headers.get("origin")
             if request.headers.get("x-bespoke-request") != "1" or (
                 origin and urlsplit(origin).netloc != request.headers.get("host")
@@ -67,9 +89,13 @@ def create_app(index=None, runs=None, service=None, *, allow_run=False):
                 return JSONResponse({"detail": "Use the local demo client"}, status_code=403)
         response = await call_next(request)
         response.headers["X-Content-Type-Options"] = "nosniff"
+        response.headers["Referrer-Policy"] = "same-origin"
+        response.headers["X-Frame-Options"] = "DENY"
         response.headers["Cache-Control"] = (
             "public, max-age=31536000, immutable"
             if request.url.path.startswith("/assets/") and response.status_code == 200
+            else "public, max-age=60, stale-while-revalidate=300"
+            if snapshot and request.url.path.startswith("/api/") and response.status_code == 200
             else "no-store"
         )
         return response
@@ -94,6 +120,11 @@ def create_app(index=None, runs=None, service=None, *, allow_run=False):
             return require_catalog().get(target_id)
         except KeyError as exc:
             raise HTTPException(404, "Unknown target") from exc
+
+    def published_job(job_id):
+        if not JOB_ID.fullmatch(job_id) or job_id not in snapshot.jobs:
+            raise HTTPException(404, "Unpublished job")
+        return snapshot.jobs[job_id]
 
     def receipt(job_id):
         if not JOB_ID.fullmatch(job_id) or run_root is None:
@@ -200,6 +231,7 @@ def create_app(index=None, runs=None, service=None, *, allow_run=False):
             **require_catalog().metadata(),
             "service_configured": service is not None,
             "gpu_execution_enabled": allow_run,
+            "read_only": snapshot is not None,
         }
 
     @app.get("/api/targets")
@@ -207,7 +239,7 @@ def create_app(index=None, runs=None, service=None, *, allow_run=False):
         q: str = Query("", max_length=200),
         changed: bool = False,
         limit: int = Query(25, ge=1, le=100),
-        offset: int = Query(0, ge=0),
+        offset: int = Query(0, ge=0, le=2**63 - 1),
     ):
         return require_catalog().search(q.strip(), changed, limit, offset)
 
@@ -230,12 +262,16 @@ def create_app(index=None, runs=None, service=None, *, allow_run=False):
 
     @app.get("/api/jobs")
     def jobs():
+        if snapshot:
+            return [entry["job"] for entry in snapshot.jobs.values()]
         if run_root is None or not run_root.exists():
             return []
         return [envelope(json.loads(p.read_text())) for p in sorted(run_root.glob("*.json"))]
 
     @app.get("/api/jobs/{job_id}")
     def status(job_id: str):
+        if snapshot:
+            return published_job(job_id)["job"]
         with lock:
             path, record = receipt(job_id)
             if record.get("remote_id"):
@@ -270,6 +306,8 @@ def create_app(index=None, runs=None, service=None, *, allow_run=False):
 
     @app.get("/api/jobs/{job_id}/results")
     def results(job_id: str):
+        if snapshot:
+            return published_job(job_id)["results"]
         _, record = receipt(job_id)
         prefix = remote_path(record)
         result = require_service().request(prefix + "/results")
@@ -302,6 +340,15 @@ def create_app(index=None, runs=None, service=None, *, allow_run=False):
             or "\\" in artifact_path
         ):
             raise HTTPException(400, "Invalid artifact path")
+        if snapshot:
+            published_job(job_id)
+            try:
+                path = snapshot.file(f"/api/jobs/{job_id}/artifacts/{artifact_path}")
+            except KeyError as exc:
+                raise HTTPException(404, "Unpublished artifact") from exc
+            return FileResponse(
+                path, media_type="application/octet-stream", filename=Path(artifact_path).name
+            )
         _, record = receipt(job_id)
         data = require_service().request(
             remote_path(record) + "/artifacts/" + quote(artifact_path, safe="/"),
@@ -311,6 +358,13 @@ def create_app(index=None, runs=None, service=None, *, allow_run=False):
 
     @app.get("/api/jobs/{job_id}/download")
     def download(job_id: str):
+        if snapshot:
+            published_job(job_id)
+            return FileResponse(
+                snapshot.file(f"/api/jobs/{job_id}/download"),
+                media_type="application/zip",
+                filename=f"{job_id}.zip",
+            )
         _, record = receipt(job_id)
         data = require_service().request(remote_path(record) + "/download", binary=True)
         return Response(
@@ -321,7 +375,7 @@ def create_app(index=None, runs=None, service=None, *, allow_run=False):
 
     app.mount(
         "/assets",
-        GZipMiddleware(StaticFiles(directory=STATIC / "assets", check_dir=False), minimum_size=1024),
+        StaticFiles(directory=STATIC / "assets", check_dir=False),
         name="assets",
     )
 
@@ -331,6 +385,13 @@ def create_app(index=None, runs=None, service=None, *, allow_run=False):
             raise HTTPException(503, "Build the web app first: cd web && npm ci && npm run build")
         return FileResponse(STATIC / "index.html")
 
+    if snapshot:
+        # The public OpenAPI contract contains only operations that visitors can use.
+        app.router.routes = [
+            route
+            for route in app.router.routes
+            if not getattr(route, "methods", None) or route.methods & {"GET", "HEAD", "OPTIONS"}
+        ]
     return app
 
 
@@ -345,6 +406,8 @@ def from_environment():
         os.environ.get("BESPOKE_DEMO_RUNS"),
         DesignService(base, token) if base else None,
         allow_run=os.environ.get("BESPOKE_DEMO_ALLOW_RUN") == "1",
+        published=os.environ.get("BESPOKE_DEMO_PUBLISHED"),
+        hosts=tuple(filter(None, os.environ.get("BESPOKE_DEMO_HOSTS", "").split(","))),
     )
 
 

@@ -36,6 +36,10 @@ variants; direct protein ingestion requires a separate interface update.
 
 ## Run the sequence-only design demo
 
+[Open the public demo](https://bespoke-bio-demo.westus2.cloudapp.azure.com/) or its
+[read-only data API](https://bespoke-bio-demo.westus2.cloudapp.azure.com/docs).
+The public catalog and saved models work without a tunnel or service token.
+
 The Vite/React/TypeScript [protein demo](docs/protein-demo.md), with a Mol* viewer, browses
 a complete verified Step 1 export and sends one unchanged protein record to the separate
 design service. It opens on a labeled saved example, with a large molecular viewer and

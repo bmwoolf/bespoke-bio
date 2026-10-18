@@ -4,6 +4,8 @@ import json
 import os
 import sqlite3
 import tempfile
+from contextlib import closing
+from functools import lru_cache
 from pathlib import Path
 
 
@@ -74,6 +76,10 @@ def build_index(package: Path, destination: Path) -> dict:
 class Catalog:
     def __init__(self, path: Path):
         self.path = path.resolve()
+        # The index is an immutable release; caches belong to this instance only.
+        self.metadata = lru_cache(maxsize=1)(self.metadata)
+        self.search = lru_cache(maxsize=512)(self.search)
+        self.get = lru_cache(maxsize=128)(self.get)
 
     def connect(self):
         db = sqlite3.connect(self.path.as_uri() + "?mode=ro", uri=True)
@@ -81,7 +87,7 @@ class Catalog:
         return db
 
     def metadata(self):
-        with self.connect() as db:
+        with closing(self.connect()) as db:
             return json.loads(db.execute("SELECT payload FROM metadata").fetchone()[0])
 
     def search(self, query="", changed=False, limit=25, offset=0):
@@ -89,16 +95,25 @@ class Catalog:
         pattern = query.replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_") + "%"
         where = "(gene LIKE ? ESCAPE '\\' OR transcript LIKE ? ESCAPE '\\' OR target_id = ?)"
         args = [pattern, pattern, query]
+        if not query:
+            where, args = "1", []
         if changed:
             where += " AND changed=1"
-        with self.connect() as db:
+        with closing(self.connect()) as db:
             if query:
-                total = db.execute("SELECT count(*) FROM targets WHERE " + where, args).fetchone()[0]
+                total = db.execute("SELECT count(*) FROM targets WHERE " + where, args).fetchone()[
+                    0
+                ]
             else:
                 meta = json.loads(db.execute("SELECT payload FROM metadata").fetchone()[0])
                 total = meta["nonreference_records" if changed else "target_records"]
+            # Keep summaries in their covering index. SQLite's OR plan otherwise fetches
+            # and sorts thousands of large payload rows for a broad prefix such as "A".
+            summary_index = "changed_index" if changed else "browse_index"
             rows = db.execute(
-                "SELECT target_id,gene,transcript,donor,changed,length FROM targets WHERE "
+                "SELECT target_id,gene,transcript,donor,changed,length FROM targets INDEXED BY "
+                + summary_index
+                + " WHERE "
                 + where
                 + " ORDER BY gene,transcript,target_id LIMIT ? OFFSET ?",
                 [*args, limit, offset],
@@ -111,7 +126,7 @@ class Catalog:
             }
 
     def get(self, target_id):
-        with self.connect() as db:
+        with closing(self.connect()) as db:
             row = db.execute(
                 "SELECT payload FROM targets WHERE target_id=?", (target_id,)
             ).fetchone()

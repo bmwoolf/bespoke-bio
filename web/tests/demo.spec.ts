@@ -1,6 +1,20 @@
 import { expect, test } from "@playwright/test";
 import type { Page } from "@playwright/test";
 
+const publicDeployment = process.env.BESPOKE_DEMO_PUBLIC === "1";
+
+async function hidePreparedHistory(page: Page) {
+  await page.route("**/api/jobs", async (route) => {
+    const response = await route.fetch();
+    const jobs = await response.json();
+    await route.fulfill({
+      json: jobs.filter(
+        (job: { target_id: string | null }) => job.target_id === null,
+      ),
+    });
+  });
+}
+
 // Opt-in checks against the running HG002 gateway. Preparation and cached replay only.
 async function ready(page: Page) {
   await expect(page.locator(".molstar-viewport")).toHaveAttribute(
@@ -22,6 +36,132 @@ async function searchTarget(page: Page) {
     page.getByRole("heading", { name: "A1BG", exact: true }),
   ).toBeVisible();
 }
+
+test("public catalog preserves selection across refresh and never submits jobs", async ({
+  page,
+}, testInfo) => {
+  test.skip(!publicDeployment, "Public deployment check");
+  const writes: string[] = [];
+  page.on("request", (request) => {
+    if (!["GET", "HEAD", "OPTIONS"].includes(request.method()))
+      writes.push(request.url());
+  });
+  await page.goto("/");
+  await ready(page);
+  await searchTarget(page);
+  await expect(
+    page.getByRole("heading", {
+      name: "No 3D structure for this protein",
+      exact: true,
+    }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "Prepare target", exact: true }),
+  ).toHaveCount(0);
+  await expect(page).toHaveURL(
+    /target=protein_dcd5494921477cd9218a2a6745bf5095/,
+  );
+  await page.reload();
+  await expect(
+    page.getByRole("heading", { name: "A1BG", exact: true }),
+  ).toBeVisible();
+  await expect(page.locator(".molecule")).toHaveCount(0);
+  await page.screenshot({
+    path: testInfo.outputPath("sequence-only-desktop.png"),
+  });
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.getByRole("button", { name: "Proteins", exact: true }).click();
+  const drawer = page.getByRole("dialog", { name: "Proteins", exact: true });
+  await expect(drawer).toBeVisible();
+  await page.screenshot({
+    path: testInfo.outputPath("public-mobile-catalog.png"),
+  });
+  await page.keyboard.press("Escape");
+  await page.setViewportSize({ width: 320, height: 700 });
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= innerWidth,
+    ),
+  ).toBe(true);
+  await page.screenshot({
+    path: testInfo.outputPath("sequence-only-mobile.png"),
+  });
+  await page.getByRole("button", { name: "Example", exact: true }).click();
+  await ready(page);
+  await page.goBack();
+  await expect(
+    page.getByRole("heading", { name: "A1BG", exact: true }),
+  ).toBeVisible();
+  await page.goForward();
+  await ready(page);
+  expect(writes).toEqual([]);
+});
+
+test("existing jobs reopen from the sidebar, and cross-target URLs never display a model", async ({
+  page,
+}) => {
+  const targetId = "protein_dcd5494921477cd9218a2a6745bf5095";
+  const jobId = "d".repeat(32);
+  const prepared = {
+    job_id: jobId,
+    target_id: targetId,
+    status: "prepared_pending_gpu_execution",
+    mode: "prepare",
+    execution_performed: false,
+    dispatch_attempted: null,
+    progress: null,
+    error: null,
+  };
+  // Synthetic status only: never attach example coordinates to a donor protein.
+  await page.route("**/api/jobs", async (route) => {
+    const response = await route.fetch();
+    const jobs = await response.json();
+    await route.fulfill({
+      json: [
+        ...jobs.filter(
+          (job: { target_id: string | null }) => job.target_id !== targetId,
+        ),
+        prepared,
+      ],
+    });
+  });
+  await page.route(`**/api/jobs/${jobId}`, (route) =>
+    route.fulfill({ json: prepared }),
+  );
+  await page.goto("/");
+  await searchTarget(page);
+  await expect(page.getByTestId("job-status")).toHaveText("Ready to generate");
+  await expect(
+    page.getByRole("button", { name: "Prepare target", exact: true }),
+  ).toHaveCount(0);
+  await page.reload();
+  await expect(page.getByTestId("job-status")).toHaveText("Ready to generate");
+  const savedJobs = await (await page.request.get("/api/jobs")).json();
+  const example = savedJobs.find(
+    (job: { target_id: string | null }) => job.target_id === null,
+  );
+  await page.goto(`/?target=${targetId}&job=${example.job_id}`);
+  await expect(page.getByRole("alert")).toContainText("different protein");
+  await expect(page.locator(".molecule")).toHaveCount(0);
+});
+
+test("public page with no published example never attempts automatic replay", async ({
+  page,
+}) => {
+  test.skip(!publicDeployment, "Public deployment check");
+  const writes: string[] = [];
+  page.on("request", (request) => {
+    if (request.method() === "POST") writes.push(request.url());
+  });
+  await page.route("**/api/jobs", (route) => route.fulfill({ json: [] }));
+  await page.goto("/");
+  await expect(
+    page.getByText("No saved example has been published here yet.", {
+      exact: false,
+    }),
+  ).toBeVisible();
+  expect(writes).toEqual([]);
+});
 
 test("saved example opens directly; representations, candidates and downloads stay together", async ({
   page,
@@ -133,6 +273,11 @@ test("saved example opens directly; representations, candidates and downloads st
 test("donor selection removes example; preparation, details and mobile history preserve identity", async ({
   page,
 }, testInfo) => {
+  test.skip(
+    publicDeployment,
+    "Preparation belongs to the private operator gateway",
+  );
+  await hidePreparedHistory(page);
   const runs: string[] = [];
   page.on("request", (request) => {
     if (request.url().endsWith("/run")) runs.push(request.url());
@@ -142,7 +287,7 @@ test("donor selection removes example; preparation, details and mobile history p
   await searchTarget(page);
   await expect(page.locator(".molecule")).toHaveCount(0);
   await expect(
-    page.getByText("No structure yet", { exact: true }),
+    page.getByText("No 3D structure for this protein", { exact: true }),
   ).toBeVisible();
   await expect(
     page.getByRole("heading", { name: "PD-L1", exact: true }),
@@ -239,6 +384,11 @@ test("donor selection removes example; preparation, details and mobile history p
 test("a late preparation response cannot replace a newly selected example", async ({
   page,
 }) => {
+  test.skip(
+    publicDeployment,
+    "Preparation belongs to the private operator gateway",
+  );
+  await hidePreparedHistory(page);
   await page.goto("/");
   await ready(page);
   await searchTarget(page);
@@ -360,6 +510,7 @@ test("empty results do not invent a candidate or substitute a structure", async 
 test("automatic cached replay never retries a failed submission", async ({
   page,
 }) => {
+  test.skip(publicDeployment, "Public snapshots never submit cached replays");
   let submissions = 0;
   await page.route("**/api/jobs", (route) => route.fulfill({ json: [] }));
   await page.route("**/api/demo", (route) => {

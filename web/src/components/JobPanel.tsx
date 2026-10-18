@@ -44,6 +44,17 @@ export function JobPanel({
     },
   });
   const job = status.data;
+  // A shared URL must never display another target's job or result under this heading.
+  if (
+    (job && job.target_id !== (target?.target_id ?? null)) ||
+    (results.data && results.data.target_id !== (target?.target_id ?? null))
+  ) {
+    return (
+      <div className="error" role="alert">
+        This result belongs to a different protein. Choose it from History.
+      </div>
+    );
+  }
   const candidate =
     results.data?.candidates.find((value) => value.id === candidateId) ??
     results.data?.candidates[0];

@@ -12,6 +12,7 @@ export const catalogSchema = z.object({
   nonreference_records: count,
   service_configured: z.boolean(),
   gpu_execution_enabled: z.boolean(),
+  read_only: z.boolean().default(false),
 });
 export const targetSchema = z
   .object({

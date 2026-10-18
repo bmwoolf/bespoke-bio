@@ -225,6 +225,7 @@ input[type="search"] {
   color: var(--muted);
 }
 .target-transcript,
+.target-availability,
 .target-origin {
   display: block;
   color: var(--muted);

@@ -11,11 +11,105 @@ from fastapi.testclient import TestClient
 import bespoke_bio.demo.service as demo_service
 from bespoke_bio.demo.catalog import Catalog, build_index
 from bespoke_bio.demo.client import DesignService, ServiceError
+from bespoke_bio.demo.published import PublishedSnapshot, artifact_key, export_snapshot
 from bespoke_bio.demo.service import create_app
 from bespoke_bio.stage1.io import artifact
 
 HEADERS = {"X-Bespoke-Request": "1"}
 REMOTE = "a" * 32
+
+
+@pytest.fixture
+def published(gateway, tmp_path):
+    client, _, _ = gateway
+    job = client.post("/api/demo", json={}, headers=HEADERS).json()
+    destination = tmp_path / "published"
+    export_snapshot(
+        destination,
+        lambda path: client.get(path).json(),
+        lambda path: client.get(path).content,
+        [job["job_id"]],
+    )
+    return destination, job["job_id"]
+
+
+def test_public_snapshot_serves_exact_data_without_upstream(index, package, published, gateway):
+    root, job_id = published
+    _, upstream, _ = gateway
+    upstream.calls.clear()
+    upstream.failure = ServiceError(503, "Upstream is now offline")
+    with TestClient(create_app(index, published=root, hosts=("demo.example",))) as client:
+        metadata = client.get("/api/catalog", headers={"Origin": "https://other.example"})
+        assert metadata.json()["read_only"] is True
+        assert metadata.json()["service_configured"] is False
+        assert metadata.headers["access-control-allow-origin"] == "*"
+        assert "max-age=60" in metadata.headers["cache-control"]
+        assert client.get("/api/targets").json()["total"] == 3
+        assert client.get("/api/targets/fixture-1").json() == package[1][1]
+        assert [j["job_id"] for j in client.get("/api/jobs").json()] == [job_id]
+        result = client.get(f"/api/jobs/{job_id}/results").json()
+        candidate = result["candidates"][0]
+        assert candidate["native_filter_passed"] is False
+        response = client.get(candidate["complex_structure_url"])
+        assert response.content == b"artifact bytes"
+        assert response.headers["x-content-type-options"] == "nosniff"
+        assert client.get(result["download_url"]).content == b"artifact bytes"
+        assert client.get("/api/jobs", headers={"Host": "demo.example"}).status_code == 200
+        assert client.get("/api/jobs", headers={"Host": "evil.example"}).status_code == 400
+        assert client.get(f"/api/jobs/{'c' * 32}").status_code == 404
+        assert client.get(f"/api/jobs/{job_id}/artifacts/secret.txt").status_code == 404
+        for path in (
+            "/api/prepare",
+            "/api/demo",
+            f"/api/jobs/{job_id}/run",
+            f"/api/jobs/{job_id}/cancel",
+        ):
+            assert client.post(path, json={}, headers=HEADERS).status_code == 403
+        schema = client.get("/openapi.json").json()
+        assert all(set(methods) == {"get"} for methods in schema["paths"].values())
+    assert not upstream.calls
+
+
+def test_public_snapshot_cannot_use_live_credentials_or_private_receipts(
+    index, published, tmp_path
+):
+    root, _ = published
+    for kwargs in ({"runs": tmp_path}, {"service": FakeService()}, {"allow_run": True}):
+        with pytest.raises(ValueError, match="Public snapshots"):
+            create_app(index, published=root, **kwargs)
+    with pytest.raises(ValueError, match="require a verified catalog"):
+        create_app(published=root)
+    with pytest.raises(ValueError, match="exact public hostnames"):
+        create_app(index, published=root, hosts=("*",))
+
+
+def test_public_snapshot_rejects_corruption_and_catalog_mismatch(index, published):
+    root, _ = published
+    with pytest.raises(ValueError, match="does not match"):
+        PublishedSnapshot(root, "0" * 64)
+    artifact_path = next((root / "files").iterdir())
+    artifact_path.write_bytes(b"x" * artifact_path.stat().st_size)
+    with pytest.raises(ValueError, match="checksum mismatch"):
+        PublishedSnapshot(root, Catalog(index).metadata()["manifest_sha256"])
+
+
+def test_publication_is_explicit_complete_and_never_overwrites(gateway, published, tmp_path):
+    client, _, _ = gateway
+    root, job_id = published
+    with pytest.raises(FileExistsError):
+        export_snapshot(root, None, None, [job_id])
+    prepared = prepare(client)
+    output = tmp_path / "incomplete"
+    with pytest.raises(ValueError, match="Only completed"):
+        export_snapshot(output, lambda path: client.get(path).json(), None, [prepared["job_id"]])
+    assert not output.exists()
+    assert not list(tmp_path.glob(".published-*"))
+
+
+@pytest.mark.parametrize("suffix", ["../secret", "%2e%2e/secret", "/secret", "a\\b", "a?x", "a#x"])
+def test_published_artifact_paths_cannot_escape_job(suffix):
+    with pytest.raises(ValueError, match="does not belong"):
+        artifact_key(f"/api/jobs/{REMOTE}/artifacts/{suffix}", REMOTE)
 
 
 def test_frontend_build_is_optional_for_api_and_assets_are_compressed(tmp_path, monkeypatch):
@@ -116,6 +210,7 @@ class FakeService:
         self.failure = None
         self.foreign = False
         self.wrong_id = False
+        self.cached = False
 
     def request(self, path, payload=None, *, binary=False):
         self.calls.append((path, payload))
@@ -138,7 +233,9 @@ class FakeService:
                 ],
                 "download_url": f"/v1/designs/{REMOTE}/download",
             }
-        cached = path.endswith("/demo")
+        if payload is not None and path in {"/v1/designs", "/v1/designs/demo"}:
+            self.cached = path.endswith("/demo")
+        cached = self.cached
         return {
             "run_id": "b" * 32 if self.wrong_id else REMOTE,
             "status": "cached_demo_completed" if cached else "prepared_pending_gpu_execution",
@@ -169,6 +266,23 @@ def test_catalog_preserves_biological_records_with_duplicate_sequences(index, pa
     assert catalog.search("demo", limit=1)["total"] == 3
     assert catalog.search("%")["total"] == 0
     assert catalog.search("' OR 1=1 --")["total"] == 0
+    for query in ("", "d", "demo", "ENST_FIXTURE", "fixture-1", "%"):
+        for changed in (False, True):
+            expected = [
+                r
+                for r in package[1]
+                if (not changed or r["sequence_sha256"] != r["reference_sequence_sha256"])
+                and (
+                    r["gene_symbol"].lower().startswith(query.lower())
+                    or r["transcript_id"].lower().startswith(query.lower())
+                    or r["target_id"] == query
+                )
+            ]
+            pages = [catalog.search(query, changed, limit=1, offset=i) for i in range(4)]
+            assert all(page["total"] == len(expected) for page in pages)
+            assert [r["target_id"] for page in pages for r in page["records"]] == [
+                r["target_id"] for r in expected
+            ]
     assert catalog.get("fixture-1") == package[1][1]
     with pytest.raises(FileExistsError):
         build_index(package[0], index)
@@ -250,6 +364,7 @@ def test_unknown_targets_and_jobs_never_reach_upstream(gateway):
     )
     assert client.get(f"/api/jobs/{'c' * 32}/download").status_code == 404
     assert client.get("/api/targets?limit=1000").status_code == 422
+    assert client.get(f"/api/targets?offset={2**63}").status_code == 422
     assert not upstream.calls
 
 

@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { api } from "./api";
+import { api, isActive, isComplete } from "./api";
 import type { Job } from "./api";
 import { TargetCatalog } from "./components/TargetCatalog";
 import { ExampleWorkspace, TargetWorkspace } from "./components/Workspace";
@@ -11,9 +11,32 @@ type Selection =
   | { kind: "example" }
   | { kind: "target"; id: string; jobId?: string };
 
+function readSelection(): Selection {
+  const params = new URLSearchParams(location.search);
+  const id = params.get("target");
+  return id
+    ? { kind: "target", id, jobId: params.get("job") ?? undefined }
+    : { kind: "example" };
+}
+
 export function App() {
   const cache = useQueryClient();
-  const [selection, setSelection] = useState<Selection>({ kind: "example" });
+  const [selection, setSelection] = useState<Selection>(readSelection);
+  function navigate(next: Selection) {
+    const url = new URL(location.href);
+    url.search = "";
+    if (next.kind === "target") {
+      url.searchParams.set("target", next.id);
+      if (next.jobId) url.searchParams.set("job", next.jobId);
+    }
+    if (url.href !== location.href) history.pushState(null, "", url);
+    setSelection(next);
+  }
+  useEffect(() => {
+    const back = () => setSelection(readSelection());
+    addEventListener("popstate", back);
+    return () => removeEventListener("popstate", back);
+  }, []);
   const [dialog, setDialog] = useState<"proteins" | "history" | null>(null);
   const catalog = useQuery({
     queryKey: ["catalog"],
@@ -25,13 +48,32 @@ export function App() {
   });
   const meta = catalog.data;
   const selectedId = selection.kind === "target" ? selection.id : null;
+  const savedJob =
+    jobs.data?.find(
+      (job) => job.target_id === selectedId && isComplete(job.status),
+    ) ??
+    jobs.data?.find(
+      (job) =>
+        job.target_id === selectedId &&
+        (isActive(job.status) ||
+          job.status === "prepared_pending_gpu_execution"),
+    );
+  const selectedJobId =
+    selection.kind === "target"
+      ? (selection.jobId ?? savedJob?.job_id)
+      : undefined;
+  const modeledTargets = new Set(
+    jobs.data
+      ?.filter((job) => job.target_id && isComplete(job.status))
+      .map((job) => job.target_id as string),
+  );
   function selectTarget(id: string) {
-    setSelection({ kind: "target", id });
+    navigate({ kind: "target", id });
     setDialog(null);
   }
   function selectJob(job: Job) {
     cache.setQueryData(["job", job.job_id], job);
-    setSelection(
+    navigate(
       job.target_id
         ? { kind: "target", id: job.target_id, jobId: job.job_id }
         : { kind: "example" },
@@ -58,7 +100,7 @@ export function App() {
           <button
             className="quiet"
             aria-pressed={selection.kind === "example"}
-            onClick={() => setSelection({ kind: "example" })}
+            onClick={() => navigate({ kind: "example" })}
           >
             Example
           </button>
@@ -70,6 +112,7 @@ export function App() {
             selectedId={selectedId}
             onSelect={selectTarget}
             catalog={meta}
+            modeledTargets={modeledTargets}
           />
         </aside>
         <main className="workspace" id="workspace">
@@ -79,14 +122,15 @@ export function App() {
             (selection.kind === "example" ? (
               <ExampleWorkspace
                 configured={meta.service_configured}
+                readOnly={meta.read_only}
                 saved={jobs.data?.find((job) => job.target_id === null)}
                 historyReady={!jobs.isPending}
               />
             ) : (
               <TargetWorkspace
-                key={`${selection.id}:${selection.jobId ?? "new"}`}
+                key={`${selection.id}:${selectedJobId ?? "new"}`}
                 targetId={selection.id}
-                initialJobId={selection.jobId}
+                initialJobId={selectedJobId}
                 catalog={meta}
               />
             ))}
@@ -102,6 +146,7 @@ export function App() {
             selectedId={selectedId}
             onSelect={selectTarget}
             catalog={meta}
+            modeledTargets={modeledTargets}
             compact
           />
         )}

@@ -8,11 +8,13 @@ export function TargetCatalog({
   selectedId,
   onSelect,
   catalog,
+  modeledTargets,
   compact = false,
 }: {
   selectedId: string | null;
   onSelect: (id: string) => void;
   catalog?: Catalog;
+  modeledTargets: ReadonlySet<string>;
   compact?: boolean;
 }) {
   const inputId = useId();
@@ -110,6 +112,11 @@ export function TargetCatalog({
               <span>{formatCount(row.length)} aa</span>
             </span>
             <span className="target-transcript">{row.transcript}</span>
+            <span className="target-availability">
+              {modeledTargets.has(row.target_id)
+                ? "Saved results"
+                : "Sequence only"}
+            </span>
             <span className="target-origin">
               {row.donor} · {row.target_id.slice(-8)}
               {row.changed ? (
@@ -155,7 +162,10 @@ export function TargetCatalog({
             {formatCount(catalog.unique_sequences)} unique sequences ·{" "}
             {formatCount(catalog.nonreference_records)} changed records.
           </p>
-          <p>All records and their provenance are retained.</p>
+          <p>
+            All records and their provenance are retained. Sequence records do
+            not include 3D coordinates.
+          </p>
         </details>
       )}
     </section>
