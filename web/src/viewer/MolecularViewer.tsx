@@ -5,6 +5,16 @@ import { Popover } from "../components/Popover";
 import { defaultSettings, loadScene } from "./molstar";
 import type { MolecularScene, ViewerInfo, ViewSettings } from "./molstar";
 
+type AppearanceToggle = Exclude<keyof ViewSettings, "style">;
+const appearanceToggles: readonly [AppearanceToggle, string][] = [
+  ["metallic", "Metallic finish"],
+  ["sequenceGradient", "Sequence gradient (N → C)"],
+  ["ambientOcclusion", "Ambient occlusion"],
+  ["shadows", "Shadows"],
+  ["outlines", "Outlines"],
+  ["depthOfField", "Depth of field"],
+];
+
 export default function MolecularViewer({
   selection,
 }: {
@@ -120,36 +130,25 @@ export default function MolecularViewer({
         <div className="viewer-topline">
           <span className="viewer-hint">Drag to rotate · Scroll to zoom</span>
           <Popover className="appearance-popover" label="Appearance" icon="◐">
-            <label className="check">
-              <input
-                type="checkbox"
-                checked={settings.metallic}
-                onChange={(event) =>
-                  setSettings({ ...settings, metallic: event.target.checked })
-                }
-              />
-              Metallic finish
-            </label>
-            <label className="check">
-              <input
-                type="checkbox"
-                checked={settings.colorByChain}
-                onChange={(event) =>
-                  setSettings({
-                    ...settings,
-                    colorByChain: event.target.checked,
-                  })
-                }
-              />
-              Color by chain
-            </label>
+            {appearanceToggles.map(([key, label]) => (
+              <label className="check" key={key}>
+                <input
+                  type="checkbox"
+                  checked={settings[key]}
+                  onChange={(event) =>
+                    setSettings({ ...settings, [key]: event.target.checked })
+                  }
+                />
+                {label}
+              </label>
+            ))}
             <p className="viewer-info" role="status" data-testid="viewer-info">
               {info &&
                 `${formatCount(info.atoms)} atoms · ${formatCount(info.residues)} residues · ${info.chains} ${info.chains === 1 ? "chain" : "chains"} · ${info.webgl}${info.surfacePath ? ` · ${info.surfacePath} surface computation` : ""}`}
             </p>
             <p className="muted">
-              Surface from atomic coordinates. Metallic finish changes lighting
-              only.
+              Visual effects and sequence colors do not change the structure or
+              report prediction confidence.
             </p>
           </Popover>
         </div>
@@ -159,25 +158,37 @@ export default function MolecularViewer({
           </div>
         )}
         <div className="viewer-bottomline">
-          <div className="chain-legend" aria-label="Chain colors">
-            {info?.colors.map((entry) => (
-              <span
-                key={
-                  selection.chainRoles?.target.includes(entry.label)
+          <div
+            className="chain-legend"
+            aria-label={
+              settings.sequenceGradient ? "Sequence colors" : "Chain colors"
+            }
+          >
+            {settings.sequenceGradient ? (
+              <span>
+                <i className="sequence-gradient" />
+                Sequence · N → C
+              </span>
+            ) : (
+              info?.colors.map((entry) => (
+                <span
+                  key={
+                    selection.chainRoles?.target.includes(entry.label)
+                      ? `Target · ${entry.label}`
+                      : selection.chainRoles?.binder.includes(entry.label)
+                        ? `Key · ${entry.label}`
+                        : entry.label
+                  }
+                >
+                  <i style={{ background: entry.color }} />
+                  {selection.chainRoles?.target.includes(entry.label)
                     ? `Target · ${entry.label}`
                     : selection.chainRoles?.binder.includes(entry.label)
                       ? `Key · ${entry.label}`
-                      : entry.label
-                }
-              >
-                <i style={{ background: entry.color }} />
-                {selection.chainRoles?.target.includes(entry.label)
-                  ? `Target · ${entry.label}`
-                  : selection.chainRoles?.binder.includes(entry.label)
-                    ? `Key · ${entry.label}`
-                    : entry.label}
-              </span>
-            ))}
+                      : entry.label}
+                </span>
+              ))
+            )}
           </div>
           <div className="segmented" role="group" aria-label="Representation">
             {(

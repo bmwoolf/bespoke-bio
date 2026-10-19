@@ -15,7 +15,11 @@ export type ViewStyle = "surface" | "cartoon" | "atoms";
 export type ViewSettings = {
   style: ViewStyle;
   metallic: boolean;
-  colorByChain: boolean;
+  sequenceGradient: boolean;
+  ambientOcclusion: boolean;
+  shadows: boolean;
+  outlines: boolean;
+  depthOfField: boolean;
 };
 export type ViewerInfo = {
   atoms: number;
@@ -28,7 +32,11 @@ export type ViewerInfo = {
 export const defaultSettings: ViewSettings = {
   style: "surface",
   metallic: true,
-  colorByChain: true,
+  sequenceGradient: false,
+  ambientOcclusion: true,
+  shadows: true,
+  outlines: true,
+  depthOfField: true,
 };
 
 /** One plugin owns one canvas. Serialize representation changes and release GPU resources on unmount. */
@@ -68,12 +76,64 @@ export class MolecularScene {
           },
         },
       };
-      const color = settings.colorByChain
-        ? { color: "chain-id" as const, colorParams: { palette } }
-        : {
-            color: "uniform" as const,
-            colorParams: { value: Color(0xc4ced8) },
-          };
+      const color = settings.sequenceGradient
+        ? {
+            color: "sequence-id" as const,
+            colorParams: {
+              list: {
+                kind: "interpolate" as const,
+                colors: [Color(0x7185e8), Color(0x55c2b8), Color(0xf0b35a)],
+              },
+            },
+          }
+        : { color: "chain-id" as const, colorParams: { palette } };
+      this.plugin.canvas3d?.setProps({
+        postprocessing: {
+          occlusion: settings.ambientOcclusion
+            ? {
+                name: "on",
+                params: {
+                  samples: 32,
+                  multiScale: { name: "off", params: {} },
+                  radius: 5,
+                  bias: 0.8,
+                  blurKernelSize: 15,
+                  blurDepthBias: 0.5,
+                  resolutionScale: 1,
+                  color: Color(0x080c10),
+                  transparentThreshold: 0.4,
+                },
+              }
+            : { name: "off", params: {} },
+          shadow: settings.shadows
+            ? { name: "on", params: { steps: 4, maxDistance: 3, tolerance: 1 } }
+            : { name: "off", params: {} },
+          outline: settings.outlines
+            ? {
+                name: "on",
+                params: {
+                  scale: 1,
+                  threshold: 0.75,
+                  color: Color(0x080c10),
+                  includeTransparent: true,
+                },
+              }
+            : { name: "off", params: {} },
+          dof: settings.depthOfField
+            ? {
+                name: "on",
+                params: {
+                  blurSize: 9,
+                  blurSpread: 0.5,
+                  inFocus: 0,
+                  PPM: 60,
+                  center: "camera-target",
+                  mode: "sphere",
+                },
+              }
+            : { name: "off", params: {} },
+        },
+      });
       const params =
         settings.style === "surface"
           ? createStructureRepresentationParams(this.plugin, structure, {
@@ -123,7 +183,7 @@ export class MolecularScene {
       });
       return {
         colors:
-          settings.colorByChain && legend?.kind === "table-legend"
+          !settings.sequenceGradient && legend?.kind === "table-legend"
             ? legend.table.map(([label, color]) => ({
                 label,
                 color: `#${color.toString(16).padStart(6, "0")}`,

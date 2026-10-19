@@ -202,8 +202,11 @@ no CDN is needed for the application.
 Existing mmCIF/PDB coordinates supply surface, ribbon and atom representations. Gaussian
 surfaces request GPU computation and fall back to CPU when Mol* determines the device or
 structure is unsuitable. Appearance reports the selected path and coordinate counts. WebGL renders the resulting
-geometry. Metallic finish controls material lighting only; it does not need another dataset
-and is not a measured density map. Sequence-only records need coordinates before 3D viewing.
+geometry. Appearance can apply ambient occlusion, shadows, outlines, depth of field, and an
+N-to-C sequence gradient. These are display settings only: they do not change coordinates or
+report model confidence. Metallic finish controls material lighting only; it does not need
+another dataset and is not a measured density map. Sequence-only records need coordinates
+before 3D viewing.
 
 The public workspace opens on **Saved keys**, with evaluated benchmark constructs kept
 separate from donor records. List order is not a scientific ranking. Selecting a donor

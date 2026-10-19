@@ -339,9 +339,15 @@ test("saved example opens directly; representations, candidates and downloads st
   await ready(page);
   await page.getByLabel("Appearance", { exact: true }).click();
   await page.getByLabel("Metallic finish").uncheck();
-  await page.getByLabel("Color by chain").uncheck();
+  await page.getByLabel("Sequence gradient (N → C)").check();
+  await page.getByLabel("Ambient occlusion").uncheck();
+  await page.getByLabel("Shadows").uncheck();
+  await page.getByLabel("Outlines").uncheck();
+  await page.getByLabel("Depth of field").uncheck();
   await ready(page);
-  await expect(page.locator(".chain-legend span")).toHaveCount(0);
+  await expect(
+    page.getByText("Sequence · N → C", { exact: true }),
+  ).toBeVisible();
   await page.getByLabel("Appearance", { exact: true }).click();
   await page.getByText("Details", { exact: true }).click();
   const binderLength = (await page.getByTestId("binder-sequence").innerText())

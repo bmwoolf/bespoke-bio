@@ -510,6 +510,9 @@ input[type="search"] {
 .appearance-popover .popover-content {
   width: 250px;
 }
+.appearance-popover .check {
+  min-height: 32px;
+}
 .appearance-popover .popover-content p {
   margin-top: 14px;
 }
@@ -558,6 +561,11 @@ input[type="search"] {
   width: 6px;
   height: 6px;
   border-radius: 50%;
+}
+.chain-legend .sequence-gradient {
+  width: 40px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #7185e8, #55c2b8, #f0b35a);
 }
 .segmented {
   display: flex;
