@@ -494,6 +494,86 @@ input[type="search"] {
 .viewer-topline > details {
   pointer-events: auto;
 }
+.viewer-mode {
+  display: flex;
+  gap: 2px;
+  padding: 3px;
+  border: 1px solid #3a4249;
+  border-radius: 8px;
+  background: #242d34;
+  pointer-events: auto;
+}
+.viewer-mode a {
+  min-width: 58px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  color: #bdc7ce;
+  font-size: 11px;
+  text-align: center;
+  text-decoration: none;
+}
+.viewer-mode a[aria-current="page"] {
+  background: #e0e5e5;
+  color: #182229;
+}
+.nano-viewport .msp-plugin,
+.nano-viewport .msp-plugin-content,
+.nano-viewport .msp-layout-standard,
+.nano-viewport .msp-layout-main,
+.nano-viewport .msp-layout-static,
+.nano-viewport .msp-viewport {
+  position: absolute;
+  inset: 0;
+}
+.nano-viewport .msp-plugin {
+  font-size: 12px;
+}
+.nano-canvas {
+  position: absolute;
+  inset: 0;
+}
+.nano-topline {
+  justify-content: space-between;
+  padding-right: 48px;
+}
+.nano-controls {
+  position: absolute;
+  z-index: 3;
+  top: 68px;
+  left: 14px;
+  width: 200px;
+  padding: 14px;
+  border: 1px solid #ffffff26;
+  border-radius: 9px;
+  background: #1e232bdd;
+  box-shadow: 0 8px 24px #00000040;
+  color: #e7ecef;
+}
+.nano-controls > strong {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 12px;
+}
+.nano-controls > label:not(.check) {
+  display: grid;
+  gap: 5px;
+  margin-bottom: 6px;
+  color: #aeb8bf;
+  font-size: 11px;
+}
+.nano-controls select,
+.nano-controls button {
+  width: 100%;
+  min-height: 34px;
+  border: 1px solid #ffffff26;
+  border-radius: 6px;
+  background: #303841;
+  color: #eef2f4;
+  font-size: 11px;
+}
+.nano-controls button {
+  margin-top: 8px;
+}
 .appearance-popover > summary {
   width: 42px;
   padding: 8px;

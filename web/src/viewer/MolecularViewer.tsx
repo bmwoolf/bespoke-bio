@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import type { MolstarViewerHandle } from "@juliocesar-io/nano-protein-viewer-react";
 import type { StructureSelection } from "../api";
 import { ErrorMessage, Loading, formatCount } from "../components/Status";
 import { Popover } from "../components/Popover";
@@ -15,11 +16,195 @@ const appearanceToggles: readonly [AppearanceToggle, string][] = [
   ["depthOfField", "Depth of field"],
 ];
 
-export default function MolecularViewer({
-  selection,
-}: {
-  selection: StructureSelection;
-}) {
+function viewerHref(mode: "styled" | "nano") {
+  const url = new URL(window.location.href);
+  if (mode === "nano") url.searchParams.set("viewer", mode);
+  else url.searchParams.delete("viewer");
+  return `${url.pathname}${url.search}${url.hash}`;
+}
+
+function ViewerMode({ active }: { active: "styled" | "nano" }) {
+  return (
+    <nav className="viewer-mode" aria-label="Viewer">
+      {(["styled", "nano"] as const).map((mode) => (
+        <a
+          aria-current={active === mode ? "page" : undefined}
+          href={viewerHref(mode)}
+          key={mode}
+        >
+          {mode === "styled" ? "Styled" : "Nano"}
+        </a>
+      ))}
+    </nav>
+  );
+}
+
+function NanoViewer({ selection }: { selection: StructureSelection }) {
+  const parent = useRef<HTMLDivElement>(null);
+  const viewer = useRef<MolstarViewerHandle | null>(null);
+  const [busy, setBusy] = useState(true);
+  const [error, setError] = useState<Error | null>(null);
+  const [plddtAvailable, setPlddtAvailable] = useState(false);
+  const [color, setColor] = useState<
+    "chain" | "secondary" | "rainbow" | "element" | "residue" | "plddt"
+  >("chain");
+  const [illustrative, setIllustrative] = useState(true);
+  const [surface, setSurface] = useState(true);
+  const pathname = new URL(selection.url, window.location.href).pathname;
+
+  useEffect(() => {
+    const abort = new AbortController();
+    let current = true;
+    let loaded: MolstarViewerHandle | undefined;
+    void Promise.all([
+      import("@juliocesar-io/nano-protein-viewer-react"),
+      import("molstar/lib/mol-plugin-ui/skin/dark.scss"),
+      fetch(selection.url, { signal: abort.signal }),
+    ])
+      .then(async ([module, , response]) => {
+        if (!response.ok)
+          throw new Error(`Structure download failed (${response.status})`);
+        const contents = await response.text();
+        abort.signal.throwIfAborted();
+        if (!parent.current) return;
+        loaded = module.createMolstarViewer();
+        await loaded.mount(parent.current);
+        await loaded.loadStructureText(
+          contents,
+          pathname.endsWith(".pdb") ? "pdb" : "mmcif",
+          false,
+          true,
+        );
+        loaded.setBackgroundColor("dark");
+        await loaded.updateColorTheme("chain");
+        await loaded.applyIllustrativeStyle(true);
+        await loaded.applySurface(true, { opacity: 8, inherit: true });
+        if (!current) return;
+        viewer.current = loaded;
+        setPlddtAvailable(await loaded.isPLDDTAvailable());
+        setBusy(false);
+      })
+      .catch((reason: unknown) => {
+        if (!abort.signal.aborted && current) {
+          setError(
+            reason instanceof Error
+              ? reason
+              : new Error("Could not load Nano viewer"),
+          );
+          setBusy(false);
+        }
+      });
+    return () => {
+      current = false;
+      abort.abort();
+      viewer.current = null;
+      if (loaded) void loaded.clear();
+    };
+  }, [pathname, selection.url]);
+
+  function reportFailure(reason: unknown) {
+    setError(
+      reason instanceof Error
+        ? reason
+        : new Error("Could not update Nano viewer"),
+    );
+  }
+
+  function changeColor(next: typeof color) {
+    setColor(next);
+    const active = viewer.current;
+    if (!active) return;
+    const update =
+      next === "plddt"
+        ? active.applyPLDDTTheme(true)
+        : active
+            .applyPLDDTTheme(false)
+            .then(() => active.updateColorTheme(next));
+    void update.catch(reportFailure);
+  }
+
+  return (
+    <section className="molecule" aria-label="Molecular structure">
+      <ErrorMessage error={error} />
+      {error && (
+        <a className="fallback-download" href={selection.url}>
+          Download structure
+        </a>
+      )}
+      <div className="molstar-viewport nano-viewport" aria-busy={busy}>
+        <div className="nano-canvas" ref={parent} />
+        <div className="viewer-topline nano-topline">
+          <span className="viewer-hint">Drag to rotate · Scroll to zoom</span>
+          <ViewerMode active="nano" />
+        </div>
+        <div className="nano-controls" aria-label="Nano appearance">
+          <strong>Nano controls</strong>
+          <label>
+            Color
+            <select
+              value={color}
+              onChange={(event) =>
+                changeColor(event.target.value as typeof color)
+              }
+              disabled={busy}
+            >
+              <option value="chain">Chain</option>
+              <option value="secondary">Secondary structure</option>
+              <option value="rainbow">Sequence rainbow</option>
+              <option value="element">Element</option>
+              <option value="residue">Residue</option>
+              {plddtAvailable && <option value="plddt">pLDDT</option>}
+            </select>
+          </label>
+          <label className="check">
+            <input
+              type="checkbox"
+              checked={illustrative}
+              disabled={busy}
+              onChange={(event) => {
+                setIllustrative(event.target.checked);
+                void viewer.current
+                  ?.applyIllustrativeStyle(event.target.checked)
+                  .catch(reportFailure);
+              }}
+            />
+            Illustrative
+          </label>
+          <label className="check">
+            <input
+              type="checkbox"
+              checked={surface}
+              disabled={busy}
+              onChange={(event) => {
+                setSurface(event.target.checked);
+                void viewer.current
+                  ?.applySurface(event.target.checked, {
+                    opacity: 8,
+                    inherit: true,
+                  })
+                  .catch(reportFailure);
+              }}
+            />
+            Molecular surface
+          </label>
+          <button
+            disabled={busy}
+            onClick={() => void viewer.current?.resetView()}
+          >
+            Reset view
+          </button>
+        </div>
+        {busy && (
+          <div className="viewer-loading">
+            <Loading>Loading Nano viewer…</Loading>
+          </div>
+        )}
+      </div>
+    </section>
+  );
+}
+
+function StyledViewer({ selection }: { selection: StructureSelection }) {
   const framed = useRef(false);
   const frame = useRef<HTMLElement>(null);
   const [fullscreen, setFullscreen] = useState(false);
@@ -129,6 +314,7 @@ export default function MolecularViewer({
         <canvas ref={canvas} aria-label={selection.title} />
         <div className="viewer-topline">
           <span className="viewer-hint">Drag to rotate · Scroll to zoom</span>
+          <ViewerMode active="styled" />
           <Popover className="appearance-popover" label="Appearance" icon="◐">
             {appearanceToggles.map(([key, label]) => (
               <label className="check" key={key}>
@@ -247,5 +433,18 @@ export default function MolecularViewer({
         </div>
       </div>
     </section>
+  );
+}
+
+export default function MolecularViewer({
+  selection,
+}: {
+  selection: StructureSelection;
+}) {
+  return new URLSearchParams(window.location.search).get("viewer") ===
+    "nano" ? (
+    <NanoViewer selection={selection} />
+  ) : (
+    <StyledViewer selection={selection} />
   );
 }

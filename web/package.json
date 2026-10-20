@@ -16,10 +16,11 @@
     "format:check": "prettier --check ."
   },
   "dependencies": {
+    "@juliocesar-io/nano-protein-viewer-react": "0.0.15",
     "@tanstack/react-query": "5.104.4",
     "molstar": "5.13.1",
-    "react": "19.3.1",
-    "react-dom": "19.3.1",
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
     "zod": "4.6.7"
   },
   "devDependencies": {
@@ -29,6 +30,7 @@
     "@types/react-dom": "19.2.3",
     "@vitejs/plugin-react": "6.1.2",
     "prettier": "3.6.2",
+    "sass": "1.93.2",
     "typescript": "7.0.2",
     "vite": "8.3.4",
     "vitest": "5.0.5"

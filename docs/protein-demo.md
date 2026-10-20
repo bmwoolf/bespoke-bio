@@ -208,6 +208,12 @@ report model confidence. Metallic finish controls material lighting only; it doe
 another dataset and is not a measured density map. Sequence-only records need coordinates
 before 3D viewing.
 
+The viewer switch preserves the selected target and opens either the styled Bespoke Bio view
+or an integration built on the MIT-licensed
+[Nano Protein Viewer React API](https://github.com/juliocesar-io/nano-protein-viewer-react).
+Nano is loaded only when selected and exposes color, illustrative, surface, pLDDT, and camera
+controls. Switching modes reloads the page so each Mol* WebGL context is released cleanly.
+
 The public workspace opens on **Saved keys**, with evaluated benchmark constructs kept
 separate from donor records. List order is not a scientific ranking. Selecting a donor
 record replaces the benchmark with that donor's own context. The sidebar reopens that exact target's completed,

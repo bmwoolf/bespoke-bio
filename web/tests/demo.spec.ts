@@ -319,6 +319,13 @@ test("saved example opens directly; representations, candidates and downloads st
   await expect(page.getByTestId("viewer-info")).toContainText(
     "GPU surface computation",
   );
+  const viewer = page.getByRole("navigation", { name: "Viewer" });
+  await expect(
+    viewer.getByRole("link", { name: "Styled", exact: true }),
+  ).toHaveAttribute("aria-current", "page");
+  await expect(
+    viewer.getByRole("link", { name: "Nano", exact: true }),
+  ).toHaveAttribute("href", "/?example=1&viewer=nano");
   await expect(page.locator(".candidate-option")).toHaveCount(2);
   await expect(
     page.getByRole("button", { name: "01 Passed", exact: true }),
