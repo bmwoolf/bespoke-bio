@@ -206,6 +206,15 @@ will be added alongside them. Step 2 entry points remain:
 
 The HTTP API and CLI both call `build_bundle()`; only their transport and configuration differ.
 
+## Sequence-only demonstration route
+
+The [protein demo](protein-demo.md) connects the Stage 1 protein export directly to the
+separate Step 3 design API. It preserves all catalog records and submits one selected complete
+amino-acid sequence with donor/transcript identity and checksums. The design service owns
+structural prediction in this route. The original Step 2 CDS contract is unchanged and is
+bypassed, so this demonstration does not claim that all three standalone modules ran. Cached
+results are labeled separately from newly generated, donor-specific results.
+
 ## Later pathogen mode
 
 Pathogen support changes the Step 1 reference adapter, not the Step 2 contract. Step 1 must
