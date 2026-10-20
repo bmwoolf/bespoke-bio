@@ -109,9 +109,6 @@ test("operator button preserves the selected protein and dispatches only after c
   await generate.click();
   await expect(page.getByTestId("job-status")).toHaveText("Generating");
   expect(writes).toEqual(["prepare", "run"]);
-  await expect(page.getByTestId("viewer-info")).toContainText(
-    "495 residues · 1 chain",
-  );
   expect(errors).toEqual([]);
   await context.close();
 });

@@ -80,11 +80,6 @@ test("read-only release preserves all campaigns, variants, predictions and pagin
   await expect(
     page.getByLabel("Computational confidence", { exact: true }),
   ).toContainText(selected.metrics.design_to_target_iptm.toFixed(3));
-  await expect(page.getByTestId("viewer-info")).toContainText(
-    "187 residues · 2 chains",
-  );
-  await expect(page.getByLabel("Chain colors")).toContainText("Target · A");
-  await expect(page.getByLabel("Chain colors")).toContainText("Key · B");
   await page.getByLabel("Prediction", { exact: true }).click();
   await page.screenshot({
     path: info.outputPath("campaign-comparison-desktop.png"),
@@ -93,9 +88,6 @@ test("read-only release preserves all campaigns, variants, predictions and pagin
     .getByRole("group", { name: "Structure", exact: true })
     .getByRole("button", { name: "Key", exact: true })
     .click();
-  await expect(page.getByTestId("viewer-info")).toContainText(
-    "75 residues · 1 chain",
-  );
   await page.getByRole("button", { name: "Next", exact: true }).click();
   await expect(page.locator(".pagination")).toContainText("26–35");
   const pf4 = records.find((r: { name: string }) => r.name === "PF4");

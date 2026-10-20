@@ -199,20 +199,11 @@ packaging a wheel or deploying. The gateway compresses and caches hashed assets.
 responses remain uncached; public snapshots cache reads. Mol* loads on demand from the same server;
 no CDN is needed for the application.
 
-Existing mmCIF/PDB coordinates supply surface, ribbon and atom representations. Gaussian
-surfaces request GPU computation and fall back to CPU when Mol* determines the device or
-structure is unsuitable. Appearance reports the selected path and coordinate counts. WebGL renders the resulting
-geometry. Appearance can apply ambient occlusion, shadows, outlines, depth of field, and an
-N-to-C sequence gradient. These are display settings only: they do not change coordinates or
-report model confidence. Metallic finish controls material lighting only; it does not need
-another dataset and is not a measured density map. Sequence-only records need coordinates
-before 3D viewing.
-
-The viewer switch preserves the selected target and opens either the styled Bespoke Bio view
-or an integration built on the MIT-licensed
+Existing mmCIF/PDB coordinates are rendered with the MIT-licensed
 [Nano Protein Viewer React API](https://github.com/juliocesar-io/nano-protein-viewer-react).
-Nano is loaded only when selected and exposes color, illustrative, surface, pLDDT, and camera
-controls. Switching modes reloads the page so each Mol* WebGL context is released cleanly.
+The integration configures chain coloring, a translucent molecular surface over the ribbon, and
+camera framing through Nano's API. These display settings do not change the coordinates or
+report model confidence. Sequence-only records need coordinates before 3D viewing.
 
 The public workspace opens on **Saved keys**, with evaluated benchmark constructs kept
 separate from donor records. List order is not a scientific ranking. Selecting a donor
@@ -223,9 +214,8 @@ Selection is preserved in the URL across refresh and back/forward navigation. Cr
 job links cannot display a model under the wrong protein's heading. A delayed
 preparation response cannot switch the active selection. The Target/Key/Complex buttons choose
 the artifact; Target is the separate preview or refold when available, while Complex shows
-the design service's predicted bound geometry; Surface/Ribbon/Atoms changes its representation. Reset and fullscreen controls
-stay with the viewer. Chain labels/colors come from Mol*'s actual structure color legend;
-they do not infer which chain is the target or binder.
+the design service's predicted bound geometry. Nano controls the representation, coloring, and
+camera. Chain-role labels come from the saved result metadata.
 
 ## What is retained and what runs
 
@@ -286,11 +276,11 @@ tests intercept paid actions and exercise the UI without starting additional GPU
 HTTP requests have a 60-second timeout; JSON responses are limited to 8 MiB and individual
 artifact/ZIP responses to 128 MiB. Larger jobs need streaming downloads. Unknown submissions
 and restarts during dispatch require operator reconciliation; the gateway never retries POSTs
-automatically. The [Mol* viewer](https://molstar.org/docs/v5/plugin/instance/) is pinned in
-`web/package-lock.json`. Without WebGL, original structure downloads remain available.
-Browser tests cover the real cached mmCIF, representation and candidate changes, viewer
-teardown, fullscreen, mobile drawers, selection identity, late preparation responses, empty
-results, refresh/back navigation and absence of inference calls. Public snapshot tests cover
+automatically. Nano Protein Viewer and its Mol* runtime are pinned in `web/package-lock.json`.
+Without WebGL, original structure downloads remain available. Browser tests cover the real
+cached mmCIF, viewer controls, candidate changes, mobile drawers, selection identity, late
+preparation responses, empty results, refresh/back navigation and absence of inference calls.
+Public snapshot tests cover
 corruption, offline upstream operation, exact record retention and rejection of writes.
 Headless tests can exercise the GPU algorithm through
 software WebGL; they do not measure physical GPU performance.

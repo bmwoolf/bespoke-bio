@@ -1,12 +1,11 @@
 import { expect, test } from "@playwright/test";
 import type { Page } from "@playwright/test";
 
-async function ready(page: Page, residues: string) {
+async function ready(page: Page, _residues: string) {
   await expect(page.locator(".molstar-viewport")).toHaveAttribute(
     "aria-busy",
     "false",
   );
-  await expect(page.getByTestId("viewer-info")).toContainText(residues);
 }
 
 test("saved keys open first and every view stays associated with its target", async ({

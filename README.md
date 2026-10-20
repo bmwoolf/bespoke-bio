@@ -40,7 +40,7 @@ variants; direct protein ingestion requires a separate interface update.
 [read-only data API](https://bespoke-bio-demo.westus2.cloudapp.azure.com/docs).
 The public catalog and saved models work without a tunnel or service token.
 
-The Vite/React/TypeScript [protein demo](docs/protein-demo.md), with a Mol* viewer, browses
+The Vite/React/TypeScript [protein demo](docs/protein-demo.md), with Nano Protein Viewer, browses
 a complete verified Step 1 export and displays saved results from the separate
 design service. The public deployment is read-only; generation and operator login are disabled. It opens on **Saved keys**, showing published candidate batches and a large
 molecular viewer showing the target and key together. Switch between Target, Key and Complex,

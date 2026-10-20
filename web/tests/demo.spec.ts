@@ -53,9 +53,6 @@ test("public catalog preserves selection across refresh and never submits jobs",
   await ready(page);
   await searchTarget(page);
   await ready(page);
-  await expect(page.getByTestId("viewer-info")).toContainText(
-    "495 residues · 1 chain",
-  );
   await expect(
     page.getByRole("button", { name: "Prepare target", exact: true }),
   ).toHaveCount(0);
@@ -175,9 +172,6 @@ test("saved protein structures switch without refresh and retain correct sequenc
   ).toBeChecked();
   await searchTarget(page);
   await ready(page);
-  await expect(page.getByTestId("viewer-info")).toContainText(
-    "495 residues · 1 chain",
-  );
   const first = "protein_dcd5494921477cd9218a2a6745bf5095";
   const twin = "protein_e055e4bd687a0c5bd5ad8afc76a18d42";
   const second = "protein_3eb7f26a5b56905be5c2ecfe2cb40b34";
@@ -209,9 +203,6 @@ test("saved protein structures switch without refresh and retain correct sequenc
   await fetched;
   await ready(page);
   await expect(page).toHaveURL(new RegExp(second));
-  await expect(page.getByTestId("viewer-info")).toContainText(
-    "517 residues · 1 chain",
-  );
 });
 
 test("one Generate keys action submits once and keeps the protein visible while running", async ({
@@ -281,9 +272,6 @@ test("one Generate keys action submits once and keeps the protein visible while 
     .click();
   await expect(page.getByTestId("job-status")).toHaveText("Generating");
   await ready(page);
-  await expect(page.getByTestId("viewer-info")).toContainText(
-    "495 residues · 1 chain",
-  );
   await page.screenshot({
     path: testInfo.outputPath("running-job-protein.png"),
   });
@@ -313,19 +301,7 @@ test("saved example opens directly; representations, candidates and downloads st
     page.getByRole("heading", { name: "PD-L1", exact: true }),
   ).toBeVisible();
   await ready(page);
-  await expect(page.getByTestId("viewer-info")).toContainText(
-    "1,496 atoms · 190 residues · 2 chains",
-  );
-  await expect(page.getByTestId("viewer-info")).toContainText(
-    "GPU surface computation",
-  );
-  const viewer = page.getByRole("navigation", { name: "Viewer" });
-  await expect(
-    viewer.getByRole("link", { name: "Styled", exact: true }),
-  ).toHaveAttribute("aria-current", "page");
-  await expect(
-    viewer.getByRole("link", { name: "Nano", exact: true }),
-  ).toHaveAttribute("href", "/?example=1&viewer=nano");
+  await expect(page.locator(".nano-canvas canvas")).toBeVisible();
   await expect(page.locator(".candidate-option")).toHaveCount(2);
   await expect(
     page.getByRole("button", { name: "01 Passed", exact: true }),
@@ -336,38 +312,11 @@ test("saved example opens directly; representations, candidates and downloads st
     ),
   ).toBe(true);
   await page.screenshot({ path: testInfo.outputPath("desktop-surface.png") });
-  await page.getByRole("button", { name: "Ribbon", exact: true }).click();
-  await ready(page);
-  await expect(
-    page.getByRole("button", { name: "Ribbon", exact: true }),
-  ).toHaveAttribute("aria-pressed", "true");
-  await page.screenshot({ path: testInfo.outputPath("desktop-ribbon.png") });
-  await page.getByRole("button", { name: "Atoms", exact: true }).click();
-  await ready(page);
-  await page.getByLabel("Appearance", { exact: true }).click();
-  await page.getByLabel("Metallic finish").uncheck();
-  await page.getByLabel("Sequence gradient (N → C)").check();
-  await page.getByLabel("Ambient occlusion").uncheck();
-  await page.getByLabel("Shadows").uncheck();
-  await page.getByLabel("Outlines").uncheck();
-  await page.getByLabel("Depth of field").uncheck();
-  await ready(page);
-  await expect(
-    page.getByText("Sequence · N → C", { exact: true }),
-  ).toBeVisible();
-  await page.getByLabel("Appearance", { exact: true }).click();
-  await page.getByText("Details", { exact: true }).click();
-  const binderLength = (await page.getByTestId("binder-sequence").innerText())
-    .length;
-  await page.getByText("Details", { exact: true }).click();
   await page
     .getByRole("group", { name: "Structure", exact: true })
     .getByRole("button", { name: "Key", exact: true })
     .click();
   await ready(page);
-  await expect(page.getByTestId("viewer-info")).toContainText(
-    `${binderLength} residues · 1 chain`,
-  );
   await page
     .getByRole("group", { name: "Structure", exact: true })
     .getByRole("button", { name: "Complex", exact: true })
@@ -385,14 +334,6 @@ test("saved example opens directly; representations, candidates and downloads st
   await page.getByText("Details", { exact: true }).click();
   await page.getByRole("button", { name: "01 Passed", exact: true }).click();
   await ready(page);
-  await page.getByRole("button", { name: "Fullscreen", exact: true }).click();
-  await expect(
-    page.getByRole("button", { name: "Exit fullscreen", exact: true }),
-  ).toBeVisible();
-  await page.getByRole("button", { name: "Reset view", exact: true }).click();
-  await page
-    .getByRole("button", { name: "Exit fullscreen", exact: true })
-    .click();
   await page.getByText("Download", { exact: true }).click();
   const download = page.waitForEvent("download");
   await page
@@ -431,9 +372,6 @@ test("donor selection removes example; preparation, details and mobile history p
   await ready(page);
   await searchTarget(page);
   await ready(page);
-  await expect(page.getByTestId("viewer-info")).toContainText(
-    "495 residues · 1 chain",
-  );
   await expect(
     page.getByRole("heading", { name: "PD-L1", exact: true }),
   ).toHaveCount(0);
@@ -564,7 +502,7 @@ test("a late preparation response cannot replace a newly selected example", asyn
   ).toHaveCount(0);
 });
 
-test("surface computation falls back to CPU without float buffers", async ({
+test("Nano viewer remains available without float-buffer extensions", async ({
   page,
 }) => {
   await page.addInitScript(() => {
@@ -582,10 +520,6 @@ test("surface computation falls back to CPU without float buffers", async ({
   });
   await page.goto("/?example=1");
   await ready(page);
-  await expect(page.getByTestId("viewer-info")).toContainText("1,496 atoms");
-  await expect(page.getByTestId("viewer-info")).toContainText(
-    "CPU surface computation",
-  );
 });
 
 test("without WebGL the original structure remains downloadable", async ({
